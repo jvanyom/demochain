@@ -1,0 +1,57 @@
+name: Spike
+description: Investigació limitada en el temps amb un lliurable en forma de conclusió escrita
+title: "[SPIKE] "
+labels:
+  - "type/spike"
+  - "area/research"
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Un spike és una investigació limitada en el temps. El lliurable és un document escrit (normalment un ADR sota `/docs/decisions/`) — **no** codi d'implementació. Si el spike supera el temps assignat, atura't i tria la millor opció disponible.
+
+  - type: input
+    id: spike-id
+    attributes:
+      label: ID del spike
+      description: L'identificador, p. ex. `SP1`, `SP2`.
+      placeholder: p. ex. SP2
+    validations:
+      required: true
+
+  - type: textarea
+    id: question
+    attributes:
+      label: Pregunta
+      description: Què hem de saber al final d'aquest spike?
+    validations:
+      required: true
+
+  - type: input
+    id: time-box
+    attributes:
+      label: Límit de temps
+      description: Límit estricte del temps dedicat. No negociable.
+      placeholder: p. ex. 1 dia, 3 dies
+    validations:
+      required: true
+
+  - type: textarea
+    id: deliverable
+    attributes:
+      label: Lliurable
+      value: |
+        - [ ] Un document Markdown sota `/docs/spikes/` o `/docs/decisions/` que resumeixi els resultats
+        - [ ] Una decisió o recomanació
+        - [ ] Una llista de tasques de seguiment creades
+    validations:
+      required: true
+
+  - type: input
+    id: parent
+    attributes:
+      label: Història o èpica pare
+      description: L'identificador de la història d'usuari o èpica pare (p. ex. `E7` o `E4-US1`). Enllaça-la també com a sub-incidència.
+      placeholder: p. ex. E7
+    validations:
+      required: true

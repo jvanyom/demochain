@@ -1,0 +1,79 @@
+name: Èpica
+description: Un gran conjunt de treball que abasta múltiples sprints i històries d'usuari
+title: "[EPIC] "
+labels:
+  - "type/epic"
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Omple cada secció a continuació; tots els camps obligatoris estan marcats.
+
+  - type: input
+    id: epic-id
+    attributes:
+      label: ID de l'Èpica
+      description: L'identificador curt d'aquesta èpica.
+      placeholder: p. ex. E4
+    validations:
+      required: true
+
+  - type: textarea
+    id: goal
+    attributes:
+      label: Objectiu
+      description: Una frase que descrigui què significa "fet" per a aquesta èpica.
+      placeholder: Al final d'aquesta èpica, ...
+    validations:
+      required: true
+
+  - type: textarea
+    id: why
+    attributes:
+      label: Per què és important
+      description: Justificació empresarial o acadèmica. Relaciona-ho amb un requisit o una restricció.
+    validations:
+      required: true
+
+  - type: textarea
+    id: in-scope
+    attributes:
+      label: Inclòs a l'abast
+      description: Llista del que s'inclou en aquesta èpica.
+      value: |
+        - 
+        - 
+    validations:
+      required: true
+
+  - type: textarea
+    id: out-of-scope
+    attributes:
+      label: Fora de l'abast
+      description: Llista del que explícitament NO s'inclou.
+      value: |
+        - 
+
+  - type: textarea
+    id: acceptance-criteria
+    attributes:
+      label: Criteris d'acceptació
+      description: Criteris verificables que han de complir-se tots perquè aquesta èpica es consideri acabada.
+      value: |
+        - [ ] 
+        - [ ] 
+    validations:
+      required: true
+
+  - type: textarea
+    id: linked-user-stories
+    attributes:
+      label: Històries d’usuari enllaçades
+      description: GitHub ho omple automàticament a mesura que s'afegeixen històries d'usuari com a sub-issues. També es poden enganxar referències manualment (p. ex. `#42`).
+
+  - type: textarea
+    id: risks
+    attributes:
+      label: Riscos / preguntes obertes
+      value: |
+        - 

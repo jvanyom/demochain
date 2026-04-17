@@ -1,0 +1,90 @@
+name: Història d'usuari
+description: Una unitat de valor lliurable a un usuari
+title: "[US] "
+labels:
+  - "type/user-story"
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Les històries d'usuari descriuen una funcionalitat des de la perspectiva de l'usuari. Omple el patró "Com a / Vull / Per tal que" i els criteris d'acceptació a continuació. Abans de crear-la, assegura't que aquesta història està associada com a sub-issue de la seva èpica pare.
+
+  - type: input
+    id: story-id
+    attributes:
+      label: ID de la història
+      description: L'identificador, p. ex. `E4-US1`.
+      placeholder: p. ex. E4-US1
+    validations:
+      required: true
+
+  - type: input
+    id: as-a
+    attributes:
+      label: Com a...
+      description: El rol al qual va dirigida aquesta història.
+      placeholder: p. ex. votant en una proposta acceptada
+    validations:
+      required: true
+
+  - type: input
+    id: i-want
+    attributes:
+      label: Vull...
+      description: La funcionalitat que l'usuari vol.
+      placeholder: p. ex. emetre un vot preferencial on-chain
+    validations:
+      required: true
+
+  - type: input
+    id: so-that
+    attributes:
+      label: Per tal que...
+      description: El benefici.
+      placeholder: p. ex. les meves preferències comptin en el recompte Schulze
+    validations:
+      required: true
+
+  - type: textarea
+    id: acceptance-criteria
+    attributes:
+      label: Criteris d'acceptació (Donat / Quan / Aleshores)
+      description: Criteris verificables utilitzant el patró Donat/Quan/Aleshores.
+      value: |
+        - [ ] Donat ..., quan ..., aleshores ...
+        - [ ] Donat ..., quan ..., aleshores ...
+    validations:
+      required: true
+
+  - type: textarea
+    id: notes
+    attributes:
+      label: Notes / context
+      description: Dissenys, mètodes de contracte rellevants, dependències, enllaços.
+
+  - type: input
+    id: parent-epic
+    attributes:
+      label: Èpica pare
+      description: L'identificador de l'èpica pare (p. ex. `E4`). Enllaça també aquesta incidència com a sub-issue de la pare.
+      placeholder: p. ex. E4
+    validations:
+      required: true
+
+  - type: textarea
+    id: linked-tasks
+    attributes:
+      label: Tasques enllaçades
+      description: GitHub ho omple automàticament a mesura que s'afegeixen tasques com a sub-incidències.
+
+  - type: textarea
+    id: definition-of-done
+    attributes:
+      label: Definició de fet
+      value: |
+        - [ ] Totes les tasques tancades
+        - [ ] Codi revisat i integrat a `main`
+        - [ ] Tests passant (unitaris + integració rellevant)
+        - [ ] Documentació actualitzada
+    validations:
+      required: true

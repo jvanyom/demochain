@@ -1,0 +1,53 @@
+name: Tasca
+description: Una unitat concreta de treball (≤ 1 dia)
+title: "[TASK] "
+labels:
+  - "type/task"
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Les tasques han de ser petites i concretes. Si una tasca és més gran que un dia de feina, divideix-la en subtasques utilitzant la plantilla de Subtask.
+
+  - type: input
+    id: task-id
+    attributes:
+      label: ID de la tasca
+      description: L'identificador, p. ex. `E4-US1-T1`.
+      placeholder: p. ex. E4-US1-T1
+    validations:
+      required: true
+
+  - type: textarea
+    id: what
+    attributes:
+      label: Què
+      description: Què s'ha de fer exactament?
+    validations:
+      required: true
+
+  - type: textarea
+    id: how
+    attributes:
+      label: Com (opcional)
+      description: Enfocament, fitxers a modificar, indicacions tècniques.
+
+  - type: textarea
+    id: definition-of-done
+    attributes:
+      label: Definició de fet
+      value: |
+        - [ ] Implementació completada
+        - [ ] Provat localment
+        - [ ] PR obert i enllaçat
+    validations:
+      required: true
+
+  - type: input
+    id: parent-story
+    attributes:
+      label: Història pare
+      description: L'identificador de la història d'usuari pare (p. ex. `E4-US1`). Enllaça-la també com a sub-incidència.
+      placeholder: p. ex. E4-US1
+    validations:
+      required: true
