@@ -88,7 +88,7 @@ Solana és una _blockchain_ L1 de molt alt rendiment.
 
 | Dimensió | Algorand | Ethereum L1 | Ethereum L2 | Polkadot | Solana |
 |---|---|---|---|---|---|
-| Comissió per vot | ~0,0001 € | 10–50 € | ~0,001 € | Variable | ~0,001 € |
+| Comissió per vot | ~0,0001 € | ~0,35 € | ~0,001 € | Variable | ~0,001 € |
 | _Fee sponsorship_ natiu | Sí (atòmic) | No | No | No | No |
 | Finalitat de bloc | ~3,5 s (definitiva) | ~15 min | Segons / hores | ~12-60 s | ~0,4 s (no definitiva) |
 | zk-SNARK BN254 natiu | Sí (a l'AVM) | Sí (EIP-196/197) | Sí (hereta Ethereum) | No | No |
