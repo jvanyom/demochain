@@ -1,0 +1,42 @@
+#!/bin/bash
+
+# Final gate before pushing: lint contract/ (ruff) and client/ (Biome)
+
+failed=0
+
+# --- Python (contract/ and scripts/) ---
+py_files=$(git ls-files 'contract/*.py' 'scripts/*.py')
+
+if [[ -n "$py_files" ]]; then
+  if ! command -v ruff &>/dev/null; then
+    echo "⚠️  ruff no trobat — saltant la comprovació de Python."
+  else
+    echo "🔍 Comprovació final de Python (ruff)..."
+    if ! echo "$py_files" | xargs ruff check --quiet; then
+      echo "❌ ruff ha trobat errors. Executa 'make fmt-contract' i torna a fer push."
+      failed=1
+    elif ! echo "$py_files" | xargs ruff format --check --quiet; then
+      echo "❌ ruff format ha trobat diferències. Executa 'make fmt-contract' i torna a fer push."
+      failed=1
+    fi
+  fi
+fi
+
+# --- TypeScript / JavaScript (client/) ---
+if [[ -d "client" ]]; then
+  ts_files=$(git ls-files 'client/*.ts' 'client/*.tsx' 'client/**/*.ts' 'client/**/*.tsx')
+  if [[ -n "$ts_files" ]]; then
+    if ! (cd client && bun x biome --version &>/dev/null 2>&1); then
+      echo "⚠️  Biome no trobat — saltant la comprovació de TypeScript."
+    else
+      echo "🔍 Comprovació final de TypeScript (Biome)..."
+      if ! (cd client && bun x biome ci --quiet 2>/dev/null); then
+        echo "❌ Biome ha trobat errors. Executa 'make fmt-client' i torna a fer push."
+        failed=1
+      fi
+    fi
+  fi
+fi
+
+[[ $failed -eq 0 ]] && echo "✅ Tot correcte."
+exit $failed

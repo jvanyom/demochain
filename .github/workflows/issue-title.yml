@@ -1,0 +1,28 @@
+name: Issue title check
+
+on:
+  issues:
+    types: [opened, edited]
+
+jobs:
+  check-title:
+    name: Validate issue title format
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check title prefix
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const title = context.payload.issue.title;
+            const valid = /^\[(EPIC|US|TASK|SUBTASK|SPIKE)\] .+/.test(title);
+
+            if (!valid) {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.payload.issue.number,
+                body: `⚠️ **Format del títol incorrecte.**\n\nEl títol ha de començar amb un d'aquests prefixos:\n\n| Prefix | Ús |\n|--------|----|\n| \`[EPIC]\` | Èpica |\n| \`[US]\` | Història d'usuari |\n| \`[TASK]\` | Tasca |\n| \`[SUBTASK]\` | Subtasca |\n| \`[SPIKE]\` | Investigació |\n\nExemple: \`[TASK] Implementar endpoint de votació\`\n\nCorregeix el títol per continuar.`
+              });
+
+              core.setFailed(`Títol d'issue invàlid: "${title}"`);
+            }

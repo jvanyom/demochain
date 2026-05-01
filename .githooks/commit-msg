@@ -1,0 +1,45 @@
+#!/bin/bash
+
+# Validates commit messages follow Conventional Commits format
+# Pattern: type(optional-scope): description
+# Allowed types: feat, fix, docs, style, refactor, test, chore, ci, build, perf, revert
+
+commit_msg_file="$1"
+commit_msg=$(cat "$commit_msg_file")
+
+# Allow merge commits and revert merges
+if [[ $commit_msg =~ ^Merge\ branch ]]; then
+  exit 0
+fi
+
+# Allow WIP commits
+if [[ $commit_msg =~ ^WIP ]]; then
+  exit 0
+fi
+
+# Conventional Commits pattern
+# type(scope): description
+# scope is optional
+if ! [[ $commit_msg =~ ^(feat|fix|docs|style|refactor|test|chore|ci|build|perf|revert)(\([a-z0-9\-]+\))?:\ .+ ]]; then
+  cat >&2 <<'EOF'
+
+❌ Commit message invalid. Format required:
+
+  type(scope): description
+
+On és:
+  type        = feat, fix, docs, style, refactor, test, chore, ci, build, perf, o revert
+  scope       = (opcional) l'àrea afectada, p. ex. (auth), (api), (issues)
+  description = una línia descriptiva en anglès o català
+
+Exemples vàlids:
+  feat(auth): afegir login amb GitHub
+  fix: corregir bug en la validació
+  docs: actualitzar README
+  chore(deps): actualitzar ruff a v0.2.0
+
+EOF
+  exit 1
+fi
+
+exit 0
