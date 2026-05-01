@@ -13,7 +13,7 @@ body:
   - type: input
     id: spike-id
     attributes:
-      label: ID del spike
+      label: ID de l'_spike_
       description: L'identificador, p. ex. `SP1`, `SP2`.
       placeholder: p. ex. SP2
     validations:
@@ -44,14 +44,5 @@ body:
         - [ ] Un document Markdown sota `/docs/spikes/` o `/docs/decisions/` que resumeixi els resultats
         - [ ] Una decisió o recomanació
         - [ ] Una llista de tasques de seguiment creades
-    validations:
-      required: true
-
-  - type: input
-    id: parent
-    attributes:
-      label: Història o èpica pare
-      description: L'identificador de la història d'usuari o èpica pare (p. ex. `E7` o `E4-US1`). Enllaça-la també com a sub-incidència.
-      placeholder: p. ex. E7
     validations:
       required: true

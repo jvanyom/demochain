@@ -41,8 +41,8 @@ body:
       label: Inclòs a l'abast
       description: Llista del que s'inclou en aquesta èpica.
       value: |
-        - 
-        - 
+        -
+        -
     validations:
       required: true
 
@@ -52,7 +52,7 @@ body:
       label: Fora de l'abast
       description: Llista del que explícitament NO s'inclou.
       value: |
-        - 
+        -
 
   - type: textarea
     id: acceptance-criteria
@@ -60,20 +60,13 @@ body:
       label: Criteris d'acceptació
       description: Criteris verificables que han de complir-se tots perquè aquesta èpica es consideri acabada.
       value: |
-        - [ ] 
-        - [ ] 
+        - [ ]
+        - [ ]
     validations:
       required: true
 
   - type: textarea
     id: linked-user-stories
     attributes:
-      label: Històries d’usuari enllaçades
-      description: GitHub ho omple automàticament a mesura que s'afegeixen històries d'usuari com a sub-issues. També es poden enganxar referències manualment (p. ex. `#42`).
-
-  - type: textarea
-    id: risks
-    attributes:
-      label: Riscos / preguntes obertes
-      value: |
-        - 
+      label: Històries d'usuari enllaçades
+      description: GitHub ho omple automàticament a mesura que s'afegeixen històries d'usuari com a _sub-issues_. També es poden enganxar referències manualment (p. ex. `#42`).

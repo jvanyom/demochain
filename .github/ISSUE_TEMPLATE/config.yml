@@ -1,8 +1,0 @@
-blank_issues_enabled: false
-contact_links:
-  - name: Pla de projecte
-    url: https://github.com/jvanyom/demochain/blob/main/docs/project-plan.md
-    about: "Abans d'obrir una incidència, consulta el pla del projecte: els sprints, els ID de les èpiques i l'esquema de noms es troben allà."
-  - name: Backlog
-    url: https://github.com/jvanyom/demochain/blob/main/docs/full-backlog.md
-    about: "El backlog amb totes les històries d'usuari i tasques."

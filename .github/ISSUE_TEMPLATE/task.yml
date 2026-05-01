@@ -1,5 +1,5 @@
 name: Tasca
-description: Una unitat concreta de treball (≤ 1 dia)
+description: Una unitat concreta de treball tècnic
 title: "[TASK] "
 labels:
   - "type/task"
@@ -7,7 +7,7 @@ body:
   - type: markdown
     attributes:
       value: |
-        Les tasques han de ser petites i concretes. Si una tasca és més gran que un dia de feina, divideix-la en subtasques utilitzant la plantilla de Subtask.
+        Les tasques han de ser petites i concretes. Si una tasca és més gran que un dia de feina, divideix-la.
 
   - type: input
     id: task-id
@@ -19,35 +19,28 @@ body:
       required: true
 
   - type: textarea
-    id: what
+    id: description
     attributes:
-      label: Què
-      description: Què s'ha de fer exactament?
+      label: Descripció
+      description: Què s'ha de fer exactament, com fer-ho, fitxers a modificar, indicacions tècniques.
     validations:
       required: true
 
   - type: textarea
-    id: how
+    id: acceptance-criteria
     attributes:
-      label: Com (opcional)
-      description: Enfocament, fitxers a modificar, indicacions tècniques.
-
-  - type: textarea
-    id: definition-of-done
-    attributes:
-      label: Definició de fet
+      label: Criteris d'acceptació (Donat / Quan / Aleshores)
+      description: Criteris verificables utilitzant el patró Donat/Quan/Aleshores.
       value: |
-        - [ ] Implementació completada
-        - [ ] Provat localment
-        - [ ] PR obert i enllaçat
+        - [ ] Donat ..., quan ..., aleshores ...
+        - [ ] Donat ..., quan ..., aleshores ...
     validations:
       required: true
 
-  - type: input
-    id: parent-story
+  - type: textarea
+    id: dependencies
     attributes:
-      label: Història pare
-      description: L'identificador de la història d'usuari pare (p. ex. `E4-US1`). Enllaça-la també com a sub-incidència.
-      placeholder: p. ex. E4-US1
-    validations:
-      required: true
+      label: Dependències
+      description: Tasques, _issues_ o decisions de les quals depèn aquesta tasca.
+      value: |
+        -
