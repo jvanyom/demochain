@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36">
+  <diagram id="zNMGI6wU0Mi8Qe2H5Q59" name="C1">
+    <mxGraphModel dx="975" dy="531" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <object placeholders="1" c4Name="Votant" c4Type="Person" c4Description="Interactua amb la &#xa;interfície per proposar &#xa;o votar eleccions" label="&lt;b style=&quot;font-size: 9px;&quot;&gt;%c4Name%&lt;/b&gt;&lt;div style=&quot;font-size: 9px;&quot;&gt;[%c4Type%]&lt;/div&gt;&lt;br style=&quot;font-size: 9px;&quot;&gt;&lt;div style=&quot;font-size: 9px;&quot;&gt;%c4Description%&lt;/div&gt;" id="5w0E7a6hxus6HE7P_fYg-11">
+          <mxCell parent="1" style="html=1;dashed=0;whitespace=wrap;fillColor=#08427b;strokeColor=none;fontColor=#ffffff;shape=mxgraph.c4.person;align=center;metaEdit=1;points=[[0.5,0,0],[1,0.5,0],[1,0.75,0],[0.75,1,0],[0.5,1,0],[0.25,1,0],[0,0.75,0],[0,0.5,0]];metaData={&quot;c4Type&quot;:{&quot;editable&quot;:false}};fontSize=9;" vertex="1">
+            <mxGeometry height="100" width="110" x="320" y="7" as="geometry" />
+          </mxCell>
+        </object>
+        <object placeholders="1" c4Name="Xarxa d&#39;Algorand" c4Type="Software System" c4Description="&#xa;On s&#39;allotja tota la lògica de les votacions " label="&lt;b style=&quot;font-size: 9px;&quot;&gt;%c4Name%&lt;/b&gt;&lt;div style=&quot;font-size: 9px;&quot;&gt;[%c4Type%]&lt;/div&gt;&lt;br style=&quot;font-size: 9px;&quot;&gt;&lt;div style=&quot;font-size: 9px;&quot;&gt;%c4Description%&lt;/div&gt;" id="5w0E7a6hxus6HE7P_fYg-13">
+          <mxCell parent="1" style="rounded=1;whiteSpace=wrap;html=1;labelBackgroundColor=none;fillColor=#999999;fontColor=#ffffff;align=center;arcSize=10;strokeColor=#8A8A8A;metaEdit=1;metaData={&quot;c4Type&quot;:{&quot;editable&quot;:false}};points=[[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0.25,0],[1,0.5,0],[1,0.75,0],[0.75,1,0],[0.5,1,0],[0.25,1,0],[0,0.75,0],[0,0.5,0],[0,0.25,0]];fontSize=9;" vertex="1">
+            <mxGeometry height="90" width="110" x="180" y="296" as="geometry" />
+          </mxCell>
+        </object>
+        <object placeholders="1" c4Name="Xarxa d&#39;Ethereum" c4Type="Software System" c4Description="&#xa;On s&#39;allotja una prova del resultat final de l&#39;elecció per tal que sigui immutable" label="&lt;b style=&quot;font-size: 9px;&quot;&gt;%c4Name%&lt;/b&gt;&lt;div style=&quot;font-size: 9px;&quot;&gt;[%c4Type%]&lt;/div&gt;&lt;br style=&quot;font-size: 9px;&quot;&gt;&lt;div style=&quot;font-size: 9px;&quot;&gt;%c4Description%&lt;/div&gt;" id="5w0E7a6hxus6HE7P_fYg-15">
+          <mxCell parent="1" style="rounded=1;whiteSpace=wrap;html=1;labelBackgroundColor=none;fillColor=#999999;fontColor=#ffffff;align=center;arcSize=10;strokeColor=#8A8A8A;metaEdit=1;metaData={&quot;c4Type&quot;:{&quot;editable&quot;:false}};points=[[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0.25,0],[1,0.5,0],[1,0.75,0],[0.75,1,0],[0.5,1,0],[0.25,1,0],[0,0.75,0],[0,0.5,0],[0,0.25,0]];fontSize=9;" vertex="1">
+            <mxGeometry height="90" width="110" x="470" y="296" as="geometry" />
+          </mxCell>
+        </object>
+        <object placeholders="1" c4Type="Relationship" c4Technology="UI / Interacció Humana" c4Description="Interacciona per emetre &#xa;vots, proposar eleccions&#xa;i consultar resultats." label="&lt;div style=&quot;text-align: left; font-size: 9px;&quot;&gt;&lt;div style=&quot;text-align: center; font-size: 9px;&quot;&gt;&lt;b style=&quot;font-size: 9px;&quot;&gt;%c4Description%&lt;/b&gt;&lt;/div&gt;&lt;div style=&quot;text-align: center; font-size: 9px;&quot;&gt;[%c4Technology%]&lt;/div&gt;&lt;/div&gt;" id="NdJj2iXJRO1uOhVrE0s9-1">
+          <mxCell edge="1" parent="1" source="5w0E7a6hxus6HE7P_fYg-11" style="edgeStyle=none;rounded=0;html=1;jettySize=auto;orthogonalLoop=1;strokeColor=#707070;strokeWidth=2;fontColor=#707070;jumpStyle=none;dashed=1;metaEdit=1;metaData={&quot;c4Type&quot;:{&quot;editable&quot;:false}};fontSize=9;entryX=0.5;entryY=0;entryDx=0;entryDy=0;entryPerimeter=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;exitPerimeter=0;" target="NdJj2iXJRO1uOhVrE0s9-2">
+            <mxGeometry relative="1" width="160" x="-0.1236" as="geometry">
+              <mxPoint as="offset" />
+              <mxPoint x="400" y="126" as="sourcePoint" />
+              <mxPoint x="375" y="196" as="targetPoint" />
+            </mxGeometry>
+          </mxCell>
+        </object>
+        <object placeholders="1" c4Type="Relationship" c4Description="Enregistra propostes &#xa;i vots" label="&lt;div style=&quot;text-align: left; font-size: 9px;&quot;&gt;&lt;div style=&quot;text-align: center; font-size: 9px;&quot;&gt;&lt;b style=&quot;font-size: 9px;&quot;&gt;%c4Description%&lt;/b&gt;&lt;/div&gt;" id="5w0E7a6hxus6HE7P_fYg-16">
+          <mxCell edge="1" parent="1" source="NdJj2iXJRO1uOhVrE0s9-2" style="edgeStyle=none;rounded=0;html=1;jettySize=auto;orthogonalLoop=1;strokeColor=#707070;strokeWidth=2;fontColor=#707070;jumpStyle=none;dashed=1;metaEdit=1;metaData={&quot;c4Type&quot;:{&quot;editable&quot;:false}};fontSize=9;exitX=0;exitY=0.5;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;entryPerimeter=0;" target="5w0E7a6hxus6HE7P_fYg-13">
+            <mxGeometry relative="1" width="160" x="0.2157" as="geometry">
+              <mxPoint as="offset" />
+              <Array as="points">
+                <mxPoint x="235" y="246" />
+              </Array>
+              <mxPoint x="352.5" y="260.9999999999999" as="sourcePoint" />
+              <mxPoint x="395" y="396.4200000000001" as="targetPoint" />
+            </mxGeometry>
+          </mxCell>
+        </object>
+        <object placeholders="1" c4Name="Sistema de votació descentralitzat" c4Type="Software System" c4Description="Gestiona la lògica, &#xa;el registre de vots &#xa;i el recompte." label="&lt;b style=&quot;font-size: 9px;&quot;&gt;%c4Name%&lt;/b&gt;&lt;div style=&quot;font-size: 9px;&quot;&gt;[%c4Type%]&lt;/div&gt;&lt;br style=&quot;font-size: 9px;&quot;&gt;&lt;div style=&quot;font-size: 9px;&quot;&gt;%c4Description%&lt;/div&gt;" id="NdJj2iXJRO1uOhVrE0s9-2">
+          <mxCell parent="1" style="rounded=1;whiteSpace=wrap;html=1;labelBackgroundColor=none;fillColor=#1168BD;fontColor=#ffffff;align=center;arcSize=10;strokeColor=#1168BD;metaEdit=1;metaData={&quot;c4Type&quot;:{&quot;editable&quot;:false}};points=[[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0.25,0],[1,0.5,0],[1,0.75,0],[0.75,1,0],[0.5,1,0],[0.25,1,0],[0,0.75,0],[0,0.5,0],[0,0.25,0]];fontSize=9;" vertex="1">
+            <mxGeometry height="100" width="125" x="312.5" y="196" as="geometry" />
+          </mxCell>
+        </object>
+        <object placeholders="1" c4Type="Relationship" c4Description="Enregistra el hash &#xa;dels resultats" label="&lt;div style=&quot;text-align: left; font-size: 9px;&quot;&gt;&lt;div style=&quot;text-align: center; font-size: 9px;&quot;&gt;&lt;b style=&quot;font-size: 9px;&quot;&gt;%c4Description%&lt;/b&gt;&lt;/div&gt;&lt;/div&gt;" id="nzBSV-8KKCHIBAJEug19-1">
+          <mxCell edge="1" parent="1" source="NdJj2iXJRO1uOhVrE0s9-2" style="edgeStyle=none;rounded=0;html=1;jettySize=auto;orthogonalLoop=1;strokeColor=#707070;strokeWidth=2;fontColor=#707070;jumpStyle=none;dashed=1;metaEdit=1;metaData={&quot;c4Type&quot;:{&quot;editable&quot;:false}};fontSize=9;exitX=1;exitY=0.5;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;entryPerimeter=0;" target="5w0E7a6hxus6HE7P_fYg-15">
+            <mxGeometry relative="1" width="160" x="0.2727" as="geometry">
+              <mxPoint as="offset" />
+              <Array as="points">
+                <mxPoint x="525" y="246" />
+              </Array>
+              <mxPoint x="470" y="386" as="sourcePoint" />
+              <mxPoint x="392" y="436" as="targetPoint" />
+            </mxGeometry>
+          </mxCell>
+        </object>
+        <object placeholders="1" c4Name="IdP" c4Type="Software System" c4Description="Servidor extern de tercers encarregat de certificar que l&#39;usuari forma part del cens d&#39;una votació en concret" label="&lt;b style=&quot;font-size: 9px;&quot;&gt;%c4Name%&lt;/b&gt;&lt;div style=&quot;font-size: 9px;&quot;&gt;[%c4Type%]&lt;/div&gt;&lt;br style=&quot;font-size: 9px;&quot;&gt;&lt;div style=&quot;font-size: 9px;&quot;&gt;%c4Description%&lt;/div&gt;" id="3_rM3MmaBepIYEqaS1k2-1">
+          <mxCell parent="1" style="rounded=1;whiteSpace=wrap;html=1;labelBackgroundColor=none;fillColor=#999999;fontColor=#ffffff;align=center;arcSize=10;strokeColor=#8A8A8A;metaEdit=1;metaData={&quot;c4Type&quot;:{&quot;editable&quot;:false}};points=[[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0.25,0],[1,0.5,0],[1,0.75,0],[0.75,1,0],[0.5,1,0],[0.25,1,0],[0,0.75,0],[0,0.5,0],[0,0.25,0]];fontSize=9;" vertex="1">
+            <mxGeometry height="80" width="130" x="310" y="400" as="geometry" />
+          </mxCell>
+        </object>
+        <object placeholders="1" c4Type="Relationship" c4Description="Certifica que &#xa;l&#39;usuari pertany &#xa;al cens d&#39;una votació" label="&lt;div style=&quot;text-align: left; font-size: 9px;&quot;&gt;&lt;div style=&quot;text-align: center; font-size: 9px;&quot;&gt;&lt;b style=&quot;font-size: 9px;&quot;&gt;%c4Description%&lt;/b&gt;&lt;/div&gt;" id="Uyx5KIzv6fvHpv0jHFAl-1">
+          <mxCell edge="1" parent="1" source="NdJj2iXJRO1uOhVrE0s9-2" style="edgeStyle=none;rounded=0;html=1;jettySize=auto;orthogonalLoop=1;strokeColor=#707070;strokeWidth=2;fontColor=#707070;jumpStyle=none;dashed=1;metaEdit=1;metaData={&quot;c4Type&quot;:{&quot;editable&quot;:false}};fontSize=9;exitX=0.5;exitY=1;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;entryPerimeter=0;" target="3_rM3MmaBepIYEqaS1k2-1">
+            <mxGeometry relative="1" width="160" x="0.0385" as="geometry">
+              <mxPoint as="offset" />
+              <Array as="points" />
+              <mxPoint x="368" y="386" as="sourcePoint" />
+              <mxPoint x="290" y="436" as="targetPoint" />
+            </mxGeometry>
+          </mxCell>
+        </object>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
