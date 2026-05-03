@@ -1,0 +1,18 @@
+{
+  "brand": "Demochain",
+  "errors": {
+    "proposal": {
+      "empty-title": "Title cannot be empty",
+      "empty-description": "Description cannot be empty",
+      "starting-too-soon": "Start date must be at least 3 days in the future",
+      "small-voting-window": "Voting window must last at least 1 day",
+      "too-few-options": "At least 2 options are required",
+      "empty-options": "No option can be empty",
+      "duplicated-options": "There are duplicate options"
+    },
+    "wallet": {
+      "rejected": "You cancelled the signature",
+      "network": "Network error. Please try again."
+    }
+  }
+}
