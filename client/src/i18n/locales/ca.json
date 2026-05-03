@@ -1,0 +1,18 @@
+{
+  "brand": "Demochain",
+  "errors": {
+    "proposal": {
+      "empty-title": "El títol no pot estar buit",
+      "empty-description": "La descripció no pot estar buida",
+      "starting-too-soon": "La data d'inici ha de ser almenys 3 dies en el futur",
+      "small-voting-window": "La finestra de votació ha de durar almenys 1 dia",
+      "too-few-options": "Cal afegir almenys 2 opcions",
+      "empty-options": "Cap opció pot estar buida",
+      "duplicated-options": "Hi ha opcions duplicades"
+    },
+    "wallet": {
+      "rejected": "Has cancel·lat la signatura",
+      "network": "Error de xarxa. Torna-ho a intentar."
+    }
+  }
+}

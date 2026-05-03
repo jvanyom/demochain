@@ -1,0 +1,18 @@
+{
+  "brand": "Demochain",
+  "errors": {
+    "proposal": {
+      "empty-title": "El título no puede estar vacío",
+      "empty-description": "La descripción no puede estar vacía",
+      "starting-too-soon": "La fecha de inicio debe ser al menos 3 días en el futuro",
+      "small-voting-window": "La ventana de votación debe durar al menos 1 día",
+      "too-few-options": "Se necesitan al menos 2 opciones",
+      "empty-options": "Ninguna opción puede estar vacía",
+      "duplicated-options": "Hay opciones duplicadas"
+    },
+    "wallet": {
+      "rejected": "Has cancelado la firma",
+      "network": "Error de red. Inténtalo de nuevo."
+    }
+  }
+}
