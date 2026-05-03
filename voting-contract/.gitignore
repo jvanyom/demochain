@@ -168,3 +168,9 @@ cython_debug/
 # NPM
 node_modules
 
+# VSCode
+.vscode/
+
+# Algokit
+.algokit/
+
