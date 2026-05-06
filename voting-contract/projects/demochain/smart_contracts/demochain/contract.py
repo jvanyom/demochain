@@ -7,13 +7,15 @@ class Organization(arc4.Struct):
     description: arc4.String
     admin: arc4.Address
 
-class Demochain(ARC4Contract):
 
+class Demochain(ARC4Contract):
     def __init__(self) -> None:
         self.org_id = arc4.UInt64(0)
         self.organizations = BoxMap(arc4.UInt64, Organization, key_prefix="org_")
         self.organization_names = BoxMap(arc4.String, arc4.Bool, key_prefix="on_")
-        self.census = BoxMap(arc4.Tuple[arc4.UInt64, arc4.Address], arc4.Bool, key_prefix="cen_")
+        self.census = BoxMap(
+            arc4.Tuple[arc4.UInt64, arc4.Address], arc4.Bool, key_prefix="cen_"
+        )
 
     @abimethod()
     def create_org(self, name: arc4.String, description: arc4.String) -> arc4.UInt64:
@@ -30,7 +32,9 @@ class Demochain(ARC4Contract):
             arc4.Address(Txn.sender),
         )
         self.organization_names[name] = arc4.Bool(True)
-        self.census[arc4.Tuple((self.org_id, arc4.Address(Txn.sender)))] = arc4.Bool(True)
+        self.census[arc4.Tuple((self.org_id, arc4.Address(Txn.sender)))] = arc4.Bool(
+            True
+        )
 
         return self.org_id
 
