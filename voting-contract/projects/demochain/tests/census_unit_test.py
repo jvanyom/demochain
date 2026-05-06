@@ -167,7 +167,9 @@ def test_add_to_census_exceeding_batch_limit_raises_error(
     context: AlgopyTestContext, contract: Demochain
 ) -> None:
     admin = context.any.account()
-    addresses = arc4.DynamicArray(*[arc4.Address(context.any.account()) for _ in range(MAX_CENSUS_BATCH + 1)])
+    addresses = arc4.DynamicArray(
+        *[arc4.Address(context.any.account()) for _ in range(MAX_CENSUS_BATCH + 1)]
+    )
 
     with context.txn.create_group(active_txn_overrides={"sender": admin}):
         org_id = contract.create_org(arc4.String("Org"), arc4.String("Description"))
@@ -182,7 +184,9 @@ def test_remove_from_census_exceeding_batch_limit_raises_error(
     admin = context.any.account()
     members = [context.any.account() for _ in range(MAX_CENSUS_BATCH)]
     addresses = arc4.DynamicArray(*[arc4.Address(m) for m in members])
-    too_many = arc4.DynamicArray(*[arc4.Address(m) for m in members], arc4.Address(context.any.account()))
+    too_many = arc4.DynamicArray(
+        *[arc4.Address(m) for m in members], arc4.Address(context.any.account())
+    )
 
     with context.txn.create_group(active_txn_overrides={"sender": admin}):
         org_id = contract.create_org(arc4.String("Org"), arc4.String("Description"))
