@@ -18,6 +18,7 @@ class Proposal(arc4.Struct):
     title: arc4.String
     description: arc4.String
     options: arc4.DynamicArray[arc4.String]
+    org_id: arc4.UInt64
     creator: arc4.Address
     starting_date: arc4.UInt64
     ending_date: arc4.UInt64
@@ -103,12 +104,17 @@ class Demochain(ARC4Contract):
     @abimethod()
     def create_proposal(
         self,
+        org_id: arc4.UInt64,
         title: arc4.String,
         description: arc4.String,
         options: arc4.DynamicArray[arc4.String],
         start_date: arc4.UInt64,
         ending_date: arc4.UInt64,
     ) -> arc4.UInt64:
+        assert org_id in self.organizations, "org.not-found"
+        assert arc4.Tuple((org_id, arc4.Address(Txn.sender))) in self.census, (
+            "proposal.unauthorized"
+        )
         assert not self._is_blank(title), "proposal.empty-title"
         assert not self._is_blank(description), "proposal.empty-description"
         assert start_date.as_uint64() >= Global.latest_timestamp + MIN_START_ADVANCE, (
@@ -130,6 +136,7 @@ class Demochain(ARC4Contract):
             title,
             description,
             options.copy(),
+            org_id,
             arc4.Address(Txn.sender),
             start_date,
             ending_date,
