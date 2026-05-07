@@ -4,11 +4,23 @@ from algopy.arc4 import abimethod
 # Max addresses per batch call: 8 box slots − 1 reserved for `organizations`
 MAX_CENSUS_BATCH = 7
 
+MIN_START_ADVANCE = 3 * 24 * 60 * 60  # 3 dies en segons
+MIN_VOTING_WINDOW = 24 * 60 * 60  # 1 dia en segons
+
 
 class Organization(arc4.Struct):
     name: arc4.String
     description: arc4.String
     admin: arc4.Address
+
+
+class Proposal(arc4.Struct):
+    title: arc4.String
+    description: arc4.String
+    options: arc4.DynamicArray[arc4.String]
+    creator: arc4.Address
+    starting_date: arc4.UInt64
+    ending_date: arc4.UInt64
 
 
 class Demochain(ARC4Contract):
@@ -19,6 +31,9 @@ class Demochain(ARC4Contract):
         self.census = BoxMap(
             arc4.Tuple[arc4.UInt64, arc4.Address], arc4.Bool, key_prefix="cen_"
         )
+
+        self.proposal_id = arc4.UInt64(0)
+        self.proposals = BoxMap(arc4.UInt64, Proposal, key_prefix="pr_")
 
     @abimethod()
     def create_org(self, name: arc4.String, description: arc4.String) -> arc4.UInt64:
@@ -84,6 +99,43 @@ class Demochain(ARC4Contract):
     def is_in_census(self, org_id: arc4.UInt64, address: arc4.Address) -> arc4.Bool:
         key = arc4.Tuple((org_id, address))
         return arc4.Bool(key in self.census)
+
+    @abimethod()
+    def create_proposal(
+        self,
+        title: arc4.String,
+        description: arc4.String,
+        options: arc4.DynamicArray[arc4.String],
+        start_date: arc4.UInt64,
+        ending_date: arc4.UInt64,
+    ) -> arc4.UInt64:
+        assert not self._is_blank(title), "proposal.empty-title"
+        assert not self._is_blank(description), "proposal.empty-description"
+        assert start_date.as_uint64() >= Global.latest_timestamp + MIN_START_ADVANCE, (
+            "proposal.starting-too-soon"
+        )
+        assert ending_date.as_uint64() >= start_date.as_uint64() + MIN_VOTING_WINDOW, (
+            "proposal.small-voting-window"
+        )
+        assert options.length >= 2, "proposal.too-few-options"
+
+        for i in urange(options.length):
+            opt_i = options[i]
+            assert not self._is_blank(opt_i), "proposal.empty-options"
+            for j in urange(i + 1, options.length):
+                assert opt_i.bytes != options[j].bytes, "proposal.duplicated-options"
+
+        self.proposal_id = arc4.UInt64(self.proposal_id.as_uint64() + 1)
+        self.proposals[self.proposal_id] = Proposal(
+            title,
+            description,
+            options.copy(),
+            arc4.Address(Txn.sender),
+            start_date,
+            ending_date,
+        )
+
+        return self.proposal_id
 
     def _is_blank(self, s: arc4.String) -> bool:
         b = s.native.bytes
