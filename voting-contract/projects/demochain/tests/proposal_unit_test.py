@@ -1,0 +1,240 @@
+from collections.abc import Iterator
+
+import pytest
+from algopy_testing import AlgopyTestContext, algopy_testing_context
+from algopy import arc4
+
+from smart_contracts.demochain.contract import (
+    Demochain,
+    MIN_START_ADVANCE,
+    MIN_VOTING_WINDOW,
+)
+
+NOW = 1_000_000_000
+
+VALID_START = NOW + MIN_START_ADVANCE + MIN_VOTING_WINDOW  # 4 dies des d'ara
+VALID_END = VALID_START + MIN_VOTING_WINDOW
+
+
+@pytest.fixture()
+def context() -> Iterator[AlgopyTestContext]:
+    with algopy_testing_context() as ctx:
+        ctx.ledger.patch_global_fields(latest_timestamp=NOW)
+        yield ctx
+
+
+@pytest.fixture()
+def contract(context: AlgopyTestContext) -> Demochain:
+    return Demochain()
+
+
+# --- Tests dels criteris d'acceptació ---
+
+
+def test_create_proposal_with_valid_params_returns_id(
+    context: AlgopyTestContext, contract: Demochain
+) -> None:
+    proposal_id = contract.create_proposal(
+        arc4.String("Títol"),
+        arc4.String("Descripció"),
+        arc4.DynamicArray(arc4.String("Opció A"), arc4.String("Opció B")),
+        arc4.UInt64(VALID_START),
+        arc4.UInt64(VALID_END),
+    )
+    assert proposal_id == arc4.UInt64(1)
+
+
+def test_create_proposal_second_call_returns_incremental_id(
+    context: AlgopyTestContext, contract: Demochain
+) -> None:
+    options = arc4.DynamicArray(arc4.String("Sí"), arc4.String("No"))
+    id1 = contract.create_proposal(
+        arc4.String("Proposta 1"),
+        arc4.String("Descripció 1"),
+        options,
+        arc4.UInt64(VALID_START),
+        arc4.UInt64(VALID_END),
+    )
+    id2 = contract.create_proposal(
+        arc4.String("Proposta 2"),
+        arc4.String("Descripció 2"),
+        options,
+        arc4.UInt64(VALID_START),
+        arc4.UInt64(VALID_END),
+    )
+    assert id1 == arc4.UInt64(1)
+    assert id2 == arc4.UInt64(2)
+
+
+def test_create_proposal_stores_proposal_on_chain(
+    context: AlgopyTestContext, contract: Demochain
+) -> None:
+    title = arc4.String("Títol")
+    description = arc4.String("Descripció")
+
+    proposal_id = contract.create_proposal(
+        title,
+        description,
+        arc4.DynamicArray(arc4.String("Sí"), arc4.String("No")),
+        arc4.UInt64(VALID_START),
+        arc4.UInt64(VALID_END),
+    )
+    proposal = contract.proposals[proposal_id]
+
+    assert proposal.title == title
+    assert proposal.description == description
+    assert proposal.starting_date == arc4.UInt64(VALID_START)
+    assert proposal.ending_date == arc4.UInt64(VALID_END)
+
+
+def test_create_proposal_stores_creator(
+    context: AlgopyTestContext, contract: Demochain
+) -> None:
+    sender = context.any.account()
+
+    with context.txn.create_group(active_txn_overrides={"sender": sender}):
+        proposal_id = contract.create_proposal(
+            arc4.String("Títol"),
+            arc4.String("Descripció"),
+            arc4.DynamicArray(arc4.String("Sí"), arc4.String("No")),
+            arc4.UInt64(VALID_START),
+            arc4.UInt64(VALID_END),
+        )
+
+    assert contract.proposals[proposal_id].creator == arc4.Address(sender)
+
+
+def test_create_proposal_starting_too_soon_raises_error(
+    context: AlgopyTestContext, contract: Demochain
+) -> None:
+    too_soon = arc4.UInt64(
+        NOW + MIN_VOTING_WINDOW
+    )  # només 1 dia d'antelació, cal mínim 3
+    with pytest.raises(AssertionError, match="proposal.starting-too-soon"):
+        contract.create_proposal(
+            arc4.String("Títol"),
+            arc4.String("Descripció"),
+            arc4.DynamicArray(arc4.String("Sí"), arc4.String("No")),
+            too_soon,
+            arc4.UInt64(NOW + MIN_VOTING_WINDOW * 2),
+        )
+
+
+def test_create_proposal_small_voting_window_raises_error(
+    context: AlgopyTestContext, contract: Demochain
+) -> None:
+    short_end = arc4.UInt64(
+        VALID_START + MIN_VOTING_WINDOW - 1
+    )  # 1 segon per sota del mínim
+    with pytest.raises(AssertionError, match="proposal.small-voting-window"):
+        contract.create_proposal(
+            arc4.String("Títol"),
+            arc4.String("Descripció"),
+            arc4.DynamicArray(arc4.String("Sí"), arc4.String("No")),
+            arc4.UInt64(VALID_START),
+            short_end,
+        )
+
+
+def test_create_proposal_too_few_options_raises_error(
+    context: AlgopyTestContext, contract: Demochain
+) -> None:
+    with pytest.raises(AssertionError, match="proposal.too-few-options"):
+        contract.create_proposal(
+            arc4.String("Títol"),
+            arc4.String("Descripció"),
+            arc4.DynamicArray(arc4.String("Única opció")),
+            arc4.UInt64(VALID_START),
+            arc4.UInt64(VALID_END),
+        )
+
+
+def test_create_proposal_empty_option_raises_error(
+    context: AlgopyTestContext, contract: Demochain
+) -> None:
+    with pytest.raises(AssertionError, match="proposal.empty-options"):
+        contract.create_proposal(
+            arc4.String("Títol"),
+            arc4.String("Descripció"),
+            arc4.DynamicArray(arc4.String("Opció A"), arc4.String("")),
+            arc4.UInt64(VALID_START),
+            arc4.UInt64(VALID_END),
+        )
+
+
+def test_create_proposal_blank_option_raises_error(
+    context: AlgopyTestContext, contract: Demochain
+) -> None:
+    with pytest.raises(AssertionError, match="proposal.empty-options"):
+        contract.create_proposal(
+            arc4.String("Títol"),
+            arc4.String("Descripció"),
+            arc4.DynamicArray(arc4.String("Opció A"), arc4.String("   ")),
+            arc4.UInt64(VALID_START),
+            arc4.UInt64(VALID_END),
+        )
+
+
+def test_create_proposal_duplicated_options_raises_error(
+    context: AlgopyTestContext, contract: Demochain
+) -> None:
+    with pytest.raises(AssertionError, match="proposal.duplicated-options"):
+        contract.create_proposal(
+            arc4.String("Títol"),
+            arc4.String("Descripció"),
+            arc4.DynamicArray(arc4.String("Igual"), arc4.String("Igual")),
+            arc4.UInt64(VALID_START),
+            arc4.UInt64(VALID_END),
+        )
+
+
+def test_create_proposal_empty_title_raises_error(
+    context: AlgopyTestContext, contract: Demochain
+) -> None:
+    with pytest.raises(AssertionError, match="proposal.empty-title"):
+        contract.create_proposal(
+            arc4.String(""),
+            arc4.String("Descripció"),
+            arc4.DynamicArray(arc4.String("Sí"), arc4.String("No")),
+            arc4.UInt64(VALID_START),
+            arc4.UInt64(VALID_END),
+        )
+
+
+def test_create_proposal_blank_title_raises_error(
+    context: AlgopyTestContext, contract: Demochain
+) -> None:
+    with pytest.raises(AssertionError, match="proposal.empty-title"):
+        contract.create_proposal(
+            arc4.String("   "),
+            arc4.String("Descripció"),
+            arc4.DynamicArray(arc4.String("Sí"), arc4.String("No")),
+            arc4.UInt64(VALID_START),
+            arc4.UInt64(VALID_END),
+        )
+
+
+def test_create_proposal_empty_description_raises_error(
+    context: AlgopyTestContext, contract: Demochain
+) -> None:
+    with pytest.raises(AssertionError, match="proposal.empty-description"):
+        contract.create_proposal(
+            arc4.String("Títol"),
+            arc4.String(""),
+            arc4.DynamicArray(arc4.String("Sí"), arc4.String("No")),
+            arc4.UInt64(VALID_START),
+            arc4.UInt64(VALID_END),
+        )
+
+
+def test_create_proposal_blank_description_raises_error(
+    context: AlgopyTestContext, contract: Demochain
+) -> None:
+    with pytest.raises(AssertionError, match="proposal.empty-description"):
+        contract.create_proposal(
+            arc4.String("Títol"),
+            arc4.String("   "),
+            arc4.DynamicArray(arc4.String("Sí"), arc4.String("No")),
+            arc4.UInt64(VALID_START),
+            arc4.UInt64(VALID_END),
+        )
