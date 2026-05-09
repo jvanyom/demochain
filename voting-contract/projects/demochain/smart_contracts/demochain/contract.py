@@ -53,6 +53,10 @@ class Demochain(ARC4Contract):
         self.approval_tallies = BoxMap(arc4.UInt64, ApprovalTally, key_prefix="at_")
         self.approval_ballots = BoxMap(BallotId, arc4.Bool, key_prefix="ab_")
 
+        self.election_ballots = BoxMap(
+            BallotId, arc4.DynamicArray[arc4.UInt8], key_prefix="eb_"
+        )
+
     @abimethod()
     def create_org(self, name: arc4.String, description: arc4.String) -> arc4.UInt64:
         """Method for creating an organization"""
@@ -194,6 +198,39 @@ class Demochain(ARC4Contract):
                 arc4.UInt32(tally.votes_for.as_uint64()),
                 arc4.UInt32(tally.total_votes.as_uint64() + 1),
             )
+
+    @abimethod()
+    def cast_election_vote(
+        self,
+        proposal_id: arc4.UInt64,
+        preference_order: arc4.DynamicArray[arc4.UInt8],
+    ) -> None:
+        assert proposal_id in self.proposals, "proposal.not-found"
+
+        proposal = self.proposals[proposal_id].copy()
+        assert Global.latest_timestamp >= proposal.starting_date.as_uint64(), (
+            "election.not-started"
+        )
+        assert Global.latest_timestamp < proposal.ending_date.as_uint64(), (
+            "election.ended"
+        )
+        assert self._is_proposal_approved(proposal_id), "proposal.not-approved"
+
+        assert arc4.Tuple((proposal.org_id, arc4.Address(Txn.sender))) in self.census, (
+            "proposal.unauthorized"
+        )
+
+        n = proposal.options.length
+        assert preference_order.length == n, "election.missing-options"
+        for i in urange(n):
+            assert preference_order[i].as_uint64() < n, "election.missing-options"
+            for j in urange(i + 1, n):
+                assert preference_order[i] != preference_order[j], (
+                    "election.missing-options"
+                )
+
+        ballot_id = BallotId(arc4.Address(Txn.sender), proposal_id)
+        self.election_ballots[ballot_id] = preference_order.copy()
 
     def _is_proposal_approved(self, proposal_id: arc4.UInt64) -> bool:
         proposal = self.proposals[proposal_id].copy()
