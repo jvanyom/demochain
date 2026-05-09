@@ -7,6 +7,9 @@ MAX_CENSUS_BATCH = 7
 MIN_START_ADVANCE = 3 * 24 * 60 * 60  # 3 dies en segons
 MIN_VOTING_WINDOW = 24 * 60 * 60  # 1 dia en segons
 
+APPROVAL_QUORUM_NUM = 3  # numerador del quòrum d'aprovació (3/4)
+APPROVAL_QUORUM_DEN = 4  # denominador del quòrum d'aprovació (3/4)
+
 
 class Organization(arc4.Struct):
     name: arc4.String
@@ -24,6 +27,17 @@ class Proposal(arc4.Struct):
     ending_date: arc4.UInt64
 
 
+class ApprovalTally(arc4.Struct):
+    votes_for: arc4.UInt32
+    total_votes: arc4.UInt32
+
+
+# ballot = papereta
+class BallotId(arc4.Struct):
+    sender: arc4.Address
+    proposal_id: arc4.UInt64
+
+
 class Demochain(ARC4Contract):
     def __init__(self) -> None:
         self.org_id = arc4.UInt64(0)
@@ -35,6 +49,9 @@ class Demochain(ARC4Contract):
 
         self.proposal_id = arc4.UInt64(0)
         self.proposals = BoxMap(arc4.UInt64, Proposal, key_prefix="pr_")
+
+        self.approval_tallies = BoxMap(arc4.UInt64, ApprovalTally, key_prefix="at_")
+        self.approval_ballots = BoxMap(BallotId, arc4.Bool, key_prefix="ab_")
 
     @abimethod()
     def create_org(self, name: arc4.String, description: arc4.String) -> arc4.UInt64:
@@ -141,8 +158,52 @@ class Demochain(ARC4Contract):
             start_date,
             ending_date,
         )
+        self.approval_tallies[self.proposal_id] = ApprovalTally(
+            arc4.UInt32(0), arc4.UInt32(0)
+        )
 
         return self.proposal_id
+
+    @abimethod()
+    def cast_approval_vote(self, proposal_id: arc4.UInt64, approve: arc4.Bool) -> None:
+        assert proposal_id in self.proposals, "proposal.not-found"
+
+        proposal = self.proposals[proposal_id].copy()
+        assert (
+            Global.latest_timestamp + MIN_START_ADVANCE
+            < proposal.starting_date.as_uint64()
+        ), "proposal.ended"
+
+        assert arc4.Tuple((proposal.org_id, arc4.Address(Txn.sender))) in self.census, (
+            "proposal.unauthorized"
+        )
+
+        ballot_id = BallotId(arc4.Address(Txn.sender), proposal_id)
+        assert ballot_id not in self.approval_ballots, "proposal.already-voted"
+
+        self.approval_ballots[ballot_id] = approve
+
+        tally = self.approval_tallies[proposal_id].copy()
+        if approve:
+            self.approval_tallies[proposal_id] = ApprovalTally(
+                arc4.UInt32(tally.votes_for.as_uint64() + 1),
+                arc4.UInt32(tally.total_votes.as_uint64() + 1),
+            )
+        else:
+            self.approval_tallies[proposal_id] = ApprovalTally(
+                arc4.UInt32(tally.votes_for.as_uint64()),
+                arc4.UInt32(tally.total_votes.as_uint64() + 1),
+            )
+
+    def _is_proposal_approved(self, proposal_id: arc4.UInt64) -> bool:
+        proposal = self.proposals[proposal_id].copy()
+        tally = self.approval_tallies[proposal_id].copy()
+        return (
+            Global.latest_timestamp >= proposal.starting_date.as_uint64()
+            and APPROVAL_QUORUM_DEN * tally.votes_for.as_uint64()
+            >= APPROVAL_QUORUM_NUM
+            * tally.total_votes.as_uint64()  # votes_for / total_votes >= APPROVAL_QUORUM_NUM / APPROVAL_QUORUM_DEN
+        )
 
     def _is_blank(self, s: arc4.String) -> bool:
         b = s.native.bytes
