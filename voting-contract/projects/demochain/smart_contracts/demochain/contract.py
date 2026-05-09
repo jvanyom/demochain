@@ -60,7 +60,7 @@ class Demochain(ARC4Contract):
         assert not self._is_blank(description), "org.empty-description"
         assert name not in self.organization_names, "org.already-exists"
 
-        self.org_id = arc4.UInt64(self.org_id.native + 1)
+        self.org_id = arc4.UInt64(self.org_id.as_uint64() + 1)
 
         self.organizations[self.org_id] = Organization(
             name,
