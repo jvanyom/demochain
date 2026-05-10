@@ -19,6 +19,7 @@ from network.anchoring.models import Ballot
 
 # ── Helpers per construir bytes ARC-4 sintètics ───────────────────────────────
 
+
 def arc4_string(s: str) -> bytes:
     b = s.encode("utf-8")
     return struct.pack(">H", len(b)) + b
@@ -32,36 +33,45 @@ def arc4_string_array(lst: list[str]) -> bytes:
     for s in strings:
         offsets.append(offset)
         offset += len(s)
-    header = struct.pack(">H", len(lst)) + b"".join(struct.pack(">H", o) for o in offsets)
+    header = struct.pack(">H", len(lst)) + b"".join(
+        struct.pack(">H", o) for o in offsets
+    )
     return header + b"".join(strings)
 
 
-def build_proposal_raw(title: str, description: str, options: list[str],
-                        org_id: int = 1, creator: bytes = bytes(32),
-                        start: int = 0, end: int = 0) -> bytes:
+def build_proposal_raw(
+    title: str,
+    description: str,
+    options: list[str],
+    org_id: int = 1,
+    creator: bytes = bytes(32),
+    start: int = 0,
+    end: int = 0,
+) -> bytes:
     HEAD_SIZE = 62
-    title_b   = arc4_string(title)
-    desc_b    = arc4_string(description)
+    title_b = arc4_string(title)
+    desc_b = arc4_string(description)
     options_b = arc4_string_array(options)
 
     off_title = HEAD_SIZE
-    off_desc  = off_title + len(title_b)
-    off_opts  = off_desc  + len(desc_b)
+    off_desc = off_title + len(title_b)
+    off_opts = off_desc + len(desc_b)
 
     head = (
-        struct.pack(">H", off_title) +
-        struct.pack(">H", off_desc)  +
-        struct.pack(">H", off_opts)  +
-        struct.pack(">Q", org_id)   +
-        creator                      +
-        struct.pack(">Q", start)    +
-        struct.pack(">Q", end)
+        struct.pack(">H", off_title)
+        + struct.pack(">H", off_desc)
+        + struct.pack(">H", off_opts)
+        + struct.pack(">Q", org_id)
+        + creator
+        + struct.pack(">Q", start)
+        + struct.pack(">Q", end)
     )
     assert len(head) == HEAD_SIZE
     return head + title_b + desc_b + options_b
 
 
 # ── Tests de decodificació de la proposta ─────────────────────────────────────
+
 
 class TestDecodeProposal:
     def test_basic(self):
@@ -94,6 +104,7 @@ class TestDecodeProposal:
 
 # ── Tests de decodificació de la papereta ─────────────────────────────────────
 
+
 class TestDecodeBallotPreference:
     def test_basic(self):
         raw = struct.pack(">H", 3) + bytes([2, 0, 1])
@@ -112,6 +123,7 @@ class TestDecodeBallotPreference:
 
 # ── Tests de construcció de claus de box ─────────────────────────────────────
 
+
 class TestBoxKeys:
     def test_proposal_key_prefix(self):
         key = _proposal_box_key(42)
@@ -120,7 +132,7 @@ class TestBoxKeys:
 
     def test_proposal_key_encodes_id(self):
         key = _proposal_box_key(1)
-        pid = struct.unpack(">Q", key[len(BOX_PREFIX_PROPOSAL):])[0]
+        pid = struct.unpack(">Q", key[len(BOX_PREFIX_PROPOSAL) :])[0]
         assert pid == 1
 
     def test_ballot_key_structure(self):
@@ -133,6 +145,7 @@ class TestBoxKeys:
 
 
 # ── Tests de AlgorandElectionReader (amb mocks) ────────────────────────────────
+
 
 def _b64(data: bytes) -> str:
     return base64.b64encode(data).decode()
@@ -170,16 +183,16 @@ class TestAlgorandElectionReader:
 
     def test_reads_one_ballot(self):
         voter_bytes = bytes(range(32))
-        voter_addr  = _bytes_to_algorand_address(voter_bytes)
-        prop_raw    = build_proposal_raw("T", "D", ["X", "Y", "Z"])
-        ballot_raw  = struct.pack(">H", 3) + bytes([2, 0, 1])
+        voter_addr = _bytes_to_algorand_address(voter_bytes)
+        prop_raw = build_proposal_raw("T", "D", ["X", "Y", "Z"])
+        ballot_raw = struct.pack(">H", 3) + bytes([2, 0, 1])
 
         boxes = {
             _proposal_box_key(1): prop_raw,
             _ballot_box_key(proposal_id=1, voter_address_bytes=voter_bytes): ballot_raw,
         }
         reader = self._make_reader(boxes)
-        state  = reader.read_election_state(1)
+        state = reader.read_election_state(1)
 
         assert len(state.ballots) == 1
         assert state.ballots[0].voter == voter_addr
@@ -189,7 +202,7 @@ class TestAlgorandElectionReader:
         v1 = bytes([0] * 32)
         v2 = bytes([1] * 32)
         v3 = bytes([2] * 32)
-        prop_raw   = build_proposal_raw("T", "D", ["A", "B"])
+        prop_raw = build_proposal_raw("T", "D", ["A", "B"])
         ballot_raw = struct.pack(">H", 2) + bytes([1, 0])
 
         boxes = {
@@ -199,14 +212,14 @@ class TestAlgorandElectionReader:
             _ballot_box_key(1, v2): ballot_raw,
         }
         reader = self._make_reader(boxes)
-        state  = reader.read_election_state(1)
+        state = reader.read_election_state(1)
 
         addrs = [b.voter for b in state.ballots]
         assert addrs == sorted(addrs)
 
     def test_ignores_ballots_for_other_proposals(self):
         voter_bytes = bytes(range(32))
-        prop_raw   = build_proposal_raw("T", "D", ["A", "B"])
+        prop_raw = build_proposal_raw("T", "D", ["A", "B"])
         ballot_raw = struct.pack(">H", 2) + bytes([1, 0])
 
         boxes = {
@@ -214,11 +227,11 @@ class TestAlgorandElectionReader:
             _ballot_box_key(proposal_id=2, voter_address_bytes=voter_bytes): ballot_raw,
         }
         reader = self._make_reader(boxes)
-        state  = reader.read_election_state(1)
+        state = reader.read_election_state(1)
         assert state.ballots == []
 
     def test_block_round_from_status(self):
         prop_raw = build_proposal_raw("T", "D", ["A"])
-        reader   = self._make_reader({_proposal_box_key(1): prop_raw}, status_round=42)
-        state    = reader.read_election_state(1)
+        reader = self._make_reader({_proposal_box_key(1): prop_raw}, status_round=42)
+        state = reader.read_election_state(1)
         assert state.block_round == 42

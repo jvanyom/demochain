@@ -109,16 +109,18 @@ class TestAnchoringServiceAnchor:
     def test_submit_hash_receives_correct_bytes(self):
         from network.anchoring.hasher import compute_election_hash
 
-        algod    = MagicMock()
+        algod = MagicMock()
         submitter = MagicMock()
-        submitter.submit_hash.return_value = SubmissionResult(success=True, tx_hash="0x0")
-        state    = _make_state()
-        service  = AnchoringService("uib", algod, app_id=1, eth_submitter=submitter)
+        submitter.submit_hash.return_value = SubmissionResult(
+            success=True, tx_hash="0x0"
+        )
+        state = _make_state()
+        service = AnchoringService("uib", algod, app_id=1, eth_submitter=submitter)
         service.reader = MagicMock()
         service.reader.read_election_state.return_value = state
 
         service.anchor(1)
         expected_bytes = compute_election_hash(state)
         _, call_kwargs = submitter.submit_hash.call_args
-        actual_hash   = submitter.submit_hash.call_args[0][1]
+        actual_hash = submitter.submit_hash.call_args[0][1]
         assert actual_hash == expected_bytes

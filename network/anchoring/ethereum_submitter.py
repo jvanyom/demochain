@@ -62,9 +62,24 @@ NOTARY_ABI = [
     {
         "anonymous": False,
         "inputs": [
-            {"indexed": True, "internalType": "string", "name": "electionId", "type": "string"},
-            {"indexed": False, "internalType": "bytes32", "name": "resultHash", "type": "bytes32"},
-            {"indexed": False, "internalType": "uint256", "name": "confirmations", "type": "uint256"},
+            {
+                "indexed": True,
+                "internalType": "string",
+                "name": "electionId",
+                "type": "string",
+            },
+            {
+                "indexed": False,
+                "internalType": "bytes32",
+                "name": "resultHash",
+                "type": "bytes32",
+            },
+            {
+                "indexed": False,
+                "internalType": "uint256",
+                "name": "confirmations",
+                "type": "uint256",
+            },
         ],
         "name": "ResultAnchored",
         "type": "event",
@@ -108,12 +123,14 @@ class EthereumSubmitter:
             tx = self.contract.functions.submitHash(
                 election_id,
                 result_hash,
-            ).build_transaction({
-                "from": self.account.address,
-                "nonce": self.w3.eth.get_transaction_count(self.account.address),
-                "gas": 200_000,
-                "gasPrice": self.w3.eth.gas_price,
-            })
+            ).build_transaction(
+                {
+                    "from": self.account.address,
+                    "nonce": self.w3.eth.get_transaction_count(self.account.address),
+                    "gas": 200_000,
+                    "gasPrice": self.w3.eth.gas_price,
+                }
+            )
 
             signed_tx = self.w3.eth.account.sign_transaction(tx, self.private_key)
             tx_hash = self.w3.eth.send_raw_transaction(signed_tx.raw_transaction)
@@ -126,13 +143,19 @@ class EthereumSubmitter:
                     error="Transacció revertida pel contracte",
                 )
 
-            anchored_logs = self.contract.events.ResultAnchored().process_receipt(receipt)
+            anchored_logs = self.contract.events.ResultAnchored().process_receipt(
+                receipt
+            )
             anchored = bool(anchored_logs)
             if anchored:
                 confs = anchored_logs[0]["args"]["confirmations"]
-                logger.info("ResultAnchored per '%s' amb %d confirmacions", election_id, confs)
+                logger.info(
+                    "ResultAnchored per '%s' amb %d confirmacions", election_id, confs
+                )
 
-            return SubmissionResult(success=True, tx_hash=tx_hash.hex(), anchored=anchored)
+            return SubmissionResult(
+                success=True, tx_hash=tx_hash.hex(), anchored=anchored
+            )
 
         except Exception as exc:
             logger.error("Error enviant hash per '%s': %s", election_id, exc)

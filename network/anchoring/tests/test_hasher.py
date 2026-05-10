@@ -40,10 +40,14 @@ class TestComputeElectionHash:
         assert compute_election_hash(s1) != compute_election_hash(s2)
 
     def test_different_proposal_id_produces_different_hash(self):
-        assert compute_election_hash(_state(proposal_id=1)) != compute_election_hash(_state(proposal_id=2))
+        assert compute_election_hash(_state(proposal_id=1)) != compute_election_hash(
+            _state(proposal_id=2)
+        )
 
     def test_different_title_produces_different_hash(self):
-        assert compute_election_hash(_state(title="A")) != compute_election_hash(_state(title="B"))
+        assert compute_election_hash(_state(title="A")) != compute_election_hash(
+            _state(title="B")
+        )
 
     def test_extra_ballot_produces_different_hash(self):
         s1 = _state(ballots=[Ballot("ADDR_A", [2, 0, 1])])
