@@ -11,6 +11,7 @@ class Ballot:
     Exemple amb 3 opcions: preference=[2, 0, 1] significa que el votant
     prefereix l'opció 2 en primer lloc, l'opció 0 en segon i l'opció 1 en tercer.
     """
+
     voter: str
     preference: list[int]
 
@@ -30,6 +31,7 @@ class ElectionState:
         ballots:     Paperetes de tots els votants que han votat.
         block_round: Round d'Algorand en el moment de la lectura (per a auditoria).
     """
+
     proposal_id: int
     title: str
     options: list[str]
