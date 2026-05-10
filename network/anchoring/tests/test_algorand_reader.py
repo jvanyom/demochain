@@ -1,5 +1,5 @@
 import struct
-from unittest.mock import MagicMock, patch
+from unittest.mock import MagicMock
 import base64
 
 import pytest
@@ -14,7 +14,6 @@ from network.anchoring.algorand_reader import (
     BOX_PREFIX_BALLOT,
     BOX_PREFIX_PROPOSAL,
 )
-from network.anchoring.models import Ballot
 
 
 # ── Helpers per construir bytes ARC-4 sintètics ───────────────────────────────

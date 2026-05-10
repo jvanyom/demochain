@@ -1,5 +1,3 @@
-import pytest
-
 from network.anchoring.consensus import check_consensus
 
 

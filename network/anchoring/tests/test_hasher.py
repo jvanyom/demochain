@@ -1,5 +1,3 @@
-import pytest
-
 from network.anchoring.hasher import compute_election_hash, compute_election_hash_hex
 from network.anchoring.models import Ballot, ElectionState
 
