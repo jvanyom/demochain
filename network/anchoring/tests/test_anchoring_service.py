@@ -1,8 +1,7 @@
-from unittest.mock import MagicMock, patch
+from unittest.mock import MagicMock
 
-import pytest
 
-from network.anchoring.anchoring_service import AnchoringResult, AnchoringService
+from network.anchoring.anchoring_service import AnchoringService
 from network.anchoring.ethereum_submitter import SubmissionResult
 from network.anchoring.models import Ballot, ElectionState
 
