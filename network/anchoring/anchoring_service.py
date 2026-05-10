@@ -58,12 +58,16 @@ class AnchoringService:
         """
         state = self.reader.read_election_state(proposal_id)
         if state is None:
-            logger.warning("[%s] Proposta %d no trobada", self.university_id, proposal_id)
+            logger.warning(
+                "[%s] Proposta %d no trobada", self.university_id, proposal_id
+            )
             return None
         hash_hex = compute_election_hash_hex(state)
         logger.info(
             "[%s] Hash calculat per proposta %d: %s...",
-            self.university_id, proposal_id, hash_hex[:18],
+            self.university_id,
+            proposal_id,
+            hash_hex[:18],
         )
         return hash_hex
 
@@ -79,28 +83,36 @@ class AnchoringService:
         """
         state = self.reader.read_election_state(proposal_id)
         if state is None:
-            logger.warning("[%s] Proposta %d no trobada", self.university_id, proposal_id)
+            logger.warning(
+                "[%s] Proposta %d no trobada", self.university_id, proposal_id
+            )
             return AnchoringResult(election_id=f"proposta-{proposal_id}", hash_hex="")
 
         hash_hex = compute_election_hash_hex(state)
         logger.info(
             "[%s] Hash calculat per '%s': %s...",
-            self.university_id, state.election_id, hash_hex[:18],
+            self.university_id,
+            state.election_id,
+            hash_hex[:18],
         )
 
         submission: SubmissionResult | None = None
         if self.submitter:
             result_hash_bytes = bytes.fromhex(hash_hex[2:])
-            submission = self.submitter.submit_hash(state.election_id, result_hash_bytes)
+            submission = self.submitter.submit_hash(
+                state.election_id, result_hash_bytes
+            )
             if submission.success:
                 logger.info(
                     "[%s] Hash enviat a Ethereum: tx=%s...",
-                    self.university_id, submission.tx_hash[:18],
+                    self.university_id,
+                    submission.tx_hash[:18],
                 )
                 if submission.anchored:
                     logger.info(
                         "[%s] RESULTAT ANCORAT a Ethereum per '%s'",
-                        self.university_id, state.election_id,
+                        self.university_id,
+                        state.election_id,
                     )
             else:
                 logger.error(

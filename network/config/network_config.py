@@ -23,16 +23,19 @@ class UniversityNode:
     @property
     def algorand_address(self) -> str:
         from algosdk import mnemonic
+
         return mnemonic.to_public_key(self.algorand_mnemonic)
 
     @property
     def algorand_private_key(self) -> str:
         from algosdk import mnemonic
+
         return mnemonic.to_private_key(self.algorand_mnemonic)
 
     @property
     def ethereum_address(self) -> str:
         from eth_account import Account
+
         return Account.from_key(self.ethereum_private_key).address
 
 
@@ -49,12 +52,16 @@ def load_universities() -> tuple[list[UniversityNode], int]:
     nodes: list[UniversityNode] = []
 
     for uni in config["universities"]:
-        nodes.append(UniversityNode(
-            id=uni["id"],
-            name=uni["name"],
-            algorand_mnemonic=os.environ.get(uni["algorand_mnemonic_env"], ""),
-            ethereum_private_key=os.environ.get(uni.get("ethereum_private_key_env", ""), ""),
-        ))
+        nodes.append(
+            UniversityNode(
+                id=uni["id"],
+                name=uni["name"],
+                algorand_mnemonic=os.environ.get(uni["algorand_mnemonic_env"], ""),
+                ethereum_private_key=os.environ.get(
+                    uni.get("ethereum_private_key_env", ""), ""
+                ),
+            )
+        )
 
     return nodes, threshold_k
 
