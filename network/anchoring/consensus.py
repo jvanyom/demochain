@@ -52,12 +52,17 @@ def check_consensus(node_hashes: dict[str, str], threshold_k: int) -> ConsensusR
     if reached:
         logger.info(
             "Consens assolit: %d/%d nodes (K=%d) hash=%s...",
-            len(agreeing), len(node_hashes), threshold_k, best_hash[:18],
+            len(agreeing),
+            len(node_hashes),
+            threshold_k,
+            best_hash[:18],
         )
     else:
         logger.warning(
             "Consens NO assolit: %d/%d nodes (K=%d requerits)",
-            len(agreeing), len(node_hashes), threshold_k,
+            len(agreeing),
+            len(node_hashes),
+            threshold_k,
         )
 
     if dissenting:

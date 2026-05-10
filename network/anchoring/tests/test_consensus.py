@@ -14,14 +14,18 @@ class TestCheckConsensus:
         assert r.consensus_hash == ""
 
     def test_k_nodes_agree(self):
-        r = check_consensus({"uib": HASH_A, "upc": HASH_A, "uab": HASH_B}, threshold_k=2)
+        r = check_consensus(
+            {"uib": HASH_A, "upc": HASH_A, "uab": HASH_B}, threshold_k=2
+        )
         assert r.reached
         assert r.consensus_hash == HASH_A
         assert set(r.agreeing_nodes) == {"uib", "upc"}
         assert r.dissenting_nodes == ["uab"]
 
     def test_all_nodes_agree(self):
-        r = check_consensus({"uib": HASH_A, "upc": HASH_A, "uab": HASH_A}, threshold_k=2)
+        r = check_consensus(
+            {"uib": HASH_A, "upc": HASH_A, "uab": HASH_A}, threshold_k=2
+        )
         assert r.reached
         assert r.dissenting_nodes == []
 
@@ -30,7 +34,9 @@ class TestCheckConsensus:
         assert not r.reached
 
     def test_k_equals_n_all_must_agree(self):
-        r = check_consensus({"uib": HASH_A, "upc": HASH_A, "uab": HASH_B}, threshold_k=3)
+        r = check_consensus(
+            {"uib": HASH_A, "upc": HASH_A, "uab": HASH_B}, threshold_k=3
+        )
         assert not r.reached
 
     def test_reports_total_nodes_and_k(self):
