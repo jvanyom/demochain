@@ -1,0 +1,65 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg: 237 241 249;
+  --surface: 255 255 255;
+  --elevated: 248 250 252;
+  --border: 203 213 225;
+  --fg: 15 23 42;
+  --muted: 100 116 139;
+  --primary: 29 78 216;
+  --primary-fg: 255 255 255;
+  --accent: 202 138 4;
+}
+
+.dark {
+  --bg: 9 14 28;
+  --surface: 17 25 44;
+  --elevated: 23 33 58;
+  --border: 40 55 88;
+  --fg: 226 232 240;
+  --muted: 148 163 184;
+  --primary: 96 165 250;
+  --primary-fg: 10 15 28;
+  --accent: 250 204 21;
+}
+
+html, body, #root {
+  height: 100%;
+}
+
+body {
+  @apply bg-bg text-fg font-sans antialiased;
+  font-feature-settings: 'cv11', 'ss01';
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgb(var(--border)); border-radius: 8px; }
+::-webkit-scrollbar-thumb:hover { background: rgb(var(--muted)); }
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+.grad-text {
+  background: linear-gradient(120deg, rgb(var(--primary)), rgb(var(--accent)));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.glass {
+  background: rgb(var(--surface) / 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgb(var(--border) / 0.8);
+}

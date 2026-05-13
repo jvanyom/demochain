@@ -1,5 +1,62 @@
 {
   "brand": "Demochain",
+  "nav": {
+    "home": "Inici",
+    "proposals": "Propostes",
+    "newProposal": "Nova proposta",
+    "howItWorks": "Com funciona"
+  },
+  "theme": {
+    "toggle": "Canvia el tema",
+    "light": "Clar",
+    "dark": "Fosc"
+  },
+  "language": {
+    "label": "Idioma",
+    "en": "Anglès",
+    "es": "Castellà",
+    "ca": "Català"
+  },
+  "landing": {
+    "hero": {
+      "eyebrow": "Vot preferencial per a tothom",
+      "titleA": "Ordena.",
+      "titleB": "Decideix.",
+      "titleC": "Verifica.",
+      "subtitle": "Proposa eleccions, ordena les teves preferències i confia en el resultat. Una plataforma oberta on la comunitat decideix què importa — i com es mesura.",
+      "ctaPrimary": "Explora propostes",
+      "ctaSecondary": "Com funciona",
+      "counter": "veus emeses avui"
+    },
+    "how": {
+      "title": "Tres passos, un resultat clar",
+      "steps": [
+        { "title": "Proposa", "text": "Qualsevol persona pot proposar una elecció — un títol, dates i les opcions que els votants ordenaran." },
+        { "title": "Aprova", "text": "La comunitat vota per aprovar-la. Si arriba als dos terços, s'obre en les dates fixades." },
+        { "title": "Ordena i decideix", "text": "Els votants arrosseguen les opcions en el seu ordre de preferència. La guanyadora reflecteix el que realment vol la majoria." }
+      ]
+    },
+    "features": {
+      "title": "Fet per a votants, no per a proveïdors",
+      "items": [
+        { "title": "Vot preferencial", "text": "Ordena tantes opcions com vulguis. Sense vots perduts ni efecte spoiler." },
+        { "title": "Aprovació comunitària", "text": "Les propostes només esdevenen eleccions amb dos terços de suport — cap administrador decideix sol." },
+        { "title": "Resultats oberts", "text": "Cada classificació és pública. Veus el guanyador, els segons i com d'ajustada va ser la cursa." },
+        { "title": "Verificable de manera independent", "text": "Cada papereta rep un rebut que qualsevol pot comprovar — ancorat a Algorand perquè el recompte no es pugui reescriure." },
+        { "title": "Multilingüe", "text": "Vota en anglès, castellà o català. La teva veu, la teva llengua." },
+        { "title": "Accessible de mena", "text": "Classificació amb teclat, mode fosc i suport de moviment reduït." }
+      ]
+    },
+    "cta": {
+      "title": "A punt per deixar decidir la gent?",
+      "text": "Redacta una proposta en minuts. La comunitat s'encarrega de la resta.",
+      "button": "Crea una proposta"
+    },
+    "footer": {
+      "tagline": "Eines democràtiques, construïdes obertament.",
+      "rights": "Tots els drets reservats."
+    }
+  },
   "errors": {
     "proposal": {
       "empty-title": "El títol no pot estar buit",

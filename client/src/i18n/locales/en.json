@@ -1,5 +1,62 @@
 {
   "brand": "Demochain",
+  "nav": {
+    "home": "Home",
+    "proposals": "Proposals",
+    "newProposal": "New proposal",
+    "howItWorks": "How it works"
+  },
+  "theme": {
+    "toggle": "Toggle theme",
+    "light": "Light",
+    "dark": "Dark"
+  },
+  "language": {
+    "label": "Language",
+    "en": "English",
+    "es": "Spanish",
+    "ca": "Catalan"
+  },
+  "landing": {
+    "hero": {
+      "eyebrow": "Ranked-choice voting for everyone",
+      "titleA": "Rank.",
+      "titleB": "Decide.",
+      "titleC": "Verify.",
+      "subtitle": "Propose elections, rank your choices, and trust the outcome. An open platform where the community decides what matters — and how it's measured.",
+      "ctaPrimary": "Explore proposals",
+      "ctaSecondary": "How it works",
+      "counter": "voices cast today"
+    },
+    "how": {
+      "title": "Three steps, one clear outcome",
+      "steps": [
+        { "title": "Propose", "text": "Anyone can propose an election — a title, dates, and the options voters will rank." },
+        { "title": "Approve", "text": "The community votes to approve it. Reach two thirds and it goes live on the dates you set." },
+        { "title": "Rank & decide", "text": "Voters drag options into their order of preference. The winner reflects what the majority actually wants." }
+      ]
+    },
+    "features": {
+      "title": "Built around voters, not vendors",
+      "items": [
+        { "title": "Preferential voting", "text": "Rank as many options as you like. No wasted votes, no spoiler effect." },
+        { "title": "Community gated", "text": "Proposals only become elections with two-thirds community approval — no single admin decides." },
+        { "title": "Open results", "text": "Every ranking is public. See the winner, the runners-up, and how close the race actually was." },
+        { "title": "Independently verifiable", "text": "Each ballot gets a receipt anyone can check — anchored on Algorand so the tally cannot be rewritten." },
+        { "title": "Multi-lingual", "text": "Vote in English, Spanish, or Catalan. Your voice, your language." },
+        { "title": "Accessible by design", "text": "Keyboard-friendly ranking, dark mode, reduced-motion support." }
+      ]
+    },
+    "cta": {
+      "title": "Ready to let people decide?",
+      "text": "Draft a proposal in minutes. The community takes it from there.",
+      "button": "Start a proposal"
+    },
+    "footer": {
+      "tagline": "Democratic tools, openly built.",
+      "rights": "All rights reserved."
+    }
+  },
   "errors": {
     "proposal": {
       "empty-title": "Title cannot be empty",
