@@ -4,6 +4,17 @@ export default {
   content: ['./index.html', './src/**/*.{ts,tsx}'],
   darkMode: 'class',
   theme: {
+    screens: {
+      sm: '640px',
+      md: '768px',
+      lg: '1024px',
+      xl: '1280px',
+      '2xl': '1536px',
+      // Reduced-motion variant for accessibility (WCAG 2.3.3).
+      // Pair with `useReducedMotion` from framer-motion and the @media
+      // (prefers-reduced-motion: reduce) query in index.css.
+      'motion-reduce': { raw: '(prefers-reduced-motion: reduce)' },
+    },
     extend: {
       colors: {
         bg: 'rgb(var(--bg) / <alpha-value>)',
