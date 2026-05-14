@@ -9,17 +9,28 @@
   "common": {
     "title": "Title",
     "cancel": "Cancel",
+    "back": "Back",
     "previous": "Previous",
     "next": "Next",
     "waiting": "Waiting...",
     "description": "Description",
     "census": "Census",
     "addresses": "Addresses",
-    "active": "Active",
+    "active_one": "Active",
+    "active_other": "Active",
     "no-matches": "No matches",
     "connect": "Connect",
     "disconnect": "Disconnect",
-    "step": "Step {{current}} of {{total}}"
+    "step": "Step {{current}} of {{total}}",
+    "proposals": "Proposals",
+    "member": "Member",
+    "members": "Members",
+    "organizer": "Organizer",
+    "hide": "Hide",
+    "add": "Add",
+    "remove": "Remove",
+    "replace-all": "Replace all",
+    "progress": "Processing {{done}} / {{total}}"
   },
   "theme": {
     "toggle": "Toggle theme",
@@ -100,11 +111,35 @@
     }
   },
   "org": {
+    "title": "Organizations",
+    "subtitle": "Governance bodies you belong to, or that you manage.",
     "valid-addresses": "{{count}} valid addresses",
     "census-hint": "Add the initial members of this organization. You can modify the census later.",
     "submit": "Create organization",
     "new": "Create organization",
-    "members": "{{count}} member",
+    "empty": "No organizations yet.",
+    "members": "{{count}} members",
+    "not-found": "Organization not found.",
+    "not-member": "You are not a member of this organization",
+    "not-member-short": "Non-member",
+    "show-all-members": "See all {{count}} members",
+    "census": {
+      "manage": "Manage census",
+      "manage-hint": "Modify the members of \"{{name}}\".",
+      "empty": "There are no members yet.",
+      "empty-search": "No address matches the search.",
+      "search-placeholder": "Search an address…",
+      "match-of": "{{shown}} of {{total}}",
+      "added": "{{count}} addresses added",
+      "add": "Add {{count}} addresses",
+      "removed": "{{count}} addresses removed",
+      "replaced": "Census replaced with {{count}} addresses",
+      "replace": "Replace with {{count}} addresses",
+      "remove-hint": "Select addresses to remove from the census.",
+      "selected-count_one": "{{count}} selected",
+      "selected-count_other": "{{count}} selected",
+      "remove-selected": "Remove {{count}} selected"
+    },
     "dev-addresses": {
       "load": "Load dev addresses",
       "hint": "Load the addresses declared to dev-accounts.json"
@@ -129,15 +164,21 @@
       "title": "Organization created!",
       "text": "\"{{name}}\" has been registered.",
       "cta": "View organizations"
+    },
+    "replace-confirm": {
+      "title": "Replace the entire census?",
+      "text": "This will replace {{current}} current members of \"{{name}}\" with {{next}} new addresses. This action cannot be undone."
     }
   },
   "wallet": {
     "connect": "Connect the wallet to send",
     "choose": "Choose wallet",
     "switch": "Switch account",
-    "address-filter-placeholder": "Filter by address…"
+    "address-filter-placeholder": "Filter by address…",
+    "waiting-signature": "Waiting signature…"
   },
   "errors": {
+    "unknown": "Unknown error",
     "proposal": {
       "empty-title": "Title cannot be empty",
       "empty-description": "Description cannot be empty",

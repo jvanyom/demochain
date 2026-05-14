@@ -3,10 +3,14 @@ import React from 'react';
 import {RouterProvider} from 'react-router-dom';
 import {createRoot} from 'react-dom/client';
 
+import {QueryClientProvider} from "@tanstack/react-query";
+
 import {NetworkId, WalletId, WalletManager} from "@txnlab/use-wallet-react";
 
 import {bootstrapDevAccountsToKmd} from "@/algorand/dev-accounts.ts";
 import {ThemeProvider} from '@/theme/ThemeProvider';
+
+import {queryClient} from './queryClient'
 import {router} from './router';
 
 import './index.css';
@@ -43,8 +47,10 @@ if (walletManager.activeNetwork === NetworkId.LOCALNET) {
 
 createRoot(document.getElementById('root')!).render(
     <React.StrictMode>
-        <ThemeProvider>
-            <RouterProvider router={router}/>
-        </ThemeProvider>
+        <QueryClientProvider client={queryClient}>
+            <ThemeProvider>
+                <RouterProvider router={router}/>
+            </ThemeProvider>
+        </QueryClientProvider>
     </React.StrictMode>,
 );

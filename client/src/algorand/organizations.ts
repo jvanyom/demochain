@@ -1,5 +1,6 @@
 import algosdk from 'algosdk';
 
+import type {OnChainOrganization} from "@/algorand/wire";
 import {algodClient, APP_ID} from './config';
 
 import {
@@ -14,6 +15,7 @@ import {
     CENSUS_BOX_MBR,
     CENSUS_BATCH,
     type TransactionSigner,
+    bytesEqual,
 } from './_contract';
 
 export async function createOrganization(
@@ -71,6 +73,36 @@ export async function createOrganization(
     }
 }
 
+export async function getOrganization(orgId: number): Promise<OnChainOrganization | null> {
+    try {
+        const box = await algodClient.getApplicationBoxByName(APP_ID, orgBoxKey(orgId)).do();
+        return decodeOrganization(box.value);
+    } catch {
+        return null;
+    }
+}
+
+export async function getAllOrganizationIds(): Promise<number[]> {
+    try {
+        const {boxes} = await algodClient.getApplicationBoxes(APP_ID).do();
+        const orgPrefix = enc.encode('org_'); // 4 bytes
+        const ids: number[] = [];
+
+        for (const box of boxes) {
+            const name = box.name;
+            // org_ box names: "org_" (4) + uint64 (8) = 12 bytes
+            if (name.length === 12 && bytesEqual(name.slice(0, 4), orgPrefix)) {
+                const id = Number(algosdk.bytesToBigInt(name.slice(4)));
+                if (id > 0) ids.push(id);
+            }
+        }
+
+        return ids.sort((a, b) => a - b);
+    } catch {
+        return [];
+    }
+}
+
 export async function addToCensus(
     signer: TransactionSigner,
     sender: string,
@@ -125,4 +157,58 @@ export async function addToCensus(
     } catch (err) {
         throw decodeContractError(err);
     }
+}
+
+export async function getCensusMembers(orgId: number): Promise<string[]> {
+    try {
+        const {boxes} = await algodClient.getApplicationBoxes(APP_ID).do();
+        const prefix = enc.encode('cs_'); // 3 bytes
+        const orgIdBytes = algosdk.bigIntToBytes(orgId, 8);
+        const members: string[] = [];
+
+        for (const box of boxes) {
+            const name = box.name;
+            // census box names: "cs_" (3) + org_id (8) + member pubkey (32) = 43 bytes
+            if (
+                name.length === 43 &&
+                bytesEqual(name.slice(0, 3), prefix) &&
+                bytesEqual(name.slice(3, 11), orgIdBytes)
+            ) {
+                members.push(algosdk.encodeAddress(name.slice(11)));
+            }
+        }
+
+        return members;
+    } catch {
+        return [];
+    }
+}
+
+export async function getCensusMemberCount(orgId: number): Promise<number> {
+    try {
+        const { boxes } = await algodClient.getApplicationBoxes(APP_ID).do();
+        const prefix = enc.encode('cs_');
+        const orgIdBytes = algosdk.bigIntToBytes(orgId, 8);
+        return boxes.filter(
+            (box) =>
+                box.name.length === 43 &&
+                bytesEqual(box.name.slice(0, 3), prefix) &&
+                bytesEqual(box.name.slice(3, 11), orgIdBytes),
+        ).length;
+    } catch {
+        return 0;
+    }
+}
+
+function decodeOrganization(data: Uint8Array): OnChainOrganization {
+    const type = algosdk.ABIType.from('(uint64,string,string,address)');
+    const decoded = type.decode(data) as [bigint, string, string, string];
+
+    return {
+        orgId: Number(decoded[0]),
+        name: decoded[1],
+        description: decoded[2],
+        organizer: decoded[3],
+        memberCount: 0,
+    };
 }
