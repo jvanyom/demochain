@@ -37,6 +37,8 @@ export function bytesEqual(a: Uint8Array, b: Uint8Array): boolean {
 // Prefixos descodificats des dels valors en base64 d'ARC-56 :
 //   organizations:    "org_"      (b3JnXw==)         4 bytes + uint64 = 12 bytes
 //   census:           "cs_"       (Y3Nf)             3 bytes + uint64 + pubkey = 43 bytes
+//   proposals:        "proposals" (cHJvcG9zYWxz)   9 bytes + uint64 = 17 bytes
+//   approval_tallies: "at_"       (YXRf)             3 bytes + uint64 = 11 bytes
 
 
 export function orgBoxKey(id: number): Uint8Array {
@@ -57,6 +59,14 @@ export function censusBoxKey(orgId: number, member: string): Uint8Array {
         ...algosdk.bigIntToBytes(orgId, 8),
         ...algosdk.decodeAddress(member).publicKey,
     ]);
+}
+
+export function proposalBoxKey(id: number): Uint8Array {
+    return new Uint8Array([...enc.encode('proposals'), ...algosdk.bigIntToBytes(id, 8)]);
+}
+
+export function tallyBoxKey(id: number): Uint8Array {
+    return new Uint8Array([...enc.encode('at_'), ...algosdk.bigIntToBytes(id, 8)]);
 }
 
 // ── Definicions dels mètodes ABI ───────────────────────────────────────────
@@ -86,6 +96,19 @@ export const removeFromCensusMethod = new algosdk.ABIMethod({
         {type: 'address[]', name: 'members'},
     ],
     returns: {type: 'void'},
+});
+
+export const createProposalMethod = new algosdk.ABIMethod({
+    name: 'create_proposal',
+    args: [
+        { type: 'uint64', name: 'org_id' },
+        { type: 'string', name: 'title' },
+        { type: 'string', name: 'description' },
+        { type: 'string[]', name: 'options' },
+        { type: 'uint64', name: 'starting_date' },
+        { type: 'uint64', name: 'ending_date' },
+    ],
+    returns: { type: 'uint64' },
 });
 
 // ── Executor ATC ─────────────────────────────────────────────────────

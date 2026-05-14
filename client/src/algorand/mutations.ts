@@ -3,6 +3,8 @@ import type algosdk from 'algosdk';
 import {useMutation, useQueryClient} from '@tanstack/react-query';
 
 import {createOrganization, addToCensus, removeFromCensus} from './organizations';
+import {createProposal} from "./proposals";
+
 import {queryKeys} from './queryKeys';
 
 // ── Shared argument shapes ───────────────────────────────────────────
@@ -21,6 +23,15 @@ interface CensusArgs extends SignerArgs {
     orgId: number;
     members: string[];
     onProgress?: (done: number, total: number) => void;
+}
+
+interface CreateProposalArgs extends SignerArgs {
+    orgId: number;
+    title: string;
+    description: string;
+    options: string[];
+    startingDate: number;
+    endingDate: number;
 }
 
 // ── Mutation hooks ───────────────────────────────────────────────────
@@ -62,6 +73,19 @@ export function useRemoveFromCensus() {
         onSuccess: (_data, { orgId }) => {
             void queryClient.invalidateQueries({ queryKey: queryKeys.organizations.detail(orgId) });
             void queryClient.invalidateQueries({ queryKey: queryKeys.censusPrefix });
+        },
+    });
+}
+
+export function useCreateProposal() {
+    const queryClient = useQueryClient();
+
+    return useMutation({
+        mutationFn: ({ signer, sender, orgId, title, description, options, startingDate, endingDate }: CreateProposalArgs) => {
+            return createProposal(signer, sender, orgId, title, description, options, startingDate, endingDate)
+        },
+        onSuccess: () => {
+            void queryClient.invalidateQueries({ queryKey: queryKeys.proposals.all() });
         },
     });
 }
