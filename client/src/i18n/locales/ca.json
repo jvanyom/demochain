@@ -14,7 +14,12 @@
     "waiting": "Esperant...",
     "description": "Descripció",
     "census": "Cens",
-    "addresses": "Adreces"
+    "addresses": "Adreces",
+    "active": "Activa",
+    "no-matches": "Cap coincidència",
+    "connect": "Connectar",
+    "disconnect": "Desconnectar",
+    "step": "Pas {{current}} de {{total}}"
   },
   "theme": {
     "toggle": "Canvia el tema",
@@ -100,6 +105,10 @@
     "submit": "Crea l'organització",
     "new": "Crea una organització",
     "members": "{{count}} membre",
+    "dev-addresses": {
+      "load": "Carrega adreces dev",
+      "hint": "Carrega les adreces declarades a dev-accounts.json"
+    },
     "fields": {
       "name": "Nom de l'organització",
       "name-placeholder": "Assemblea Veïnal",
@@ -123,7 +132,10 @@
     }
   },
   "wallet": {
-    "connect": "Connecta el wallet per enviar"
+    "connect": "Connecta el wallet per enviar",
+    "choose": "Estria wallet",
+    "switch": "Canviar de compte",
+    "address-filter-placeholder": "Filtrar per adreça…"
   },
   "errors": {
     "proposal": {
