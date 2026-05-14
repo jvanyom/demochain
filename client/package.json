@@ -15,6 +15,7 @@
     "@dnd-kit/utilities": "^3.2.2",
     "@hookform/resolvers": "^5.2.2",
     "@perawallet/connect": "^1.5.2",
+    "@tanstack/react-query": "^5.100.10",
     "@txnlab/use-wallet-react": "^4.6.0",
     "algosdk": "^3.5.2",
     "framer-motion": "^11.3.0",
