@@ -10,6 +10,7 @@ import {
     censusBoxKey,
     createOrganizationMethod,
     addToCensusMethod,
+    removeFromCensusMethod,
     readGlobalUint64,
     decodeContractError,
     CENSUS_BOX_MBR,
@@ -159,6 +160,40 @@ export async function addToCensus(
     }
 }
 
+export async function removeFromCensus(
+    signer: TransactionSigner,
+    sender: string,
+    orgId: number,
+    members: string[],
+): Promise<void> {
+    if (members.length === 0) return;
+
+    const suggestedParams = await algodClient.getTransactionParams().do();
+    const composer = new algosdk.AtomicTransactionComposer();
+
+    for (let i = 0; i < members.length; i += CENSUS_BATCH) {
+        const batch = members.slice(i, i + CENSUS_BATCH);
+        composer.addMethodCall({
+            appID: APP_ID,
+            method: removeFromCensusMethod,
+            methodArgs: [BigInt(orgId), batch],
+            sender,
+            signer,
+            suggestedParams,
+            boxes: [
+                {appIndex: APP_ID, name: orgBoxKey(orgId)},
+                ...batch.map((m) => ({appIndex: APP_ID, name: censusBoxKey(orgId, m)})),
+            ],
+        });
+    }
+
+    try {
+        await composer.execute(algodClient, 4);
+    } catch (err) {
+        throw decodeContractError(err);
+    }
+}
+
 export async function getCensusMembers(orgId: number): Promise<string[]> {
     try {
         const {boxes} = await algodClient.getApplicationBoxes(APP_ID).do();
@@ -186,7 +221,7 @@ export async function getCensusMembers(orgId: number): Promise<string[]> {
 
 export async function getCensusMemberCount(orgId: number): Promise<number> {
     try {
-        const { boxes } = await algodClient.getApplicationBoxes(APP_ID).do();
+        const {boxes} = await algodClient.getApplicationBoxes(APP_ID).do();
         const prefix = enc.encode('cs_');
         const orgIdBytes = algosdk.bigIntToBytes(orgId, 8);
         return boxes.filter(

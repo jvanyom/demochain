@@ -79,6 +79,15 @@ export const addToCensusMethod = new algosdk.ABIMethod({
     returns: {type: 'void'},
 });
 
+export const removeFromCensusMethod = new algosdk.ABIMethod({
+    name: 'remove_from_census',
+    args: [
+        {type: 'uint64', name: 'org_id'},
+        {type: 'address[]', name: 'members'},
+    ],
+    returns: {type: 'void'},
+});
+
 // ── Executor ATC ─────────────────────────────────────────────────────
 
 export async function callMethod(

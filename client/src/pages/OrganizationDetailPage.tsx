@@ -10,8 +10,12 @@ import {organizationQueries} from '@/algorand/queries';
 
 import {useAlgorand} from '@/hooks/useAlgorand';
 
+import {CensusManager, type CensusMode} from "@/components/organization/CensusManager";
 import {OrganizationHero} from '@/components/organization/OrganizationHero';
+import {CensusTab} from '@/components/organization/CensusTab';
+
 import {Tabs, TabList, Tab, TabPanel} from '@/components/ui/Tabs';
+import {Drawer} from "@/components/ui/Drawer";
 
 type ActiveTab = 'proposals' | 'census';
 
@@ -20,7 +24,7 @@ export function OrganizationDetailPage() {
 
     const {t} = useTranslation();
     const navigate = useNavigate();
-    const {address} = useAlgorand();
+    const {address, signer} = useAlgorand();
 
     const orgQuery = useQuery({
         ...organizationQueries.detail(id)
@@ -35,6 +39,33 @@ export function OrganizationDetailPage() {
     const orgLoading = orgQuery.isPending;
 
     const [activeTab, setActiveTab] = useState<ActiveTab>('proposals');
+    const [drawerOpen, setDrawerOpen] = useState(false);
+    const [censusMode, setCensusMode] = useState<CensusMode>('add');
+    const [removeSelected, setRemoveSelected] = useState<Set<string>>(new Set());
+
+    function handleModeChange(m: CensusMode) {
+        setCensusMode(m);
+        setRemoveSelected(new Set());
+    }
+
+    function handleToggle(addr: string) {
+        setRemoveSelected((prev) => {
+            const next = new Set(prev);
+            if (next.has(addr)) next.delete(addr);
+            else next.add(addr);
+            return next;
+        });
+    }
+
+    function openDrawer() {
+        setDrawerOpen(true);
+    }
+
+    function closeDrawer() {
+        setDrawerOpen(false);
+        setCensusMode('add');
+        setRemoveSelected(new Set());
+    }
 
     if (orgLoading) {
         return (
@@ -116,11 +147,39 @@ export function OrganizationDetailPage() {
                 </TabPanel>
 
                 <TabPanel active={activeTab === 'census'}>
-                    <>
-                        TODO
-                    </>
+                    <CensusTab
+                        census={censusMembers}
+                        isOrganizer={isOrganizer}
+                        onManageClick={openDrawer}
+                    />
                 </TabPanel>
             </Tabs>
+
+            {isOrganizer && address && (
+                <Drawer
+                    open={drawerOpen}
+                    onClose={closeDrawer}
+                    title={t('org.census.manage')}
+                    description={t('org.census.manage-hint', {name: organization.name})}
+                >
+                    <CensusManager
+                        census={censusMembers}
+                        orgName={organization.name}
+                        orgId={organization.id}
+                        signer={signer}
+                        sender={address}
+                        mode={censusMode}
+                        selected={removeSelected}
+                        onModeChange={handleModeChange}
+                        onToggle={handleToggle}
+                        onCensusChange={() => {
+                            setRemoveSelected(new Set());
+                            void orgQuery.refetch();
+                            void censusQuery.refetch();
+                        }}
+                    />
+                </Drawer>
+            )}
         </div>
     );
 }
