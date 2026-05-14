@@ -114,6 +114,9 @@ export function OrganizationDetailPage() {
                 isOrganizer={isOrganizer}
                 isMember={isMember}
                 stats={stats}
+                newProposalHref={
+                    isMember || isOrganizer ? `/proposals/new?org=${organization.id}` : undefined
+                }
             />
 
             {!isMember && !isOrganizer && (

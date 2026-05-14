@@ -9,6 +9,7 @@
   "common": {
     "title": "Title",
     "cancel": "Cancel",
+    "confirm": "Confirm",
     "back": "Back",
     "previous": "Previous",
     "next": "Next",
@@ -23,6 +24,11 @@
     "disconnect": "Disconnect",
     "step": "Step {{current}} of {{total}}",
     "proposals": "Proposals",
+    "org": "Organization",
+    "basics": "Basics",
+    "dates": "Dates",
+    "options": "Options",
+    "review": "Review",
     "member": "Member",
     "members": "Members",
     "organizer": "Organizer",
@@ -30,7 +36,11 @@
     "add": "Add",
     "remove": "Remove",
     "replace-all": "Replace all",
-    "progress": "Processing {{done}} / {{total}}"
+    "progress": "Processing {{done}} / {{total}}",
+    "start-date": "Start date",
+    "end-date": "End Date",
+    "copied": "Copied!",
+    "copy": "Copy"
   },
   "theme": {
     "toggle": "Toggle theme",
@@ -170,8 +180,39 @@
       "text": "This will replace {{current}} current members of \"{{name}}\" with {{next}} new addresses. This action cannot be undone."
     }
   },
+  "proposal": {
+    "new": {
+      "title": "Start a new proposal",
+      "short-title": "New proposal",
+      "submit": "Publish proposal",
+      "org": {
+        "hint": "Select the organization this proposal will belong to.",
+        "empty": "You are not a member of any organization.",
+        "browse": "Browse organizations"
+      },
+      "fields": {
+        "title": "Proposal title",
+        "title-placeholder": "e.g. Community grant recipient 2026",
+        "description": "Description",
+        "description-placeholder": "Describe what voters will be deciding…",
+        "start": "Voting starts",
+        "start-placeholder": "Select starting",
+        "end": "Voting ends",
+        "end-placeholder": "Select ending",
+        "option": "Option {{n}}",
+        "option-placeholder": "Describe an option",
+        "add-option": "Add option",
+        "remove-option": "Remove"
+      },
+      "confirmed": {
+        "title": "Proposal published!",
+        "cta": "See the proposal"
+      }
+    }
+  },
   "wallet": {
-    "connect": "Connect the wallet to send",
+    "txid": "Transaction ID",
+    "connect": "Connect the wallet to continue",
     "choose": "Choose wallet",
     "switch": "Switch account",
     "address-filter-placeholder": "Filter by address…",
@@ -179,6 +220,8 @@
   },
   "errors": {
     "unknown": "Unknown error",
+    "network": "Network error. Please try again.",
+    "contract": "Unknown error originating from the blockchain",
     "proposal": {
       "empty-title": "Title cannot be empty",
       "empty-description": "Description cannot be empty",
@@ -188,9 +231,11 @@
       "empty-options": "No option can be empty",
       "duplicated-options": "There are duplicate options"
     },
+    "org": {
+      "required": "An organization ID must be specified"
+    },
     "wallet": {
-      "rejected": "You cancelled the signature",
-      "network": "Network error. Please try again."
+      "rejected": "You cancelled the signature"
     }
   }
 }

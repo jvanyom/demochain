@@ -17,6 +17,7 @@ import {
     CENSUS_BATCH,
     type TransactionSigner,
     bytesEqual,
+    singleBoxExists,
 } from './_contract';
 
 export async function createOrganization(
@@ -233,6 +234,10 @@ export async function getCensusMemberCount(orgId: number): Promise<number> {
     } catch {
         return 0;
     }
+}
+
+export async function isInCensusChain(address: string, orgId: number): Promise<boolean> {
+    return singleBoxExists(censusBoxKey(orgId, address));
 }
 
 function decodeOrganization(data: Uint8Array): OnChainOrganization {

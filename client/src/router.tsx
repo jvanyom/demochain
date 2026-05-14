@@ -13,6 +13,8 @@ import {OrganizationsPage} from "@/pages/OrganizationsPage";
 import {NewOrganizationPage} from "@/pages/NewOrganizationPage";
 import {OrganizationDetailPage} from "@/pages/OrganizationDetailPage";
 
+import {NewProposalPage} from "@/pages/NewProposalPage";
+
 import {parseRouteId} from "@/hooks/utils.ts";
 
 export const router = createBrowserRouter([{
@@ -50,6 +52,10 @@ export const router = createBrowserRouter([{
         {
             path: '/organizations/new',
             element: <NewOrganizationPage/>
+        },
+        {
+            path: '/proposals/new',
+            element: <NewProposalPage/>
         },
     ],
 }]);
