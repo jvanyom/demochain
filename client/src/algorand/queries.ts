@@ -3,12 +3,13 @@ import {
     getOrganization,
     getAllOrganizationIds,
     getCensusMembers,
-    getCensusMemberCount
+    getCensusMemberCount,
+    isInCensusChain
 } from './organizations';
 
-import {mapToOrganization} from './mappers';
 import type {Organization} from '@/domain';
 
+import {mapToOrganization} from './mappers';
 import {queryKeys} from './queryKeys';
 
 // ── Fetchers asíncrons ────────────────────────────────────────────────────
@@ -30,6 +31,20 @@ async function fetchCensusMembers(orgId: number): Promise<string[]> {
     return getCensusMembers(orgId);
 }
 
+async function fetchUserOrganizations(address: string): Promise<Organization[]> {
+    const ids = await getAllOrganizationIds();
+
+    const results = await Promise.all(
+        ids.map(async (id) => {
+            const isMember = await isInCensusChain(address, id);
+            if (!isMember) return null;
+            return fetchOrganization(id);
+        }),
+    );
+
+    return results.filter((o): o is Organization => o !== null);
+}
+
 // ── Query options (co-locate key + fn for use in useQuery / prefetch) ─
 
 export const organizationQueries = {
@@ -44,5 +59,9 @@ export const organizationQueries = {
     census: (id: number) => queryOptions({
         queryKey: queryKeys.organizations.census(id),
         queryFn: () => fetchCensusMembers(id),
-    })
+    }),
+    forUser: (address: string) => queryOptions({
+        queryKey: queryKeys.organizations.forUser(address),
+        queryFn: () => fetchUserOrganizations(address),
+    }),
 };

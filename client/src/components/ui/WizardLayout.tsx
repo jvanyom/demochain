@@ -1,5 +1,5 @@
-import type { ReactNode } from 'react';
 import { Check } from 'lucide-react';
+import type { ReactNode } from 'react';
 import { m, AnimatePresence } from 'framer-motion';
 
 interface WizardLayoutProps<T extends string = string> {

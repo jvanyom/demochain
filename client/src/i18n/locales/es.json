@@ -9,6 +9,7 @@
   "common": {
     "title": "Título",
     "cancel": "Cancelar",
+    "confirm": "Confirma",
     "back": "Atrás",
     "previous": "Anterior",
     "next": "Siguiente",
@@ -23,6 +24,11 @@
     "disconnect": "Desconectar",
     "step": "Paso {{current}} de {{total}}",
     "proposals": "Propuestas",
+    "org": "Organización",
+    "basics": "Básicos",
+    "dates": "Fechas",
+    "options": "Opciones",
+    "review": "Revisión",
     "member": "Miembro",
     "members": "Miembros",
     "organizer": "Organizador",
@@ -30,7 +36,11 @@
     "add": "Añadir",
     "remove": "Eliminar",
     "replace-all": "Remplazar todo",
-    "progress": "Procesando {{done}} / {{total}}"
+    "progress": "Procesando {{done}} / {{total}}",
+    "start-date": "Fecha de inicio",
+    "end-date": "Fecha de finalización",
+    "copied": "¡Copiado!",
+    "copy": "Copia"
   },
   "theme": {
     "toggle": "Cambiar tema",
@@ -170,8 +180,39 @@
       "text": "Esto reemplazará a los {{count}} miembros actuales de \"{{name}}\" por {{next}} nuevas direcciones. Esta acción no puede deshacerse."
     }
   },
+  "proposal": {
+    "new": {
+      "title": "Crear una nueva propuesta",
+      "short-title": "Nueva propuesta",
+      "submit": "Publicar propuesta",
+      "org": {
+        "hint": "Selecciona la organización a la que pertenecerá esta propuesta.",
+        "empty": "No eres miembro de ninguna organización.",
+        "browse": "Explorar organizaciones"
+      },
+      "fields": {
+        "title": "Título de la propuesta",
+        "title-placeholder": "p. ej. Beca comunitaria 2026",
+        "description": "Descripción",
+        "description-placeholder": "Describe qué van a decidir los votantes…",
+        "start": "La votación empieza",
+        "start-placeholder": "Selecciona inicio",
+        "end": "La votación termina",
+        "end-placeholder": "Selecciona final",
+        "option": "Opción {{n}}",
+        "option-placeholder": "Describe una opción",
+        "add-option": "Añadir opción",
+        "remove-option": "Quitar"
+      },
+      "confirmed": {
+        "title": "¡Propuesta publicada!",
+        "cta": "Ver la propuesta"
+      }
+    }
+  },
   "wallet": {
-    "connect": "Conecta la wallet para enviar",
+    "txid": "ID de transacción",
+    "connect": "Conecta la wallet para continuar",
     "choose": "Escoger wallet",
     "switch": "Cambiar de cuenta",
     "address-filter-placeholder": "Filtrar por dirección…",
@@ -179,6 +220,8 @@
   },
   "errors": {
     "unknown": "Error desconocido",
+    "network": "Error de red. Inténtalo de nuevo.",
+    "contract": "Error desconocido originado en la cadena de bloques",
     "proposal": {
       "empty-title": "El título no puede estar vacío",
       "empty-description": "La descripción no puede estar vacía",
@@ -188,9 +231,11 @@
       "empty-options": "Ninguna opción puede estar vacía",
       "duplicated-options": "Hay opciones duplicadas"
     },
+    "org": {
+      "required": "Debe especificarse un ID de organización"
+    },
     "wallet": {
-      "rejected": "Has cancelado la firma",
-      "network": "Error de red. Inténtalo de nuevo."
+      "rejected": "Has cancelado la firma"
     }
   }
 }

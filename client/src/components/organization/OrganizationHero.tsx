@@ -1,5 +1,6 @@
+import {Crown, Plus} from 'lucide-react';
+import {Link} from 'react-router-dom';
 import {useTranslation} from 'react-i18next';
-import {Crown} from 'lucide-react';
 
 import {Badge} from '@/components/ui/Badge';
 
@@ -15,6 +16,7 @@ interface Props {
     isOrganizer: boolean;
     isMember: boolean;
     stats: Stat[];
+    newProposalHref?: string;
 }
 
 function initials(name: string): string {
@@ -24,7 +26,7 @@ function initials(name: string): string {
     return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
 }
 
-export function OrganizationHero({name, description, isOrganizer, isMember, stats}: Props) {
+export function OrganizationHero({name, description, isOrganizer, isMember, stats, newProposalHref}: Props) {
     const {t} = useTranslation();
 
     return (
@@ -100,6 +102,14 @@ export function OrganizationHero({name, description, isOrganizer, isMember, stat
                                 <span className="text-xs uppercase tracking-wide text-muted">{s.label}</span>
                             </div>
                         ))}
+                        {newProposalHref && (
+                            <Link
+                                to={newProposalHref}
+                                className="ml-auto inline-flex h-10 items-center gap-2 rounded-full bg-gradient-to-br from-primary to-accent px-4 text-xs font-semibold text-primary-fg shadow-glow transition hover:brightness-110"
+                            >
+                                <Plus size={13}/> {t('proposal.new.short-title')}
+                            </Link>
+                        )}
                     </div>
                 </div>
             </div>

@@ -9,6 +9,7 @@
   "common": {
     "title": "Títol",
     "cancel": "Cancel·la",
+    "confirm": "Confirma",
     "back": "Enrere",
     "previous": "Anterior",
     "next": "Següent",
@@ -23,6 +24,11 @@
     "disconnect": "Desconnectar",
     "step": "Pas {{current}} de {{total}}",
     "proposals": "Propostes",
+    "org": "Organització",
+    "basics": "Bàsics",
+    "dates": "Dates",
+    "options": "Opcions",
+    "review": "Revisió",
     "member": "Membre",
     "members": "Membres",
     "organizer": "Organitzador",
@@ -30,7 +36,11 @@
     "add": "Afegir",
     "remove": "Eliminar",
     "replace-all": "Substituir tot",
-    "progress": "Processant {{done}} / {{total}}"
+    "progress": "Processant {{done}} / {{total}}",
+    "start-date": "Data d'inici",
+    "end-date": "Data de fi",
+    "copied": "Copiat!",
+    "copy": "Copia"
   },
   "theme": {
     "toggle": "Canvia el tema",
@@ -170,8 +180,39 @@
       "text": "Això substituirà els {{current}} membres actuals de \"{{name}}\" per {{next}} noves adreces. Aquesta acció no es pot desfer."
     }
   },
+  "proposal": {
+    "new": {
+      "title": "Crea una nova proposta",
+      "short-title": "Nove proposta",
+      "submit": "Publica la proposta",
+      "org": {
+        "hint": "Selecciona l'organització a la qual pertanyerà aquesta proposta.",
+        "empty": "No ets membre de cap organització.",
+        "browse": "Explora les organitzacions"
+      },
+      "fields": {
+        "title": "Títol de la proposta",
+        "title-placeholder": "p. ex. Beca comunitària 2026",
+        "description": "Descripció",
+        "description-placeholder": "Descriu què decidiran els votants…",
+        "start": "La votació comença",
+        "start-placeholder": "Selecciona inici",
+        "end": "La votació acaba",
+        "end-placeholder": "Selecciona fi",
+        "option": "Opció {{n}}",
+        "option-placeholder": "Descriu una opció",
+        "add-option": "Afegeix opció",
+        "remove-option": "Elimina"
+      },
+      "confirmed": {
+        "title": "Proposta publicada!",
+        "cta": "Veure la proposta"
+      }
+    }
+  },
   "wallet": {
-    "connect": "Connecta el wallet per enviar",
+    "txid": "ID de transacció",
+    "connect": "Connecta el wallet per continuar",
     "choose": "Estria wallet",
     "switch": "Canviar de compte",
     "address-filter-placeholder": "Filtrar per adreça…",
@@ -179,6 +220,8 @@
   },
   "errors": {
     "unknown": "Error desconegut",
+    "network": "Error de xarxa. Torna-ho a intentar.",
+    "contract": "Error desconegut de provinent de la cadena de blocs",
     "proposal": {
       "empty-title": "El títol no pot estar buit",
       "empty-description": "La descripció no pot estar buida",
@@ -188,9 +231,11 @@
       "empty-options": "Cap opció pot estar buida",
       "duplicated-options": "Hi ha opcions duplicades"
     },
+    "org": {
+      "required": "S'ha d'especificar l'ID d'una organització"
+    },
     "wallet": {
-      "rejected": "Has cancel·lat la signatura",
-      "network": "Error de xarxa. Torna-ho a intentar."
+      "rejected": "Has cancel·lat la signatura"
     }
   }
 }
