@@ -32,6 +32,9 @@ import {useAlgorand} from '@/hooks/useAlgorand';
 import {useWizard} from '@/hooks/useWizard';
 
 import {organizationQueries} from '@/algorand/queries';
+import {useCreateProposal} from '@/algorand/mutations';
+
+import {dateToUnix} from '@/utils/date';
 
 const STEPS = ['org', 'basics', 'dates', 'options', 'review'] as const;
 
@@ -74,6 +77,7 @@ export function NewProposalPage() {
     });
 
     const preselectedOrgId = searchParams.get('org') ?? '';
+    const createProposalMutation = useCreateProposal();
 
     const initialOrgId = String(
         eligibleOrgs.find((o) => String(o.id) === preselectedOrgId)?.id ?? eligibleOrgs[0]?.id ?? '',
@@ -140,9 +144,27 @@ export function NewProposalPage() {
         wizard.startSubmit();
 
         try {
-            // TODO
-            //setProposalId(newId);
-            //setConfirmedTxId(txId);
+            const values = getValues();
+            const startUnix = dateToUnix(new Date(values.startDate));
+            const endUnix = dateToUnix(new Date(values.endDate));
+            const cleanOptions = values.options.flatMap((o) => {
+                const trimmed = o.value.trim();
+                return trimmed ? [trimmed] : [];
+            });
+
+            const {proposalId: newId, txId} = await createProposalMutation.mutateAsync({
+                signer,
+                sender: address,
+                orgId: parseInt(orgId, 10),
+                title: values.title,
+                description: values.description,
+                options: cleanOptions,
+                startingDate: startUnix,
+                endingDate: endUnix,
+            });
+
+            setProposalId(newId);
+            setConfirmedTxId(txId);
             wizard.succeedSubmit();
         } catch (err) {
             const kind = classifyError(err);
