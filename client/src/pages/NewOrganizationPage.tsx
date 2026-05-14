@@ -17,6 +17,7 @@ import {Button} from '@/components/ui/Button';
 import {useAlgorand} from "@/hooks/useAlgorand.ts";
 import {useWizard} from '@/hooks/useWizard';
 
+import {useAddToCensus, useCreateOrganization} from "@/algorand/mutations.ts";
 import {getDevAddresses} from "@/algorand/dev-accounts.ts";
 
 const STEPS = ['basics', 'census', 'review'] as const;
@@ -31,6 +32,9 @@ export function NewOrganizationPage() {
     const showDevAddresses = activeNetwork === NetworkId.LOCALNET && devAddresses.length > 0;
 
     const fileRef = useRef<HTMLInputElement>(null);
+
+    const createOrgMutation = useCreateOrganization();
+    const addCensusMutation = useAddToCensus();
 
     const {
         watch,
@@ -93,8 +97,22 @@ export function NewOrganizationPage() {
         if (!isConnected || !address) return;
         wizard.startSubmit();
 
+        const values = getValues();
+
         try {
-            // TODO
+            const { orgId } = await createOrgMutation.mutateAsync({
+                signer,
+                sender: address,
+                name: values.name,
+                description: values.description,
+            });
+
+            const extraMembers = validAddresses.filter(a => a !== address);
+
+            if (extraMembers.length > 0) {
+                await addCensusMutation.mutateAsync({ signer, sender: address, orgId, members: extraMembers });
+            }
+
             wizard.succeedSubmit();
             setConfirmed(true);
         } catch (err) {
