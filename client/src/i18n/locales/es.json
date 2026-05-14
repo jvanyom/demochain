@@ -6,6 +6,21 @@
     "newProposal": "Nueva propuesta",
     "howItWorks": "Cómo funciona"
   },
+  "common": {
+    "title": "Título",
+    "cancel": "Cancelar",
+    "previous": "Anterior",
+    "next": "Siguiente",
+    "waiting": "Esperando...",
+    "description": "Descripción",
+    "census": "Censo",
+    "addresses": "Direcciones",
+    "active": "Activa",
+    "no-matches": "Ningún resultado",
+    "connect": "Conectar",
+    "disconnect": "Desconectar",
+    "step": "Paso {{current}} de {{total}}"
+  },
   "theme": {
     "toggle": "Cambiar tema",
     "light": "Claro",
@@ -90,6 +105,10 @@
     "submit": "Crea la organización",
     "new": "Crea una organización",
     "members": "{{count}} miembro",
+    "dev-addresses": {
+      "load": "Carga direcciones dev",
+      "hint": "Carga las direcciones declaradas en dev-accounts.json"
+    },
     "fields": {
       "name": "Nombre de la organización",
       "name-placeholder": "Asamblea Vecinal",
@@ -113,7 +132,10 @@
     }
   },
   "wallet": {
-    "connect": "Conecta la wallet para enviar"
+    "connect": "Conecta la wallet para enviar",
+    "choose": "Escoger wallet",
+    "switch": "Cambiar de cuenta",
+    "address-filter-placeholder": "Filtrar por dirección…"
   },
   "errors": {
     "proposal": {

@@ -1,13 +1,16 @@
 import { NavLink, Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { LanguageSwitcher } from '../LanguageSwitcher';
-import { ThemeToggle } from '../ThemeToggle';
 import { Vote } from 'lucide-react';
+
+import { LanguageSwitcher } from '@/components/LanguageSwitcher';
+import { WalletConnect } from '@/components/wallet/WalletConnect';
+import { ThemeToggle } from '@/components/ThemeToggle';
+
+const linkBase = 'text-sm font-medium transition hover:text-primary';
 
 export function Header() {
   const { t } = useTranslation();
-  const linkBase =
-    'text-sm font-medium transition hover:text-primary';
+
   return (
     <header className="sticky top-0 z-30 border-b border-border/60 bg-bg/70 backdrop-blur-lg">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6">
@@ -36,6 +39,7 @@ export function Header() {
         <div className="flex items-center gap-2">
           <LanguageSwitcher />
           <ThemeToggle />
+          <WalletConnect/>
         </div>
       </div>
     </header>

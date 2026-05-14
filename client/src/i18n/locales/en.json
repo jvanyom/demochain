@@ -14,7 +14,12 @@
     "waiting": "Waiting...",
     "description": "Description",
     "census": "Census",
-    "addresses": "Addresses"
+    "addresses": "Addresses",
+    "active": "Active",
+    "no-matches": "No matches",
+    "connect": "Connect",
+    "disconnect": "Disconnect",
+    "step": "Step {{current}} of {{total}}"
   },
   "theme": {
     "toggle": "Toggle theme",
@@ -100,6 +105,10 @@
     "submit": "Create organization",
     "new": "Create organization",
     "members": "{{count}} member",
+    "dev-addresses": {
+      "load": "Load dev addresses",
+      "hint": "Load the addresses declared to dev-accounts.json"
+    },
     "fields": {
       "name": "Organization name",
       "name-placeholder": "Neighbourhood Assembly",
@@ -123,7 +132,10 @@
     }
   },
   "wallet": {
-    "connect": "Connect the wallet to send"
+    "connect": "Connect the wallet to send",
+    "choose": "Choose wallet",
+    "switch": "Switch account",
+    "address-filter-placeholder": "Filter by address…"
   },
   "errors": {
     "proposal": {
