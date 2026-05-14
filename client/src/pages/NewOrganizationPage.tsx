@@ -14,11 +14,11 @@ import {Field, Input, Textarea} from '@/components/ui/Input';
 import {WizardLayout} from '@/components/ui/WizardLayout';
 import {Button} from '@/components/ui/Button';
 
-import {useAlgorand} from "@/hooks/useAlgorand.ts";
+import {useAlgorand} from "@/hooks/useAlgorand";
 import {useWizard} from '@/hooks/useWizard';
 
-import {useAddToCensus, useCreateOrganization} from "@/algorand/mutations.ts";
-import {getDevAddresses} from "@/algorand/dev-accounts.ts";
+import {useAddToCensus, useCreateOrganization} from "@/algorand/mutations";
+import {getDevAddresses} from "@/algorand/dev-accounts";
 
 const STEPS = ['basics', 'census', 'review'] as const;
 
@@ -100,7 +100,7 @@ export function NewOrganizationPage() {
         const values = getValues();
 
         try {
-            const { orgId } = await createOrgMutation.mutateAsync({
+            const {orgId} = await createOrgMutation.mutateAsync({
                 signer,
                 sender: address,
                 name: values.name,
@@ -110,7 +110,7 @@ export function NewOrganizationPage() {
             const extraMembers = validAddresses.filter(a => a !== address);
 
             if (extraMembers.length > 0) {
-                await addCensusMutation.mutateAsync({ signer, sender: address, orgId, members: extraMembers });
+                await addCensusMutation.mutateAsync({signer, sender: address, orgId, members: extraMembers});
             }
 
             wizard.succeedSubmit();
@@ -134,7 +134,7 @@ export function NewOrganizationPage() {
             ) : (
                 <>
                     <div className="mb-2 text-xs font-semibold uppercase tracking-wider text-muted">
-                        {t('common.step', { current: wizard.step + 1, total: STEPS.length })}
+                        {t('common.step', {current: wizard.step + 1, total: STEPS.length})}
                     </div>
                     <h1 className="mb-8 font-display text-4xl font-semibold tracking-tight text-fg sm:text-5xl">
                         {t('org.new')}
@@ -222,7 +222,7 @@ export function NewOrganizationPage() {
                                             className="inline-flex items-center gap-2 rounded-full border border-dashed border-primary/40 px-4 py-2 text-sm text-primary transition hover:bg-primary/10"
                                             title={t('org.dev-addresses.hint')}
                                         >
-                                            <Users size={14} /> {t('org.dev-addresses.load')} ({devAddresses.length})
+                                            <Users size={14}/> {t('org.dev-addresses.load')} ({devAddresses.length})
                                         </button>
                                     )}
                                     <span className="text-xs text-muted">{t('org.csv.hint')}</span>
