@@ -31,20 +31,47 @@
     "how": {
       "title": "Tres pasos, un resultado claro",
       "steps": [
-        { "title": "Propón", "text": "Cualquiera puede proponer una elección — título, fechas y las opciones que los votantes clasificarán." },
-        { "title": "Aprueba", "text": "La comunidad vota para aprobarla. Si alcanza los dos tercios, se abre en las fechas fijadas." },
-        { "title": "Ordena y decide", "text": "Los votantes arrastran las opciones a su orden de preferencia. La ganadora refleja lo que la mayoría realmente quiere." }
+        {
+          "title": "Propón",
+          "text": "Cualquiera puede proponer una elección — título, fechas y las opciones que los votantes clasificarán."
+        },
+        {
+          "title": "Aprueba",
+          "text": "La comunidad vota para aprobarla. Si alcanza los dos tercios, se abre en las fechas fijadas."
+        },
+        {
+          "title": "Ordena y decide",
+          "text": "Los votantes arrastran las opciones a su orden de preferencia. La ganadora refleja lo que la mayoría realmente quiere."
+        }
       ]
     },
     "features": {
       "title": "Pensado para votantes, no para proveedores",
       "items": [
-        { "title": "Voto preferencial", "text": "Clasifica tantas opciones como quieras. Sin votos perdidos ni efecto spoiler." },
-        { "title": "Aprobación comunitaria", "text": "Las propuestas solo se convierten en elecciones con dos tercios de apoyo — no decide un solo administrador." },
-        { "title": "Resultados abiertos", "text": "Cada clasificación es pública. Ve al ganador, a los segundos y cómo de reñida estuvo la carrera." },
-        { "title": "Verificable de forma independiente", "text": "Cada papeleta recibe un recibo que cualquiera puede comprobar — anclado en Algorand para que el recuento no pueda reescribirse." },
-        { "title": "Multilingüe", "text": "Vota en inglés, español o catalán. Tu voz, tu idioma." },
-        { "title": "Accesible por diseño", "text": "Clasificación con teclado, modo oscuro y soporte de movimiento reducido." }
+        {
+          "title": "Voto preferencial",
+          "text": "Clasifica tantas opciones como quieras. Sin votos perdidos ni efecto spoiler."
+        },
+        {
+          "title": "Aprobación comunitaria",
+          "text": "Las propuestas solo se convierten en elecciones con dos tercios de apoyo — no decide un solo administrador."
+        },
+        {
+          "title": "Resultados abiertos",
+          "text": "Cada clasificación es pública. Ve al ganador, a los segundos y cómo de reñida estuvo la carrera."
+        },
+        {
+          "title": "Verificable de forma independiente",
+          "text": "Cada papeleta recibe un recibo que cualquiera puede comprobar — anclado en Algorand para que el recuento no pueda reescribirse."
+        },
+        {
+          "title": "Multilingüe",
+          "text": "Vota en inglés, español o catalán. Tu voz, tu idioma."
+        },
+        {
+          "title": "Accesible por diseño",
+          "text": "Clasificación con teclado, modo oscuro y soporte de movimiento reducido."
+        }
       ]
     },
     "cta": {
@@ -56,6 +83,37 @@
       "tagline": "Herramientas democráticas, construidas en abierto.",
       "rights": "Todos los derechos reservados."
     }
+  },
+  "org": {
+    "valid-addresses": "{{count}} direcciones válidas",
+    "census-hint": "Añade los miembros iniciales de esta organización. Podrás modificar el censo más adelante.",
+    "submit": "Crea la organización",
+    "new": "Crea una organización",
+    "members": "{{count}} miembro",
+    "fields": {
+      "name": "Nombre de la organización",
+      "name-placeholder": "Asamblea Vecinal",
+      "description-placeholder": "¿Qué gobierna esta organización?",
+      "addresses-placeholder": "Pegar direcciones, una por línea"
+    },
+    "steps": {
+      "basics": "Básicos",
+      "census": "Censo",
+      "review": "Revisión"
+    },
+    "csv": {
+      "upload": "Sube un CSV",
+      "hint": "Primera columna = dirección, fila de cabecera saltada automáticamente.",
+      "skipped-rows": "filas inválidas saltadas"
+    },
+    "confirmed": {
+      "title": "Organización creada!",
+      "text": "\"{{name}}\" ha sido registrada.",
+      "cta": "Ver las organizaciones"
+    }
+  },
+  "wallet": {
+    "connect": "Conecta la wallet para enviar"
   },
   "errors": {
     "proposal": {
