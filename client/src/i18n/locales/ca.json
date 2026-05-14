@@ -9,17 +9,28 @@
   "common": {
     "title": "Títol",
     "cancel": "Cancel·la",
+    "back": "Enrere",
     "previous": "Anterior",
     "next": "Següent",
     "waiting": "Esperant...",
     "description": "Descripció",
     "census": "Cens",
     "addresses": "Adreces",
-    "active": "Activa",
+    "active_one": "Activa",
+    "active_other": "Actives",
     "no-matches": "Cap coincidència",
     "connect": "Connectar",
     "disconnect": "Desconnectar",
-    "step": "Pas {{current}} de {{total}}"
+    "step": "Pas {{current}} de {{total}}",
+    "proposals": "Propostes",
+    "member": "Membre",
+    "members": "Membres",
+    "organizer": "Organitzador",
+    "hide": "Amagar",
+    "add": "Afegir",
+    "remove": "Eliminar",
+    "replace-all": "Substituir tot",
+    "progress": "Processant {{done}} / {{total}}"
   },
   "theme": {
     "toggle": "Canvia el tema",
@@ -100,11 +111,35 @@
     }
   },
   "org": {
+    "title": "Organitzacions",
+    "subtitle": "Organismes de govern als quals pertanys o que gestiones.",
     "valid-addresses": "{{count}} adreces vàlides",
     "census-hint": "Afegeix els membres inicials d'aquesta organització. Podràs modificar el cens més endavant.",
     "submit": "Crea l'organització",
     "new": "Crea una organització",
-    "members": "{{count}} membre",
+    "empty": "Encara no hi ha organitzacions.",
+    "members": "{{count}} membres",
+    "not-found": "Organització no trobada.",
+    "not-member": "No ets membre d'aquesta organització",
+    "not-member-short": "No membre",
+    "show-all-members": "Veure tots els {{count}} membres",
+    "census": {
+      "manage": "Gestiona el cens",
+      "manage-hint": "Modifica els membres de «{{name}}».",
+      "empty": "Encara no hi ha membres.",
+      "empty-search": "Cap adreça coincideix amb la cerca.",
+      "search-placeholder": "Cerca una adreça…",
+      "match-of": "{{shown}} de {{total}}",
+      "added": "{{count}} adreces afegides",
+      "add": "Afegeix {{count}} adreces",
+      "removed": "{{count}} adreces eliminades",
+      "replaced": "Cens substituït per {{count}} adreces",
+      "replace": "Substitueix per {{count}} adreces",
+      "remove-hint": "Selecciona les adreces que vols eliminar del cens.",
+      "selected-count_one": "{{count}} seleccionada",
+      "selected-count_other": "{{count}} seleccionades",
+      "remove-selected": "Elimina {{count}} seleccionades"
+    },
     "dev-addresses": {
       "load": "Carrega adreces dev",
       "hint": "Carrega les adreces declarades a dev-accounts.json"
@@ -129,15 +164,21 @@
       "title": "Organització creada!",
       "text": "\"{{name}}\" ha estat registrada.",
       "cta": "Veure les organitzacions"
+    },
+    "replace-confirm": {
+      "title": "Substituir tot el cens?",
+      "text": "Això substituirà els {{current}} membres actuals de \"{{name}}\" per {{next}} noves adreces. Aquesta acció no es pot desfer."
     }
   },
   "wallet": {
     "connect": "Connecta el wallet per enviar",
     "choose": "Estria wallet",
     "switch": "Canviar de compte",
-    "address-filter-placeholder": "Filtrar per adreça…"
+    "address-filter-placeholder": "Filtrar per adreça…",
+    "waiting-signature": "Esperant signatura…"
   },
   "errors": {
+    "unknown": "Error desconegut",
     "proposal": {
       "empty-title": "El títol no pot estar buit",
       "empty-description": "La descripció no pot estar buida",
