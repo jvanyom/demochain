@@ -72,6 +72,14 @@ export function tallyBoxKey(id: ProposalId): Uint8Array {
     return new Uint8Array([...enc.encode('at_'), ...algosdk.bigIntToBytes(id, 8)]);
 }
 
+export function approvalBallotKey(sender: Address, proposalId: ProposalId): Uint8Array {
+    return new Uint8Array([
+        ...enc.encode('ab_'),
+        ...algosdk.decodeAddress(sender).publicKey,
+        ...algosdk.bigIntToBytes(proposalId, 8),
+    ]);
+}
+
 // ── Definicions dels mètodes ABI ───────────────────────────────────────────
 
 export const createOrganizationMethod = new algosdk.ABIMethod({
@@ -112,6 +120,15 @@ export const createProposalMethod = new algosdk.ABIMethod({
         { type: 'uint64', name: 'ending_date' },
     ],
     returns: { type: 'uint64' },
+});
+
+export const castProposalVoteMethod = new algosdk.ABIMethod({
+    name: 'cast_proposal_vote',
+    args: [
+        { type: 'uint64', name: 'proposal_id' },
+        { type: 'bool', name: 'approve' },
+    ],
+    returns: { type: 'void' },
 });
 
 // ── Executor ATC ─────────────────────────────────────────────────────

@@ -16,6 +16,10 @@ import {
     getProposal
 } from "./proposals";
 
+import {
+    hasApprovalVoted
+} from "./voting";
+
 import {mapToOrganization, mapToProposal} from './mappers';
 import type {OnChainApprovalTally} from "./wire";
 import {queryKeys} from './queryKeys';
@@ -73,6 +77,10 @@ async function fetchProposals(): Promise<Proposal[]> {
     return results.filter((p): p is Proposal => p !== null);
 }
 
+async function fetchHasApprovalVoted(address: Address, proposalId: ProposalId): Promise<boolean> {
+    return hasApprovalVoted(address, proposalId);
+}
+
 // ── Query options (co-locate key + fn for use in useQuery / prefetch) ─
 
 export const organizationQueries = {
@@ -108,3 +116,10 @@ export const proposalQueries = {
         queryFn: () => fetchProposal(id),
     }),
 };
+
+export const votingQueries = {
+    approvalVoted: (address: Address, proposalId: ProposalId) => queryOptions({
+        queryKey: queryKeys.voting.approvalVoted(address, proposalId),
+        queryFn: () => fetchHasApprovalVoted(address, proposalId),
+    })
+}
