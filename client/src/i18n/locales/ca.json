@@ -8,6 +8,7 @@
   },
   "common": {
     "title": "Títol",
+    "search": "Cerca",
     "cancel": "Cancel·la",
     "confirm": "Confirma",
     "approve": "Aprovar",

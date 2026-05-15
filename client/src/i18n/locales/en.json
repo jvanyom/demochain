@@ -8,6 +8,7 @@
   },
   "common": {
     "title": "Title",
+    "search": "Search",
     "cancel": "Cancel",
     "confirm": "Confirm",
     "approve": "Approve",

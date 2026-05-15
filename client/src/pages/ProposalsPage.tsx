@@ -1,11 +1,12 @@
-import {useMemo} from 'react';
 import {Link} from 'react-router-dom';
+import {useState, useMemo} from 'react';
 import {useTranslation} from 'react-i18next';
-import {Plus, RefreshCw, Lock} from 'lucide-react';
+import {Plus, RefreshCw, Lock, Search} from 'lucide-react';
 
 import {useQuery} from '@tanstack/react-query';
 
-import type {Proposal, Organization, OrganizationId} from '@/domain';
+import type {Proposal, Organization, OrganizationId, ProposalFilter} from '@/domain';
+import {PROPOSAL_FILTERS, proposalMatchesFilter} from '@/domain';
 
 import {ProposalCard} from '@/components/proposal/ProposalCard';
 
@@ -41,6 +42,9 @@ export function ProposalsPage() {
 
     const {address, isConnected} = useAlgorand();
 
+    const [filter, setFilter] = useState<ProposalFilter>('active');
+    const [query, setQuery] = useState('');
+
     const {data: proposals = [], isPending, error, refetch} = useQuery(proposalQueries.all());
     const {data: organizations = []} = useQuery(organizationQueries.all());
     const {data: userOrganizations = []} = useQuery({
@@ -58,13 +62,24 @@ export function ProposalsPage() {
         [userOrganizations]
     );
 
+    const applyFilters = (list: Proposal[]) => {
+        return list.filter(p => {
+            if (!proposalMatchesFilter(p, filter)) return false;
+
+            return !query || (
+                p.title.toLowerCase().includes(query.toLowerCase()) ||
+                p.description.toLowerCase().includes(query.toLowerCase())
+            );
+        });
+    }
+
     const myProposals = isConnected
-        ? proposals.filter(p => userOrgIds.has(p.orgId))
+        ? applyFilters(proposals.filter(p => userOrgIds.has(p.orgId)))
         : [];
 
     const otherProposals = isConnected
-        ? proposals.filter(p => !userOrgIds.has(p.orgId))
-        : proposals;
+        ? applyFilters(proposals.filter(p => !userOrgIds.has(p.orgId)))
+        : applyFilters(proposals);
 
     return (
         <div className="mx-auto max-w-7xl px-6 py-14">
@@ -82,6 +97,33 @@ export function ProposalsPage() {
                     <Plus size={16}/>
                     {t('proposal.new.short-title')}
                 </Link>
+            </div>
+
+            <div className="mb-10 flex flex-wrap items-center gap-3">
+                <div className="relative min-w-[240px] flex-1">
+                    <Search size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-muted"/>
+                    <input
+                        value={query}
+                        onChange={e => setQuery(e.target.value)}
+                        placeholder={t('common.search')}
+                        className="h-11 w-full rounded-full border border-border bg-surface pl-11 pr-4 text-sm text-fg placeholder:text-muted focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/30"
+                    />
+                </div>
+                <div className="flex flex-wrap gap-2">
+                    {PROPOSAL_FILTERS.map(f => (
+                        <button
+                            key={f}
+                            onClick={() => setFilter(f)}
+                            className={`h-10 rounded-full border px-4 text-sm font-medium transition ${
+                                filter === f
+                                    ? 'border-primary bg-primary text-primary-fg'
+                                    : 'border-border bg-surface text-muted hover:text-fg'
+                            }`}
+                        >
+                            {t(`proposal.filters.${f}`)}
+                        </button>
+                    ))}
+                </div>
             </div>
 
             {isPending && (
