@@ -14,4 +14,7 @@ export const queryKeys = {
         all: () => ['proposals'] as const,
         detail: (id: ProposalId) => ['proposals', id] as const
     },
+    voting: {
+        approvalVoted: (address: Address, proposalId: ProposalId) => ['voting', 'approval', address, proposalId] as const
+    }
 }

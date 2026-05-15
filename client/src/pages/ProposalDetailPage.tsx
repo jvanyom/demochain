@@ -12,6 +12,7 @@ import {StatusBadge} from '@/components/proposal/StatusBadge';
 import {useProposalDetail} from '@/hooks/useProposalDetail';
 import {useAlgorand} from "@/hooks/useAlgorand";
 
+import {useCastApprovalVote} from "@/algorand/mutations";
 import {formatDatetime} from '@/utils/date';
 
 export function ProposalDetailPage() {
@@ -26,13 +27,14 @@ export function ProposalDetailPage() {
         organization: org,
         isMember,
         hasApprovalVoted,
-        hasElectionVoted,
+        hasElectionVoted/*TODO*/,
         isPending,
         error,
         refetch
     } = useProposalDetail(id);
 
     const {isConnected, address, signer} = useAlgorand();
+    const approvalVoteMutation = useCastApprovalVote();
     const [voting, setVoting] = useState<'approve' | 'reject' | null>(null);
 
     const handleApprovalVote = async (approve: boolean) => {
@@ -40,7 +42,19 @@ export function ProposalDetailPage() {
 
         setVoting(approve ? 'approve' : 'reject');
 
-        // TODO
+        try {
+            await approvalVoteMutation.mutateAsync({
+                signer,
+                sender: address,
+                proposalId: proposal.id,
+                orgId: proposal.orgId,
+                approve,
+            });
+        } catch {
+            // Error is tracked by approvalVoteMutation.error
+        } finally {
+            setVoting(null);
+        }
     };
 
     if (isPending) {
@@ -144,11 +158,11 @@ export function ProposalDetailPage() {
 
                     {stateKind === 'PendingApproval' && (
                         <PendingApprovalPanel
-                            alreadyVoted={hasApprovalVoted}
+                            alreadyVoted={approvalVoteMutation.isSuccess || hasApprovalVoted}
                             isConnected={isConnected}
                             isMember={isMember}
                             voting={voting}
-                            mutationError={null/*TODO*/}
+                            mutationError={approvalVoteMutation.isError ? approvalVoteMutation.error : null}
                             onVote={handleApprovalVote}
                         />
                     )}

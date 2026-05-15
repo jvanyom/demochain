@@ -2,8 +2,11 @@ import type algosdk from 'algosdk';
 
 import {useMutation, useQueryClient} from '@tanstack/react-query';
 
+import type {Address, OrganizationId, ProposalId} from "@/domain";
+
 import {createOrganization, addToCensus, removeFromCensus} from './organizations';
 import {createProposal} from "./proposals";
+import {castApprovalVote} from "./voting";
 
 import {queryKeys} from './queryKeys';
 
@@ -11,7 +14,7 @@ import {queryKeys} from './queryKeys';
 
 interface SignerArgs {
     signer: algosdk.TransactionSigner;
-    sender: string;
+    sender: Address;
 }
 
 interface CreateOrganizationArgs extends SignerArgs {
@@ -20,18 +23,24 @@ interface CreateOrganizationArgs extends SignerArgs {
 }
 
 interface CensusArgs extends SignerArgs {
-    orgId: number;
-    members: string[];
+    orgId: OrganizationId;
+    members: Address[];
     onProgress?: (done: number, total: number) => void;
 }
 
 interface CreateProposalArgs extends SignerArgs {
-    orgId: number;
+    orgId: OrganizationId;
     title: string;
     description: string;
     options: string[];
     startingDate: number;
     endingDate: number;
+}
+
+interface CastApprovalVoteArgs extends SignerArgs {
+    proposalId: ProposalId;
+    orgId: OrganizationId;
+    approve: boolean;
 }
 
 // ── Mutation hooks ───────────────────────────────────────────────────
@@ -86,6 +95,21 @@ export function useCreateProposal() {
         },
         onSuccess: () => {
             void queryClient.invalidateQueries({ queryKey: queryKeys.proposals.all() });
+        },
+    });
+}
+
+export function useCastApprovalVote() {
+    const queryClient = useQueryClient();
+
+    return useMutation({
+        mutationFn: ({ signer, sender, proposalId, orgId, approve }: CastApprovalVoteArgs) => {
+            return castApprovalVote(signer, sender, proposalId, orgId, approve)
+        },
+        onSuccess: (_txId, { proposalId, sender }) => {
+            void queryClient.invalidateQueries({ queryKey: queryKeys.proposals.detail(proposalId) });
+            void queryClient.invalidateQueries({ queryKey: queryKeys.proposals.all() });
+            void queryClient.invalidateQueries({ queryKey: queryKeys.voting.approvalVoted(sender, proposalId) });
         },
     });
 }
