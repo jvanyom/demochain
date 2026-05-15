@@ -14,6 +14,7 @@
     "previous": "Previous",
     "next": "Next",
     "waiting": "Waiting...",
+    "retry": "Retry",
     "description": "Description",
     "census": "Census",
     "addresses": "Addresses",
@@ -23,12 +24,14 @@
     "connect": "Connect",
     "disconnect": "Disconnect",
     "step": "Step {{current}} of {{total}}",
+    "completeness": "{{current}} of {{total}}",
     "proposals": "Proposals",
     "org": "Organization",
     "basics": "Basics",
     "dates": "Dates",
     "options": "Options",
     "review": "Review",
+    "summary": "Summary",
     "member": "Member",
     "members": "Members",
     "organizer": "Organizer",
@@ -208,7 +211,19 @@
         "title": "Proposal published!",
         "cta": "See the proposal"
       }
-    }
+    },
+    "approval": {
+      "reached": "The threshold has been reached!"
+    },
+    "status": {
+      "pending": "Pending approval",
+      "rejected": "Rejected",
+      "approved": "Approved",
+      "voting": "Voting open",
+      "closed": "Closed"
+    },
+    "not-found": "Proposal not found.",
+    "options": "Options to rank"
   },
   "wallet": {
     "txid": "Transaction ID",

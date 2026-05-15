@@ -1,6 +1,8 @@
 import algosdk from 'algosdk';
 
-import type {OnChainOrganization} from "@/algorand/wire";
+import {Address, asAddress, asOrganizationId, OrganizationId} from "@/domain";
+
+import type {OnChainOrganization} from "./wire";
 import {algodClient, APP_ID} from './config';
 
 import {
@@ -22,12 +24,12 @@ import {
 
 export async function createOrganization(
     signer: TransactionSigner,
-    sender: string,
+    sender: Address,
     name: string,
     description: string,
-): Promise<{ orgId: number; txId: string }> {
-    const currentOrgId = await readGlobalUint64('org_id');
-    const nextId = currentOrgId + 1;
+): Promise<{ orgId: OrganizationId; txId: string }> {
+    const currentOrgId = asOrganizationId(await readGlobalUint64('org_id'));
+    const nextId = asOrganizationId(currentOrgId + 1);
 
     const suggestedParams = await algodClient.getTransactionParams().do();
     const appAddress = algosdk.getApplicationAddress(APP_ID);
@@ -68,14 +70,15 @@ export async function createOrganization(
     try {
         const result = await composer.execute(algodClient, 4);
         const methodResult = result.methodResults[0];
-        const orgId = Number(methodResult.returnValue as bigint);
+        const orgId = asOrganizationId(Number(methodResult.returnValue));
+
         return {orgId, txId: methodResult.txID};
     } catch (err) {
         throw decodeContractError(err);
     }
 }
 
-export async function getOrganization(orgId: number): Promise<OnChainOrganization | null> {
+export async function getOrganization(orgId: OrganizationId): Promise<OnChainOrganization | null> {
     try {
         const box = await algodClient.getApplicationBoxByName(APP_ID, orgBoxKey(orgId)).do();
         return decodeOrganization(box.value);
@@ -84,17 +87,17 @@ export async function getOrganization(orgId: number): Promise<OnChainOrganizatio
     }
 }
 
-export async function getAllOrganizationIds(): Promise<number[]> {
+export async function getAllOrganizationIds(): Promise<OrganizationId[]> {
     try {
         const {boxes} = await algodClient.getApplicationBoxes(APP_ID).do();
         const orgPrefix = enc.encode('org_'); // 4 bytes
-        const ids: number[] = [];
+        const ids: OrganizationId[] = [];
 
         for (const box of boxes) {
             const name = box.name;
             // org_ box names: "org_" (4) + uint64 (8) = 12 bytes
             if (name.length === 12 && bytesEqual(name.slice(0, 4), orgPrefix)) {
-                const id = Number(algosdk.bytesToBigInt(name.slice(4)));
+                const id = asOrganizationId(Number(algosdk.bytesToBigInt(name.slice(4))));
                 if (id > 0) ids.push(id);
             }
         }
@@ -107,16 +110,16 @@ export async function getAllOrganizationIds(): Promise<number[]> {
 
 export async function addToCensus(
     signer: TransactionSigner,
-    sender: string,
-    orgId: number,
-    members: string[],
+    sender: Address,
+    orgId: OrganizationId,
+    members: Address[],
     onProgress?: (done: number, total: number) => void,
 ): Promise<void> {
     if (members.length === 0) return;
 
     const appAddress = algosdk.getApplicationAddress(APP_ID);
 
-    const batches: string[][] = [];
+    const batches: Address[][] = [];
 
     for (let i = 0; i < members.length; i += CENSUS_BATCH) {
         batches.push(members.slice(i, i + CENSUS_BATCH));
@@ -163,9 +166,9 @@ export async function addToCensus(
 
 export async function removeFromCensus(
     signer: TransactionSigner,
-    sender: string,
-    orgId: number,
-    members: string[],
+    sender: Address,
+    orgId: OrganizationId,
+    members: Address[],
 ): Promise<void> {
     if (members.length === 0) return;
 
@@ -174,6 +177,7 @@ export async function removeFromCensus(
 
     for (let i = 0; i < members.length; i += CENSUS_BATCH) {
         const batch = members.slice(i, i + CENSUS_BATCH);
+
         composer.addMethodCall({
             appID: APP_ID,
             method: removeFromCensusMethod,
@@ -195,12 +199,12 @@ export async function removeFromCensus(
     }
 }
 
-export async function getCensusMembers(orgId: number): Promise<string[]> {
+export async function getCensusMembers(orgId: OrganizationId): Promise<Address[]> {
     try {
         const {boxes} = await algodClient.getApplicationBoxes(APP_ID).do();
         const prefix = enc.encode('cs_'); // 3 bytes
         const orgIdBytes = algosdk.bigIntToBytes(orgId, 8);
-        const members: string[] = [];
+        const members: Address[] = [];
 
         for (const box of boxes) {
             const name = box.name;
@@ -210,7 +214,7 @@ export async function getCensusMembers(orgId: number): Promise<string[]> {
                 bytesEqual(name.slice(0, 3), prefix) &&
                 bytesEqual(name.slice(3, 11), orgIdBytes)
             ) {
-                members.push(algosdk.encodeAddress(name.slice(11)));
+                members.push(asAddress(algosdk.encodeAddress(name.slice(11))));
             }
         }
 
@@ -220,11 +224,12 @@ export async function getCensusMembers(orgId: number): Promise<string[]> {
     }
 }
 
-export async function getCensusMemberCount(orgId: number): Promise<number> {
+export async function getCensusMemberCount(orgId: OrganizationId): Promise<number> {
     try {
         const {boxes} = await algodClient.getApplicationBoxes(APP_ID).do();
         const prefix = enc.encode('cs_');
         const orgIdBytes = algosdk.bigIntToBytes(orgId, 8);
+
         return boxes.filter(
             (box) =>
                 box.name.length === 43 &&
@@ -236,7 +241,7 @@ export async function getCensusMemberCount(orgId: number): Promise<number> {
     }
 }
 
-export async function isInCensusChain(address: string, orgId: number): Promise<boolean> {
+export async function isInCensusChain(address: Address, orgId: OrganizationId): Promise<boolean> {
     return singleBoxExists(censusBoxKey(orgId, address));
 }
 
@@ -245,10 +250,10 @@ function decodeOrganization(data: Uint8Array): OnChainOrganization {
     const decoded = type.decode(data) as [bigint, string, string, string];
 
     return {
-        orgId: Number(decoded[0]),
+        orgId: asOrganizationId(Number(decoded[0])),
         name: decoded[1],
         description: decoded[2],
-        organizer: decoded[3],
+        organizer: asAddress(decoded[3]),
         memberCount: 0,
     };
 }

@@ -14,6 +14,7 @@
     "previous": "Anterior",
     "next": "Siguiente",
     "waiting": "Esperando...",
+    "retry": "Reintentar",
     "description": "Descripción",
     "census": "Censo",
     "addresses": "Direcciones",
@@ -23,12 +24,14 @@
     "connect": "Conectar",
     "disconnect": "Desconectar",
     "step": "Paso {{current}} de {{total}}",
+    "completeness": "{{current}} de {{total}}",
     "proposals": "Propuestas",
     "org": "Organización",
     "basics": "Básicos",
     "dates": "Fechas",
     "options": "Opciones",
     "review": "Revisión",
+    "summary": "Resumen",
     "member": "Miembro",
     "members": "Miembros",
     "organizer": "Organizador",
@@ -208,7 +211,19 @@
         "title": "¡Propuesta publicada!",
         "cta": "Ver la propuesta"
       }
-    }
+    },
+    "approval": {
+      "reached": "¡Se ha alcanzado el umbral!"
+    },
+    "status": {
+      "pending": "Pendiente de aprobación",
+      "rejected": "Rechazada",
+      "approved": "Aprobada",
+      "voting": "Votación abierta",
+      "closed": "Cerrada"
+    },
+    "not-found": "Propuesta no encontrada.",
+    "options": "Opciones para clasificar"
   },
   "wallet": {
     "txid": "ID de transacción",

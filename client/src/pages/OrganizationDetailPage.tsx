@@ -6,6 +6,8 @@ import {ArrowLeft, Lock} from 'lucide-react';
 
 import {useQuery} from '@tanstack/react-query';
 
+import type {OrganizationId} from "@/domain";
+
 import {organizationQueries} from '@/algorand/queries';
 
 import {useAlgorand} from '@/hooks/useAlgorand';
@@ -20,7 +22,7 @@ import {Drawer} from "@/components/ui/Drawer";
 type ActiveTab = 'proposals' | 'census';
 
 export function OrganizationDetailPage() {
-    const id = useLoaderData() as number
+    const id = useLoaderData() as OrganizationId
 
     const {t} = useTranslation();
     const navigate = useNavigate();

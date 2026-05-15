@@ -1,7 +1,9 @@
 import {createBrowserRouter} from 'react-router-dom';
 
-import {queryClient} from "@/queryClient.ts";
-import {organizationQueries} from "@/algorand/queries";
+import {asOrganizationId, asProposalId} from "@/domain";
+
+import {organizationQueries, proposalQueries} from "@/algorand/queries";
+import {queryClient} from "@/queryClient";
 
 import {RouteError} from "@/components/RouteError";
 
@@ -14,6 +16,8 @@ import {NewOrganizationPage} from "@/pages/NewOrganizationPage";
 import {OrganizationDetailPage} from "@/pages/OrganizationDetailPage";
 
 import {NewProposalPage} from "@/pages/NewProposalPage";
+
+import {ProposalDetailPage} from "@/pages/ProposalDetailPage";
 
 import {parseRouteId} from "@/hooks/utils.ts";
 
@@ -37,7 +41,7 @@ export const router = createBrowserRouter([{
         {
             path: '/organizations/:id',
             loader: async ({params}) => {
-                const id = parseRouteId(params.id);
+                const id = asOrganizationId(parseRouteId(params['id']));
 
                 await Promise.all([
                     queryClient.ensureQueryData(organizationQueries.detail(id)),
@@ -52,6 +56,22 @@ export const router = createBrowserRouter([{
         {
             path: '/organizations/new',
             element: <NewOrganizationPage/>
+        },
+        {
+            path: '/proposals/:id',
+            loader: async ({ params }) => {
+                const id = asProposalId(parseRouteId(params['id']));
+
+                const proposal = await queryClient.ensureQueryData(proposalQueries.detail(id));
+
+                if (proposal) {
+                    void queryClient.ensureQueryData(organizationQueries.detail(proposal.orgId));
+                }
+
+                return id;
+            },
+            element: <ProposalDetailPage />,
+            errorElement: <RouteError />,
         },
         {
             path: '/proposals/new',
