@@ -129,6 +129,10 @@
   "org": {
     "title": "Organizations",
     "subtitle": "Governance bodies you belong to, or that you manage.",
+    "my-organizations": "My organizations",
+    "my-organizations-empty": "You are not a member of any organization yet.",
+    "other-organizations": "Other organizations",
+    "other-organizations-hint": "Visible to everyone - voting requires membership.",
     "valid-addresses": "{{count}} valid addresses",
     "census-hint": "Add the initial members of this organization. You can modify the census later.",
     "submit": "Create organization",
@@ -191,6 +195,7 @@
     }
   },
   "proposal": {
+    "subtitle": "Browse elections proposed by the community.",
     "new": {
       "title": "Start a new proposal",
       "short-title": "New proposal",
@@ -268,6 +273,7 @@
   "wallet": {
     "txid": "Transaction ID",
     "connect": "Connect the wallet to continue",
+    "connect-notice": "Connect your wallet to see which proposals you can vote on.",
     "choose": "Choose wallet",
     "switch": "Switch account",
     "address-filter-placeholder": "Filter by address…",

@@ -129,6 +129,10 @@
   "org": {
     "title": "Organitzacions",
     "subtitle": "Organismes de govern als quals pertanys o que gestiones.",
+    "my-organizations": "Les meves organitzacions",
+    "my-organizations-empty": "Encara no ets membre de cap organització.",
+    "other-organizations": "Altres organitzacions",
+    "other-organizations-hint": "Visible per tothom - votar requereix ser al cens.",
     "valid-addresses": "{{count}} adreces vàlides",
     "census-hint": "Afegeix els membres inicials d'aquesta organització. Podràs modificar el cens més endavant.",
     "submit": "Crea l'organització",
@@ -191,6 +195,7 @@
     }
   },
   "proposal": {
+    "subtitle": "Explora les eleccions proposades per la comunitat.",
     "new": {
       "title": "Crea una nova proposta",
       "short-title": "Nove proposta",
@@ -268,6 +273,7 @@
   "wallet": {
     "txid": "ID de transacció",
     "connect": "Connecta el wallet per continuar",
+    "connect-notice": "Connecta la cartera per veure a quines propostes pots votar.",
     "choose": "Estria wallet",
     "switch": "Canviar de compte",
     "address-filter-placeholder": "Filtrar per adreça…",

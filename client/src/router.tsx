@@ -15,6 +15,7 @@ import {OrganizationsPage} from "@/pages/OrganizationsPage";
 import {NewOrganizationPage} from "@/pages/NewOrganizationPage";
 import {OrganizationDetailPage} from "@/pages/OrganizationDetailPage";
 
+import {ProposalsPage} from "@/pages/ProposalsPage";
 import {NewProposalPage} from "@/pages/NewProposalPage";
 import {ProposalDetailPage} from "@/pages/ProposalDetailPage";
 
@@ -55,6 +56,19 @@ export const router = createBrowserRouter([{
         {
             path: '/organizations/new',
             element: <NewOrganizationPage/>
+        },
+        {
+            path: '/proposals',
+            loader: async () => {
+                await Promise.all([
+                    queryClient.ensureQueryData(proposalQueries.all()),
+                    queryClient.ensureQueryData(organizationQueries.all()),
+                ])
+
+                return null;
+            },
+            element: <ProposalsPage/>,
+            errorElement: <RouteError/>,
         },
         {
             path: '/proposals/:id',
