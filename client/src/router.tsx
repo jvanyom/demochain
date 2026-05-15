@@ -16,7 +16,6 @@ import {NewOrganizationPage} from "@/pages/NewOrganizationPage";
 import {OrganizationDetailPage} from "@/pages/OrganizationDetailPage";
 
 import {NewProposalPage} from "@/pages/NewProposalPage";
-
 import {ProposalDetailPage} from "@/pages/ProposalDetailPage";
 
 import {parseRouteId} from "@/hooks/utils.ts";
@@ -59,7 +58,7 @@ export const router = createBrowserRouter([{
         },
         {
             path: '/proposals/:id',
-            loader: async ({ params }) => {
+            loader: async ({params}) => {
                 const id = asProposalId(parseRouteId(params['id']));
 
                 const proposal = await queryClient.ensureQueryData(proposalQueries.detail(id));
@@ -70,8 +69,8 @@ export const router = createBrowserRouter([{
 
                 return id;
             },
-            element: <ProposalDetailPage />,
-            errorElement: <RouteError />,
+            element: <ProposalDetailPage/>,
+            errorElement: <RouteError/>,
         },
         {
             path: '/proposals/new',

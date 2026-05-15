@@ -43,3 +43,8 @@ export type Proposal = ProposalBase & {
   approvalTally: ApprovalTally;
   memberCount: number;
 };
+
+export function approvalPercentage(proposal: Proposal): number {
+  if (proposal.memberCount <= 0) return 0;
+  return Math.round((proposal.approvalTally.votesFor / proposal.memberCount) * 100);
+}

@@ -10,6 +10,8 @@
     "title": "Título",
     "cancel": "Cancelar",
     "confirm": "Confirma",
+    "approve": "Aprobar",
+    "reject": "Rechazar",
     "back": "Atrás",
     "previous": "Anterior",
     "next": "Siguiente",
@@ -43,7 +45,8 @@
     "start-date": "Fecha de inicio",
     "end-date": "Fecha de finalización",
     "copied": "¡Copiado!",
-    "copy": "Copia"
+    "copy": "Copia",
+    "position": "Posición {{n}}"
   },
   "theme": {
     "toggle": "Cambiar tema",
@@ -136,6 +139,10 @@
     "not-member": "No eres miembro de esta organización",
     "not-member-short": "No miembro",
     "show-all-members": "Ver todos los {{count}} miembros",
+    "proposals": {
+      "empty": "Todavía no hay propuestas.",
+      "search-placeholder": "Busca por título…"
+    },
     "census": {
       "manage": "Gestionar censo",
       "manage-hint": "Modifica los miembros de «{{name}}».",
@@ -213,7 +220,18 @@
       }
     },
     "approval": {
+      "cta": "Votar para aprobar",
       "reached": "¡Se ha alcanzado el umbral!"
+    },
+    "filters": {
+      "status": "Estado",
+      "active": "Activas",
+      "all": "Todas",
+      "pending": "Pendiente de aprobación",
+      "approved": "Aprobada",
+      "voting": "Votación abierta",
+      "closed": "Cerrada",
+      "no-match": "Ninguna propuesta coincide con el filtro."
     },
     "status": {
       "pending": "Pendiente de aprobación",
@@ -222,8 +240,30 @@
       "voting": "Votación abierta",
       "closed": "Cerrada"
     },
+    "card": {
+      "options": "{{count}} opción",
+      "options_other": "{{count}} opciones",
+      "runs": "Del {{start}} al {{end}}"
+    },
     "not-found": "Propuesta no encontrada.",
-    "options": "Opciones para clasificar"
+    "options": "Opciones para clasificar",
+    "waiting-to-start": "La votación abre pronto"
+  },
+  "vote": {
+    "title": "Ordena tus preferencias",
+    "subtitle": "Arrastra las opciones en tu orden de preferencia. Tu primera elección va arriba.",
+    "already-voted": "Ya has votado en esta elección",
+    "already-voted-hint": "Cada dirección solo puede votar una vez. Tu voto ha quedado registrado en la cadena.",
+    "keyboard-hint": "Consejo: usa Tab para enfocar una opción, luego Espacio + flechas para moverla.",
+    "confirmed": "Voto confirmado",
+    "submit": "Envía tu voto",
+    "cta": "Emite tu voto preferencial",
+    "ranking": "Tu clasificación",
+    "results": {
+      "cta": "Ver resultados"
+    },
+    "opens-on": "La ventana de votación abre el {{date}}. Vuelve entonces para emitir tu voto.",
+    "closed-notice": "Esta elección ha finalizado."
   },
   "wallet": {
     "txid": "ID de transacción",
@@ -231,7 +271,9 @@
     "choose": "Escoger wallet",
     "switch": "Cambiar de cuenta",
     "address-filter-placeholder": "Filtrar por dirección…",
-    "waiting-signature": "Esperando firma…"
+    "waiting-signature": "Esperando firma…",
+    "view-on-lora": "Ver en Lora",
+    "close-receipt": "Cerrar recibo"
   },
   "errors": {
     "unknown": "Error desconocido",

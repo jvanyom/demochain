@@ -11,6 +11,7 @@ import {
 } from './organizations';
 
 import {
+    getAllProposalIds,
     getApprovalTally,
     getProposal
 } from "./proposals";
@@ -38,6 +39,10 @@ async function fetchCensusMembers(orgId: OrganizationId): Promise<string[]> {
     return getCensusMembers(orgId);
 }
 
+async function fetchIsInCensus(address: Address, orgId: OrganizationId): Promise<boolean> {
+    return isInCensusChain(address, orgId);
+}
+
 async function fetchUserOrganizations(address: Address): Promise<Organization[]> {
     const ids = await getAllOrganizationIds();
 
@@ -61,6 +66,13 @@ async function fetchProposal(id: ProposalId): Promise<Proposal | null> {
     return mapToProposal(id, onChain, tally as OnChainApprovalTally, memberCount);
 }
 
+async function fetchProposals(): Promise<Proposal[]> {
+    const ids = await getAllProposalIds();
+    const results = await Promise.all(ids.map(fetchProposal));
+
+    return results.filter((p): p is Proposal => p !== null);
+}
+
 // ── Query options (co-locate key + fn for use in useQuery / prefetch) ─
 
 export const organizationQueries = {
@@ -76,6 +88,10 @@ export const organizationQueries = {
         queryKey: queryKeys.organizations.census(id),
         queryFn: () => fetchCensusMembers(id),
     }),
+    isMember: (address: Address, orgId: OrganizationId) => queryOptions({
+        queryKey: queryKeys.organizations.isMember(address, orgId),
+        queryFn: () => fetchIsInCensus(address, orgId),
+    }),
     forUser: (address: Address) => queryOptions({
         queryKey: queryKeys.organizations.forUser(address),
         queryFn: () => fetchUserOrganizations(address),
@@ -83,6 +99,10 @@ export const organizationQueries = {
 };
 
 export const proposalQueries = {
+    all: () => queryOptions({
+        queryKey: queryKeys.proposals.all(),
+        queryFn: fetchProposals,
+    }),
     detail: (id: ProposalId) => queryOptions({
         queryKey: queryKeys.proposals.detail(id),
         queryFn: () => fetchProposal(id),
