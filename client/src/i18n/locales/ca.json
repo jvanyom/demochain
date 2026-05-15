@@ -14,6 +14,7 @@
     "previous": "Anterior",
     "next": "Següent",
     "waiting": "Esperant...",
+    "retry": "Reintentar",
     "description": "Descripció",
     "census": "Cens",
     "addresses": "Adreces",
@@ -23,12 +24,14 @@
     "connect": "Connectar",
     "disconnect": "Desconnectar",
     "step": "Pas {{current}} de {{total}}",
+    "completeness": "{{current}} de {{total}}",
     "proposals": "Propostes",
     "org": "Organització",
     "basics": "Bàsics",
     "dates": "Dates",
     "options": "Opcions",
     "review": "Revisió",
+    "summary": "Resum",
     "member": "Membre",
     "members": "Membres",
     "organizer": "Organitzador",
@@ -208,7 +211,19 @@
         "title": "Proposta publicada!",
         "cta": "Veure la proposta"
       }
-    }
+    },
+    "approval": {
+      "reached": "S'ha assolit el llindar!"
+    },
+    "status": {
+      "pending": "Pendent d'aprovació",
+      "rejected": "Rebutjada",
+      "approved": "Aprovada",
+      "voting": "Votació oberta",
+      "closed": "Tancada"
+    },
+    "not-found": "Proposta no trobada.",
+    "options": "Opcions per ordenar"
   },
   "wallet": {
     "txid": "ID de transacció",

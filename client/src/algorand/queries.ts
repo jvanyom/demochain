@@ -1,4 +1,7 @@
 import {queryOptions} from '@tanstack/react-query';
+
+import type {Address, Organization, OrganizationId, Proposal, ProposalId} from '@/domain';
+
 import {
     getOrganization,
     getAllOrganizationIds,
@@ -7,14 +10,18 @@ import {
     isInCensusChain
 } from './organizations';
 
-import type {Organization} from '@/domain';
+import {
+    getApprovalTally,
+    getProposal
+} from "./proposals";
 
-import {mapToOrganization} from './mappers';
+import {mapToOrganization, mapToProposal} from './mappers';
+import type {OnChainApprovalTally} from "./wire";
 import {queryKeys} from './queryKeys';
 
 // ── Fetchers asíncrons ────────────────────────────────────────────────────
 
-async function fetchOrganization(id: number): Promise<Organization | null> {
+async function fetchOrganization(id: OrganizationId): Promise<Organization | null> {
     const onChain = await getOrganization(id);
     if (!onChain) return null;
     const memberCount = await getCensusMemberCount(id);
@@ -27,11 +34,11 @@ async function fetchOrganizations(): Promise<Organization[]> {
     return results.filter((o): o is Organization => o !== null);
 }
 
-async function fetchCensusMembers(orgId: number): Promise<string[]> {
+async function fetchCensusMembers(orgId: OrganizationId): Promise<string[]> {
     return getCensusMembers(orgId);
 }
 
-async function fetchUserOrganizations(address: string): Promise<Organization[]> {
+async function fetchUserOrganizations(address: Address): Promise<Organization[]> {
     const ids = await getAllOrganizationIds();
 
     const results = await Promise.all(
@@ -45,6 +52,15 @@ async function fetchUserOrganizations(address: string): Promise<Organization[]> 
     return results.filter((o): o is Organization => o !== null);
 }
 
+async function fetchProposal(id: ProposalId): Promise<Proposal | null> {
+    const onChain = await getProposal(id);
+    if (!onChain) return null;
+    const tally = await getApprovalTally(id);
+    if (!tally) return null;
+    const memberCount = await getCensusMemberCount(onChain.orgId);
+    return mapToProposal(id, onChain, tally as OnChainApprovalTally, memberCount);
+}
+
 // ── Query options (co-locate key + fn for use in useQuery / prefetch) ─
 
 export const organizationQueries = {
@@ -52,16 +68,23 @@ export const organizationQueries = {
         queryKey: queryKeys.organizations.all(),
         queryFn: fetchOrganizations,
     }),
-    detail: (id: number) => queryOptions({
+    detail: (id: OrganizationId) => queryOptions({
         queryKey: queryKeys.organizations.detail(id),
         queryFn: () => fetchOrganization(id),
     }),
-    census: (id: number) => queryOptions({
+    census: (id: OrganizationId) => queryOptions({
         queryKey: queryKeys.organizations.census(id),
         queryFn: () => fetchCensusMembers(id),
     }),
-    forUser: (address: string) => queryOptions({
+    forUser: (address: Address) => queryOptions({
         queryKey: queryKeys.organizations.forUser(address),
         queryFn: () => fetchUserOrganizations(address),
+    }),
+};
+
+export const proposalQueries = {
+    detail: (id: ProposalId) => queryOptions({
+        queryKey: queryKeys.proposals.detail(id),
+        queryFn: () => fetchProposal(id),
     }),
 };
