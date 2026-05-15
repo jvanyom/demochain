@@ -1,13 +1,16 @@
+import {useState} from "react";
 import {useTranslation} from 'react-i18next';
 import {Link, useLoaderData, useNavigate} from 'react-router-dom';
 import {ArrowLeft, CalendarDays, Building2, RefreshCw} from 'lucide-react';
 
 import type {ProposalId} from "@/domain";
 
+import {PendingApprovalPanel, PendingStartPanel, VoteCtaPanel} from "@/components/proposal/ProposalStatePanels";
 import {ApprovalBar} from '@/components/proposal/ApprovalBar';
 import {StatusBadge} from '@/components/proposal/StatusBadge';
 
 import {useProposalDetail} from '@/hooks/useProposalDetail';
+import {useAlgorand} from "@/hooks/useAlgorand";
 
 import {formatDatetime} from '@/utils/date';
 
@@ -18,7 +21,27 @@ export function ProposalDetailPage() {
     const locale = i18n.resolvedLanguage ?? 'en';
     const navigate = useNavigate();
 
-    const {proposal, organization: org, isPending, error, refetch} = useProposalDetail(id);
+    const {
+        proposal,
+        organization: org,
+        isMember,
+        hasApprovalVoted,
+        hasElectionVoted,
+        isPending,
+        error,
+        refetch
+    } = useProposalDetail(id);
+
+    const {isConnected, address, signer} = useAlgorand();
+    const [voting, setVoting] = useState<'approve' | 'reject' | null>(null);
+
+    const handleApprovalVote = async (approve: boolean) => {
+        if (!isConnected || !address || !proposal) return;
+
+        setVoting(approve ? 'approve' : 'reject');
+
+        // TODO
+    };
 
     if (isPending) {
         return (
@@ -93,6 +116,7 @@ export function ProposalDetailPage() {
                     <h2 className="mb-3 mt-8 text-xs font-semibold uppercase tracking-wider text-muted">
                         {t('proposal.options')}
                     </h2>
+
                     <ul className="space-y-2">
                         {proposal.options.map((opt, i) => (
                             <li
@@ -118,7 +142,28 @@ export function ProposalDetailPage() {
                         <ApprovalBar yes={proposal.approvalTally.votesFor} total={proposal.memberCount}/>
                     </div>
 
-                    TODO
+                    {stateKind === 'PendingApproval' && (
+                        <PendingApprovalPanel
+                            alreadyVoted={hasApprovalVoted}
+                            isConnected={isConnected}
+                            isMember={isMember}
+                            voting={voting}
+                            mutationError={null/*TODO*/}
+                            onVote={handleApprovalVote}
+                        />
+                    )}
+
+                    {stateKind === 'PendingStart' && (
+                        <PendingStartPanel startDate={proposal.startDate} locale={locale}/>
+                    )}
+
+                    {(stateKind === 'Open' || stateKind === 'Closed') && (
+                        <VoteCtaPanel
+                            proposalId={proposal.id}
+                            stateKind={stateKind}
+                            hasElectionVoted={hasElectionVoted}
+                        />
+                    )}
                 </aside>
             </div>
         </div>

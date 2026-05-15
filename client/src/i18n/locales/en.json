@@ -10,6 +10,8 @@
     "title": "Title",
     "cancel": "Cancel",
     "confirm": "Confirm",
+    "approve": "Approve",
+    "reject": "Reject",
     "back": "Back",
     "previous": "Previous",
     "next": "Next",
@@ -43,7 +45,8 @@
     "start-date": "Start date",
     "end-date": "End Date",
     "copied": "Copied!",
-    "copy": "Copy"
+    "copy": "Copy",
+    "position": "Position {{n}}"
   },
   "theme": {
     "toggle": "Toggle theme",
@@ -136,6 +139,10 @@
     "not-member": "You are not a member of this organization",
     "not-member-short": "Non-member",
     "show-all-members": "See all {{count}} members",
+    "proposals": {
+      "empty": "No proposals yet.",
+      "search-placeholder": "Search by title…"
+    },
     "census": {
       "manage": "Manage census",
       "manage-hint": "Modify the members of \"{{name}}\".",
@@ -213,7 +220,18 @@
       }
     },
     "approval": {
+      "cta": "Vote to approve",
       "reached": "The threshold has been reached!"
+    },
+    "filters": {
+      "status": "Status",
+      "active": "Active",
+      "all": "All",
+      "pending": "Pending approval",
+      "approved": "Approved",
+      "voting": "Voting open",
+      "closed": "Closed",
+      "no-match": "No proposal matches the filter."
     },
     "status": {
       "pending": "Pending approval",
@@ -222,8 +240,30 @@
       "voting": "Voting open",
       "closed": "Closed"
     },
+    "card": {
+      "options": "{{count}} option",
+      "options_other": "{{count}} options",
+      "runs": "Runs {{start}} → {{end}}"
+    },
     "not-found": "Proposal not found.",
-    "options": "Options to rank"
+    "options": "Options to rank",
+    "waiting-to-start": "Voting opens soon"
+  },
+  "vote": {
+    "title": "Rank your preferences",
+    "subtitle": "Drag options into your order of preference. Your first choice goes on top.",
+    "already-voted": "You've already voted in this election",
+    "already-voted-hint": "Each address can only vote once. Your ballot has been recorded on-chain.",
+    "keyboard-hint": "Tip: use Tab to focus an option, then Space + arrow keys to move it.",
+    "submit": "Submit your vote",
+    "cta": "Cast your ranked vote",
+    "confirmed": "Vote confirmed",
+    "ranking": "Your ranking",
+    "results": {
+      "cta": "See results"
+    },
+    "opens-on": "The election window opens on {{date}}. Come back then to cast your vote.",
+    "closed-notice": "This election has concluded."
   },
   "wallet": {
     "txid": "Transaction ID",
@@ -231,7 +271,9 @@
     "choose": "Choose wallet",
     "switch": "Switch account",
     "address-filter-placeholder": "Filter by address…",
-    "waiting-signature": "Waiting signature…"
+    "waiting-signature": "Waiting signature…",
+    "view-on-lora": "View on Lora",
+    "close-receipt": "Close receipt"
   },
   "errors": {
     "unknown": "Unknown error",

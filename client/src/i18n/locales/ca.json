@@ -10,6 +10,8 @@
     "title": "Títol",
     "cancel": "Cancel·la",
     "confirm": "Confirma",
+    "approve": "Aprovar",
+    "reject": "Rebutjar",
     "back": "Enrere",
     "previous": "Anterior",
     "next": "Següent",
@@ -43,7 +45,8 @@
     "start-date": "Data d'inici",
     "end-date": "Data de fi",
     "copied": "Copiat!",
-    "copy": "Copia"
+    "copy": "Copia",
+    "position": "Posició {{n}}"
   },
   "theme": {
     "toggle": "Canvia el tema",
@@ -136,6 +139,10 @@
     "not-member": "No ets membre d'aquesta organització",
     "not-member-short": "No membre",
     "show-all-members": "Veure tots els {{count}} membres",
+    "proposals": {
+      "empty": "Encara no hi ha propostes.",
+      "search-placeholder": "Cerca per títol…"
+    },
     "census": {
       "manage": "Gestiona el cens",
       "manage-hint": "Modifica els membres de «{{name}}».",
@@ -213,7 +220,18 @@
       }
     },
     "approval": {
+      "cta": "Votar per aprovar",
       "reached": "S'ha assolit el llindar!"
+    },
+    "filters": {
+      "status": "Estat",
+      "active": "Actives",
+      "all": "Totes",
+      "pending": "Pendent d'aprovació",
+      "approved": "Aprovada",
+      "voting": "Votació oberta",
+      "closed": "Tancada",
+      "no-match": "Cap proposta coincideix amb el filtre."
     },
     "status": {
       "pending": "Pendent d'aprovació",
@@ -222,8 +240,30 @@
       "voting": "Votació oberta",
       "closed": "Tancada"
     },
+    "card": {
+      "options": "{{count}} opció",
+      "options_other": "{{count}} opcions",
+      "runs": "Del {{start}} al {{end}}"
+    },
     "not-found": "Proposta no trobada.",
-    "options": "Opcions per ordenar"
+    "options": "Opcions per ordenar",
+    "waiting-to-start": "La votació obre aviat"
+  },
+  "vote": {
+    "title": "Ordena les teves preferències",
+    "subtitle": "Arrossega les opcions en el teu ordre de preferència. La primera tria va a dalt.",
+    "already-voted": "Ja has votat en aquesta elecció",
+    "already-voted-hint": "Cada adreça només pot votar una vegada. El teu vot ha quedat registrat a la cadena.",
+    "keyboard-hint": "Consell: prem Tab per enfocar una opció, després Espai + fletxes per moure-la.",
+    "submit": "Envia el teu vot",
+    "cta": "Emet el teu vot preferencial",
+    "confirmed": "Vot confirmat",
+    "ranking": "La teva classificació",
+    "results": {
+      "cta": "Mira els resultats"
+    },
+    "opens-on": "La finestra de votació s'obre el {{date}}. Torna llavors per emetre el teu vot.",
+    "closed-notice": "Aquesta elecció ha finalitzat."
   },
   "wallet": {
     "txid": "ID de transacció",
@@ -231,7 +271,9 @@
     "choose": "Estria wallet",
     "switch": "Canviar de compte",
     "address-filter-placeholder": "Filtrar per adreça…",
-    "waiting-signature": "Esperant signatura…"
+    "waiting-signature": "Esperant signatura…",
+    "view-on-lora": "Veure-ho a Lora",
+    "close-receipt": "Tancar rebut"
   },
   "errors": {
     "unknown": "Error desconegut",

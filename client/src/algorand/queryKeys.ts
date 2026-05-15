@@ -5,6 +5,7 @@ export const queryKeys = {
         all: () => ['organizations'] as const,
         detail: (id: OrganizationId) => ['organizations', id] as const,
         census: (id: OrganizationId) => ['organizations', id, 'census'] as const,
+        isMember: (address: Address, orgId: OrganizationId) => ['census', 'membership', orgId, address] as const,
         forUser: (address: Address) => ['organizations', 'user', address] as const,
     },
     // Prefix keys for broad namespace invalidation in mutations

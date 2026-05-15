@@ -1,7 +1,10 @@
 import algosdk from 'algosdk';
 
-import arc56 from './GovernanceContract.arc56.json';
+import type { Address, OrganizationId, ProposalId} from "@/domain";
+
 import {algodClient, APP_ID} from './config';
+
+import arc56 from './GovernanceContract.arc56.json';
 
 // ── Descodificador d'errors ARC-56 ─────────────────────────────────────────────
 const _pcErrorMap = new Map<number, string>();
@@ -41,7 +44,7 @@ export function bytesEqual(a: Uint8Array, b: Uint8Array): boolean {
 //   approval_tallies: "at_"       (YXRf)             3 bytes + uint64 = 11 bytes
 
 
-export function orgBoxKey(id: number): Uint8Array {
+export function orgBoxKey(id: OrganizationId): Uint8Array {
     return new Uint8Array([...enc.encode('org_'), ...algosdk.bigIntToBytes(id, 8)]);
 }
 
@@ -53,7 +56,7 @@ export function orgNameIndexKey(name: string): Uint8Array {
 }
 
 // census key: cs_ (3) + org_id (8) + member pubkey (32) = 43 bytes
-export function censusBoxKey(orgId: number, member: string): Uint8Array {
+export function censusBoxKey(orgId: OrganizationId, member: Address): Uint8Array {
     return new Uint8Array([
         ...enc.encode('cs_'),
         ...algosdk.bigIntToBytes(orgId, 8),
@@ -61,11 +64,11 @@ export function censusBoxKey(orgId: number, member: string): Uint8Array {
     ]);
 }
 
-export function proposalBoxKey(id: number): Uint8Array {
+export function proposalBoxKey(id: ProposalId): Uint8Array {
     return new Uint8Array([...enc.encode('proposals'), ...algosdk.bigIntToBytes(id, 8)]);
 }
 
-export function tallyBoxKey(id: number): Uint8Array {
+export function tallyBoxKey(id: ProposalId): Uint8Array {
     return new Uint8Array([...enc.encode('at_'), ...algosdk.bigIntToBytes(id, 8)]);
 }
 

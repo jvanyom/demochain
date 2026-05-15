@@ -1,5 +1,5 @@
 import {useLoaderData, useNavigate} from 'react-router-dom';
-import {useState} from 'react';
+import {useMemo, useState} from 'react';
 
 import {useTranslation} from 'react-i18next';
 import {ArrowLeft, Lock} from 'lucide-react';
@@ -8,12 +8,13 @@ import {useQuery} from '@tanstack/react-query';
 
 import type {OrganizationId} from "@/domain";
 
-import {organizationQueries} from '@/algorand/queries';
+import {organizationQueries, proposalQueries} from '@/algorand/queries';
 
 import {useAlgorand} from '@/hooks/useAlgorand';
 
 import {CensusManager, type CensusMode} from "@/components/organization/CensusManager";
 import {OrganizationHero} from '@/components/organization/OrganizationHero';
+import {ProposalsTab} from "@/components/organization/ProposalsTab";
 import {CensusTab} from '@/components/organization/CensusTab';
 
 import {Tabs, TabList, Tab, TabPanel} from '@/components/ui/Tabs';
@@ -36,6 +37,8 @@ export function OrganizationDetailPage() {
         ...organizationQueries.census(id)
     });
 
+    const {data: allProposals = []} = useQuery(proposalQueries.all());
+
     const organization = orgQuery.data ?? null;
     const censusMembers = censusQuery.data ?? [];
     const orgLoading = orgQuery.isPending;
@@ -44,6 +47,17 @@ export function OrganizationDetailPage() {
     const [drawerOpen, setDrawerOpen] = useState(false);
     const [censusMode, setCensusMode] = useState<CensusMode>('add');
     const [removeSelected, setRemoveSelected] = useState<Set<string>>(new Set());
+
+    const orgProposals = useMemo(
+        () => (organization ? allProposals.filter(p => p.orgId === organization.id) : []),
+        [allProposals, organization],
+    );
+
+    const activeProposals = useMemo(
+        () =>
+            orgProposals.filter(p => p.state.kind === 'Open' || p.state.kind === 'PendingStart').length,
+        [orgProposals],
+    );
 
     function handleModeChange(m: CensusMode) {
         setCensusMode(m);
@@ -97,8 +111,8 @@ export function OrganizationDetailPage() {
 
     const stats = [
         {label: t('commom.members'), value: organization.memberCount, accent: true},
-        {label: t('common.proposals'), value: /*TODO*/-1},
-        {label: t('common.active', {count: 2}), value: /*TODO*/-1},
+        {label: t('common.proposals'), value: orgProposals.length},
+        {label: t('common.active', {count: 2}), value: activeProposals},
     ];
 
     return (
@@ -122,8 +136,7 @@ export function OrganizationDetailPage() {
             />
 
             {!isMember && !isOrganizer && (
-                <div
-                    className="mt-6 flex items-center gap-3 rounded-2xl border border-amber-500/30 bg-amber-500/10 px-5 py-4 text-sm text-amber-600 dark:text-amber-400">
+                <div className="mt-6 flex items-center gap-3 rounded-2xl border border-amber-500/30 bg-amber-500/10 px-5 py-4 text-sm text-amber-600 dark:text-amber-400">
                     <Lock size={16} className="shrink-0"/>
                     {t('org.not-member')}
                 </div>
@@ -135,7 +148,7 @@ export function OrganizationDetailPage() {
                         active={activeTab === 'proposals'}
                         onClick={() => setActiveTab('proposals')}
                         label={t('common.proposals')}
-                        count={/*TODO*/-1}
+                        count={orgProposals.length}
                     />
                     <Tab
                         active={activeTab === 'census'}
@@ -146,9 +159,11 @@ export function OrganizationDetailPage() {
                 </TabList>
 
                 <TabPanel active={activeTab === 'proposals'}>
-                    <>
-                        TODO
-                    </>
+                    <ProposalsTab
+                        proposals={orgProposals}
+                        canCreate={isMember || isOrganizer}
+                        newProposalHref={`/proposals/new?org=${organization.id}`}
+                    />
                 </TabPanel>
 
                 <TabPanel active={activeTab === 'census'}>
