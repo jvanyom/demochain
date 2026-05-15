@@ -28,7 +28,7 @@ export function ProposalCard({proposal, orgName, orgId, locked}: Props) {
             onClick={() => navigate(`/proposals/${proposal.id}`)}
             role="link"
             tabIndex={0}
-            onKeyDown={(e) => e.key === 'Enter' && navigate(`/proposals/${proposal.id}`)}
+            onKeyDown={e => e.key === 'Enter' && navigate(`/proposals/${proposal.id}`)}
             className={`group flex cursor-pointer flex-col rounded-2xl border border-border/70 bg-surface/80 p-6 transition hover:-translate-y-0.5 hover:border-primary/60 hover:shadow-glow ${locked ? 'opacity-60' : ''}`}
         >
             <div className="flex items-start justify-between gap-2">
@@ -50,10 +50,16 @@ export function ProposalCard({proposal, orgName, orgId, locked}: Props) {
             <h3 className="mt-4 font-display text-lg font-semibold text-fg group-hover:text-primary">
                 {proposal.title}
             </h3>
-            <p className="mt-1.5 line-clamp-2 text-sm text-muted">{proposal.description}</p>
+
+            <p className="mt-1.5 line-clamp-2 text-sm text-muted">
+                {proposal.description}
+            </p>
 
             <div className="mt-5 flex items-center justify-between text-xs text-muted">
-                <span>{formatDatetime(proposal.endDate, locale)}</span>
+                <span>
+                    {formatDatetime(proposal.endDate, locale)}
+                </span>
+
                 <span className="tabular-nums">
                     {pct}% · {t('proposal.card.options', {count: proposal.options.length})}
                 </span>

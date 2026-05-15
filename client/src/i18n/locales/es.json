@@ -129,6 +129,10 @@
   "org": {
     "title": "Organizaciones",
     "subtitle": "Organismos de gobernanza a los que perteneces o que gestionas.",
+    "my-organizations": "Mis organizaciones",
+    "my-organizations-empty": "Aún no eres miembro de ninguna organización.",
+    "other-organizations": "Otras organizaciones",
+    "other-organizations-hint": "Visible para todos - votar requiere estar en el censo",
     "valid-addresses": "{{count}} direcciones válidas",
     "census-hint": "Añade los miembros iniciales de esta organización. Podrás modificar el censo más adelante.",
     "submit": "Crea la organización",
@@ -191,6 +195,7 @@
     }
   },
   "proposal": {
+    "subtitle": "Explora las elecciones propuestas por la comunidad.",
     "new": {
       "title": "Crear una nueva propuesta",
       "short-title": "Nueva propuesta",
@@ -268,6 +273,7 @@
   "wallet": {
     "txid": "ID de transacción",
     "connect": "Conecta la wallet para continuar",
+    "connect-notice": "Conecta tu cartera para ver en qué propuestas puedes votar.",
     "choose": "Escoger wallet",
     "switch": "Cambiar de cuenta",
     "address-filter-placeholder": "Filtrar por dirección…",
