@@ -80,6 +80,14 @@ export function approvalBallotKey(sender: Address, proposalId: ProposalId): Uint
     ]);
 }
 
+export function electionBallotKey(sender: Address, proposalId: ProposalId): Uint8Array {
+    return new Uint8Array([
+        ...enc.encode('eb_'),
+        ...algosdk.decodeAddress(sender).publicKey,
+        ...algosdk.bigIntToBytes(proposalId, 8),
+    ]);
+}
+
 // ── Definicions dels mètodes ABI ───────────────────────────────────────────
 
 export const createOrganizationMethod = new algosdk.ABIMethod({
@@ -127,6 +135,15 @@ export const castProposalVoteMethod = new algosdk.ABIMethod({
     args: [
         { type: 'uint64', name: 'proposal_id' },
         { type: 'bool', name: 'approve' },
+    ],
+    returns: { type: 'void' },
+});
+
+export const castElectionVoteMethod = new algosdk.ABIMethod({
+    name: 'cast_election_vote',
+    args: [
+        { type: 'uint64', name: 'proposal_id' },
+        { type: 'uint8[]', name: 'preference_order' },
     ],
     returns: { type: 'void' },
 });

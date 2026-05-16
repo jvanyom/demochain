@@ -5,8 +5,8 @@ import {useMutation, useQueryClient} from '@tanstack/react-query';
 import type {Address, OrganizationId, ProposalId} from "@/domain";
 
 import {createOrganization, addToCensus, removeFromCensus} from './organizations';
+import {castApprovalVote, castRankedVote} from "./voting";
 import {createProposal} from "./proposals";
-import {castApprovalVote} from "./voting";
 
 import {queryKeys} from './queryKeys';
 
@@ -41,6 +41,12 @@ interface CastApprovalVoteArgs extends SignerArgs {
     proposalId: ProposalId;
     orgId: OrganizationId;
     approve: boolean;
+}
+
+interface CastRankedVoteArgs extends SignerArgs {
+    proposalId: ProposalId;
+    orgId: OrganizationId;
+    preferenceOrder: number[];
 }
 
 // ── Mutation hooks ───────────────────────────────────────────────────
@@ -110,6 +116,20 @@ export function useCastApprovalVote() {
             void queryClient.invalidateQueries({ queryKey: queryKeys.proposals.detail(proposalId) });
             void queryClient.invalidateQueries({ queryKey: queryKeys.proposals.all() });
             void queryClient.invalidateQueries({ queryKey: queryKeys.voting.approvalVoted(sender, proposalId) });
+        },
+    });
+}
+
+export function useCastRankedVote() {
+    const queryClient = useQueryClient();
+
+    return useMutation({
+        mutationFn: ({ signer, sender, proposalId, orgId, preferenceOrder }: CastRankedVoteArgs) => {
+            return castRankedVote(signer, sender, proposalId, orgId, preferenceOrder)
+        },
+        onSuccess: (_txId, { proposalId, sender }) => {
+            void queryClient.invalidateQueries({ queryKey: queryKeys.voting.electionVoted(sender, proposalId) });
+            void queryClient.invalidateQueries({ queryKey: queryKeys.electionPrefix });
         },
     });
 }

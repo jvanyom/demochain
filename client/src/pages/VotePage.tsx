@@ -12,7 +12,9 @@ import {VoteReceipt} from '@/components/vote/VoteReceipt';
 
 import {Button} from '@/components/ui/Button';
 
-import {proposalQueries} from '@/algorand/queries';
+import {organizationQueries, proposalQueries, votingQueries} from '@/algorand/queries';
+import {useCastRankedVote} from '@/algorand/mutations';
+
 import {useAlgorand} from '@/hooks/useAlgorand';
 
 export function VotePage() {
@@ -26,8 +28,17 @@ export function VotePage() {
         ...proposalQueries.detail(id)
     });
 
-    const {data: hasVoted = false} = {/*TODO*/}
-    const {data: isMember = true} = {/*TODO*/}
+    const {data: hasVoted = false} = useQuery({
+        ...votingQueries.electionVoted(address!, id),
+        enabled: address !== null
+    });
+
+    const {data: isMember = false} = useQuery({
+        ...organizationQueries.isMember(address!, proposal?.orgId!),
+        enabled: address !== null && proposal?.orgId !== undefined,
+    });
+
+    const castVoteMutation = useCastRankedVote();
 
     const [options, setOptions] = useState<ProposalOption[]>([]);
     const [receipt, setReceipt] = useState<{ txId: string; ranking: ProposalOption[] } | null>(null);
@@ -60,7 +71,18 @@ export function VotePage() {
 
     const handleSubmit = async () => {
         if (!isConnected || !address) return;
-        // TODO
+
+        const preferenceOrder = options.map(o => o.id);
+
+        try {
+            const txId = await castVoteMutation.mutateAsync({
+                signer, sender: address, proposalId: proposal.id, orgId: proposal.orgId, preferenceOrder
+            });
+
+            setReceipt({txId, ranking: options});
+        } catch {
+            // Error is tracked by castVoteMutation.error
+        }
     };
 
     return (
@@ -104,8 +126,7 @@ export function VotePage() {
                 </div>
             ) : (
                 <>
-                    <div
-                        className="mt-5 inline-flex items-center gap-2 rounded-full border border-border bg-surface px-3 py-1.5 text-xs text-muted">
+                    <div className="mt-5 inline-flex items-center gap-2 rounded-full border border-border bg-surface px-3 py-1.5 text-xs text-muted">
                         <Keyboard size={14}/> {t('vote.keyboard-hint')}
                     </div>
 
@@ -113,14 +134,20 @@ export function VotePage() {
                         <RankingList options={options} onChange={setOptions}/>
                     </div>
 
+                    {castVoteMutation.isError && (
+                        <p className="mt-4 rounded-xl border border-rose-500/30 bg-rose-500/10 px-4 py-3 text-sm text-rose-500">
+                            {castVoteMutation.error instanceof Error ? castVoteMutation.error.message : 'Transaction failed. Please try again.'}
+                        </p>
+                    )}
+
                     <div className="mt-10 flex items-center justify-end gap-3">
                         {!isConnected && (
                             <span className="flex items-center gap-1.5 text-sm text-muted">
                                 <Wallet size={14}/> {t('wallet.connect')}
                             </span>
                         )}
-                        <Button size="lg" onClick={handleSubmit} disabled={!isConnected}>
-                            {t('vote.submit')}
+                        <Button size="lg" onClick={handleSubmit} disabled={!isConnected || castVoteMutation.isPending}>
+                            {t(castVoteMutation.isPending ? 'wallet.waiting-signature': 'vote.submit')}
                         </Button>
                     </div>
                 </>
