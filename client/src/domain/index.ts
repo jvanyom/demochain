@@ -7,3 +7,5 @@ export * from './proposal';
 export * from './proposalState';
 export * from './proposalDraft';
 export * from './proposalFilter';
+
+export * from './electionResults';
