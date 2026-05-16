@@ -19,8 +19,10 @@ import {ProposalsPage} from "@/pages/ProposalsPage";
 import {NewProposalPage} from "@/pages/NewProposalPage";
 import {ProposalDetailPage} from "@/pages/ProposalDetailPage";
 
+import {VotePage} from "@/pages/VotePage";
+import {ResultsPage} from "@/pages/ResultsPage";
+
 import {parseRouteId} from "@/hooks/utils.ts";
-import {VotePage} from "@/pages/VotePage.tsx";
 
 export const router = createBrowserRouter([{
     element: <App/>,
@@ -97,6 +99,18 @@ export const router = createBrowserRouter([{
                 return id;
             },
             element: <VotePage/>,
+            errorElement: <RouteError/>,
+        },
+        {
+            path: '/proposals/:id/results',
+            loader: async ({params}) => {
+                const id = asProposalId(parseRouteId(params['id']));
+
+                await queryClient.ensureQueryData(proposalQueries.detail(id))
+
+                return id
+            },
+            element: <ResultsPage/>,
             errorElement: <RouteError/>,
         },
         {

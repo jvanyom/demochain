@@ -1,6 +1,8 @@
+import algosdk from "algosdk";
+
 import type {Address, OrganizationId, ProposalId} from "@/domain";
 
-import {APP_ID} from './config';
+import {algodClient, APP_ID} from './config';
 
 import {
     type TransactionSigner,
@@ -12,6 +14,8 @@ import {
     approvalBallotKey,
     electionBallotKey,
     boxExists,
+    bytesEqual,
+    enc,
     castProposalVoteMethod,
     castElectionVoteMethod
 } from './_contract';
@@ -62,6 +66,24 @@ export async function castRankedVote(
     );
 
     return result.txID;
+}
+
+export async function getElectionVoterCount(proposalId: ProposalId): Promise<number> {
+    try {
+        const {boxes} = await algodClient.getApplicationBoxes(APP_ID).do();
+        const prefix = enc.encode('eb_');
+        const pidBytes = algosdk.bigIntToBytes(proposalId, 8);
+
+        return boxes.filter(
+            (b) =>
+                b.name.length === 43 &&
+                bytesEqual(b.name.slice(0, 3), prefix) &&
+                bytesEqual(b.name.slice(35), pidBytes),
+        ).length;
+
+    } catch {
+        return 0;
+    }
 }
 
 export async function hasApprovalVoted(sender: Address, proposalId: ProposalId): Promise<boolean> {
