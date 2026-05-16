@@ -286,7 +286,13 @@
       "button": "Verificar",
       "success": "Esta papeleta fue registrada y contada.",
       "ranked": "Clasificada el"
-    }
+    },
+    "no-votes": "No se emitió ningún voto en esta elección.",
+    "winner": "Ganadora",
+    "first-choice-votes": "Votos de primera opción",
+    "first-choise-short": "1ª opción",
+    "ranking": "Clasificación completa",
+    "schulze-note": "El ganador se determina por el método Schulze. La barra muestra los votos de primera opción."
   },
   "wallet": {
     "txid": "ID de transacción",

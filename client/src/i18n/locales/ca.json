@@ -286,7 +286,13 @@
       "button": "Verifica",
       "success": "Aquesta papereta ha estat registrada i comptada.",
       "ranked": "Classificada el"
-    }
+    },
+    "no-votes": "No es va emetre cap vot en aquesta elecció.",
+    "winner": "Guanyadora",
+    "first-choice-votes": "Vots de primera opció",
+    "first-choise-short": "1a opció",
+    "ranking": "Classificació completa",
+    "schulze-note": "El guanyador es determina pel mètode Schulze. La barra mostra els vots de primera opció."
   },
   "wallet": {
     "txid": "ID de transacció",
