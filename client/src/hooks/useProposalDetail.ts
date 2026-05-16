@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 
 import type {ProposalId} from "@/domain";
 
-import { proposalQueries, organizationQueries } from '@/algorand/queries';
+import { proposalQueries, organizationQueries, votingQueries } from '@/algorand/queries';
 import {useAlgorand} from "@/hooks/useAlgorand";
 
 export function useProposalDetail(id: ProposalId) {
@@ -25,12 +25,22 @@ export function useProposalDetail(id: ProposalId) {
     enabled: address !== null && orgId !== undefined,
   });
 
+  const approvalVotedQuery = useQuery({
+    ...votingQueries.approvalVoted(address!, id),
+    enabled: address !== null,
+  });
+
+  const electionVotedQuery = useQuery({
+    ...votingQueries.electionVoted(address!, id),
+    enabled: address !== null
+  });
+
   return {
     proposal,
     organization: orgQuery.data ?? null,
     isMember: isMemberQuery.data ?? false,
-    hasApprovalVoted: true /*TODO*/,
-    hasElectionVoted: true /*TODO*/,
+    hasApprovalVoted: approvalVotedQuery.data ?? false,
+    hasElectionVoted: electionVotedQuery.data ?? false,
     isPending: proposalQuery.isPending || (orgId !== undefined && orgQuery.isPending),
     isError: proposalQuery.isError || orgQuery.isError,
     error: proposalQuery.error ?? orgQuery.error,

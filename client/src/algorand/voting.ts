@@ -10,8 +10,10 @@ import {
     orgBoxKey,
     censusBoxKey,
     approvalBallotKey,
+    electionBallotKey,
     boxExists,
-    castProposalVoteMethod
+    castProposalVoteMethod,
+    castElectionVoteMethod
 } from './_contract';
 
 export async function castApprovalVote(
@@ -38,6 +40,34 @@ export async function castApprovalVote(
     return result.txID;
 }
 
+export async function castRankedVote(
+    signer: TransactionSigner,
+    sender: Address,
+    proposalId: ProposalId,
+    orgId: OrganizationId,
+    preferenceOrder: number[],
+): Promise<string> {
+    const result = await callMethod(
+        signer,
+        sender,
+        castElectionVoteMethod,
+        [BigInt(proposalId), preferenceOrder.map((n) => BigInt(n))],
+        [
+            {appIndex: APP_ID, name: proposalBoxKey(proposalId)},
+            {appIndex: APP_ID, name: tallyBoxKey(proposalId)},
+            {appIndex: APP_ID, name: electionBallotKey(sender, proposalId)},
+            {appIndex: APP_ID, name: orgBoxKey(orgId)},
+            {appIndex: APP_ID, name: censusBoxKey(orgId, sender)},
+        ],
+    );
+
+    return result.txID;
+}
+
 export async function hasApprovalVoted(sender: Address, proposalId: ProposalId): Promise<boolean> {
     return boxExists(approvalBallotKey(sender, proposalId));
+}
+
+export async function hasElectionVoted(sender: Address, proposalId: ProposalId): Promise<boolean> {
+    return boxExists(electionBallotKey(sender, proposalId));
 }

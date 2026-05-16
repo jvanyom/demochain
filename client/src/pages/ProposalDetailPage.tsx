@@ -27,7 +27,7 @@ export function ProposalDetailPage() {
         organization: org,
         isMember,
         hasApprovalVoted,
-        hasElectionVoted/*TODO*/,
+        hasElectionVoted,
         isPending,
         error,
         refetch
