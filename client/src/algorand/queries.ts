@@ -18,7 +18,8 @@ import {
 
 import {
     hasApprovalVoted,
-    hasElectionVoted
+    hasElectionVoted,
+    getElectionVoterCount
 } from "./voting";
 
 import {mapToOrganization, mapToProposal} from './mappers';
@@ -86,6 +87,10 @@ async function fetchHasElectionVoted(address: Address, proposalId: ProposalId): 
     return hasElectionVoted(address, proposalId);
 }
 
+async function fetchElectionVoterCount(proposalId: ProposalId): Promise<number> {
+    return getElectionVoterCount(proposalId);
+}
+
 // ── Query options (co-locate key + fn for use in useQuery / prefetch) ─
 
 export const organizationQueries = {
@@ -130,5 +135,9 @@ export const votingQueries = {
     electionVoted: (address: Address, proposalId: ProposalId) => queryOptions({
         queryKey: queryKeys.voting.electionVoted(address, proposalId),
         queryFn: () => fetchHasElectionVoted(address, proposalId),
+    }),
+    electionVoterCount: (proposalId: ProposalId) => queryOptions({
+        queryKey: queryKeys.voting.electionVoterCount(proposalId),
+        queryFn: () => fetchElectionVoterCount(proposalId),
     }),
 }

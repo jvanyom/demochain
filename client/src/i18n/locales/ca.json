@@ -47,7 +47,8 @@
     "end-date": "Data de fi",
     "copied": "Copiat!",
     "copy": "Copia",
-    "position": "Posició {{n}}"
+    "position": "Posició {{n}}",
+    "live": "En directe"
   },
   "theme": {
     "toggle": "Canvia el tema",
@@ -266,10 +267,26 @@
     "confirmed": "Vot confirmat",
     "ranking": "La teva classificació",
     "results": {
-      "cta": "Mira els resultats"
+      "title": "Resultats",
+      "cta": "Mira els resultats",
+      "voters": "{{count}} votant",
+      "voters_other": "{{count}} votants",
+      "voters-label": "votants fins ara",
+      "in-progress": "Elecció en curs",
+      "in-progress-hint": "Els resultats estaran disponibles quan tanqui l'elecció. Els vots estan emmagatzemats a la cadena."
     },
     "opens-on": "La finestra de votació s'obre el {{date}}. Torna llavors per emetre el teu vot.",
     "closed-notice": "Aquesta elecció ha finalitzat."
+  },
+  "results": {
+    "verify": {
+      "title": "Verifica un vot",
+      "text": "Enganxa l'ID d'un rebut per comprovar de manera independent que una papereta ha estat comptada.",
+      "placeholder": "p. ex. DMCX-4F7A-92E1",
+      "button": "Verifica",
+      "success": "Aquesta papereta ha estat registrada i comptada.",
+      "ranked": "Classificada el"
+    }
   },
   "wallet": {
     "txid": "ID de transacció",

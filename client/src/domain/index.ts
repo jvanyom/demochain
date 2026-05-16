@@ -4,7 +4,6 @@ export * from './organization';
 export * from './organizationDraft';
 
 export * from './proposal';
+export * from './proposalState';
 export * from './proposalDraft';
-export * from './proposalState'
-
-export * from './proposalFilter'
+export * from './proposalFilter';

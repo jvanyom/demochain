@@ -47,7 +47,8 @@
     "end-date": "End Date",
     "copied": "Copied!",
     "copy": "Copy",
-    "position": "Position {{n}}"
+    "position": "Position {{n}}",
+    "live": "Live"
   },
   "theme": {
     "toggle": "Toggle theme",
@@ -266,10 +267,26 @@
     "confirmed": "Vote confirmed",
     "ranking": "Your ranking",
     "results": {
-      "cta": "See results"
+      "title": "Results",
+      "cta": "See results",
+      "voters": "{{count}} voter",
+      "voters_other": "{{count}} voters",
+      "voters-label": "voters so far",
+      "in-progress": "Election in progress",
+      "in-progress-hint": "Results will be available once the election closes. Ranked ballots are stored on-chain."
     },
     "opens-on": "The election window opens on {{date}}. Come back then to cast your vote.",
     "closed-notice": "This election has concluded."
+  },
+  "results": {
+    "verify": {
+      "title": "Verify a vote",
+      "text": "Paste a receipt ID to independently verify that a ballot was counted.",
+      "placeholder": "e.g. DMCX-4F7A-92E1",
+      "button": "Verify",
+      "success": "This ballot was recorded and counted.",
+      "ranked": "Ranked on"
+    }
   },
   "wallet": {
     "txid": "Transaction ID",

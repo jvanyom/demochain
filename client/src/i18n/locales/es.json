@@ -47,7 +47,8 @@
     "end-date": "Fecha de finalización",
     "copied": "¡Copiado!",
     "copy": "Copia",
-    "position": "Posición {{n}}"
+    "position": "Posición {{n}}",
+    "live": "En vivo"
   },
   "theme": {
     "toggle": "Cambiar tema",
@@ -266,10 +267,26 @@
     "cta": "Emite tu voto preferencial",
     "ranking": "Tu clasificación",
     "results": {
-      "cta": "Ver resultados"
+      "title": "Resultados",
+      "cta": "Ver resultados",
+      "voters": "{{count}} votante",
+      "voters_other": "{{count}} votantes",
+      "voters-label": "votantes hasta ahora",
+      "in-progress": "Elección en curso",
+      "in-progress-hint": "Los resultados estarán disponibles cuando cierre la elección. Los votos están almacenados en la cadena."
     },
     "opens-on": "La ventana de votación abre el {{date}}. Vuelve entonces para emitir tu voto.",
     "closed-notice": "Esta elección ha finalizado."
+  },
+  "results": {
+    "verify": {
+      "title": "Verificar un voto",
+      "text": "Pega un ID de recibo para comprobar de forma independiente que una papeleta fue contada.",
+      "placeholder": "p. ej. DMCX-4F7A-92E1",
+      "button": "Verificar",
+      "success": "Esta papeleta fue registrada y contada.",
+      "ranked": "Clasificada el"
+    }
   },
   "wallet": {
     "txid": "ID de transacción",
