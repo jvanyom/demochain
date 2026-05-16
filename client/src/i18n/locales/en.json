@@ -286,7 +286,13 @@
       "button": "Verify",
       "success": "This ballot was recorded and counted.",
       "ranked": "Ranked on"
-    }
+    },
+    "no-votes": "No votes were cast in this election.",
+    "winner": "Winner",
+    "first-choice-votes": "First-choice votes",
+    "first-choise-short": "1st choice",
+    "ranking": "Full ranking",
+    "schulze-note": "Winner determined by the Schulze method. Bar shows first-choice votes."
   },
   "wallet": {
     "txid": "Transaction ID",

@@ -93,3 +93,40 @@ export async function hasApprovalVoted(sender: Address, proposalId: ProposalId):
 export async function hasElectionVoted(sender: Address, proposalId: ProposalId): Promise<boolean> {
     return boxExists(electionBallotKey(sender, proposalId));
 }
+
+export async function getElectionBallots(proposalId: ProposalId): Promise<number[][]> {
+    try {
+        const {boxes} = await algodClient.getApplicationBoxes(APP_ID).do();
+        const prefix = enc.encode('eb_');
+        const pidBytes = algosdk.bigIntToBytes(proposalId, 8);
+
+        const ballotBoxNames: Uint8Array[] = [];
+
+        for (const b of boxes) {
+            const name = b.name;
+
+            if (
+                name.length === 43 &&
+                bytesEqual(name.slice(0, 3), prefix) &&
+                bytesEqual(name.slice(35), pidBytes)
+            ) {
+                ballotBoxNames.push(name);
+            }
+        }
+
+        return await Promise.all(
+            ballotBoxNames.map(async (name) => {
+                const box = await algodClient.getApplicationBoxByName(APP_ID, name).do();
+                return decodePreferenceOrder(box.value);
+            }),
+        );
+    } catch {
+        return [];
+    }
+}
+
+function decodePreferenceOrder(data: Uint8Array): number[] {
+    const type = algosdk.ABIType.from('uint8[]');
+    const decoded = type.decode(data) as bigint[];
+    return decoded.map(Number);
+}

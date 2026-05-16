@@ -1,6 +1,8 @@
 import {queryOptions} from '@tanstack/react-query';
 
-import type {Address, Organization, OrganizationId, Proposal, ProposalId} from '@/domain';
+import type {Address, Organization, OrganizationId, Proposal, ProposalId, ElectionResults} from '@/domain';
+
+import {asProposalId, computeElectionResults} from "@/domain"
 
 import {
     getOrganization,
@@ -19,7 +21,8 @@ import {
 import {
     hasApprovalVoted,
     hasElectionVoted,
-    getElectionVoterCount
+    getElectionVoterCount,
+    getElectionBallots
 } from "./voting";
 
 import {mapToOrganization, mapToProposal} from './mappers';
@@ -91,6 +94,11 @@ async function fetchElectionVoterCount(proposalId: ProposalId): Promise<number> 
     return getElectionVoterCount(proposalId);
 }
 
+async function fetchElectionResults(proposalId: ProposalId, numOptions: number): Promise<ElectionResults> {
+    const ballots = await getElectionBallots(proposalId);
+    return computeElectionResults(asProposalId(proposalId), ballots, numOptions);
+}
+
 // ── Query options (co-locate key + fn for use in useQuery / prefetch) ─
 
 export const organizationQueries = {
@@ -140,4 +148,8 @@ export const votingQueries = {
         queryKey: queryKeys.voting.electionVoterCount(proposalId),
         queryFn: () => fetchElectionVoterCount(proposalId),
     }),
+    electionResults: (proposalId: ProposalId, numOptions: number) => queryOptions({
+        queryKey: queryKeys.voting.electionResults(proposalId),
+        queryFn: () => fetchElectionResults(proposalId, numOptions),
+    })
 }
