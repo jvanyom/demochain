@@ -20,6 +20,7 @@ import {NewProposalPage} from "@/pages/NewProposalPage";
 import {ProposalDetailPage} from "@/pages/ProposalDetailPage";
 
 import {parseRouteId} from "@/hooks/utils.ts";
+import {VotePage} from "@/pages/VotePage.tsx";
 
 export const router = createBrowserRouter([{
     element: <App/>,
@@ -78,12 +79,24 @@ export const router = createBrowserRouter([{
                 const proposal = await queryClient.ensureQueryData(proposalQueries.detail(id));
 
                 if (proposal) {
-                    void queryClient.ensureQueryData(organizationQueries.detail(proposal.orgId));
+                    await queryClient.ensureQueryData(organizationQueries.detail(proposal.orgId));
                 }
 
                 return id;
             },
             element: <ProposalDetailPage/>,
+            errorElement: <RouteError/>,
+        },
+        {
+            path: '/proposals/:id/vote',
+            loader: async ({params}) => {
+                const id = asProposalId(parseRouteId(params['id']));
+
+                await queryClient.ensureQueryData(proposalQueries.detail(id))
+
+                return id;
+            },
+            element: <VotePage/>,
             errorElement: <RouteError/>,
         },
         {
