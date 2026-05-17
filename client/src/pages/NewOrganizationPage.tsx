@@ -1,10 +1,10 @@
 import {useState, useRef} from 'react';
 import {useTranslation} from 'react-i18next';
 import {useNavigate} from 'react-router-dom';
-
 import {ArrowLeft, ArrowRight, Check, Upload, Users} from 'lucide-react';
 
 import {NetworkId, useNetwork} from "@txnlab/use-wallet-react";
+
 import {zodResolver} from '@hookform/resolvers/zod';
 import {useForm} from 'react-hook-form';
 
@@ -181,7 +181,7 @@ export function NewOrganizationPage() {
                                     />
                                     {errors.name && (
                                         <span className="mt-1 block text-xs text-rose-500">
-                                            {t(`errors.${errors.name.message}`, errors.name.message!)}
+                                            {t(`errors.${errors.name.message}`)}
                                         </span>
                                     )}
                                 </Field>
@@ -196,7 +196,7 @@ export function NewOrganizationPage() {
                                     />
                                     {errors.description && (
                                         <span className="mt-1 block text-xs text-rose-500">
-                                            {t(`errors.${errors.description.message}`, errors.description.message!)}
+                                            {t(`errors.${errors.description.message}`)}
                                         </span>
                                     )}
                                 </Field>

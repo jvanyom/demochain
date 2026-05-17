@@ -2,21 +2,24 @@ import type algosdk from 'algosdk';
 
 import {useState} from 'react';
 
-import {useAddToCensus, useRemoveFromCensus} from '@/algorand/mutations';
+import type {Address, OrganizationId} from "@/domain";
+
 import type {CensusMode} from '@/components/organization/CensusManager';
 
+import {useAddToCensus, useRemoveFromCensus} from '@/algorand/mutations';
+
 interface UseCensusApplyArgs {
-    orgId: number;
-    census: string[];
+    orgId: OrganizationId;
+    census: Address[];
     signer: algosdk.TransactionSigner;
-    sender: string;
+    sender: Address;
     onSuccess: (message: string) => void;
 }
 
 interface ApplyArgs {
     mode: CensusMode;
-    addresses: string[];
-    selected: Set<string>;
+    addresses: Address[];
+    selected: Set<Address>;
     onProgress: (done: number, total: number) => void;
     successMessages: { add: string; remove: string; replace: string };
 }
@@ -42,7 +45,7 @@ export function useCensusApply({orgId, census, signer, sender, onSuccess}: UseCe
         try {
             if (mode === 'add') {
                 const censusSet = new Set(census);
-                const newAddresses = addresses.filter((a) => !censusSet.has(a));
+                const newAddresses = addresses.filter(a => !censusSet.has(a));
                 await addMutation.mutateAsync({signer, sender, orgId, members: newAddresses, onProgress: trackProgress});
                 onSuccess(successMessages.add);
             } else if (mode === 'remove') {

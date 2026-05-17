@@ -3,8 +3,8 @@
   "nav": {
     "home": "Home",
     "proposals": "Proposals",
-    "newProposal": "New proposal",
-    "howItWorks": "How it works"
+    "new-proposal": "New proposal",
+    "how-it-works": "How it works"
   },
   "common": {
     "title": "Title",
@@ -64,12 +64,12 @@
   "landing": {
     "hero": {
       "eyebrow": "Ranked-choice voting for everyone",
-      "titleA": "Rank.",
-      "titleB": "Decide.",
-      "titleC": "Verify.",
+      "title1": "Rank.",
+      "title2": "Decide.",
+      "title3": "Verify.",
       "subtitle": "Propose elections, rank your choices, and trust the outcome. An open platform where the community decides what matters — and how it's measured.",
-      "ctaPrimary": "Explore proposals",
-      "ctaSecondary": "How it works",
+      "cta-primary": "Explore proposals",
+      "cta-secondary": "How it works",
       "counter": "voices cast today"
     },
     "how": {
@@ -228,6 +228,8 @@
     },
     "approval": {
       "cta": "Vote to approve",
+      "label": "Community approval",
+      "threshold": "2/3 needed",
       "reached": "The threshold has been reached!"
     },
     "filters": {
@@ -280,19 +282,34 @@
   },
   "results": {
     "verify": {
-      "title": "Verify a vote",
-      "text": "Paste a receipt ID to independently verify that a ballot was counted.",
-      "placeholder": "e.g. DMCX-4F7A-92E1",
+      "title": "Verify your vote",
+      "text": "Enter a voter's Algorand address to independently verify that a ballot was cast and counted.",
+      "placeholder": "Voter's Algorand address",
       "button": "Verify",
       "success": "This ballot was recorded and counted.",
-      "ranked": "Ranked on"
+      "ranked": "Preference order",
+      "not-voted": "No ballot was found for this address in this election."
     },
     "no-votes": "No votes were cast in this election.",
     "winner": "Winner",
     "first-choice-votes": "First-choice votes",
-    "first-choise-short": "1st choice",
+    "first-choice-short": "times as 1st choice",
     "ranking": "Full ranking",
-    "schulze-note": "Winner determined by the Schulze method. Bar shows first-choice votes."
+    "schulze-note": "Winner determined by the Schulze method: the option that wins the most head-to-head matchups.",
+    "pairwise-wins": "{{wins}}/{{total}} head-to-head wins",
+    "pairwise-section": "Head-to-head matchups",
+    "pairwise-explanation": "Each matchup shows how many voters preferred each option when compared directly. The option with more preferences wins the matchup.",
+    "pairwise-legend-tie": "Tie",
+    "pairwise-matchup-win": "{{name}} wins",
+    "first-choice-secondary": "First choice: {{count}} votes",
+    "stat-duels": "{{wins}}/{{total}} matchups",
+    "stat-first-choice": "{{count}} 1st choice",
+    "stat-total-prefs": "{{count}} total prefs",
+    "tie-title": "Tie",
+    "tie-description": "No option won a direct majority over all others. Every option faced balanced competition in head-to-head matchups.",
+    "tie-suggestion": "Consider creating a new proposal to vote again with more options or candidates.",
+    "tie-new-proposal": "Create new proposal",
+    "all-options": "All options"
   },
   "wallet": {
     "txid": "Transaction ID",
@@ -319,7 +336,10 @@
       "duplicated-options": "There are duplicate options"
     },
     "org": {
-      "required": "An organization ID must be specified"
+      "required": "An organization ID must be specified",
+      "empty-name": "Name cannot be empty",
+      "empty-description": "Description cannot be empty",
+      "invalid-address": "One or more addresses are invalid"
     },
     "wallet": {
       "rejected": "You cancelled the signature"

@@ -6,7 +6,7 @@ import en from './locales/en.json';
 import es from './locales/es.json';
 import ca from './locales/ca.json';
 
-export const resources = {
+const resources = {
     en: { translation: en },
     es: { translation: es },
     ca: { translation: ca },

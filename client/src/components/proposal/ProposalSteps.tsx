@@ -1,5 +1,6 @@
 import {useTranslation} from 'react-i18next';
 import {useNavigate} from 'react-router-dom';
+import type {UseFormRegister} from 'react-hook-form';
 import {Plus, Trash2, Wallet, Lock, Building2} from 'lucide-react';
 
 import type {Organization, ProposalFormValues} from '@/domain';
@@ -112,7 +113,7 @@ export function BasicsStep({
     const {t} = useTranslation();
     return (
         <>
-            <Field label={t('proposa.new.fields.title')}>
+            <Field label={t('proposal.new.fields.title')}>
                 <Input
                     value={title}
                     onChange={(e) => onChangeTitle(e.target.value)}
@@ -209,40 +210,35 @@ export function DatesStep({
 }
 
 interface OptionsStepProps {
-    options: OptionItem[];
-    onUpdateOption: (id: string, value: string) => void;
+    fields: {id: string}[];
+    register: UseFormRegister<ProposalFormValues>;
     onRemoveOption: (id: string) => void;
     onAddOption: () => void;
     onTouch: (field: string) => void;
     fieldError: (field: string) => string | undefined;
 }
 
-export function OptionsStep({
-                                options,
-                                onUpdateOption,
-                                onRemoveOption,
-                                onAddOption,
-                                onTouch,
-                                fieldError,
-                            }: OptionsStepProps) {
+export function OptionsStep({fields, register, onRemoveOption, onAddOption, onTouch, fieldError}: OptionsStepProps) {
     const {t} = useTranslation();
+
     return (
         <div className="space-y-3">
-            {options.map((opt, i) => (
-                <div key={opt.id} className="flex items-center gap-3">
+            {fields.map((field, i) => (
+                <div key={field.id} className="flex items-center gap-3">
                     <span className="flex size-10 shrink-0 items-center justify-center rounded-full bg-primary/10 text-sm font-semibold text-primary">
                         {i + 1}
                     </span>
+
                     <Input
-                        value={opt.value}
-                        onChange={(e) => onUpdateOption(opt.id, e.target.value)}
+                        {...register(`options.${i}.value`)}
                         onBlur={() => onTouch('options')}
                         placeholder={t('proposal.new.fields.option-placeholder')}
                     />
-                    {options.length > 2 && (
+
+                    {fields.length > 2 && (
                         <button
                             type="button"
-                            onClick={() => onRemoveOption(opt.id)}
+                            onClick={() => onRemoveOption(field.id)}
                             className="flex size-10 items-center justify-center rounded-full text-muted transition hover:bg-bg hover:text-rose-500"
                             aria-label={t('proposal.new.fields.remove-option')}
                         >
@@ -251,11 +247,13 @@ export function OptionsStep({
                     )}
                 </div>
             ))}
+
             {fieldError('options') && (
                 <p className="text-xs text-rose-500">
                     {t(`errors.${fieldError('options')}`)}
                 </p>
             )}
+
             <button
                 type="button"
                 onClick={onAddOption}

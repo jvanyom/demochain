@@ -188,7 +188,7 @@ export function ProposalsPage() {
                                 </h2>
                                 <span className="flex items-center gap-1.5 text-xs text-muted">
                                     <Lock size={11}/>
-                                    {t('prg.other-organizations-hint')}
+                                    {t('org.other-organizations-hint')}
                                 </span>
                             </div>
                             <ProposalGrid proposals={otherProposals} organizationsById={organizationsById} locked/>

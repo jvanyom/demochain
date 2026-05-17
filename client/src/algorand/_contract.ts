@@ -1,6 +1,6 @@
 import algosdk from 'algosdk';
 
-import type { Address, OrganizationId, ProposalId} from "@/domain";
+import type {Address, OrganizationId, ProposalId} from "@/domain";
 
 import {algodClient, APP_ID} from './config';
 
@@ -21,7 +21,9 @@ export function decodeContractError(err: unknown): Error {
 
     if (match) {
         const msg = _pcErrorMap.get(parseInt(match[1], 10));
-        if (msg) return new Error(msg);
+
+        if (msg)
+            return new Error(msg);
     }
 
     return err instanceof Error ? err : new Error(raw);
@@ -51,6 +53,7 @@ export function orgBoxKey(id: OrganizationId): Uint8Array {
 export function orgNameIndexKey(name: string): Uint8Array {
     const nameBytes = enc.encode(name);
     const lenBytes = new Uint8Array(2);
+
     new DataView(lenBytes.buffer).setUint16(0, nameBytes.length, false);
     return new Uint8Array([...enc.encode('on_'), ...lenBytes, ...nameBytes]);
 }
@@ -120,32 +123,32 @@ export const removeFromCensusMethod = new algosdk.ABIMethod({
 export const createProposalMethod = new algosdk.ABIMethod({
     name: 'create_proposal',
     args: [
-        { type: 'uint64', name: 'org_id' },
-        { type: 'string', name: 'title' },
-        { type: 'string', name: 'description' },
-        { type: 'string[]', name: 'options' },
-        { type: 'uint64', name: 'starting_date' },
-        { type: 'uint64', name: 'ending_date' },
+        {type: 'uint64', name: 'org_id'},
+        {type: 'string', name: 'title'},
+        {type: 'string', name: 'description'},
+        {type: 'string[]', name: 'options'},
+        {type: 'uint64', name: 'starting_date'},
+        {type: 'uint64', name: 'ending_date'},
     ],
-    returns: { type: 'uint64' },
+    returns: {type: 'uint64'},
 });
 
 export const castProposalVoteMethod = new algosdk.ABIMethod({
     name: 'cast_proposal_vote',
     args: [
-        { type: 'uint64', name: 'proposal_id' },
-        { type: 'bool', name: 'approve' },
+        {type: 'uint64', name: 'proposal_id'},
+        {type: 'bool', name: 'approve'},
     ],
-    returns: { type: 'void' },
+    returns: {type: 'void'},
 });
 
 export const castElectionVoteMethod = new algosdk.ABIMethod({
     name: 'cast_election_vote',
     args: [
-        { type: 'uint64', name: 'proposal_id' },
-        { type: 'uint8[]', name: 'preference_order' },
+        {type: 'uint64', name: 'proposal_id'},
+        {type: 'uint8[]', name: 'preference_order'},
     ],
-    returns: { type: 'void' },
+    returns: {type: 'void'},
 });
 
 // ── Executor ATC ─────────────────────────────────────────────────────
@@ -158,8 +161,8 @@ export async function callMethod(
     boxes: { appIndex: number; name: Uint8Array }[] = [],
 ): Promise<algosdk.ABIResult> {
     const suggestedParams = await algodClient.getTransactionParams().do();
-
     const composer = new algosdk.AtomicTransactionComposer();
+
     composer.addMethodCall({
         appID: APP_ID,
         method,
@@ -187,7 +190,7 @@ export async function readGlobalUint64(keyStr: string): Promise<number> {
     try {
         const app = await algodClient.getApplicationByID(APP_ID).do();
         const keyBytes = enc.encode(keyStr);
-        const entry = app.params.globalState?.find((s) => bytesEqual(s.key, keyBytes));
+        const entry = app.params.globalState?.find(s => bytesEqual(s.key, keyBytes));
         return entry ? Number(entry.value.uint) : 0;
     } catch {
         return 0;
@@ -210,7 +213,7 @@ export async function singleBoxExists(key: Uint8Array): Promise<boolean> {
 export async function boxExists(key: Uint8Array): Promise<boolean> {
     try {
         const {boxes} = await algodClient.getApplicationBoxes(APP_ID).do();
-        return boxes.some((b) => bytesEqual(b.name, key));
+        return boxes.some(b => bytesEqual(b.name, key));
     } catch {
         return false;
     }

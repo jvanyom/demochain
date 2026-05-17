@@ -1,21 +1,22 @@
 import algosdk from "algosdk";
 
-import {asOrganizationId, asProposalId, type Address, type OrganizationId, type ProposalId} from "@/domain";
+import type {Address, OrganizationId, ProposalId} from "@/domain";
+import {asOrganizationId, asProposalId} from "@/domain";
 
 import type {OnChainApprovalTally, OnChainProposal} from "./wire";
 import {algodClient, APP_ID} from './config';
 
 import {
+    type TransactionSigner,
     proposalBoxKey,
     tallyBoxKey,
     orgBoxKey,
     censusBoxKey,
-    createProposalMethod,
-    callMethod,
     readGlobalUint64,
-    type TransactionSigner,
-    enc,
+    callMethod,
     bytesEqual,
+    enc,
+    createProposalMethod,
 } from './_contract';
 
 export async function createProposal(

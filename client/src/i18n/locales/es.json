@@ -3,8 +3,8 @@
   "nav": {
     "home": "Inicio",
     "proposals": "Propuestas",
-    "newProposal": "Nueva propuesta",
-    "howItWorks": "Cómo funciona"
+    "new-proposal": "Nueva propuesta",
+    "how-it-works": "Cómo funciona"
   },
   "common": {
     "title": "Título",
@@ -64,12 +64,12 @@
   "landing": {
     "hero": {
       "eyebrow": "Voto preferencial para todos",
-      "titleA": "Ordena.",
-      "titleB": "Decide.",
-      "titleC": "Verifica",
+      "title1": "Ordena.",
+      "title2": "Decide.",
+      "title3": "Verifica",
       "subtitle": "Propón elecciones, ordena tus preferencias y confía en el resultado. Una plataforma abierta donde la comunidad decide qué importa — y cómo se mide.",
-      "ctaPrimary": "Ver propuestas",
-      "ctaSecondary": "Cómo funciona",
+      "cta-primary": "Ver propuestas",
+      "cta-secondary": "Cómo funciona",
       "counter": "voces emitidas hoy"
     },
     "how": {
@@ -228,6 +228,8 @@
     },
     "approval": {
       "cta": "Votar para aprobar",
+      "label": "Aprobación de la comunidad",
+      "threshold": "se necesitan 2/3",
       "reached": "¡Se ha alcanzado el umbral!"
     },
     "filters": {
@@ -280,19 +282,34 @@
   },
   "results": {
     "verify": {
-      "title": "Verificar un voto",
-      "text": "Pega un ID de recibo para comprobar de forma independiente que una papeleta fue contada.",
-      "placeholder": "p. ej. DMCX-4F7A-92E1",
+      "title": "Verifica tu voto",
+      "text": "Introduce la dirección Algorand de un votante para verificar de forma independiente que su papeleta fue registrada y contada.",
+      "placeholder": "Dirección Algorand del votante",
       "button": "Verificar",
       "success": "Esta papeleta fue registrada y contada.",
-      "ranked": "Clasificada el"
+      "ranked": "Orden de preferencia",
+      "not-voted": "No se encontró ninguna papeleta para esta dirección en esta elección."
     },
     "no-votes": "No se emitió ningún voto en esta elección.",
     "winner": "Ganadora",
     "first-choice-votes": "Votos de primera opción",
-    "first-choise-short": "1ª opción",
+    "first-choice-short": "veces como 1ra opción",
     "ranking": "Clasificación completa",
-    "schulze-note": "El ganador se determina por el método Schulze. La barra muestra los votos de primera opción."
+    "schulze-note": "El ganador se determina por el método Schulze: la opción que gana más comparativas directas.",
+    "pairwise-wins": "{{wins}}/{{total}} comparativas ganadas",
+    "pairwise-section": "Duelos directos",
+    "pairwise-explanation": "Cada duelo muestra cuántos votantes prefirieron cada opción al compararlas directamente. La opción con más preferencias gana el duelo.",
+    "pairwise-legend-tie": "Empate",
+    "pairwise-matchup-win": "{{name}} gana",
+    "first-choice-secondary": "Primera opción: {{count}} votos",
+    "stat-duels": "{{wins}}/{{total}} duelos",
+    "stat-first-choice": "{{count}} 1ª opción",
+    "stat-total-prefs": "{{count}} pref. totales",
+    "tie-title": "Empate",
+    "tie-description": "Ninguna opción ha obtenido victorias directas sobre las demás. Todas las opciones se han enfrentado de manera equilibrada en las comparativas cara a cara.",
+    "tie-suggestion": "Considera crear una nueva propuesta para volver a votar con más opciones o candidatos.",
+    "tie-new-proposal": "Crear nueva propuesta",
+    "all-options": "Todas las opciones"
   },
   "wallet": {
     "txid": "ID de transacción",
@@ -319,7 +336,10 @@
       "duplicated-options": "Hay opciones duplicadas"
     },
     "org": {
-      "required": "Debe especificarse un ID de organización"
+      "required": "Debe especificarse un ID de organización",
+      "empty-name": "El nombre no puede estar vacío",
+      "empty-description": "La descripción no puede estar vacía",
+      "invalid-address": "Una o más direcciones no son válidas"
     },
     "wallet": {
       "rejected": "Has cancelado la firma"

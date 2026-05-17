@@ -1,12 +1,11 @@
-import {useLoaderData, useNavigate} from 'react-router-dom';
 import {useMemo, useState} from 'react';
-
 import {useTranslation} from 'react-i18next';
 import {ArrowLeft, Lock} from 'lucide-react';
+import {useLoaderData, useNavigate} from 'react-router-dom';
 
 import {useQuery} from '@tanstack/react-query';
 
-import type {OrganizationId} from "@/domain";
+import type {Address, OrganizationId} from "@/domain";
 
 import {organizationQueries, proposalQueries} from '@/algorand/queries';
 
@@ -46,7 +45,7 @@ export function OrganizationDetailPage() {
     const [activeTab, setActiveTab] = useState<ActiveTab>('proposals');
     const [drawerOpen, setDrawerOpen] = useState(false);
     const [censusMode, setCensusMode] = useState<CensusMode>('add');
-    const [removeSelected, setRemoveSelected] = useState<Set<string>>(new Set());
+    const [removeSelected, setRemoveSelected] = useState<Set<Address>>(new Set());
 
     const orgProposals = useMemo(
         () => (organization ? allProposals.filter(p => p.orgId === organization.id) : []),
@@ -64,7 +63,7 @@ export function OrganizationDetailPage() {
         setRemoveSelected(new Set());
     }
 
-    function handleToggle(addr: string) {
+    function handleToggle(addr: Address) {
         setRemoveSelected((prev) => {
             const next = new Set(prev);
             if (next.has(addr)) next.delete(addr);
@@ -110,7 +109,7 @@ export function OrganizationDetailPage() {
     const isMember = address ? censusMembers.includes(address) : false;
 
     const stats = [
-        {label: t('commom.members'), value: organization.memberCount, accent: true},
+        {label: t('common.members'), value: organization.memberCount, accent: true},
         {label: t('common.proposals'), value: orgProposals.length},
         {label: t('common.active', {count: 2}), value: activeProposals},
     ];

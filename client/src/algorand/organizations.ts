@@ -6,20 +6,20 @@ import type {OnChainOrganization} from "./wire";
 import {algodClient, APP_ID} from './config';
 
 import {
-    enc,
+    type TransactionSigner,
     orgBoxKey,
     orgNameIndexKey,
     censusBoxKey,
-    createOrganizationMethod,
-    addToCensusMethod,
-    removeFromCensusMethod,
+    singleBoxExists,
     readGlobalUint64,
     decodeContractError,
+    bytesEqual,
     CENSUS_BOX_MBR,
     CENSUS_BATCH,
-    type TransactionSigner,
-    bytesEqual,
-    singleBoxExists,
+    enc,
+    addToCensusMethod,
+    removeFromCensusMethod,
+    createOrganizationMethod,
 } from './_contract';
 
 export async function createOrganization(

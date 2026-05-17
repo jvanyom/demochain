@@ -1,9 +1,9 @@
-import { NavLink, Link } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
 import { Vote } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
+import { NavLink, Link } from 'react-router-dom';
 
-import { LanguageSwitcher } from '@/components/LanguageSwitcher';
 import { WalletConnect } from '@/components/wallet/WalletConnect';
+import { LanguageSwitcher } from '@/components/LanguageSwitcher';
 import { ThemeToggle } from '@/components/ThemeToggle';
 
 const linkBase = 'text-sm font-medium transition hover:text-primary';
@@ -32,7 +32,7 @@ export function Header() {
             {t('nav.proposals')}
           </NavLink>
           <NavLink to="/proposals/new" className={({ isActive }) => `${linkBase} ${isActive ? 'text-primary' : 'text-fg'}`}>
-            {t('nav.newProposal')}
+            {t('nav.new-proposal')}
           </NavLink>
         </nav>
 

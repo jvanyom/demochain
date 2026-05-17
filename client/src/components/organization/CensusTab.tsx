@@ -2,10 +2,12 @@ import {useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import {Search, Settings2} from 'lucide-react';
 
+import type {Address} from "@/domain";
+
 import {CensusList} from './CensusList';
 
 interface Props {
-    census: string[];
+    census: Address[];
     isOrganizer: boolean;
     onManageClick: () => void;
 }
