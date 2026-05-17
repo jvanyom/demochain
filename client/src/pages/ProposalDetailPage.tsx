@@ -142,7 +142,9 @@ export function ProposalDetailPage() {
                                     {i + 1}
                                 </span>
                                 <div>
-                                    <div className="text-sm font-medium text-fg">{opt.title}</div>
+                                    <div className="text-sm font-medium text-fg">
+                                        {opt.title}
+                                    </div>
                                     {opt.description && <div className="text-xs text-muted">{opt.description}</div>}
                                 </div>
                             </li>

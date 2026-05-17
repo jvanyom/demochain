@@ -20,14 +20,15 @@ export function asAddress(value: string): Address {
 }
 
 export function parseAddressList(text: string): { valid: Address[]; invalid: string[] } {
-  const lines = text.split(/[\r\n]+/).filter((l) => l.trim());
+  const lines = text.split(/[\r\n]+/).filter(l => l.trim());
 
   const valid: Address[] = [];
-  const validSet = new Set<string>();
   const invalid: string[] = [];
 
+  const validSet = new Set<Address>();
+
   for (const line of lines) {
-    const tokens = line.split(/[,;\t]+/).flatMap((t) => {
+    const tokens = line.split(/[,;\t]+/).flatMap(t => {
       const trimmed = t.trim();
       return trimmed ? [trimmed] : [];
     });

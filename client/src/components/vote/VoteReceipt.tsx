@@ -72,14 +72,17 @@ export function VoteReceipt({open, onClose, proposalTitle, ranking, txId}: VoteR
                         <div className="px-6 pb-8 pt-2">
                             {/* Header */}
                             <div className="mb-6 flex items-center gap-3">
-                                <div
-                                    className="flex size-12 shrink-0 items-center justify-center rounded-full bg-emerald-500/15">
+                                <div className="flex size-12 shrink-0 items-center justify-center rounded-full bg-emerald-500/15">
                                     <CheckCircle2 size={26} className="text-emerald-500"/>
                                 </div>
                                 <div>
-                                    <div
-                                        className="font-display text-lg font-semibold text-fg">{t('vote.confirmed')}</div>
-                                    <div className="text-sm text-muted">{proposalTitle}</div>
+                                    <div className="font-display text-lg font-semibold text-fg">
+                                        {t('vote.confirmed')}
+                                    </div>
+
+                                    <div className="text-sm text-muted">
+                                        {proposalTitle}
+                                    </div>
                                 </div>
                             </div>
 
@@ -90,8 +93,10 @@ export function VoteReceipt({open, onClose, proposalTitle, ranking, txId}: VoteR
                                 </div>
                                 <ol className="space-y-1.5">
                                     {ranking.map((opt, i) => (
-                                        <li key={opt.id}
-                                            className="flex items-center gap-3 rounded-xl border border-border bg-elevated px-3 py-2">
+                                        <li
+                                            key={opt.id}
+                                            className="flex items-center gap-3 rounded-xl border border-border bg-elevated px-3 py-2"
+                                        >
                                             <span
                                                 className={`flex size-6 shrink-0 items-center justify-center rounded-full text-xs font-bold ${
                                                     i === 0
@@ -101,7 +106,9 @@ export function VoteReceipt({open, onClose, proposalTitle, ranking, txId}: VoteR
                                             >
                                                 {i + 1}
                                             </span>
-                                            <span className="text-sm text-fg">{opt.title}</span>
+                                            <span className="text-sm text-fg">
+                                                {opt.title}
+                                            </span>
                                         </li>
                                     ))}
                                 </ol>

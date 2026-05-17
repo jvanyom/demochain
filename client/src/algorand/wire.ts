@@ -6,28 +6,28 @@
 import type {Address, OrganizationId} from "@/domain";
 
 export interface OnChainOrganization {
-  orgId: OrganizationId;
-  name: string;
-  description: string;
-  /** Adreça Algorand (58-char base32). */
-  organizer: Address;
-  memberCount: number;
+    orgId: OrganizationId;
+    name: string;
+    description: string;
+    /** Adreça Algorand (58-char base32). */
+    organizer: Address;
+    memberCount: number;
 }
 
 // ARC-56 Proposal struct: (uint64, string, string, string[], uint64, uint64)
 export interface OnChainProposal {
-  orgId: OrganizationId;
-  title: string;
-  description: string;
-  options: string[];
-  /** UNIX seconds. */
-  startingDate: number;
-  /** UNIX seconds. */
-  endingDate: number;
+    orgId: OrganizationId;
+    title: string;
+    description: string;
+    options: string[];
+    /** UNIX seconds. */
+    startingDate: number;
+    /** UNIX seconds. */
+    endingDate: number;
 }
 
 // ARC-56 ApprovalTally struct: (uint32, uint32)
 export interface OnChainApprovalTally {
-  votesFor: number;
-  totalVotes: number;
+    votesFor: number;
+    totalVotes: number;
 }

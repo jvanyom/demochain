@@ -3,8 +3,8 @@
   "nav": {
     "home": "Inici",
     "proposals": "Propostes",
-    "newProposal": "Nova proposta",
-    "howItWorks": "Com funciona"
+    "new-proposal": "Nova proposta",
+    "how-it-works": "Com funciona"
   },
   "common": {
     "title": "Títol",
@@ -64,12 +64,12 @@
   "landing": {
     "hero": {
       "eyebrow": "Vot preferencial per a tothom",
-      "titleA": "Ordena.",
-      "titleB": "Decideix.",
-      "titleC": "Verifica.",
+      "title1": "Ordena.",
+      "title2": "Decideix.",
+      "title3": "Verifica.",
       "subtitle": "Proposa eleccions, ordena les teves preferències i confia en el resultat. Una plataforma oberta on la comunitat decideix què importa — i com es mesura.",
-      "ctaPrimary": "Explora propostes",
-      "ctaSecondary": "Com funciona",
+      "cta-primary": "Explora propostes",
+      "cta-secondary": "Com funciona",
       "counter": "veus emeses avui"
     },
     "how": {
@@ -200,7 +200,7 @@
     "subtitle": "Explora les eleccions proposades per la comunitat.",
     "new": {
       "title": "Crea una nova proposta",
-      "short-title": "Nove proposta",
+      "short-title": "Nova proposta",
       "submit": "Publica la proposta",
       "org": {
         "hint": "Selecciona l'organització a la qual pertanyerà aquesta proposta.",
@@ -228,6 +228,8 @@
     },
     "approval": {
       "cta": "Votar per aprovar",
+      "label": "Aprovació de la comunitat",
+      "threshold": "fan falta 2/3",
       "reached": "S'ha assolit el llindar!"
     },
     "filters": {
@@ -280,19 +282,34 @@
   },
   "results": {
     "verify": {
-      "title": "Verifica un vot",
-      "text": "Enganxa l'ID d'un rebut per comprovar de manera independent que una papereta ha estat comptada.",
-      "placeholder": "p. ex. DMCX-4F7A-92E1",
+      "title": "Verifica el teu vot",
+      "text": "Introdueix l'adreça Algorand d'un votant per verificar de manera independent que la seva papereta ha estat registrada i comptada.",
+      "placeholder": "Adreça Algorand del votant",
       "button": "Verifica",
       "success": "Aquesta papereta ha estat registrada i comptada.",
-      "ranked": "Classificada el"
+      "ranked": "Ordre de preferència",
+      "not-voted": "No s'ha trobat cap papereta per a aquesta adreça en aquesta elecció."
     },
     "no-votes": "No es va emetre cap vot en aquesta elecció.",
     "winner": "Guanyadora",
     "first-choice-votes": "Vots de primera opció",
-    "first-choise-short": "1a opció",
+    "first-choice-short": "vegades com 1a opció",
     "ranking": "Classificació completa",
-    "schulze-note": "El guanyador es determina pel mètode Schulze. La barra mostra els vots de primera opció."
+    "schulze-note": "El guanyador es determina pel mètode Schulze: l'opció que guanya més comparatives directes.",
+    "pairwise-wins": "{{wins}}/{{total}} comparatives guanyades",
+    "pairwise-section": "Duels directes",
+    "pairwise-explanation": "Cada duel mostra quants votants van preferir cadascuna de les dues opcions quan es comparen directament. L'opció amb més preferències guanya el duel.",
+    "pairwise-legend-tie": "Empat",
+    "pairwise-matchup-win": "{{name}} guanya",
+    "first-choice-secondary": "Primera opció: {{count}} vots",
+    "stat-duels": "{{wins}}/{{total}} duels",
+    "stat-first-choice": "{{count}} 1a opció",
+    "stat-total-prefs": "{{count}} pref. totals",
+    "tie-title": "Empat",
+    "tie-description": "Cap opció ha obtingut victòries directes sobre les altres. Totes les opcions s'han enfrontat de manera equilibrada en les comparatives cara a cara.",
+    "tie-suggestion": "Considera crear una nova proposta per tornar a votar amb més opcions o candidats.",
+    "tie-new-proposal": "Crear nova proposta",
+    "all-options": "Totes les opcions"
   },
   "wallet": {
     "txid": "ID de transacció",
@@ -319,7 +336,10 @@
       "duplicated-options": "Hi ha opcions duplicades"
     },
     "org": {
-      "required": "S'ha d'especificar l'ID d'una organització"
+      "required": "S'ha d'especificar l'ID d'una organització",
+      "empty-name": "El nom no pot estar buit",
+      "empty-description": "La descripció no pot estar buida",
+      "invalid-address": "Una o més adreces no són vàlides"
     },
     "wallet": {
       "rejected": "Has cancel·lat la signatura"

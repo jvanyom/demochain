@@ -82,12 +82,12 @@ export function useRemoveFromCensus() {
     const queryClient = useQueryClient();
 
     return useMutation({
-        mutationFn: ({ signer, sender, orgId, members }: CensusArgs) => {
+        mutationFn: ({signer, sender, orgId, members}: CensusArgs) => {
             return removeFromCensus(signer, sender, orgId, members)
         },
-        onSuccess: (_data, { orgId }) => {
-            void queryClient.invalidateQueries({ queryKey: queryKeys.organizations.detail(orgId) });
-            void queryClient.invalidateQueries({ queryKey: queryKeys.censusPrefix });
+        onSuccess: (_data, {orgId}) => {
+            void queryClient.invalidateQueries({queryKey: queryKeys.organizations.detail(orgId)});
+            void queryClient.invalidateQueries({queryKey: queryKeys.censusPrefix});
         },
     });
 }
@@ -100,7 +100,7 @@ export function useCreateProposal() {
             return createProposal(signer, sender, orgId, title, description, options, startingDate, endingDate)
         },
         onSuccess: () => {
-            void queryClient.invalidateQueries({ queryKey: queryKeys.proposals.all() });
+            void queryClient.invalidateQueries({queryKey: queryKeys.proposals.all()});
         },
     });
 }
@@ -109,13 +109,13 @@ export function useCastApprovalVote() {
     const queryClient = useQueryClient();
 
     return useMutation({
-        mutationFn: ({ signer, sender, proposalId, orgId, approve }: CastApprovalVoteArgs) => {
+        mutationFn: ({signer, sender, proposalId, orgId, approve}: CastApprovalVoteArgs) => {
             return castApprovalVote(signer, sender, proposalId, orgId, approve)
         },
-        onSuccess: (_txId, { proposalId, sender }) => {
-            void queryClient.invalidateQueries({ queryKey: queryKeys.proposals.detail(proposalId) });
-            void queryClient.invalidateQueries({ queryKey: queryKeys.proposals.all() });
-            void queryClient.invalidateQueries({ queryKey: queryKeys.voting.approvalVoted(sender, proposalId) });
+        onSuccess: (_txId, {proposalId, sender}) => {
+            void queryClient.invalidateQueries({queryKey: queryKeys.proposals.detail(proposalId)});
+            void queryClient.invalidateQueries({queryKey: queryKeys.proposals.all()});
+            void queryClient.invalidateQueries({queryKey: queryKeys.voting.approvalVoted(sender, proposalId)});
         },
     });
 }
@@ -124,12 +124,12 @@ export function useCastRankedVote() {
     const queryClient = useQueryClient();
 
     return useMutation({
-        mutationFn: ({ signer, sender, proposalId, orgId, preferenceOrder }: CastRankedVoteArgs) => {
+        mutationFn: ({signer, sender, proposalId, orgId, preferenceOrder}: CastRankedVoteArgs) => {
             return castRankedVote(signer, sender, proposalId, orgId, preferenceOrder)
         },
-        onSuccess: (_txId, { proposalId, sender }) => {
-            void queryClient.invalidateQueries({ queryKey: queryKeys.voting.electionVoted(sender, proposalId) });
-            void queryClient.invalidateQueries({ queryKey: queryKeys.electionPrefix });
+        onSuccess: (_txId, {proposalId, sender}) => {
+            void queryClient.invalidateQueries({queryKey: queryKeys.voting.electionVoted(sender, proposalId)});
+            void queryClient.invalidateQueries({queryKey: queryKeys.electionPrefix});
         },
     });
 }

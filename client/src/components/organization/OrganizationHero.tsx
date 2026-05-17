@@ -99,7 +99,10 @@ export function OrganizationHero({name, description, isOrganizer, isMember, stat
                                 >
                                     {s.value}
                                 </span>
-                                <span className="text-xs uppercase tracking-wide text-muted">{s.label}</span>
+
+                                <span className="text-xs uppercase tracking-wide text-muted">
+                                    {s.label}
+                                </span>
                             </div>
                         ))}
                         {newProposalHref && (

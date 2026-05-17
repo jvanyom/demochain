@@ -4,6 +4,7 @@ import {useWallet} from '@txnlab/use-wallet-react';
 import {useTranslation} from "react-i18next";
 
 import {getDevAddresses} from '@/algorand/dev-accounts';
+import {isAddress} from "@/domain";
 
 function truncateAddress(addr: string): string {
     return `${addr.slice(0, 4)}...${addr.slice(-4)}`;
@@ -28,7 +29,7 @@ export function WalletConnect() {
         const devSet = new Set(getDevAddresses());
         if (devSet.size === 0) return rawAccounts;
         return rawAccounts.filter(
-            (a) => devSet.has(a.address) || a.address === activeAddress,
+            a => isAddress(a.address) && (devSet.has(a.address) || a.address === activeAddress),
         );
     }, [rawAccounts, activeAddress]);
 
@@ -47,8 +48,8 @@ export function WalletConnect() {
         if (!connectedWallet || !activeAddress) return;
         const devAddresses = getDevAddresses();
         if (devAddresses.length === 0) return;
-        if (devAddresses.includes(activeAddress)) return;
-        const fallback = rawAccounts.find((a) => devAddresses.includes(a.address));
+        if (isAddress(activeAddress) && devAddresses.includes(activeAddress)) return;
+        const fallback = rawAccounts.find(a => isAddress(a.address) && devAddresses.includes(a.address));
         if (fallback) connectedWallet.setActiveAccount(fallback.address);
     }, [connectedWallet, activeAddress, rawAccounts]);
 
@@ -156,7 +157,7 @@ export function WalletConnect() {
                             <span className="size-2 shrink-0 rounded-full bg-emerald-500"/>
                             <div className="min-w-0 flex-1">
                                 <div className="text-[10px] font-semibold uppercase tracking-wider text-muted">
-                                    {t("common.active")}
+                                    {t("common.active", {count: 1})}
                                 </div>
                                 <div className="truncate font-mono text-xs text-primary">{activeAddress}</div>
                             </div>

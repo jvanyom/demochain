@@ -1,8 +1,7 @@
 import {useState} from 'react';
-import {useNavigate, useSearchParams} from 'react-router-dom';
-
-import {ArrowLeft, ArrowRight, Check, Wallet} from 'lucide-react';
 import {useTranslation} from 'react-i18next';
+import {useNavigate, useSearchParams} from 'react-router-dom';
+import {ArrowLeft, ArrowRight, Check, Wallet} from 'lucide-react';
 
 import {useQuery} from '@tanstack/react-query';
 
@@ -26,7 +25,7 @@ import {
     OptionsStepFields,
 } from '@/components/proposal/ProposalSteps';
 
-import {proposalFormSchema, type ProposalFormValues} from '@/domain';
+import {asOrganizationId, proposalFormSchema, type ProposalFormValues} from '@/domain';
 
 import {useAlgorand} from '@/hooks/useAlgorand';
 import {useWizard} from '@/hooks/useWizard';
@@ -89,6 +88,7 @@ export function NewProposalPage() {
         trigger,
         control,
         getValues,
+        register,
         formState: {errors},
     } = useForm<ProposalFormValues>({
         resolver: zodResolver(proposalFormSchema),
@@ -155,7 +155,7 @@ export function NewProposalPage() {
             const {proposalId: newId, txId} = await createProposalMutation.mutateAsync({
                 signer,
                 sender: address,
-                orgId: parseInt(orgId, 10),
+                orgId: asOrganizationId(parseInt(orgId, 10)),
                 title: values.title,
                 description: values.description,
                 options: cleanOptions,
@@ -272,12 +272,9 @@ export function NewProposalPage() {
                 )}
                 {wizard.step === 3 && (
                     <OptionsStep
-                        options={optionItems}
-                        onUpdateOption={(id, value) => {
-                            const idx = fields.findIndex((f) => f.id === id);
-                            if (idx !== -1) setValue(`options.${idx}.value`, value);
-                        }}
-                        onRemoveOption={(id) => {
+                        fields={fields}
+                        register={register}
+                        onRemoveOption={id => {
                             const idx = fields.findIndex((f) => f.id === id);
                             if (idx !== -1) remove(idx);
                         }}
