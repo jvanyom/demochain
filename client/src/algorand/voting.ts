@@ -125,6 +125,16 @@ export async function getElectionBallots(proposalId: ProposalId): Promise<number
     }
 }
 
+export async function getElectionBallotForVoter(address: Address, proposalId: ProposalId): Promise<number[] | null> {
+    try {
+        const key = electionBallotKey(address, proposalId);
+        const box = await algodClient.getApplicationBoxByName(APP_ID, key).do();
+        return decodePreferenceOrder(box.value);
+    } catch {
+        return null;
+    }
+}
+
 function decodePreferenceOrder(data: Uint8Array): number[] {
     const type = algosdk.ABIType.from('uint8[]');
     const decoded = type.decode(data) as bigint[];

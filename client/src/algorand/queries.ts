@@ -22,7 +22,8 @@ import {
     hasApprovalVoted,
     hasElectionVoted,
     getElectionVoterCount,
-    getElectionBallots
+    getElectionBallots,
+    getElectionBallotForVoter,
 } from "./voting";
 
 import {mapToOrganization, mapToProposal} from './mappers';
@@ -44,7 +45,7 @@ async function fetchOrganizations(): Promise<Organization[]> {
     return results.filter((o): o is Organization => o !== null);
 }
 
-async function fetchCensusMembers(orgId: OrganizationId): Promise<string[]> {
+async function fetchCensusMembers(orgId: OrganizationId): Promise<Address[]> {
     return getCensusMembers(orgId);
 }
 
@@ -151,5 +152,12 @@ export const votingQueries = {
     electionResults: (proposalId: ProposalId, numOptions: number) => queryOptions({
         queryKey: queryKeys.voting.electionResults(proposalId),
         queryFn: () => fetchElectionResults(proposalId, numOptions),
-    })
+    }),
+    electionBallotForVoter: (address: Address, proposalId: ProposalId) => queryOptions({
+        queryKey: queryKeys.voting.electionBallotForVoter(address, proposalId),
+        queryFn: () => getElectionBallotForVoter(address, proposalId),
+        enabled: Boolean(address),
+        retry: false,
+        staleTime: 30_000,
+    }),
 }
