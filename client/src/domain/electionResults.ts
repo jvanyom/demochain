@@ -1,17 +1,21 @@
 import type {ProposalId} from './proposal';
 
-export interface OptionResult {
+interface OptionResult {
     /** Option index, matching `ProposalOption.id`. */
     optionId: number;
     firstChoiceVotes: number;
     /** 0 = winner, ties broken deterministically by option index. */
     finalRank: number;
+    /** How many other options this option defeats in pairwise comparisons. */
+    pairwiseWins: number;
 }
 
 export interface ElectionResults {
     proposalId: ProposalId;
     ranking: OptionResult[];
     totalVoters: number;
+    /** d[i][j] = number of voters who prefer option i over option j. */
+    pairwiseMatrix: number[][];
 }
 
 /**
@@ -23,7 +27,7 @@ export interface ElectionResults {
  */
 export function computeElectionResults(proposalId: ProposalId, ballots: number[][], optionCount: number): ElectionResults {
     if (ballots.length === 0 || optionCount === 0)
-        return {proposalId, ranking: [], totalVoters: 0};
+        return {proposalId, ranking: [], totalVoters: 0, pairwiseMatrix: []};
 
     const d: number[][] = Array.from({length: optionCount}, () =>
         new Array(optionCount).fill(0)
@@ -78,11 +82,12 @@ export function computeElectionResults(proposalId: ProposalId, ballots: number[]
         if (ballot.length > 0 && ballot[0] < optionCount)
             firstChoiceCounts[ballot[0]]++;
 
-    const ranking: OptionResult[] = wins.map(({optionId}, rank) => ({
+    const ranking: OptionResult[] = wins.map(({optionId, wins: winsCount}, rank) => ({
         optionId,
         firstChoiceVotes: firstChoiceCounts[optionId],
         finalRank: rank,
+        pairwiseWins: winsCount,
     }));
 
-    return {proposalId, ranking, totalVoters: ballots.length};
+    return {proposalId, ranking, totalVoters: ballots.length, pairwiseMatrix: d};
 }
