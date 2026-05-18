@@ -1,10 +1,7 @@
 import algosdk from 'algosdk';
 
-// ── Configuració LocalNet ──────────────────────────────────────────
-// Utilitza localhost perquè el contenidor Docker pugui arribar
-// a AlgoKit LocalNet que s'executa a la màquina amfitriona.
-const ALGOD_SERVER = 'http://localhost';
-const ALGOD_PORT = 4001;
+const ALGOD_SERVER = import.meta.env.VITE_ALGOD_SERVER ?? 'http://localhost';
+const ALGOD_PORT = Number(import.meta.env.VITE_ALGOD_PORT ?? 4001);
 const ALGOD_TOKEN = import.meta.env.VITE_ALGOD_TOKEN ?? 'a'.repeat(64);
 
 // ── App ID del contracte ─────────────────────────────────────────────────
