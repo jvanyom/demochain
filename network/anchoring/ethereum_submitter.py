@@ -6,9 +6,13 @@ NotaryContract aplica el consens K-de-N on-chain.
 """
 
 import logging
+import os
 from dataclasses import dataclass
 
 logger = logging.getLogger(__name__)
+
+_DEFAULT_GAS_LIMIT = int(os.environ.get("ETH_GAS_LIMIT", "200000"))
+_DEFAULT_TX_TIMEOUT = int(os.environ.get("ETH_TX_TIMEOUT", "60"))
 
 NOTARY_ABI = [
     {
@@ -98,7 +102,14 @@ class SubmissionResult:
 class EthereumSubmitter:
     """Client per enviar hashes de propostes al NotaryContract d'Ethereum."""
 
-    def __init__(self, rpc_url: str, contract_address: str, private_key: str):
+    def __init__(
+        self,
+        rpc_url: str,
+        contract_address: str,
+        private_key: str,
+        gas_limit: int = _DEFAULT_GAS_LIMIT,
+        tx_timeout: int = _DEFAULT_TX_TIMEOUT,
+    ):
         from web3 import Web3
 
         self.w3 = Web3(Web3.HTTPProvider(rpc_url))
@@ -108,6 +119,8 @@ class EthereumSubmitter:
         )
         self.private_key = private_key
         self.account = self.w3.eth.account.from_key(private_key)
+        self.gas_limit = gas_limit
+        self.tx_timeout = tx_timeout
 
     def submit_hash(self, election_id: str, result_hash: bytes) -> SubmissionResult:
         """Envia el hash d'una proposta al NotaryContract.
@@ -127,14 +140,14 @@ class EthereumSubmitter:
                 {
                     "from": self.account.address,
                     "nonce": self.w3.eth.get_transaction_count(self.account.address),
-                    "gas": 200_000,
+                    "gas": self.gas_limit,
                     "gasPrice": self.w3.eth.gas_price,
                 }
             )
 
             signed_tx = self.w3.eth.account.sign_transaction(tx, self.private_key)
             tx_hash = self.w3.eth.send_raw_transaction(signed_tx.raw_transaction)
-            receipt = self.w3.eth.wait_for_transaction_receipt(tx_hash, timeout=60)
+            receipt = self.w3.eth.wait_for_transaction_receipt(tx_hash, timeout=self.tx_timeout)
 
             if receipt["status"] != 1:
                 return SubmissionResult(

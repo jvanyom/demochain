@@ -15,11 +15,12 @@ interface ResolvedDevAccount {
     secretKey: Uint8Array;
 }
 
-const KMD_SERVER = 'http://localhost';
-const KMD_PORT = 4002;
+const KMD_SERVER = import.meta.env.VITE_KMD_SERVER ?? 'http://localhost';
+const KMD_PORT = Number(import.meta.env.VITE_KMD_PORT ?? 4002);
 const KMD_TOKEN = import.meta.env.VITE_KMD_TOKEN ?? 'a'.repeat(64);
-const KMD_WALLET_NAME = 'unencrypted-default-wallet';
-const KMD_WALLET_PASSWORD = '';
+const KMD_WALLET_NAME = import.meta.env.VITE_KMD_WALLET_NAME ?? 'unencrypted-default-wallet';
+const KMD_WALLET_PASSWORD = import.meta.env.VITE_KMD_WALLET_PASSWORD ?? '';
+
 const DISPENSER_MIN_MICRO_ALGOS = 1_000_000_000_000n;
 const FUND_TARGET_MICRO_ALGOS = 100_000_000n; // 100 ALGO
 const FUND_THRESHOLD_MICRO_ALGOS = 10_000_000n; // 10 ALGO

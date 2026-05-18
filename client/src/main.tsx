@@ -16,15 +16,17 @@ import {router} from './router';
 import './index.css';
 import './i18n';
 
+const DEV_TOKEN = 'a'.repeat(64);
+
 const walletManager = new WalletManager({
     wallets: [
         {
             id: WalletId.KMD,
             options: {
-                wallet: 'unencrypted-default-wallet',
-                baseServer: 'http://localhost',
-                token: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
-                port: 4002,
+                wallet: import.meta.env.VITE_KMD_WALLET_NAME ?? 'unencrypted-default-wallet',
+                baseServer: import.meta.env.VITE_KMD_SERVER ?? 'http://localhost',
+                token: import.meta.env.VITE_KMD_TOKEN ?? DEV_TOKEN,
+                port: Number(import.meta.env.VITE_KMD_PORT ?? 4002),
             },
         },
         WalletId.PERA,
@@ -33,9 +35,9 @@ const walletManager = new WalletManager({
     networks: {
         [NetworkId.LOCALNET]: {
             algod: {
-                baseServer: 'http://localhost',
-                port: 4001,
-                token: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+                baseServer: import.meta.env.VITE_ALGOD_SERVER ?? 'http://localhost',
+                port: Number(import.meta.env.VITE_ALGOD_PORT ?? 4001),
+                token: import.meta.env.VITE_ALGOD_TOKEN ?? DEV_TOKEN,
             },
         },
     },

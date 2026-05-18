@@ -1,0 +1,117 @@
+# Demochain - entorn de desenvolupament
+#
+# Configuració centralitzada a .env (vegeu .env.example per als valors per defecte):
+#   cp .env.example .env
+#
+# Aixeca client + LocalNet de Algorand:
+#
+# - Client Vite: http://localhost:${CLIENT_PORT}
+# - Algod:       http://localhost:${ALGOD_PORT}
+# - KMD:         http://localhost:${KMD_PORT}
+#
+# ⚠️  No combinar amb 'algokit localnet start': empren els mateixos ports.
+#    S'ha d'aturar primer amb 'algokit localnet stop'.
+#
+# El servei 'contract-deploy' compila el contracte de 'voting-contract/'
+# via uv + puyapy, el desplega contra algod i escriu el APP_ID resultant
+# a 'client/.env.local' (variable VITE_APP_ID). El client el llegeix en arrancar;
+# amb 'down -v' es reinicia la chain i el següent 'up' i reescriu el fitxer
+# amb el nou ID.
+
+services:
+  algod:
+    image: algorand/algod:latest
+    ports:
+      - "${ALGOD_PORT}:${ALGOD_CONTAINER_PORT}"
+      - "${KMD_PORT}:${KMD_CONTAINER_PORT}"
+    environment:
+      TOKEN: "${ALGO_TOKEN}"
+      KMD_TOKEN: "${ALGO_TOKEN}"
+      ADMIN_TOKEN: "${ALGO_TOKEN}"
+      START_KMD: 1
+      DEV_MODE: 1
+      KMD_WALLET_NAME: "${KMD_WALLET_NAME}"
+      KMD_WALLET_PASSWORD: "${KMD_WALLET_PASSWORD}"
+    volumes:
+      - algod-data:/algod/data
+      - ./algod-config.json:/etc/algorand/config.json:ro
+    healthcheck:
+      test: ["CMD-SHELL", "curl -sf http://localhost:${ALGOD_CONTAINER_PORT}/health && curl -sf http://localhost:${KMD_CONTAINER_PORT}/v1/wallets -H 'X-KMD-API-Token: ${ALGO_TOKEN}' || exit 1"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+      start_period: 15s
+
+  contract-deploy:
+    image: ghcr.io/astral-sh/uv:python3.12-bookworm-slim
+    working_dir: /workspace
+    volumes:
+      - ./voting-contract:/workspace
+      - ./client:/client-out
+      - uv-cache:/root/.cache/uv
+    environment:
+      ALGOD_SERVER: "http://${ALGOD_HOST}"
+      ALGOD_PORT: "${ALGOD_CONTAINER_PORT}"
+      ALGOD_TOKEN: "${ALGO_TOKEN}"
+      INDEXER_SERVER: ""
+      INDEXER_PORT: ""
+      INDEXER_TOKEN: ""
+      KMD_SERVER: "http://${ALGOD_HOST}"
+      KMD_PORT: "${KMD_CONTAINER_PORT}"
+      KMD_TOKEN: "${ALGO_TOKEN}"
+    command:
+      - bash
+      - -c
+      - |
+        set -euo pipefail
+        echo "[contract-deploy] uv sync"
+        uv sync --frozen 2>/dev/null || uv sync
+        echo "[contract-deploy] building contract"
+        uv run python -m smart_contracts build
+        echo "[contract-deploy] deploying contract"
+        uv run python -m smart_contracts deploy 2>&1 | tee /tmp/deploy.log
+        APP_ID=$$(sed -n 's/.*app_id=\([0-9]\+\).*/\1/p' /tmp/deploy.log | tail -n1)
+        if [ -z "$$APP_ID" ]; then
+          echo "[contract-deploy] could not extract APP_ID from deploy log" >&2
+          exit 1
+        fi
+        echo "[contract-deploy] APP_ID=$$APP_ID — writing /client-out/.env.local"
+        echo "VITE_APP_ID=$$APP_ID" > /client-out/.env.local
+    depends_on:
+      algod:
+        condition: service_healthy
+    restart: "no"
+
+  client:
+    image: oven/bun:1.3
+    working_dir: /app
+    command: sh -c "bun install && bun run dev"
+    volumes:
+      - ./client:/app
+      - client-node-modules:/app/node_modules
+    ports:
+      - "${CLIENT_PORT}:${CLIENT_CONTAINER_PORT}"
+    environment:
+      CHOKIDAR_USEPOLLING: "true"
+      VITE_ALGOD_SERVER: "${VITE_ALGOD_SERVER}"
+      VITE_ALGOD_PORT: "${ALGOD_PORT}"
+      VITE_ALGOD_TOKEN: "${ALGO_TOKEN}"
+      VITE_KMD_SERVER: "${VITE_KMD_SERVER}"
+      VITE_KMD_PORT: "${KMD_PORT}"
+      VITE_KMD_TOKEN: "${ALGO_TOKEN}"
+      VITE_KMD_WALLET_NAME: "${KMD_WALLET_NAME}"
+      VITE_KMD_WALLET_PASSWORD: "${KMD_WALLET_PASSWORD}"
+      VITE_LORA_BASE: "${VITE_LORA_BASE}"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    depends_on:
+      algod:
+        condition: service_started
+      contract-deploy:
+        condition: service_completed_successfully
+
+volumes:
+  algod-data:
+  indexer-db-data:
+  client-node-modules:
+  uv-cache:

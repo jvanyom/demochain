@@ -13,7 +13,7 @@ interface VoteReceiptProps {
     txId: string;
 }
 
-const LORA_BASE = 'https://lora.algokit.io/localnet/transaction';
+const LORA_BASE = import.meta.env.VITE_LORA_BASE ?? 'https://lora.algokit.io/localnet/transaction';
 const DISMISS_THRESHOLD = 120;
 
 export function VoteReceipt({open, onClose, proposalTitle, ranking, txId}: VoteReceiptProps) {
