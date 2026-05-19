@@ -333,13 +333,38 @@
       "small-voting-window": "Voting window must last at least 1 day",
       "too-few-options": "At least 2 options are required",
       "empty-options": "No option can be empty",
-      "duplicated-options": "There are duplicate options"
+      "empty-option": "No option can be empty",
+      "duplicated-options": "There are duplicate options",
+      "duplicated-option": "There are duplicate options",
+      "already-voted": "You have already voted on this proposal",
+      "not-approved": "The proposal has not been approved",
+      "not-accepted": "The proposal has not been accepted",
+      "not-found": "Proposal not found"
     },
     "org": {
       "required": "An organization ID must be specified",
       "empty-name": "Name cannot be empty",
       "empty-description": "Description cannot be empty",
-      "invalid-address": "One or more addresses are invalid"
+      "invalid-address": "One or more addresses are invalid",
+      "already-exists": "An organization with this name already exists",
+      "not-found": "Organization not found",
+      "not-in-census": "You are not a member of this organization",
+      "unauthorized": "You do not have permission to perform this action",
+      "census": {
+        "too-many-addresses": "Too many addresses for a single batch",
+        "invalid-address": "One or more addresses are invalid",
+        "duplicated-address": "Address is already in the census",
+        "cannot-remove-organizer": "The organizer cannot be removed from the census",
+        "non-registered-address": "Address is not in the census",
+        "unauthorized": "You are not a member of this organization",
+        "empty": "The census is empty"
+      }
+    },
+    "election": {
+      "already-voted": "You have already voted in this election",
+      "missing-options": "The preference order is incorrect",
+      "not-started": "Voting has not started yet",
+      "ended": "The voting period has ended"
     },
     "wallet": {
       "rejected": "You cancelled the signature"

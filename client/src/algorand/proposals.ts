@@ -73,13 +73,14 @@ export async function getApprovalTally(proposalId: ProposalId): Promise<OnChainA
 export async function getAllProposalIds(): Promise<ProposalId[]> {
     try {
         const {boxes} = await algodClient.getApplicationBoxes(APP_ID).do();
-        const proposalPrefix = enc.encode('proposals'); // 9 bytes
+        const proposalPrefix = enc.encode('pr_'); // 3 bytes
         const ids: ProposalId[] = [];
 
         for (const box of boxes) {
             const name = box.name;
-            if (name.length === 17 && bytesEqual(name.slice(0, 9), proposalPrefix)) {
-                const id = Number(algosdk.bytesToBigInt(name.slice(9)));
+            // pr_ box names: "pr_" (3) + uint64 (8) = 11 bytes
+            if (name.length === 11 && bytesEqual(name.slice(0, 3), proposalPrefix)) {
+                const id = Number(algosdk.bytesToBigInt(name.slice(3)));
 
                 if (id > 0)
                     ids.push(asProposalId(id));

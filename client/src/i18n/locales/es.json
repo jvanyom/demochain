@@ -333,13 +333,38 @@
       "small-voting-window": "La ventana de votación debe durar al menos 1 día",
       "too-few-options": "Se necesitan al menos 2 opciones",
       "empty-options": "Ninguna opción puede estar vacía",
-      "duplicated-options": "Hay opciones duplicadas"
+      "empty-option": "Ninguna opción puede estar vacía",
+      "duplicated-options": "Hay opciones duplicadas",
+      "duplicated-option": "Hay opciones duplicadas",
+      "already-voted": "Ya has votado en esta propuesta",
+      "not-approved": "La propuesta no ha sido aprobada",
+      "not-accepted": "La propuesta no ha sido aceptada",
+      "not-found": "Propuesta no encontrada"
     },
     "org": {
       "required": "Debe especificarse un ID de organización",
       "empty-name": "El nombre no puede estar vacío",
       "empty-description": "La descripción no puede estar vacía",
-      "invalid-address": "Una o más direcciones no son válidas"
+      "invalid-address": "Una o más direcciones no son válidas",
+      "already-exists": "Ya existe una organización con este nombre",
+      "not-found": "Organización no encontrada",
+      "not-in-census": "No eres miembro de esta organización",
+      "unauthorized": "No tienes permiso para realizar esta acción",
+      "census": {
+        "too-many-addresses": "Demasiadas direcciones para un solo lote",
+        "invalid-address": "Una o más direcciones no son válidas",
+        "duplicated-address": "La dirección ya está en el censo",
+        "cannot-remove-organizer": "No se puede eliminar al organizador del censo",
+        "non-registered-address": "La dirección no está en el censo",
+        "unauthorized": "No eres miembro de esta organización",
+        "empty": "El censo está vacío"
+      }
+    },
+    "election": {
+      "already-voted": "Ya has votado en esta elección",
+      "missing-options": "El orden de preferencias es incorrecto",
+      "not-started": "La votación aún no ha comenzado",
+      "ended": "El período de votación ha finalizado"
     },
     "wallet": {
       "rejected": "Has cancelado la firma"
