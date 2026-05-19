@@ -8,6 +8,7 @@
 # - Client Vite: http://localhost:${CLIENT_PORT}
 # - Algod:       http://localhost:${ALGOD_PORT}
 # - KMD:         http://localhost:${KMD_PORT}
+# - Indexer:     http://localhost:${INDEXER_PORT}
 #
 # ⚠️  No combinar amb 'algokit localnet start': empren els mateixos ports.
 #    S'ha d'aturar primer amb 'algokit localnet stop'.
@@ -17,6 +18,11 @@
 # a 'client/.env.local' (variable VITE_APP_ID). El client el llegeix en arrancar;
 # amb 'down -v' es reinicia la chain i el següent 'up' i reescriu el fitxer
 # amb el nou ID.
+#
+# Arquitectura indexer:
+#   algod conté DOS nodes interns (lead:8080 + follower:8081).
+#   conduit-localnet llegeix deltes d'estat del follower via 'localnet_algod'.
+#   indexer serveix l'API de cerca sobre postgres.
 
 services:
   algod:
@@ -29,12 +35,13 @@ services:
       KMD_TOKEN: "${ALGO_TOKEN}"
       ADMIN_TOKEN: "${ALGO_TOKEN}"
       START_KMD: 1
-      DEV_MODE: 1
+      GOSSIP_PORT: 10000
       KMD_WALLET_NAME: "${KMD_WALLET_NAME}"
       KMD_WALLET_PASSWORD: "${KMD_WALLET_PASSWORD}"
     volumes:
       - algod-data:/algod/data
       - ./algod-config.json:/etc/algorand/config.json:ro
+      - ./algod-network-template.json:/etc/algorand/template.json:ro
     healthcheck:
       test: ["CMD-SHELL", "curl -sf http://localhost:${ALGOD_CONTAINER_PORT}/health && curl -sf http://localhost:${KMD_CONTAINER_PORT}/v1/wallets -H 'X-KMD-API-Token: ${ALGO_TOKEN}' || exit 1"]
       interval: 5s
@@ -82,6 +89,47 @@ services:
         condition: service_healthy
     restart: "no"
 
+  indexer-db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: algorand
+      POSTGRES_PASSWORD: algorand
+      POSTGRES_DB: indexer_db
+    volumes:
+      - indexer-db-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U algorand -d indexer_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  conduit:
+    image: algorandfoundation/conduit-localnet:latest
+    volumes:
+      - conduit-data:/data
+      - ./conduit.yml:/etc/algorand/conduit.yml:ro
+    depends_on:
+      algod:
+        condition: service_healthy
+      indexer-db:
+        condition: service_healthy
+    restart: unless-stopped
+
+  indexer:
+    image: algorand/indexer:latest
+    ports:
+      - "${INDEXER_PORT}:8980"
+    command:
+      - daemon
+      - -P
+      - "host=indexer-db port=5432 dbname=indexer_db user=algorand password=algorand sslmode=disable"
+    depends_on:
+      indexer-db:
+        condition: service_healthy
+      conduit:
+        condition: service_started
+    restart: unless-stopped
+
   client:
     image: oven/bun:1.3
     working_dir: /app
@@ -113,5 +161,6 @@ services:
 volumes:
   algod-data:
   indexer-db-data:
+  conduit-data:
   client-node-modules:
   uv-cache:
