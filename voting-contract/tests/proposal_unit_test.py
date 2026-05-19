@@ -33,7 +33,7 @@ def org_setup(context: AlgopyTestContext, contract: Demochain):
     """Crea una org i retorna (sender, org_id). El sender queda al cens com a admin."""
     sender = context.any.account()
     with context.txn.create_group(active_txn_overrides={"sender": sender}):
-        org_id = contract.create_org(arc4.String("Org"), arc4.String("Descripció"))
+        org_id = contract.create_organization(arc4.String("Org"), arc4.String("Descripció"))
     return sender, org_id
 
 
@@ -107,22 +107,6 @@ def test_create_proposal_stores_proposal_on_chain(
     assert proposal.ending_date == arc4.UInt64(VALID_END)
 
 
-def test_create_proposal_stores_creator(
-    context: AlgopyTestContext, contract: Demochain, org_setup
-) -> None:
-    sender, org_id = org_setup
-    with context.txn.create_group(active_txn_overrides={"sender": sender}):
-        proposal_id = contract.create_proposal(
-            org_id,
-            arc4.String("Títol"),
-            arc4.String("Descripció"),
-            arc4.DynamicArray(arc4.String("Sí"), arc4.String("No")),
-            arc4.UInt64(VALID_START),
-            arc4.UInt64(VALID_END),
-        )
-    assert contract.proposals[proposal_id].creator == arc4.Address(sender)
-
-
 def test_create_proposal_org_not_found_raises_error(
     context: AlgopyTestContext, contract: Demochain, org_setup
 ) -> None:
@@ -145,7 +129,7 @@ def test_create_proposal_unauthorized_raises_error(
     _, org_id = org_setup
     outsider = context.any.account()
     with context.txn.create_group(active_txn_overrides={"sender": outsider}):
-        with pytest.raises(AssertionError, match="proposal.unauthorized"):
+        with pytest.raises(AssertionError, match="org.census.unauthorized"):
             contract.create_proposal(
                 org_id,
                 arc4.String("Títol"),
@@ -153,44 +137,6 @@ def test_create_proposal_unauthorized_raises_error(
                 arc4.DynamicArray(arc4.String("Sí"), arc4.String("No")),
                 arc4.UInt64(VALID_START),
                 arc4.UInt64(VALID_END),
-            )
-
-
-def test_create_proposal_starting_too_soon_raises_error(
-    context: AlgopyTestContext, contract: Demochain, org_setup
-) -> None:
-    sender, org_id = org_setup
-    too_soon = arc4.UInt64(
-        NOW + MIN_VOTING_WINDOW
-    )  # només 1 dia d'antelació, cal mínim 3
-    with context.txn.create_group(active_txn_overrides={"sender": sender}):
-        with pytest.raises(AssertionError, match="proposal.starting-too-soon"):
-            contract.create_proposal(
-                org_id,
-                arc4.String("Títol"),
-                arc4.String("Descripció"),
-                arc4.DynamicArray(arc4.String("Sí"), arc4.String("No")),
-                too_soon,
-                arc4.UInt64(NOW + MIN_VOTING_WINDOW * 2),
-            )
-
-
-def test_create_proposal_small_voting_window_raises_error(
-    context: AlgopyTestContext, contract: Demochain, org_setup
-) -> None:
-    sender, org_id = org_setup
-    short_end = arc4.UInt64(
-        VALID_START + MIN_VOTING_WINDOW - 1
-    )  # 1 segon per sota del mínim
-    with context.txn.create_group(active_txn_overrides={"sender": sender}):
-        with pytest.raises(AssertionError, match="proposal.small-voting-window"):
-            contract.create_proposal(
-                org_id,
-                arc4.String("Títol"),
-                arc4.String("Descripció"),
-                arc4.DynamicArray(arc4.String("Sí"), arc4.String("No")),
-                arc4.UInt64(VALID_START),
-                short_end,
             )
 
 

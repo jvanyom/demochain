@@ -35,7 +35,7 @@ def approved_setup(context: AlgopyTestContext, contract: Demochain):
     voter = context.any.account()
 
     with context.txn.create_group(active_txn_overrides={"sender": admin}):
-        org_id = contract.create_org(arc4.String("Org"), arc4.String("Descripció"))
+        org_id = contract.create_organization(arc4.String("Org"), arc4.String("Descripció"))
 
     with context.txn.create_group(active_txn_overrides={"sender": admin}):
         contract.add_to_census(org_id, arc4.DynamicArray(arc4.Address(voter)))
@@ -50,7 +50,7 @@ def approved_setup(context: AlgopyTestContext, contract: Demochain):
             arc4.UInt64(VALID_END),
         )
 
-    # admin vota a favor: 1/1 = 100% >= 75% → quòrum assolit
+    # admin vota a favor: 1/1 = 100% >= 2/3 → quòrum assolit
     with context.txn.create_group(active_txn_overrides={"sender": admin}):
         contract.cast_approval_vote(proposal_id, arc4.Bool(True))
 
@@ -84,7 +84,7 @@ def test_cast_election_vote_saves_ballot(
     assert stored[2] == arc4.UInt8(2)
 
 
-def test_cast_election_vote_revote_overwrites_ballot(
+def test_cast_election_vote_revote_raises_error(
     context: AlgopyTestContext, contract: Demochain, election_setup
 ) -> None:
     _, voter, _, proposal_id = election_setup
@@ -94,13 +94,8 @@ def test_cast_election_vote_revote_overwrites_ballot(
     with context.txn.create_group(active_txn_overrides={"sender": voter}):
         contract.cast_election_vote(proposal_id, first_ballot)
     with context.txn.create_group(active_txn_overrides={"sender": voter}):
-        contract.cast_election_vote(proposal_id, second_ballot)
-
-    ballot_id = BallotId(arc4.Address(voter), proposal_id)
-    stored = contract.election_ballots[ballot_id]
-    assert stored[0] == arc4.UInt8(1)
-    assert stored[1] == arc4.UInt8(2)
-    assert stored[2] == arc4.UInt8(0)
+        with pytest.raises(AssertionError, match="election.already-voted"):
+            contract.cast_election_vote(proposal_id, second_ballot)
 
 
 def test_cast_election_vote_nonexistent_proposal_raises_error(
@@ -144,7 +139,7 @@ def test_cast_election_vote_proposal_not_approved_raises_error(
     voter2 = context.any.account()
 
     with context.txn.create_group(active_txn_overrides={"sender": admin}):
-        org_id = contract.create_org(arc4.String("Org"), arc4.String("Desc"))
+        org_id = contract.create_organization(arc4.String("Org"), arc4.String("Desc"))
     with context.txn.create_group(active_txn_overrides={"sender": admin}):
         contract.add_to_census(
             org_id, arc4.DynamicArray(arc4.Address(voter1), arc4.Address(voter2))
@@ -177,7 +172,7 @@ def test_cast_election_vote_unauthorized_voter_raises_error(
     _, _, _, proposal_id = election_setup
     ballot = arc4.DynamicArray(arc4.UInt8(0), arc4.UInt8(1), arc4.UInt8(2))
     with context.txn.create_group(active_txn_overrides={"sender": outsider}):
-        with pytest.raises(AssertionError, match="proposal.unauthorized"):
+        with pytest.raises(AssertionError, match="org.census.unauthorized"):
             contract.cast_election_vote(proposal_id, ballot)
 
 

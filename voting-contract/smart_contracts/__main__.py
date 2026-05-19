@@ -1,5 +1,6 @@
 import dataclasses
 import importlib
+import json
 import logging
 import subprocess
 import sys
@@ -99,10 +100,9 @@ def build(output_dir: Path, contract_path: Path) -> Path:
 
     build_result = subprocess.run(
         [
-            "algokit",
-            "--no-color",
-            "compile",
-            "python",
+            "uv",
+            "run",
+            "puyapy",
             str(contract_path.resolve()),
             f"--out-dir={output_dir}",
             "--output-source-map",
@@ -130,16 +130,22 @@ def build(output_dir: Path, contract_path: Path) -> Path:
         )
     else:
         for file_name in app_spec_file_names:
-            client_file = file_name
             print(file_name)
+            arc56_path = output_dir / file_name
+            contract_name = json.loads(arc56_path.read_text()).get("name", file_name.split(".")[0])
+            output_path = _get_output_path(output_dir, deployment_extension)
+            output_path = output_path.parent / output_path.name.replace("{contract_name}", contract_name)
             generate_result = subprocess.run(
                 [
-                    "algokit",
-                    "generate",
-                    "client",
-                    str(output_dir),
+                    "uv",
+                    "run",
+                    "python",
+                    "-m",
+                    "algokit_client_generator",
+                    "--app_spec",
+                    str(arc56_path),
                     "--output",
-                    str(_get_output_path(output_dir, deployment_extension)),
+                    str(output_path),
                 ],
                 stdout=subprocess.PIPE,
                 stderr=subprocess.STDOUT,
@@ -150,14 +156,10 @@ def build(output_dir: Path, contract_path: Path) -> Path:
                 print(generate_result.stdout)
 
             if generate_result.returncode:
-                if "No such command" in generate_result.stdout:
-                    raise Exception(
-                        "Could not generate typed client, requires AlgoKit 2.0.0 or later. Please update AlgoKit"
-                    )
-                else:
-                    raise Exception(
-                        f"Could not generate typed client:\n{generate_result.stdout}"
-                    )
+                raise Exception(
+                    f"Could not generate typed client:\n{generate_result.stdout}"
+                )
+            client_file = output_path.name
     if client_file:
         return output_dir / client_file
     return output_dir

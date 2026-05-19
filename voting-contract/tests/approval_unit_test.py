@@ -35,7 +35,7 @@ def proposal_setup(context: AlgopyTestContext, contract: Demochain):
     voter = context.any.account()
 
     with context.txn.create_group(active_txn_overrides={"sender": admin}):
-        org_id = contract.create_org(arc4.String("Org"), arc4.String("Descripció"))
+        org_id = contract.create_organization(arc4.String("Org"), arc4.String("Descripció"))
 
     with context.txn.create_group(active_txn_overrides={"sender": admin}):
         contract.add_to_census(org_id, arc4.DynamicArray(arc4.Address(voter)))
@@ -109,10 +109,10 @@ def test_cast_approval_vote_nonexistent_proposal_raises_error(
             contract.cast_approval_vote(arc4.UInt64(99), arc4.Bool(True))
 
 
-def test_is_proposal_approved_when_three_quarters_vote_in_favor(
+def test_is_proposal_approved_when_two_thirds_vote_in_favor(
     context: AlgopyTestContext, contract: Demochain, proposal_setup
 ) -> None:
-    # 3 a favor, 1 en contra → exactament 3/4 → aprovada
+    # 3 a favor, 1 en contra → 3/4 > 2/3 → aprovada
     admin, voter, org_id, proposal_id = proposal_setup
     voter2 = context.any.account()
     voter3 = context.any.account()
@@ -135,10 +135,10 @@ def test_is_proposal_approved_when_three_quarters_vote_in_favor(
     assert contract._is_proposal_approved(proposal_id)
 
 
-def test_is_proposal_not_approved_when_less_than_three_quarters_vote_in_favor(
+def test_is_proposal_not_approved_when_less_than_two_thirds_vote_in_favor(
     context: AlgopyTestContext, contract: Demochain, proposal_setup
 ) -> None:
-    # 2 a favor, 2 en contra → 2/4 = 1/2 < 3/4 → no aprovada
+    # 2 a favor, 2 en contra → 2/4 = 1/2 < 2/3 → no aprovada
     admin, voter, org_id, proposal_id = proposal_setup
     voter2 = context.any.account()
     voter3 = context.any.account()
@@ -161,6 +161,27 @@ def test_is_proposal_not_approved_when_less_than_three_quarters_vote_in_favor(
     assert not contract._is_proposal_approved(proposal_id)
 
 
+def test_is_proposal_approved_at_exact_two_thirds_quorum(
+    context: AlgopyTestContext, contract: Demochain, proposal_setup
+) -> None:
+    # 2 a favor, 1 en contra → 2/3 exacte ≥ 2/3 → aprovada
+    admin, voter, org_id, proposal_id = proposal_setup
+    voter2 = context.any.account()
+
+    with context.txn.create_group(active_txn_overrides={"sender": admin}):
+        contract.add_to_census(org_id, arc4.DynamicArray(arc4.Address(voter2)))
+
+    with context.txn.create_group(active_txn_overrides={"sender": admin}):
+        contract.cast_approval_vote(proposal_id, arc4.Bool(True))
+    with context.txn.create_group(active_txn_overrides={"sender": voter}):
+        contract.cast_approval_vote(proposal_id, arc4.Bool(True))
+    with context.txn.create_group(active_txn_overrides={"sender": voter2}):
+        contract.cast_approval_vote(proposal_id, arc4.Bool(False))
+
+    context.ledger.patch_global_fields(latest_timestamp=VALID_START)
+    assert contract._is_proposal_approved(proposal_id)
+
+
 def test_is_proposal_not_approved_before_starting_date(
     context: AlgopyTestContext, contract: Demochain, proposal_setup
 ) -> None:
@@ -172,3 +193,22 @@ def test_is_proposal_not_approved_before_starting_date(
 
     # El timestamp continua a NOW, molt abans de VALID_START
     assert not contract._is_proposal_approved(proposal_id)
+
+
+def test_is_proposal_not_approved_with_no_votes(
+    context: AlgopyTestContext, contract: Demochain, proposal_setup
+) -> None:
+    # Sense cap vot el quòrum no s'ha d'assolir, ni quan ha passat la starting_date
+    _, _, _, proposal_id = proposal_setup
+    context.ledger.patch_global_fields(latest_timestamp=VALID_START)
+    assert not contract._is_proposal_approved(proposal_id)
+
+
+def test_cast_approval_vote_unauthorized_voter_raises_error(
+    context: AlgopyTestContext, contract: Demochain, proposal_setup
+) -> None:
+    outsider = context.any.account()
+    _, _, _, proposal_id = proposal_setup
+    with context.txn.create_group(active_txn_overrides={"sender": outsider}):
+        with pytest.raises(AssertionError, match="org.census.unauthorized"):
+            contract.cast_approval_vote(proposal_id, arc4.Bool(True))
