@@ -98,7 +98,7 @@ export function CensusManager({
         census,
         signer,
         sender,
-        onSuccess: (message) => {
+        onSuccess: message => {
             dispatch({type: 'setSuccess', message});
             onCensusChange();
             setTimeout(() => dispatch({type: 'clearSuccess'}), 4000);
@@ -179,7 +179,7 @@ export function CensusManager({
                     className="flex items-start gap-2 rounded-xl border border-rose-500/30 bg-rose-500/10 px-3 py-2.5 text-sm text-rose-500"
                 >
                     <AlertCircle size={14} className="mt-0.5 shrink-0"/>
-                    <span>{applyError}</span>
+                    <span>{t(`errors.${applyError}`, {defaultValue: 'errors.contract'})}</span>
                 </div>
             )}
 

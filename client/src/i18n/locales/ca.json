@@ -325,7 +325,7 @@
   "errors": {
     "unknown": "Error desconegut",
     "network": "Error de xarxa. Torna-ho a intentar.",
-    "contract": "Error desconegut de provinent de la cadena de blocs",
+    "contract": "Error desconegut provinent de la cadena de blocs",
     "proposal": {
       "empty-title": "El títol no pot estar buit",
       "empty-description": "La descripció no pot estar buida",
@@ -333,13 +333,38 @@
       "small-voting-window": "La finestra de votació ha de durar almenys 1 dia",
       "too-few-options": "Cal afegir almenys 2 opcions",
       "empty-options": "Cap opció pot estar buida",
-      "duplicated-options": "Hi ha opcions duplicades"
+      "empty-option": "Cap opció pot estar buida",
+      "duplicated-options": "Hi ha opcions duplicades",
+      "duplicated-option": "Hi ha opcions duplicades",
+      "already-voted": "Ja has votat en aquesta proposta",
+      "not-approved": "La proposta no ha estat aprovada",
+      "not-accepted": "La proposta no ha estat acceptada",
+      "not-found": "La proposta no s'ha trobat"
     },
     "org": {
       "required": "S'ha d'especificar l'ID d'una organització",
       "empty-name": "El nom no pot estar buit",
       "empty-description": "La descripció no pot estar buida",
-      "invalid-address": "Una o més adreces no són vàlides"
+      "invalid-address": "Una o més adreces no són vàlides",
+      "already-exists": "Ja existeix una organització amb aquest nom",
+      "not-found": "L'organització no s'ha trobat",
+      "not-in-census": "No ets membre d'aquesta organització",
+      "unauthorized": "No tens permís per a realitzar aquesta acció",
+      "census": {
+        "too-many-addresses": "Massa adreces per a un sol lot",
+        "invalid-address": "Una o més adreces no són vàlides",
+        "duplicated-address": "L'adreça ja és al cens",
+        "cannot-remove-organizer": "No es pot eliminar l'organitzador del cens",
+        "non-registered-address": "L'adreça no és al cens",
+        "unauthorized": "No ets membre d'aquesta organització",
+        "empty": "El cens és buit"
+      }
+    },
+    "election": {
+      "already-voted": "Ja has votat en aquesta elecció",
+      "missing-options": "L'ordre de preferències és incorrecte",
+      "not-started": "La votació encara no ha començat",
+      "ended": "El període de votació ha acabat"
     },
     "wallet": {
       "rejected": "Has cancel·lat la signatura"

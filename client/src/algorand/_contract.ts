@@ -4,7 +4,7 @@ import type {Address, OrganizationId, ProposalId} from "@/domain";
 
 import {algodClient, APP_ID} from './config';
 
-import arc56 from './GovernanceContract.arc56.json';
+import arc56 from './Demochain.arc56.json';
 
 // ── Descodificador d'errors ARC-56 ─────────────────────────────────────────────
 const _pcErrorMap = new Map<number, string>();
@@ -26,6 +26,14 @@ export function decodeContractError(err: unknown): Error {
             return new Error(msg);
     }
 
+    const lower = raw.toLowerCase();
+
+    if (['cancel', 'rejected', 'user rejected'].some(pattern => lower.includes(pattern)))
+        return new Error('wallet.rejected');
+
+    if (['network', 'timeout', 'fetch'].some(pattern => lower.includes(pattern)))
+        return new Error('network');
+
     return err instanceof Error ? err : new Error(raw);
 }
 
@@ -42,13 +50,8 @@ export function bytesEqual(a: Uint8Array, b: Uint8Array): boolean {
 // Prefixos descodificats des dels valors en base64 d'ARC-56 :
 //   organizations:    "org_"      (b3JnXw==)         4 bytes + uint64 = 12 bytes
 //   census:           "cs_"       (Y3Nf)             3 bytes + uint64 + pubkey = 43 bytes
-//   proposals:        "proposals" (cHJvcG9zYWxz)   9 bytes + uint64 = 17 bytes
+//   proposals:        "pr_"       (cHJf)             3 bytes + uint64 = 11 bytes
 //   approval_tallies: "at_"       (YXRf)             3 bytes + uint64 = 11 bytes
-
-
-export function orgBoxKey(id: OrganizationId): Uint8Array {
-    return new Uint8Array([...enc.encode('org_'), ...algosdk.bigIntToBytes(id, 8)]);
-}
 
 export function orgNameIndexKey(name: string): Uint8Array {
     const nameBytes = enc.encode(name);
@@ -56,6 +59,13 @@ export function orgNameIndexKey(name: string): Uint8Array {
 
     new DataView(lenBytes.buffer).setUint16(0, nameBytes.length, false);
     return new Uint8Array([...enc.encode('on_'), ...lenBytes, ...nameBytes]);
+}
+
+export function orgBoxKey(id: OrganizationId): Uint8Array {
+    return new Uint8Array([
+        ...enc.encode('org_'),
+        ...algosdk.bigIntToBytes(id, 8)
+    ]);
 }
 
 // census key: cs_ (3) + org_id (8) + member pubkey (32) = 43 bytes
@@ -68,11 +78,17 @@ export function censusBoxKey(orgId: OrganizationId, member: Address): Uint8Array
 }
 
 export function proposalBoxKey(id: ProposalId): Uint8Array {
-    return new Uint8Array([...enc.encode('proposals'), ...algosdk.bigIntToBytes(id, 8)]);
+    return new Uint8Array([
+        ...enc.encode('pr_'),
+        ...algosdk.bigIntToBytes(id, 8)
+    ]);
 }
 
 export function tallyBoxKey(id: ProposalId): Uint8Array {
-    return new Uint8Array([...enc.encode('at_'), ...algosdk.bigIntToBytes(id, 8)]);
+    return new Uint8Array([
+        ...enc.encode('at_'),
+        ...algosdk.bigIntToBytes(id, 8)
+    ]);
 }
 
 export function approvalBallotKey(sender: Address, proposalId: ProposalId): Uint8Array {
@@ -134,7 +150,7 @@ export const createProposalMethod = new algosdk.ABIMethod({
 });
 
 export const castProposalVoteMethod = new algosdk.ABIMethod({
-    name: 'cast_proposal_vote',
+    name: 'cast_approval_vote',
     args: [
         {type: 'uint64', name: 'proposal_id'},
         {type: 'bool', name: 'approve'},

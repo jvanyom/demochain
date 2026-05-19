@@ -73,7 +73,7 @@ export function ProposalDetailPage() {
     if (error || !proposal) {
         return (
             <div className="mx-auto max-w-3xl px-6 py-20 text-center">
-                <p className="mb-4 text-muted">{error?.message ?? t('proposal.not-found')}</p>
+                <p className="mb-4 text-muted">{error ? t(`errors.${error.message}`, {defaultValue: t('errors.contract')}) : t('proposal.not-found')}</p>
                 <button
                     onClick={() => void refetch()}
                     className="inline-flex items-center gap-2 rounded-full border border-border px-4 py-2 text-sm text-muted transition hover:text-fg"
@@ -135,7 +135,7 @@ export function ProposalDetailPage() {
                         {proposal.options.map((opt, i) => (
                             <li
                                 key={opt.id}
-                                className="flex items-start gap-3 rounded-xl border border-border bg-elevated px-4 py-3"
+                                className="flex items-center gap-3 rounded-xl border border-border bg-elevated px-4 py-3"
                             >
                                 <span
                                     className="flex size-6 shrink-0 items-center justify-center rounded-full bg-primary/10 text-xs font-semibold text-primary">
@@ -145,7 +145,11 @@ export function ProposalDetailPage() {
                                     <div className="text-sm font-medium text-fg">
                                         {opt.title}
                                     </div>
-                                    {opt.description && <div className="text-xs text-muted">{opt.description}</div>}
+                                    {opt.description && (
+                                        <div className="text-xs text-muted">
+                                            {opt.description}
+                                        </div>
+                                    )}
                                 </div>
                             </li>
                         ))}
@@ -164,7 +168,9 @@ export function ProposalDetailPage() {
                             isConnected={isConnected}
                             isMember={isMember}
                             voting={voting}
-                            mutationError={approvalVoteMutation.isError ? approvalVoteMutation.error : null}
+                            mutationError={approvalVoteMutation.isError
+                                ? t(`errors.${approvalVoteMutation.error instanceof Error ? approvalVoteMutation.error.message : 'contract'}`, {defaultValue: t('errors.contract')})
+                                : null}
                             onVote={handleApprovalVote}
                         />
                     )}

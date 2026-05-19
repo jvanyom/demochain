@@ -102,7 +102,7 @@ export function VotePage() {
                 {t('vote.title')}
             </h1>
 
-            <p className="mt-3 max-w-xl text-muted">
+            <p className="mt-3 text-muted">
                 {t('vote.subtitle')}
             </p>
 
@@ -136,7 +136,7 @@ export function VotePage() {
 
                     {castVoteMutation.isError && (
                         <p className="mt-4 rounded-xl border border-rose-500/30 bg-rose-500/10 px-4 py-3 text-sm text-rose-500">
-                            {castVoteMutation.error instanceof Error ? castVoteMutation.error.message : 'Transaction failed. Please try again.'}
+                            {t(`errors.${castVoteMutation.error instanceof Error ? castVoteMutation.error.message : 'contract'}`, {defaultValue: t('errors.contract')})}
                         </p>
                     )}
 
