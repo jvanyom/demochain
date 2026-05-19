@@ -1,10 +1,50 @@
 [algokit]
-min_version = "v1.12.1"
+min_version = "v2.0.0"
 
 [project]
-type = 'workspace'
-projects_root_path = 'projects'
+type = 'contract'
+name = 'server'
+artifacts = 'smart_contracts/artifacts'
 
-[generate.devcontainer]
-description = "Generate a default 'devcontainer.json' configuration that pre-installs algokit and launches Algorand sandbox as part of codespace container provisioning."
-path = ".algokit/generators/create-devcontainer"
+[project.deploy]
+command = "uv run python -m smart_contracts deploy"
+
+[project.deploy.testnet]
+environment_secrets = [
+  "DEPLOYER_MNEMONIC",
+  "DISPENSER_MNEMONIC",
+]
+
+[project.deploy.mainnet]
+environment_secrets = [
+  "DEPLOYER_MNEMONIC",
+  "DISPENSER_MNEMONIC",
+]
+
+[project.run]
+build = { commands = [
+  'uv run python -m smart_contracts build',
+], description = 'Build all smart contracts in the project' }
+
+test = { commands = [
+  'uv run pytest tests/',
+], description = 'Run smart contract tests' }
+
+audit = { commands = [
+  'uv run pip-audit',
+], description = 'Audit with pip-audit' }
+
+lint = { commands = [
+  'uv run black --check --diff .',
+  'uv run ruff check .',
+  'uv run mypy',
+], description = 'Perform linting' }
+
+audit-teal = { commands = [
+  'algokit task analyze smart_contracts/artifacts --recursive --force --exclude rekey-to --exclude is-updatable --exclude missing-fee-check --exclude is-deletable --exclude can-close-asset --exclude can-close-account --exclude unprotected-deletable --exclude unprotected-updatable',
+], description = 'Audit TEAL files' }
+
+ci-teal-diff = { commands = [
+  'git add -N ./smart_contracts/artifacts',
+  'git diff --exit-code --minimal ./smart_contracts/artifacts',
+], description = 'Check TEAL files for differences' }
