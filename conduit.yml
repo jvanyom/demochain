@@ -1,0 +1,19 @@
+log-level: INFO
+retry-count: 0
+retry-delay: "5s"
+hide-banner: true
+
+importer:
+  name: localnet_algod
+  config:
+    lead-node-url: "http://algod:8080"
+    follower-node-url: "http://algod:8081"
+    token: "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+
+processors:
+
+exporter:
+  name: postgresql
+  config:
+    connection-string: "host=indexer-db port=5432 user=algorand password=algorand dbname=indexer_db sslmode=disable"
+    max-conn: 20
