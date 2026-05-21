@@ -1,0 +1,813 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36" pages="6">
+  <diagram name="C1 Contexte" id="dIXEorpczFurVMarx9ml">
+    <mxGraphModel dx="1140" dy="518" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="9YLdeYqRtc__1KzxyXB5-0" />
+        <mxCell id="9YLdeYqRtc__1KzxyXB5-1" parent="9YLdeYqRtc__1KzxyXB5-0" />
+        <object placeholders="1" c4Name="Votant" c4Type="Person" c4Description="Interactua amb la &#xa;interfície per proposar &#xa;o votar eleccions" label="&lt;b style=&quot;font-size: 9px;&quot;&gt;%c4Name%&lt;/b&gt;&lt;div style=&quot;font-size: 9px;&quot;&gt;[%c4Type%]&lt;/div&gt;&lt;br style=&quot;font-size: 9px;&quot;&gt;&lt;div style=&quot;font-size: 9px;&quot;&gt;%c4Description%&lt;/div&gt;" id="9YLdeYqRtc__1KzxyXB5-2">
+          <mxCell parent="9YLdeYqRtc__1KzxyXB5-1" style="html=1;dashed=0;whitespace=wrap;fillColor=#08427b;strokeColor=none;fontColor=#ffffff;shape=mxgraph.c4.person;align=center;metaEdit=1;points=[[0.5,0,0],[1,0.5,0],[1,0.75,0],[0.75,1,0],[0.5,1,0],[0.25,1,0],[0,0.75,0],[0,0.5,0]];metaData={&quot;c4Type&quot;:{&quot;editable&quot;:false}};fontSize=9;" vertex="1">
+            <mxGeometry height="110" width="110" x="202.5" y="10" as="geometry" />
+          </mxCell>
+        </object>
+        <object placeholders="1" c4Name="Xarxa d&#39;Algorand" c4Type="Software System" c4Description="&#xa;On s&#39;allotja tota la lògica de les votacions " label="&lt;b style=&quot;font-size: 9px;&quot;&gt;%c4Name%&lt;/b&gt;&lt;div style=&quot;font-size: 9px;&quot;&gt;[%c4Type%]&lt;/div&gt;&lt;br style=&quot;font-size: 9px;&quot;&gt;&lt;div style=&quot;font-size: 9px;&quot;&gt;%c4Description%&lt;/div&gt;" id="9YLdeYqRtc__1KzxyXB5-3">
+          <mxCell parent="9YLdeYqRtc__1KzxyXB5-1" style="rounded=1;whiteSpace=wrap;html=1;labelBackgroundColor=none;fillColor=#999999;fontColor=#ffffff;align=center;arcSize=10;strokeColor=#8A8A8A;metaEdit=1;metaData={&quot;c4Type&quot;:{&quot;editable&quot;:false}};points=[[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0.25,0],[1,0.5,0],[1,0.75,0],[0.75,1,0],[0.5,1,0],[0.25,1,0],[0,0.75,0],[0,0.5,0],[0,0.25,0]];fontSize=9;" vertex="1">
+            <mxGeometry height="90" width="110" x="180" y="296" as="geometry" />
+          </mxCell>
+        </object>
+        <object placeholders="1" c4Name="Xarxa d&#39;Ethereum" c4Type="Software System" c4Description="&#xa;On s&#39;allotja una prova del resultat final de l&#39;elecció per tal que sigui immutable" label="&lt;b style=&quot;font-size: 9px;&quot;&gt;%c4Name%&lt;/b&gt;&lt;div style=&quot;font-size: 9px;&quot;&gt;[%c4Type%]&lt;/div&gt;&lt;br style=&quot;font-size: 9px;&quot;&gt;&lt;div style=&quot;font-size: 9px;&quot;&gt;%c4Description%&lt;/div&gt;" id="9YLdeYqRtc__1KzxyXB5-4">
+          <mxCell parent="9YLdeYqRtc__1KzxyXB5-1" style="rounded=1;whiteSpace=wrap;html=1;labelBackgroundColor=none;fillColor=#999999;fontColor=#ffffff;align=center;arcSize=10;strokeColor=#8A8A8A;metaEdit=1;metaData={&quot;c4Type&quot;:{&quot;editable&quot;:false}};points=[[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0.25,0],[1,0.5,0],[1,0.75,0],[0.75,1,0],[0.5,1,0],[0.25,1,0],[0,0.75,0],[0,0.5,0],[0,0.25,0]];fontSize=9;" vertex="1">
+            <mxGeometry height="90" width="110" x="470" y="296" as="geometry" />
+          </mxCell>
+        </object>
+        <object placeholders="1" c4Type="Relationship" c4Technology="UI / Interacció Humana" c4Description="Interacciona per emetre &#xa;vots, proposar eleccions&#xa;i consultar resultats." label="&lt;div style=&quot;text-align: left; font-size: 9px;&quot;&gt;&lt;div style=&quot;text-align: center; font-size: 9px;&quot;&gt;&lt;b style=&quot;font-size: 9px;&quot;&gt;%c4Description%&lt;/b&gt;&lt;/div&gt;&lt;div style=&quot;text-align: center; font-size: 9px;&quot;&gt;[%c4Technology%]&lt;/div&gt;&lt;/div&gt;" id="9YLdeYqRtc__1KzxyXB5-5">
+          <mxCell edge="1" parent="9YLdeYqRtc__1KzxyXB5-1" source="9YLdeYqRtc__1KzxyXB5-2" style="edgeStyle=none;rounded=0;html=1;jettySize=auto;orthogonalLoop=1;strokeColor=#707070;strokeWidth=2;fontColor=#707070;jumpStyle=none;dashed=1;metaEdit=1;metaData={&quot;c4Type&quot;:{&quot;editable&quot;:false}};fontSize=9;entryX=0.25;entryY=0;entryDx=0;entryDy=0;entryPerimeter=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;exitPerimeter=0;" target="9YLdeYqRtc__1KzxyXB5-7">
+            <mxGeometry relative="1" width="160" x="-0.6049" as="geometry">
+              <mxPoint as="offset" />
+              <Array as="points">
+                <mxPoint x="258" y="150" />
+                <mxPoint x="344" y="150" />
+              </Array>
+              <mxPoint x="400" y="126" as="sourcePoint" />
+              <mxPoint x="375" y="196" as="targetPoint" />
+            </mxGeometry>
+          </mxCell>
+        </object>
+        <object placeholders="1" c4Type="Relationship" c4Description="Enregistra propostes &#xa;i vots" label="&lt;div style=&quot;text-align: left; font-size: 9px;&quot;&gt;&lt;div style=&quot;text-align: center; font-size: 9px;&quot;&gt;&lt;b style=&quot;font-size: 9px;&quot;&gt;%c4Description%&lt;/b&gt;&lt;/div&gt;" id="9YLdeYqRtc__1KzxyXB5-6">
+          <mxCell edge="1" parent="9YLdeYqRtc__1KzxyXB5-1" source="9YLdeYqRtc__1KzxyXB5-7" style="edgeStyle=none;rounded=0;html=1;jettySize=auto;orthogonalLoop=1;strokeColor=#707070;strokeWidth=2;fontColor=#707070;jumpStyle=none;dashed=1;metaEdit=1;metaData={&quot;c4Type&quot;:{&quot;editable&quot;:false}};fontSize=9;exitX=0;exitY=0.5;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;entryPerimeter=0;" target="9YLdeYqRtc__1KzxyXB5-3">
+            <mxGeometry relative="1" width="160" x="0.2157" as="geometry">
+              <mxPoint as="offset" />
+              <Array as="points">
+                <mxPoint x="235" y="246" />
+              </Array>
+              <mxPoint x="352.5" y="260.9999999999999" as="sourcePoint" />
+              <mxPoint x="395" y="396.4200000000001" as="targetPoint" />
+            </mxGeometry>
+          </mxCell>
+        </object>
+        <object placeholders="1" c4Name="Sistema de votació descentralitzat" c4Type="Software System" c4Description="Gestiona la lògica, &#xa;el registre de vots &#xa;i el recompte." label="&lt;b style=&quot;font-size: 9px;&quot;&gt;%c4Name%&lt;/b&gt;&lt;div style=&quot;font-size: 9px;&quot;&gt;[%c4Type%]&lt;/div&gt;&lt;br style=&quot;font-size: 9px;&quot;&gt;&lt;div style=&quot;font-size: 9px;&quot;&gt;%c4Description%&lt;/div&gt;" id="9YLdeYqRtc__1KzxyXB5-7">
+          <mxCell parent="9YLdeYqRtc__1KzxyXB5-1" style="rounded=1;whiteSpace=wrap;html=1;labelBackgroundColor=none;fillColor=#1168BD;fontColor=#ffffff;align=center;arcSize=10;strokeColor=#1168BD;metaEdit=1;metaData={&quot;c4Type&quot;:{&quot;editable&quot;:false}};points=[[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0.25,0],[1,0.5,0],[1,0.75,0],[0.75,1,0],[0.5,1,0],[0.25,1,0],[0,0.75,0],[0,0.5,0],[0,0.25,0]];fontSize=9;" vertex="1">
+            <mxGeometry height="100" width="125" x="312.5" y="196" as="geometry" />
+          </mxCell>
+        </object>
+        <object placeholders="1" c4Type="Relationship" c4Description="Enregistra el hash &#xa;dels resultats" label="&lt;div style=&quot;text-align: left; font-size: 9px;&quot;&gt;&lt;div style=&quot;text-align: center; font-size: 9px;&quot;&gt;&lt;b style=&quot;font-size: 9px;&quot;&gt;%c4Description%&lt;/b&gt;&lt;/div&gt;&lt;/div&gt;" id="9YLdeYqRtc__1KzxyXB5-8">
+          <mxCell edge="1" parent="9YLdeYqRtc__1KzxyXB5-1" source="9YLdeYqRtc__1KzxyXB5-7" style="edgeStyle=none;rounded=0;html=1;jettySize=auto;orthogonalLoop=1;strokeColor=#707070;strokeWidth=2;fontColor=#707070;jumpStyle=none;dashed=1;metaEdit=1;metaData={&quot;c4Type&quot;:{&quot;editable&quot;:false}};fontSize=9;exitX=1;exitY=0.5;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;entryPerimeter=0;" target="9YLdeYqRtc__1KzxyXB5-4">
+            <mxGeometry relative="1" width="160" x="0.2727" as="geometry">
+              <mxPoint as="offset" />
+              <Array as="points">
+                <mxPoint x="525" y="246" />
+              </Array>
+              <mxPoint x="470" y="386" as="sourcePoint" />
+              <mxPoint x="392" y="436" as="targetPoint" />
+            </mxGeometry>
+          </mxCell>
+        </object>
+        <object placeholders="1" c4Name="Administrador" c4Type="Person" c4Description="Administrador&#xa;de nodes" label="&lt;b style=&quot;font-size: 9px;&quot;&gt;%c4Name%&lt;/b&gt;&lt;div style=&quot;font-size: 9px;&quot;&gt;[%c4Type% / entity]&lt;/div&gt;&lt;br style=&quot;font-size: 9px;&quot;&gt;&lt;div style=&quot;font-size: 9px;&quot;&gt;%c4Description%&lt;/div&gt;" id="uUQhV5urszyRW2q_LWkU-0">
+          <mxCell parent="9YLdeYqRtc__1KzxyXB5-1" style="html=1;dashed=0;whitespace=wrap;fillColor=#08427b;strokeColor=none;fontColor=#ffffff;shape=mxgraph.c4.person;align=center;metaEdit=1;points=[[0.5,0,0],[1,0.5,0],[1,0.75,0],[0.75,1,0],[0.5,1,0],[0.25,1,0],[0,0.75,0],[0,0.5,0]];metaData={&quot;c4Type&quot;:{&quot;editable&quot;:false}};fontSize=9;" vertex="1">
+            <mxGeometry height="110" width="110" x="437.5" y="10" as="geometry" />
+          </mxCell>
+        </object>
+        <object placeholders="1" c4Type="Relationship" c4Technology="Interacció Humana" c4Description="Interacciona amb &#xa;l&#39;smart contract&#xa;d&#39;Ethereum per &#xa;gestional el cens&#xa;de nodes" label="&lt;div style=&quot;text-align: left; font-size: 9px;&quot;&gt;&lt;div style=&quot;text-align: center; font-size: 9px;&quot;&gt;&lt;b style=&quot;font-size: 9px;&quot;&gt;%c4Description%&lt;/b&gt;&lt;/div&gt;&lt;div style=&quot;text-align: center; font-size: 9px;&quot;&gt;[%c4Technology%]&lt;/div&gt;&lt;/div&gt;" id="uUQhV5urszyRW2q_LWkU-1">
+          <mxCell edge="1" parent="9YLdeYqRtc__1KzxyXB5-1" source="uUQhV5urszyRW2q_LWkU-0" style="edgeStyle=none;rounded=0;html=1;jettySize=auto;orthogonalLoop=1;strokeColor=#707070;strokeWidth=2;fontColor=#707070;jumpStyle=none;dashed=1;metaEdit=1;metaData={&quot;c4Type&quot;:{&quot;editable&quot;:false}};fontSize=9;entryX=0.75;entryY=0;entryDx=0;entryDy=0;entryPerimeter=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;exitPerimeter=0;" target="9YLdeYqRtc__1KzxyXB5-7">
+            <mxGeometry relative="1" width="160" x="-0.6319" y="10" as="geometry">
+              <mxPoint as="offset" />
+              <Array as="points">
+                <mxPoint x="493" y="150" />
+                <mxPoint x="406" y="150" />
+              </Array>
+              <mxPoint x="340" y="120" as="sourcePoint" />
+              <mxPoint x="424" y="236" as="targetPoint" />
+            </mxGeometry>
+          </mxCell>
+        </object>
+        <object placeholders="1" c4Name="Cartera Externa (Pera / KMD)" c4Type="Software System" c4Description="Signa transaccions mitjançant claus privades." label="&lt;b style=&quot;font-size: 9px;&quot;&gt;%c4Name%&lt;/b&gt;&lt;div style=&quot;font-size: 9px;&quot;&gt;[%c4Type%]&lt;/div&gt;&lt;br style=&quot;font-size: 9px;&quot;&gt;&lt;div style=&quot;font-size: 9px;&quot;&gt;%c4Description%&lt;/div&gt;" id="nWqCjkNsrm4b_WWKENrk-0">
+          <mxCell parent="9YLdeYqRtc__1KzxyXB5-1" style="rounded=1;whiteSpace=wrap;html=1;labelBackgroundColor=none;fillColor=#999999;fontColor=#ffffff;align=center;arcSize=10;strokeColor=#8A8A8A;metaEdit=1;metaData={&quot;c4Type&quot;:{&quot;editable&quot;:false}};points=[[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0.25,0],[1,0.5,0],[1,0.75,0],[0.75,1,0],[0.5,1,0],[0.25,1,0],[0,0.75,0],[0,0.5,0],[0,0.25,0]];fontSize=9;" vertex="1">
+            <mxGeometry height="80" width="110" x="320" y="350" as="geometry" />
+          </mxCell>
+        </object>
+        <object placeholders="1" c4Type="Relationship" c4Description="Sol·licita signar transacció" label="&lt;div style=&quot;text-align: left; font-size: 9px;&quot;&gt;&lt;div style=&quot;text-align: center; font-size: 9px;&quot;&gt;&lt;b style=&quot;font-size: 9px;&quot;&gt;%c4Description%&lt;/b&gt;&lt;/div&gt;&lt;div style=&quot;text-align: center; font-size: 9px;&quot;&gt;[%c4Tecnology%]&lt;/div&gt;&lt;/div&gt;" c4Tecnology="REST / WalletConnect" id="ax0CrIdqh7IIQ6oEhfPF-2">
+          <mxCell edge="1" parent="9YLdeYqRtc__1KzxyXB5-1" source="9YLdeYqRtc__1KzxyXB5-7" style="edgeStyle=none;rounded=0;html=1;jettySize=auto;orthogonalLoop=1;strokeColor=#707070;strokeWidth=2;fontColor=#707070;jumpStyle=none;dashed=1;metaEdit=1;metaData={&quot;c4Type&quot;:{&quot;editable&quot;:false}};fontSize=9;exitX=0.5;exitY=1;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;entryPerimeter=0;" target="nWqCjkNsrm4b_WWKENrk-0">
+            <mxGeometry relative="1" width="160" x="-0.3636" as="geometry">
+              <mxPoint as="offset" />
+              <Array as="points" />
+              <mxPoint x="610" y="280" as="sourcePoint" />
+              <mxPoint x="697" y="330" as="targetPoint" />
+            </mxGeometry>
+          </mxCell>
+        </object>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram name="C2 Contenidors" id="cHI2geDUXH-fZyQAC4WI">
+    <mxGraphModel grid="1" page="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="xY55vHs7UwSvY40TRfNE-0" />
+        <mxCell id="xY55vHs7UwSvY40TRfNE-1" parent="xY55vHs7UwSvY40TRfNE-0" />
+        <object placeholders="1" c4Name=" Sistema de votació &#xa;descentralitzat" c4Type="DeploymentNode" label="&lt;div style=&quot;margin-left: 0.5rem;margin-bottom: 0.15rem;text-align: left; font-size: 9px;&quot;&gt;%c4Name%&lt;/div&gt;" id="xY55vHs7UwSvY40TRfNE-2">
+          <mxCell parent="xY55vHs7UwSvY40TRfNE-1" style="rounded=1;whiteSpace=wrap;html=1;labelBackgroundColor=none;fillColor=#dae8fc;align=left;arcSize=5;strokeColor=#6c8ebf;verticalAlign=bottom;metaEdit=1;metaData={&quot;c4Type&quot;:{&quot;editable&quot;:false}};points=[[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0.25,0],[1,0.5,0],[1,0.75,0],[0.75,1,0],[0.5,1,0],[0.25,1,0],[0,0.75,0],[0,0.5,0],[0,0.25,0]];fontSize=9;dashed=1;dashPattern=8 8;" vertex="1">
+            <mxGeometry height="580" width="280" x="321" y="290" as="geometry" />
+          </mxCell>
+        </object>
+        <object placeholders="1" c4Name="Node Ethereum" c4Type="Software System" c4Description="Usada exclusivament com a &#xa;notari públic per fer &#xa;emmagatzemar el hash dels &#xa;resultats finals i garantir&#xa;immutabilitat." label="&lt;b style=&quot;font-size: 9px;&quot;&gt;%c4Name%&lt;/b&gt;&lt;div style=&quot;font-size: 9px;&quot;&gt;[%c4Type%]&lt;/div&gt;&lt;br style=&quot;font-size: 9px;&quot;&gt;&lt;div style=&quot;font-size: 9px;&quot;&gt;%c4Description%&lt;/div&gt;" id="xY55vHs7UwSvY40TRfNE-3">
+          <mxCell parent="xY55vHs7UwSvY40TRfNE-1" style="rounded=1;whiteSpace=wrap;html=1;labelBackgroundColor=none;fillColor=#999999;fontColor=#ffffff;align=center;arcSize=10;strokeColor=#8A8A8A;metaEdit=1;metaData={&quot;c4Type&quot;:{&quot;editable&quot;:false}};points=[[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0.25,0],[1,0.5,0],[1,0.75,0],[0.75,1,0],[0.5,1,0],[0.25,1,0],[0,0.75,0],[0,0.5,0],[0,0.25,0]];fontSize=9;" vertex="1">
+            <mxGeometry height="90" width="125" x="152.5" y="748" as="geometry" />
+          </mxCell>
+        </object>
+        <object placeholders="1" c4Type="Relationship" c4Technology="UI / Interacció Humana" c4Description="Interacciona per emetre &#xa;vots, proposar eleccions,&#xa;generar i gestionar organitzacions &#xa;i consultar resultats." label="&lt;div style=&quot;text-align: left; font-size: 9px;&quot;&gt;&lt;div style=&quot;text-align: center; font-size: 9px;&quot;&gt;&lt;b style=&quot;font-size: 9px;&quot;&gt;%c4Description%&lt;/b&gt;&lt;/div&gt;&lt;div style=&quot;text-align: center; font-size: 9px;&quot;&gt;[%c4Technology%]&lt;/div&gt;&lt;/div&gt;" id="xY55vHs7UwSvY40TRfNE-5">
+          <mxCell edge="1" parent="xY55vHs7UwSvY40TRfNE-1" source="pHbGt4LRe2OhjmkAYuwH-0" style="edgeStyle=none;rounded=0;html=1;jettySize=auto;orthogonalLoop=1;strokeColor=#707070;strokeWidth=2;fontColor=#707070;jumpStyle=none;dashed=1;metaEdit=1;metaData={&quot;c4Type&quot;:{&quot;editable&quot;:false}};fontSize=9;exitX=0.5;exitY=1;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.168;entryY=-0.004;entryDx=0;entryDy=0;entryPerimeter=0;" target="xY55vHs7UwSvY40TRfNE-17">
+            <mxGeometry relative="1" width="160" x="-0.0985" as="geometry">
+              <mxPoint as="offset" />
+              <mxPoint x="414.0000000000002" y="271.0000000000001" as="sourcePoint" />
+              <mxPoint x="509" y="358" as="targetPoint" />
+            </mxGeometry>
+          </mxCell>
+        </object>
+        <object placeholders="1" c4Name="Full Node Algorand" c4Type="Software System" c4Description="Node d&#39;Algorand. Pot ser un node públic o formar part d&#39;una xarxa consorciada" label="&lt;b style=&quot;font-size: 9px;&quot;&gt;%c4Name%&lt;/b&gt;&lt;div style=&quot;font-size: 9px;&quot;&gt;[%c4Type%]&lt;/div&gt;&lt;br style=&quot;font-size: 9px;&quot;&gt;&lt;div style=&quot;font-size: 9px;&quot;&gt;%c4Description%&lt;/div&gt;" id="xY55vHs7UwSvY40TRfNE-6">
+          <mxCell parent="xY55vHs7UwSvY40TRfNE-1" style="rounded=1;whiteSpace=wrap;html=1;labelBackgroundColor=none;fillColor=#999999;fontColor=#ffffff;align=center;arcSize=10;strokeColor=#8A8A8A;metaEdit=1;metaData={&quot;c4Type&quot;:{&quot;editable&quot;:false}};points=[[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0.25,0],[1,0.5,0],[1,0.75,0],[0.75,1,0],[0.5,1,0],[0.25,1,0],[0,0.75,0],[0,0.5,0],[0,0.25,0]];fontSize=9;" vertex="1">
+            <mxGeometry height="80" width="130" x="150" y="450" as="geometry" />
+          </mxCell>
+        </object>
+        <object placeholders="1" c4Type="Relationship" c4Technology="Protocol intern" c4Description="Deriva les &#xa;transaccions &#xa;de l&#39;usuari &#xa;cap al contracte" label="&lt;div style=&quot;text-align: left; font-size: 9px;&quot;&gt;&lt;div style=&quot;text-align: center; font-size: 9px;&quot;&gt;&lt;b style=&quot;font-size: 9px;&quot;&gt;%c4Description%&lt;/b&gt;&lt;/div&gt;&lt;div style=&quot;text-align: center; font-size: 9px;&quot;&gt;[%c4Technology%]&lt;/div&gt;&lt;/div&gt;" id="xY55vHs7UwSvY40TRfNE-7">
+          <mxCell edge="1" parent="xY55vHs7UwSvY40TRfNE-1" source="xY55vHs7UwSvY40TRfNE-6" style="edgeStyle=none;rounded=0;html=1;jettySize=auto;orthogonalLoop=1;strokeColor=#707070;strokeWidth=2;fontColor=#707070;jumpStyle=none;dashed=1;metaEdit=1;metaData={&quot;c4Type&quot;:{&quot;editable&quot;:false}};fontSize=9;entryX=0;entryY=0.5;entryDx=0;entryDy=0;entryPerimeter=0;exitX=0.75;exitY=1;exitDx=0;exitDy=0;exitPerimeter=0;" target="xY55vHs7UwSvY40TRfNE-18">
+            <mxGeometry relative="1" width="160" x="-0.2592" as="geometry">
+              <mxPoint as="offset" />
+              <Array as="points">
+                <mxPoint x="248" y="578" />
+              </Array>
+              <mxPoint x="200" y="640" as="sourcePoint" />
+              <mxPoint x="390" y="572.75" as="targetPoint" />
+            </mxGeometry>
+          </mxCell>
+        </object>
+        <object placeholders="1" c4Type="Relationship" c4Technology="HTTP" c4Description="Envia transaccions &#xa;de creació de &#xa;propostes, de vot o&#xa;de gestió d&#39;organitzacions" label="&lt;div style=&quot;text-align: left; font-size: 9px;&quot;&gt;&lt;div style=&quot;text-align: center; font-size: 9px;&quot;&gt;&lt;b style=&quot;font-size: 9px;&quot;&gt;%c4Description%&lt;/b&gt;&lt;/div&gt;&lt;div style=&quot;text-align: center; font-size: 9px;&quot;&gt;[%c4Technology%]&lt;/div&gt;&lt;/div&gt;" id="xY55vHs7UwSvY40TRfNE-8">
+          <mxCell edge="1" parent="xY55vHs7UwSvY40TRfNE-1" source="xY55vHs7UwSvY40TRfNE-17" style="edgeStyle=none;rounded=1;html=1;jettySize=auto;orthogonalLoop=1;strokeColor=#707070;strokeWidth=2;fontColor=#707070;jumpStyle=none;dashed=1;metaEdit=1;metaData={&quot;c4Type&quot;:{&quot;editable&quot;:false}};fontSize=9;exitX=-0.004;exitY=0.661;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;entryPerimeter=0;curved=0;" target="xY55vHs7UwSvY40TRfNE-6">
+            <mxGeometry relative="1" width="160" x="-0.136" as="geometry">
+              <mxPoint as="offset" />
+              <Array as="points">
+                <mxPoint x="215" y="401" />
+              </Array>
+              <mxPoint x="390" y="359.5" as="sourcePoint" />
+              <mxPoint x="320" y="370" as="targetPoint" />
+            </mxGeometry>
+          </mxCell>
+        </object>
+        <object placeholders="1" c4Type="Relationship" c4Technology="HTTP" c4Description="Enviament i consulta de dades" label="&lt;div style=&quot;text-align: left; font-size: 9px;&quot;&gt;&lt;div style=&quot;text-align: center; font-size: 9px;&quot;&gt;&lt;b style=&quot;font-size: 9px;&quot;&gt;%c4Description%&lt;/b&gt;&lt;/div&gt;&lt;div style=&quot;text-align: center; font-size: 9px;&quot;&gt;[%c4Technology%]&lt;/div&gt;&lt;/div&gt;" id="xY55vHs7UwSvY40TRfNE-9">
+          <mxCell edge="1" parent="xY55vHs7UwSvY40TRfNE-1" source="xY55vHs7UwSvY40TRfNE-6" style="edgeStyle=none;rounded=1;html=1;jettySize=auto;orthogonalLoop=1;strokeColor=#707070;strokeWidth=2;fontColor=#707070;jumpStyle=none;dashed=1;metaEdit=1;metaData={&quot;c4Type&quot;:{&quot;editable&quot;:false}};fontSize=9;entryX=0.5;entryY=1;entryDx=0;entryDy=0;entryPerimeter=0;exitX=1;exitY=0.25;exitDx=0;exitDy=0;exitPerimeter=0;curved=0;" target="xY55vHs7UwSvY40TRfNE-17">
+            <mxGeometry relative="1" width="160" x="-0.2226" as="geometry">
+              <mxPoint as="offset" />
+              <Array as="points">
+                <mxPoint x="473" y="470" />
+              </Array>
+              <mxPoint x="373" y="317" as="sourcePoint" />
+              <mxPoint x="470" y="376" as="targetPoint" />
+            </mxGeometry>
+          </mxCell>
+        </object>
+        <object placeholders="1" c4Type="Relationship" c4Technology="Protocol intern" c4Description="Resultat de la transacció" label="&lt;div style=&quot;text-align: left; font-size: 9px;&quot;&gt;&lt;div style=&quot;text-align: center; font-size: 9px;&quot;&gt;&lt;b style=&quot;font-size: 9px;&quot;&gt;%c4Description%&lt;/b&gt;&lt;/div&gt;&lt;div style=&quot;text-align: center; font-size: 9px;&quot;&gt;[%c4Technology%]&lt;/div&gt;&lt;/div&gt;" id="xY55vHs7UwSvY40TRfNE-10">
+          <mxCell edge="1" parent="xY55vHs7UwSvY40TRfNE-1" source="xY55vHs7UwSvY40TRfNE-18" style="edgeStyle=none;rounded=1;html=1;jettySize=auto;orthogonalLoop=1;strokeColor=#707070;strokeWidth=2;fontColor=#707070;jumpStyle=none;dashed=1;metaEdit=1;metaData={&quot;c4Type&quot;:{&quot;editable&quot;:false}};fontSize=9;entryX=1;entryY=0.75;entryDx=0;entryDy=0;entryPerimeter=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;exitPerimeter=0;curved=0;" target="xY55vHs7UwSvY40TRfNE-6">
+            <mxGeometry relative="1" width="160" x="0.009" as="geometry">
+              <mxPoint as="offset" />
+              <Array as="points">
+                <mxPoint x="472" y="510" />
+              </Array>
+              <mxPoint x="470" y="529" as="sourcePoint" />
+              <mxPoint x="360" y="610" as="targetPoint" />
+            </mxGeometry>
+          </mxCell>
+        </object>
+        <object placeholders="1" c4Type="Relationship" c4Technology="HTTP" c4Description="Consulta els resultats" label="&lt;div style=&quot;text-align: left; font-size: 9px;&quot;&gt;&lt;div style=&quot;text-align: center; font-size: 9px;&quot;&gt;&lt;b style=&quot;font-size: 9px;&quot;&gt;%c4Description%&lt;/b&gt;&lt;/div&gt;&lt;div style=&quot;text-align: center; font-size: 9px;&quot;&gt;[%c4Technology%]&lt;/div&gt;&lt;/div&gt;" id="xY55vHs7UwSvY40TRfNE-11">
+          <mxCell edge="1" parent="xY55vHs7UwSvY40TRfNE-1" source="xY55vHs7UwSvY40TRfNE-19" style="edgeStyle=none;rounded=1;html=1;jettySize=auto;orthogonalLoop=1;strokeColor=#707070;strokeWidth=2;fontColor=#707070;jumpStyle=none;dashed=1;metaEdit=1;metaData={&quot;c4Type&quot;:{&quot;editable&quot;:false}};fontSize=9;exitX=0;exitY=0.25;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.25;entryY=1;entryDx=0;entryDy=0;entryPerimeter=0;curved=0;" target="xY55vHs7UwSvY40TRfNE-6">
+            <mxGeometry relative="1" width="160" x="-0.1327" as="geometry">
+              <mxPoint as="offset" />
+              <Array as="points">
+                <mxPoint x="183" y="660" />
+              </Array>
+              <mxPoint x="290" y="738" as="sourcePoint" />
+              <mxPoint x="110" y="620" as="targetPoint" />
+            </mxGeometry>
+          </mxCell>
+        </object>
+        <object placeholders="1" c4Type="Relationship" c4Technology="HTTP" c4Description="Escriu el hash final &#xa;consensuat per fer &#xa;l&#39;anchoring" label="&lt;div style=&quot;text-align: left; font-size: 9px;&quot;&gt;&lt;div style=&quot;text-align: center; font-size: 9px;&quot;&gt;&lt;b style=&quot;font-size: 9px;&quot;&gt;%c4Description%&lt;/b&gt;&lt;/div&gt;&lt;div style=&quot;text-align: center; font-size: 9px;&quot;&gt;[%c4Technology%]&lt;/div&gt;&lt;/div&gt;" id="xY55vHs7UwSvY40TRfNE-12">
+          <mxCell edge="1" parent="xY55vHs7UwSvY40TRfNE-1" source="xY55vHs7UwSvY40TRfNE-19" style="edgeStyle=none;rounded=1;html=1;jettySize=auto;orthogonalLoop=1;strokeColor=#707070;strokeWidth=2;fontColor=#707070;jumpStyle=none;dashed=1;metaEdit=1;metaData={&quot;c4Type&quot;:{&quot;editable&quot;:false}};fontSize=9;exitX=0;exitY=0.75;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;entryPerimeter=0;curved=0;" target="xY55vHs7UwSvY40TRfNE-3">
+            <mxGeometry relative="1" width="160" x="-0.6112" as="geometry">
+              <mxPoint as="offset" />
+              <Array as="points">
+                <mxPoint x="215" y="702" />
+              </Array>
+              <mxPoint x="420" y="711.5" as="sourcePoint" />
+              <mxPoint x="720" y="1076" as="targetPoint" />
+            </mxGeometry>
+          </mxCell>
+        </object>
+        <object placeholders="1" c4Type="Relationship" c4Technology="Protocol intern" c4Description="Deriva les &#xa;transaccions &#xa;de l&#39;usuari &#xa;cap al contracte" label="&lt;div style=&quot;text-align: left; font-size: 9px;&quot;&gt;&lt;div style=&quot;text-align: center; font-size: 9px;&quot;&gt;&lt;b style=&quot;font-size: 9px;&quot;&gt;%c4Description%&lt;/b&gt;&lt;/div&gt;&lt;div style=&quot;text-align: center; font-size: 9px;&quot;&gt;[%c4Technology%]&lt;/div&gt;&lt;/div&gt;" id="xY55vHs7UwSvY40TRfNE-13">
+          <mxCell edge="1" parent="xY55vHs7UwSvY40TRfNE-1" source="xY55vHs7UwSvY40TRfNE-3" style="edgeStyle=none;rounded=0;html=1;jettySize=auto;orthogonalLoop=1;strokeColor=#707070;strokeWidth=2;fontColor=#707070;jumpStyle=none;dashed=1;metaEdit=1;metaData={&quot;c4Type&quot;:{&quot;editable&quot;:false}};fontSize=9;exitX=1;exitY=0.5;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;entryPerimeter=0;" target="xY55vHs7UwSvY40TRfNE-20">
+            <mxGeometry relative="1" width="160" x="0.073" as="geometry">
+              <mxPoint as="offset" />
+              <Array as="points" />
+              <mxPoint x="600" y="840" as="sourcePoint" />
+              <mxPoint x="720" y="830" as="targetPoint" />
+            </mxGeometry>
+          </mxCell>
+        </object>
+        <object placeholders="1" c4Name="Client - Interfície web" c4Type="Container" c4Technology="React" c4Description="Interfície entre votant i sistema de votació" label="&lt;b style=&quot;font-size: 9px;&quot;&gt;%c4Name%&lt;/b&gt;&lt;div style=&quot;font-size: 9px;&quot;&gt;[%c4Type%: %c4Technology%]&lt;/div&gt;&lt;br style=&quot;font-size: 9px;&quot;&gt;&lt;div style=&quot;font-size: 9px;&quot;&gt;%c4Description%&lt;/div&gt;" id="xY55vHs7UwSvY40TRfNE-17">
+          <mxCell parent="xY55vHs7UwSvY40TRfNE-1" style="rounded=1;whiteSpace=wrap;html=1;labelBackgroundColor=none;fillColor=#438DD5;fontColor=#ffffff;align=center;arcSize=10;strokeColor=#3C7FC0;metaEdit=1;metaData={&quot;c4Type&quot;:{&quot;editable&quot;:false}};points=[[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0.25,0],[1,0.5,0],[1,0.75,0],[0.75,1,0],[0.5,1,0],[0.25,1,0],[0,0.75,0],[0,0.5,0],[0,0.25,0]];fontSize=9;" vertex="1">
+            <mxGeometry height="70" width="175" x="385" y="355" as="geometry" />
+          </mxCell>
+        </object>
+        <object placeholders="1" c4Name="Contracte intel·ligent" c4Type="Container" c4Technology="Algpy / TEAL" c4Description="Contracte intel·ligent d&#39;Algorand encarregat de gestionar les propostes, les eleccions i el vot d&#39;aquestes. Juntament amb el sistema d&#39;organitzacions i la seva gestió" label="&lt;b style=&quot;font-size: 9px;&quot;&gt;%c4Name%&lt;/b&gt;&lt;div style=&quot;font-size: 9px;&quot;&gt;[%c4Type%: %c4Technology%]&lt;/div&gt;&lt;br style=&quot;font-size: 9px;&quot;&gt;&lt;div style=&quot;font-size: 9px;&quot;&gt;%c4Description%&lt;/div&gt;" id="xY55vHs7UwSvY40TRfNE-18">
+          <mxCell parent="xY55vHs7UwSvY40TRfNE-1" style="rounded=1;whiteSpace=wrap;html=1;labelBackgroundColor=none;fillColor=#438DD5;fontColor=#ffffff;align=center;arcSize=10;strokeColor=#3C7FC0;metaEdit=1;metaData={&quot;c4Type&quot;:{&quot;editable&quot;:false}};points=[[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0.25,0],[1,0.5,0],[1,0.75,0],[0.75,1,0],[0.5,1,0],[0.25,1,0],[0,0.75,0],[0,0.5,0],[0,0.25,0]];fontSize=9;" vertex="1">
+            <mxGeometry height="90" width="167" x="389" y="533" as="geometry" />
+          </mxCell>
+        </object>
+        <object placeholders="1" c4Name="Servei d&#39;ancoratge" c4Type="Container" c4Technology="Python" c4Description="Recompte de vots mitjançant consens entre nodes pròpis " label="&lt;b style=&quot;font-size: 9px;&quot;&gt;%c4Name%&lt;/b&gt;&lt;div style=&quot;font-size: 9px;&quot;&gt;[%c4Type%: %c4Technology%]&lt;/div&gt;&lt;br style=&quot;font-size: 9px;&quot;&gt;&lt;div style=&quot;font-size: 9px;&quot;&gt;%c4Description%&lt;/div&gt;" id="xY55vHs7UwSvY40TRfNE-19">
+          <mxCell parent="xY55vHs7UwSvY40TRfNE-1" style="rounded=1;whiteSpace=wrap;html=1;labelBackgroundColor=none;fillColor=#438DD5;fontColor=#ffffff;align=center;arcSize=10;strokeColor=#3C7FC0;metaEdit=1;metaData={&quot;c4Type&quot;:{&quot;editable&quot;:false}};points=[[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0.25,0],[1,0.5,0],[1,0.75,0],[0.75,1,0],[0.5,1,0],[0.25,1,0],[0,0.75,0],[0,0.5,0],[0,0.25,0]];fontSize=9;" vertex="1">
+            <mxGeometry height="83" width="117" x="418.5" y="640" as="geometry" />
+          </mxCell>
+        </object>
+        <object placeholders="1" c4Name="Contracte intel·ligent" c4Type="Container" c4Technology="Solidity" c4Description="Contracte intel·ligent d&#39;Ethereum encarregat de gestionar els hashes publicats des del sistema de recompte" label="&lt;b style=&quot;font-size: 9px;&quot;&gt;%c4Name%&lt;/b&gt;&lt;div style=&quot;font-size: 9px;&quot;&gt;[%c4Type%: %c4Technology%]&lt;/div&gt;&lt;br style=&quot;font-size: 9px;&quot;&gt;&lt;div style=&quot;font-size: 9px;&quot;&gt;%c4Description%&lt;/div&gt;" id="xY55vHs7UwSvY40TRfNE-20">
+          <mxCell parent="xY55vHs7UwSvY40TRfNE-1" style="rounded=1;whiteSpace=wrap;html=1;labelBackgroundColor=none;fillColor=#438DD5;fontColor=#ffffff;align=center;arcSize=10;strokeColor=#3C7FC0;metaEdit=1;metaData={&quot;c4Type&quot;:{&quot;editable&quot;:false}};points=[[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0.25,0],[1,0.5,0],[1,0.75,0],[0.75,1,0],[0.5,1,0],[0.25,1,0],[0,0.75,0],[0,0.5,0],[0,0.25,0]];fontSize=9;" vertex="1">
+            <mxGeometry height="83" width="157" x="394" y="751.5" as="geometry" />
+          </mxCell>
+        </object>
+        <object placeholders="1" c4Name="Administrador" c4Type="Person" c4Description="Administrador&#xa;de nodes" label="&lt;b style=&quot;font-size: 9px;&quot;&gt;%c4Name%&lt;/b&gt;&lt;div style=&quot;font-size: 9px;&quot;&gt;[%c4Type% / entity]&lt;/div&gt;&lt;br style=&quot;font-size: 9px;&quot;&gt;&lt;div style=&quot;font-size: 9px;&quot;&gt;%c4Description%&lt;/div&gt;" id="s_QHyE7CIgfHzsyJbgsi-0">
+          <mxCell parent="xY55vHs7UwSvY40TRfNE-1" style="html=1;dashed=0;whitespace=wrap;fillColor=#08427b;strokeColor=none;fontColor=#ffffff;shape=mxgraph.c4.person;align=center;metaEdit=1;points=[[0.5,0,0],[1,0.5,0],[1,0.75,0],[0.75,1,0],[0.5,1,0],[0.25,1,0],[0,0.75,0],[0,0.5,0]];metaData={&quot;c4Type&quot;:{&quot;editable&quot;:false}};fontSize=9;" vertex="1">
+            <mxGeometry height="110" width="110" x="491" y="165.5" as="geometry" />
+          </mxCell>
+        </object>
+        <object placeholders="1" c4Name="Votant" c4Type="Person" c4Description="Interactua amb la &#xa;interfície per proposar &#xa;o votar eleccions" label="&lt;b style=&quot;font-size: 9px;&quot;&gt;%c4Name%&lt;/b&gt;&lt;div style=&quot;font-size: 9px;&quot;&gt;[%c4Type%]&lt;/div&gt;&lt;br style=&quot;font-size: 9px;&quot;&gt;&lt;div style=&quot;font-size: 9px;&quot;&gt;%c4Description%&lt;/div&gt;" id="pHbGt4LRe2OhjmkAYuwH-0">
+          <mxCell parent="xY55vHs7UwSvY40TRfNE-1" style="html=1;dashed=0;whitespace=wrap;fillColor=#08427b;strokeColor=none;fontColor=#ffffff;shape=mxgraph.c4.person;align=center;metaEdit=1;points=[[0.5,0,0],[1,0.5,0],[1,0.75,0],[0.75,1,0],[0.5,1,0],[0.25,1,0],[0,0.75,0],[0,0.5,0]];metaData={&quot;c4Type&quot;:{&quot;editable&quot;:false}};fontSize=9;" vertex="1">
+            <mxGeometry height="110" width="110" x="359" y="165.5" as="geometry" />
+          </mxCell>
+        </object>
+        <object placeholders="1" c4Type="Relationship" c4Technology="Interacció Humana" c4Description="Interacciona amb &#xa;l&#39;smart contract&#xa;d&#39;Ethereum per &#xa;gestional el cens&#xa;de nodes" label="&lt;div style=&quot;text-align: left; font-size: 9px;&quot;&gt;&lt;div style=&quot;text-align: center; font-size: 9px;&quot;&gt;&lt;b style=&quot;font-size: 9px;&quot;&gt;%c4Description%&lt;/b&gt;&lt;/div&gt;&lt;div style=&quot;text-align: center; font-size: 9px;&quot;&gt;[%c4Technology%]&lt;/div&gt;&lt;/div&gt;" id="Ajlgdk6OgzV4aA8hqV9P-0">
+          <mxCell edge="1" parent="xY55vHs7UwSvY40TRfNE-1" source="s_QHyE7CIgfHzsyJbgsi-0" style="edgeStyle=none;rounded=1;html=1;jettySize=auto;orthogonalLoop=1;strokeColor=#707070;strokeWidth=2;fontColor=#707070;jumpStyle=none;dashed=1;metaEdit=1;metaData={&quot;c4Type&quot;:{&quot;editable&quot;:false}};fontSize=9;exitX=1.022;exitY=0.64;exitDx=0;exitDy=0;exitPerimeter=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;entryPerimeter=0;curved=0;" target="xY55vHs7UwSvY40TRfNE-20">
+            <mxGeometry relative="1" width="160" x="0.7223" as="geometry">
+              <mxPoint as="offset" />
+              <Array as="points">
+                <mxPoint x="630" y="236" />
+                <mxPoint x="630" y="793" />
+              </Array>
+              <mxPoint x="757" y="280" as="sourcePoint" />
+              <mxPoint x="620" y="580" as="targetPoint" />
+            </mxGeometry>
+          </mxCell>
+        </object>
+        <object placeholders="1" c4Name="Cartera Externa (Pera / KMD)" c4Type="Software System" c4Description="Signa transaccions mitjançant claus privades." label="&lt;b style=&quot;font-size: 9px;&quot;&gt;%c4Name%&lt;/b&gt;&lt;div style=&quot;font-size: 9px;&quot;&gt;[%c4Type%]&lt;/div&gt;&lt;br style=&quot;font-size: 9px;&quot;&gt;&lt;div style=&quot;font-size: 9px;&quot;&gt;%c4Description%&lt;/div&gt;" id="Z49pOLyyJbGV5v4zZ6YL-0">
+          <mxCell parent="xY55vHs7UwSvY40TRfNE-1" style="rounded=1;whiteSpace=wrap;html=1;labelBackgroundColor=none;fillColor=#999999;fontColor=#ffffff;align=center;arcSize=10;strokeColor=#8A8A8A;metaEdit=1;metaData={&quot;c4Type&quot;:{&quot;editable&quot;:false}};points=[[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0.25,0],[1,0.5,0],[1,0.75,0],[0.75,1,0],[0.5,1,0],[0.25,1,0],[0,0.75,0],[0,0.5,0],[0,0.25,0]];fontSize=9;" vertex="1">
+            <mxGeometry height="80" width="110" x="180" y="230" as="geometry" />
+          </mxCell>
+        </object>
+        <object placeholders="1" c4Type="Relationship" c4Description="Sol·licita signar transacció" label="&lt;div style=&quot;text-align: left; font-size: 9px;&quot;&gt;&lt;div style=&quot;text-align: center; font-size: 9px;&quot;&gt;&lt;b style=&quot;font-size: 9px;&quot;&gt;%c4Description%&lt;/b&gt;&lt;/div&gt;&lt;div style=&quot;text-align: center; font-size: 9px;&quot;&gt;[%c4Tecnology%]&lt;/div&gt;&lt;/div&gt;" c4Tecnology="REST / WalletConnect" id="qwKse_WUi_5MQFYAgGP8-0">
+          <mxCell edge="1" parent="xY55vHs7UwSvY40TRfNE-1" source="xY55vHs7UwSvY40TRfNE-17" style="edgeStyle=none;rounded=1;html=1;jettySize=auto;orthogonalLoop=1;strokeColor=#707070;strokeWidth=2;fontColor=#707070;jumpStyle=none;dashed=1;metaEdit=1;metaData={&quot;c4Type&quot;:{&quot;editable&quot;:false}};fontSize=9;exitX=-0.001;exitY=0.212;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;entryPerimeter=0;curved=0;" target="Z49pOLyyJbGV5v4zZ6YL-0">
+            <mxGeometry relative="1" width="160" x="0.6839" as="geometry">
+              <mxPoint as="offset" />
+              <Array as="points">
+                <mxPoint x="235" y="370" />
+              </Array>
+              <mxPoint x="230" y="340" as="sourcePoint" />
+              <mxPoint x="230" y="394" as="targetPoint" />
+            </mxGeometry>
+          </mxCell>
+        </object>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram name="C3 Component client" id="A78y8hi3Hpj-wbAM5hi0">
+    <mxGraphModel grid="1" page="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="30Pfw7T2e7q-x__PA8Cp-0" />
+        <mxCell id="30Pfw7T2e7q-x__PA8Cp-1" parent="30Pfw7T2e7q-x__PA8Cp-0" />
+        <object placeholders="1" c4Name="Votant" c4Type="Person" c4Description="Interactua amb la interfície per&#xa;proposar o votar eleccions &#xa;i gestionar censos." label="&lt;b style=&quot;font-size: 9px;&quot;&gt;%c4Name%&lt;/b&gt;&lt;div style=&quot;font-size: 9px;&quot;&gt;[%c4Type%]&lt;/div&gt;&lt;br style=&quot;font-size: 9px;&quot;&gt;&lt;div style=&quot;font-size: 9px;&quot;&gt;%c4Description%&lt;/div&gt;" id="vHlKJtertv3N0gImLwNh-0">
+          <mxCell parent="30Pfw7T2e7q-x__PA8Cp-1" style="html=1;dashed=0;whitespace=wrap;fillColor=#08427b;strokeColor=none;fontColor=#ffffff;shape=mxgraph.c4.person;align=center;metaEdit=1;points=[[0.5,0,0],[1,0.5,0],[1,0.75,0],[0.75,1,0],[0.5,1,0],[0.25,1,0],[0,0.75,0],[0,0.5,0]];metaData={&quot;c4Type&quot;:{&quot;editable&quot;:false}};fontSize=9;" vertex="1">
+            <mxGeometry height="110" width="150" x="665" y="110" as="geometry" />
+          </mxCell>
+        </object>
+        <object placeholders="1" c4Name="Cartera Externa (Pera / KMD)" c4Type="Software System" c4Description="Signa transaccions mitjançant claus privades." label="&lt;b style=&quot;font-size: 9px;&quot;&gt;%c4Name%&lt;/b&gt;&lt;div style=&quot;font-size: 9px;&quot;&gt;[%c4Type%]&lt;/div&gt;&lt;br style=&quot;font-size: 9px;&quot;&gt;&lt;div style=&quot;font-size: 9px;&quot;&gt;%c4Description%&lt;/div&gt;" id="vHlKJtertv3N0gImLwNh-1">
+          <mxCell parent="30Pfw7T2e7q-x__PA8Cp-1" style="rounded=1;whiteSpace=wrap;html=1;labelBackgroundColor=none;fillColor=#999999;fontColor=#ffffff;align=center;arcSize=10;strokeColor=#8A8A8A;metaEdit=1;metaData={&quot;c4Type&quot;:{&quot;editable&quot;:false}};points=[[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0.25,0],[1,0.5,0],[1,0.75,0],[0.75,1,0],[0.5,1,0],[0.25,1,0],[0,0.75,0],[0,0.5,0],[0,0.25,0]];fontSize=9;" vertex="1">
+            <mxGeometry height="80" width="160" x="100" y="560" as="geometry" />
+          </mxCell>
+        </object>
+        <object placeholders="1" c4Name="Full Node Algorand" c4Type="Software System" c4Description="Processa i registra l&#39;estat de l&#39;Smart Contract i dels vots." label="&lt;b style=&quot;font-size: 9px;&quot;&gt;%c4Name%&lt;/b&gt;&lt;div style=&quot;font-size: 9px;&quot;&gt;[%c4Type%]&lt;/div&gt;&lt;br style=&quot;font-size: 9px;&quot;&gt;&lt;div style=&quot;font-size: 9px;&quot;&gt;%c4Description%&lt;/div&gt;" id="vHlKJtertv3N0gImLwNh-2">
+          <mxCell parent="30Pfw7T2e7q-x__PA8Cp-1" style="rounded=1;whiteSpace=wrap;html=1;labelBackgroundColor=none;fillColor=#999999;fontColor=#ffffff;align=center;arcSize=10;strokeColor=#8A8A8A;metaEdit=1;metaData={&quot;c4Type&quot;:{&quot;editable&quot;:false}};points=[[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0.25,0],[1,0.5,0],[1,0.75,0],[0.75,1,0],[0.5,1,0],[0.25,1,0],[0,0.75,0],[0,0.5,0],[0,0.25,0]];fontSize=9;" vertex="1">
+            <mxGeometry height="80" width="180" x="650" y="830" as="geometry" />
+          </mxCell>
+        </object>
+        <object placeholders="1" c4Name="Client - Interfície web" c4Type="DeploymentNode" label="&lt;div style=&quot;margin-left: 0.5rem;margin-bottom: 0.15rem;text-align: left; font-size: 9px;&quot;&gt;%c4Name% [Container: React SPA]&lt;/div&gt;" id="vHlKJtertv3N0gImLwNh-3">
+          <mxCell parent="30Pfw7T2e7q-x__PA8Cp-1" style="rounded=1;whiteSpace=wrap;html=1;labelBackgroundColor=none;fillColor=#dae8fc;align=left;arcSize=5;strokeColor=#6c8ebf;verticalAlign=bottom;metaEdit=1;metaData={&quot;c4Type&quot;:{&quot;editable&quot;:false}};points=[[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0.25,0],[1,0.5,0],[1,0.75,0],[0.75,1,0],[0.5,1,0],[0.25,1,0],[0,0.75,0],[0,0.5,0],[0,0.25,0]];fontSize=9;dashed=1;dashPattern=8 8;" vertex="1">
+            <mxGeometry height="520" width="900" x="290" y="260" as="geometry" />
+          </mxCell>
+        </object>
+        <object placeholders="1" c4Name="Router Component" c4Type="Component" c4Technology="react-router-dom" c4Description="Gestiona rutes i loaders de precàrrega de dades." label="&lt;b style=&quot;font-size: 9px;&quot;&gt;%c4Name%&lt;/b&gt;&lt;div style=&quot;font-size: 9px;&quot;&gt;[%c4Type%: %c4Technology%]&lt;/div&gt;&lt;br style=&quot;font-size: 9px;&quot;&gt;&lt;div style=&quot;font-size: 9px;&quot;&gt;%c4Description%&lt;/div&gt;" id="vHlKJtertv3N0gImLwNh-4">
+          <mxCell parent="30Pfw7T2e7q-x__PA8Cp-1" style="rounded=1;whiteSpace=wrap;html=1;labelBackgroundColor=none;fillColor=#85BBF0;fontColor=#ffffff;align=center;arcSize=10;strokeColor=#78A8D8;metaEdit=1;metaData={&quot;c4Type&quot;:{&quot;editable&quot;:false}};points=[[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0.25,0],[1,0.5,0],[1,0.75,0],[0.75,1,0],[0.5,1,0],[0.25,1,0],[0,0.75,0],[0,0.5,0],[0,0.25,0]];fontSize=9;" vertex="1">
+            <mxGeometry height="80" width="180" x="320" y="300" as="geometry" />
+          </mxCell>
+        </object>
+        <object placeholders="1" c4Name="Page Views / UI Controllers" c4Type="Component" c4Technology="React Pàgines" c4Description="Controla l&#39;estat de les pantalles i gestiona formularis." label="&lt;b style=&quot;font-size: 9px;&quot;&gt;%c4Name%&lt;/b&gt;&lt;div style=&quot;font-size: 9px;&quot;&gt;[%c4Type%: %c4Technology%]&lt;/div&gt;&lt;br style=&quot;font-size: 9px;&quot;&gt;&lt;div style=&quot;font-size: 9px;&quot;&gt;%c4Description%&lt;/div&gt;" id="vHlKJtertv3N0gImLwNh-5">
+          <mxCell parent="30Pfw7T2e7q-x__PA8Cp-1" style="rounded=1;whiteSpace=wrap;html=1;labelBackgroundColor=none;fillColor=#85BBF0;fontColor=#ffffff;align=center;arcSize=10;strokeColor=#78A8D8;metaEdit=1;metaData={&quot;c4Type&quot;:{&quot;editable&quot;:false}};points=[[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0.25,0],[1,0.5,0],[1,0.75,0],[0.75,1,0],[0.5,1,0],[0.25,1,0],[0,0.75,0],[0,0.5,0],[0,0.25,0]];fontSize=9;" vertex="1">
+            <mxGeometry height="80" width="180" x="650" y="300" as="geometry" />
+          </mxCell>
+        </object>
+        <object placeholders="1" c4Name="Theme &amp; Translation Providers" c4Type="Component" c4Technology="Context / i18n" c4Description="Controla el català/castellà/anglès i l&#39;aspecte clar/fosqu." label="&lt;b style=&quot;font-size: 9px;&quot;&gt;%c4Name%&lt;/b&gt;&lt;div style=&quot;font-size: 9px;&quot;&gt;[%c4Type%: %c4Technology%]&lt;/div&gt;&lt;br style=&quot;font-size: 9px;&quot;&gt;&lt;div style=&quot;font-size: 9px;&quot;&gt;%c4Description%&lt;/div&gt;" id="vHlKJtertv3N0gImLwNh-6">
+          <mxCell parent="30Pfw7T2e7q-x__PA8Cp-1" style="rounded=1;whiteSpace=wrap;html=1;labelBackgroundColor=none;fillColor=#85BBF0;fontColor=#ffffff;align=center;arcSize=10;strokeColor=#78A8D8;metaEdit=1;metaData={&quot;c4Type&quot;:{&quot;editable&quot;:false}};points=[[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0.25,0],[1,0.5,0],[1,0.75,0],[0.75,1,0],[0.5,1,0],[0.25,1,0],[0,0.75,0],[0,0.5,0],[0,0.25,0]];fontSize=9;" vertex="1">
+            <mxGeometry height="80" width="180" x="980" y="300" as="geometry" />
+          </mxCell>
+        </object>
+        <object placeholders="1" c4Name="Data Cache &amp; Sync Manager" c4Type="Component" c4Technology="react-query" c4Description="Mapeja i gestiona la memòria cau de dades de xarxa." label="&lt;b style=&quot;font-size: 9px;&quot;&gt;%c4Name%&lt;/b&gt;&lt;div style=&quot;font-size: 9px;&quot;&gt;[%c4Type%: %c4Technology%]&lt;/div&gt;&lt;br style=&quot;font-size: 9px;&quot;&gt;&lt;div style=&quot;font-size: 9px;&quot;&gt;%c4Description%&lt;/div&gt;" id="vHlKJtertv3N0gImLwNh-7">
+          <mxCell parent="30Pfw7T2e7q-x__PA8Cp-1" style="rounded=1;whiteSpace=wrap;html=1;labelBackgroundColor=none;fillColor=#85BBF0;fontColor=#ffffff;align=center;arcSize=10;strokeColor=#78A8D8;metaEdit=1;metaData={&quot;c4Type&quot;:{&quot;editable&quot;:false}};points=[[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0.25,0],[1,0.5,0],[1,0.75,0],[0.75,1,0],[0.5,1,0],[0.25,1,0],[0,0.75,0],[0,0.5,0],[0,0.25,0]];fontSize=9;" vertex="1">
+            <mxGeometry height="80" width="180" x="320" y="480" as="geometry" />
+          </mxCell>
+        </object>
+        <object placeholders="1" c4Name="Algorand Queries &amp; Mutations" c4Type="Component" c4Technology="Custom Hooks" c4Description="Proveeix operacions asíncrones de l&#39;Smart Contract." label="&lt;b style=&quot;font-size: 9px;&quot;&gt;%c4Name%&lt;/b&gt;&lt;div style=&quot;font-size: 9px;&quot;&gt;[%c4Type%: %c4Technology%]&lt;/div&gt;&lt;br style=&quot;font-size: 9px;&quot;&gt;&lt;div style=&quot;font-size: 9px;&quot;&gt;%c4Description%&lt;/div&gt;" id="vHlKJtertv3N0gImLwNh-8">
+          <mxCell parent="30Pfw7T2e7q-x__PA8Cp-1" style="rounded=1;whiteSpace=wrap;html=1;labelBackgroundColor=none;fillColor=#85BBF0;fontColor=#ffffff;align=center;arcSize=10;strokeColor=#78A8D8;metaEdit=1;metaData={&quot;c4Type&quot;:{&quot;editable&quot;:false}};points=[[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0.25,0],[1,0.5,0],[1,0.75,0],[0.75,1,0],[0.5,1,0],[0.25,1,0],[0,0.75,0],[0,0.5,0],[0,0.25,0]];fontSize=9;" vertex="1">
+            <mxGeometry height="80" width="180" x="650" y="480" as="geometry" />
+          </mxCell>
+        </object>
+        <object placeholders="1" c4Name="UI Component Library" c4Type="Component" c4Technology="React / Tailwind" c4Description="Elements gràfics (RankingList, PairwiseGrid, etc.)." label="&lt;b style=&quot;font-size: 9px;&quot;&gt;%c4Name%&lt;/b&gt;&lt;div style=&quot;font-size: 9px;&quot;&gt;[%c4Type%: %c4Technology%]&lt;/div&gt;&lt;br style=&quot;font-size: 9px;&quot;&gt;&lt;div style=&quot;font-size: 9px;&quot;&gt;%c4Description%&lt;/div&gt;" id="vHlKJtertv3N0gImLwNh-9">
+          <mxCell parent="30Pfw7T2e7q-x__PA8Cp-1" style="rounded=1;whiteSpace=wrap;html=1;labelBackgroundColor=none;fillColor=#85BBF0;fontColor=#ffffff;align=center;arcSize=10;strokeColor=#78A8D8;metaEdit=1;metaData={&quot;c4Type&quot;:{&quot;editable&quot;:false}};points=[[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0.25,0],[1,0.5,0],[1,0.75,0],[0.75,1,0],[0.5,1,0],[0.25,1,0],[0,0.75,0],[0,0.5,0],[0,0.25,0]];fontSize=9;" vertex="1">
+            <mxGeometry height="80" width="180" x="980" y="480" as="geometry" />
+          </mxCell>
+        </object>
+        <object placeholders="1" c4Name="Wallet Connect &amp; Manager" c4Type="Component" c4Technology="use-wallet-react" c4Description="Gestiona la sessió de wallets i demana signatures." label="&lt;b style=&quot;font-size: 9px;&quot;&gt;%c4Name%&lt;/b&gt;&lt;div style=&quot;font-size: 9px;&quot;&gt;[%c4Type%: %c4Technology%]&lt;/div&gt;&lt;br style=&quot;font-size: 9px;&quot;&gt;&lt;div style=&quot;font-size: 9px;&quot;&gt;%c4Description%&lt;/div&gt;" id="vHlKJtertv3N0gImLwNh-10">
+          <mxCell parent="30Pfw7T2e7q-x__PA8Cp-1" style="rounded=1;whiteSpace=wrap;html=1;labelBackgroundColor=none;fillColor=#85BBF0;fontColor=#ffffff;align=center;arcSize=10;strokeColor=#78A8D8;metaEdit=1;metaData={&quot;c4Type&quot;:{&quot;editable&quot;:false}};points=[[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0.25,0],[1,0.5,0],[1,0.75,0],[0.75,1,0],[0.5,1,0],[0.25,1,0],[0,0.75,0],[0,0.5,0],[0,0.25,0]];fontSize=9;" vertex="1">
+            <mxGeometry height="80" width="180" x="320" y="660" as="geometry" />
+          </mxCell>
+        </object>
+        <object placeholders="1" c4Name="Smart Contract Client Wrapper" c4Type="Component" c4Technology="algosdk / ARC56" c4Description="Genera transaccions ABI i interactua amb l&#39;API d&#39;Algorand." label="&lt;b style=&quot;font-size: 9px;&quot;&gt;%c4Name%&lt;/b&gt;&lt;div style=&quot;font-size: 9px;&quot;&gt;[%c4Type%: %c4Technology%]&lt;/div&gt;&lt;br style=&quot;font-size: 9px;&quot;&gt;&lt;div style=&quot;font-size: 9px;&quot;&gt;%c4Description%&lt;/div&gt;" id="vHlKJtertv3N0gImLwNh-11">
+          <mxCell parent="30Pfw7T2e7q-x__PA8Cp-1" style="rounded=1;whiteSpace=wrap;html=1;labelBackgroundColor=none;fillColor=#85BBF0;fontColor=#ffffff;align=center;arcSize=10;strokeColor=#78A8D8;metaEdit=1;metaData={&quot;c4Type&quot;:{&quot;editable&quot;:false}};points=[[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0.25,0],[1,0.5,0],[1,0.75,0],[0.75,1,0],[0.5,1,0],[0.25,1,0],[0,0.75,0],[0,0.5,0],[0,0.25,0]];fontSize=9;" vertex="1">
+            <mxGeometry height="80" width="180" x="650" y="660" as="geometry" />
+          </mxCell>
+        </object>
+        <object placeholders="1" c4Name="Domain Logic Layer" c4Type="Component" c4Technology="TypeScript pur" c4Description="Conté mappers, validacions i el mètode de Schulze." label="&lt;b style=&quot;font-size: 9px;&quot;&gt;%c4Name%&lt;/b&gt;&lt;div style=&quot;font-size: 9px;&quot;&gt;[%c4Type%: %c4Technology%]&lt;/div&gt;&lt;br style=&quot;font-size: 9px;&quot;&gt;&lt;div style=&quot;font-size: 9px;&quot;&gt;%c4Description%&lt;/div&gt;" id="vHlKJtertv3N0gImLwNh-12">
+          <mxCell parent="30Pfw7T2e7q-x__PA8Cp-1" style="rounded=1;whiteSpace=wrap;html=1;labelBackgroundColor=none;fillColor=#85BBF0;fontColor=#ffffff;align=center;arcSize=10;strokeColor=#78A8D8;metaEdit=1;metaData={&quot;c4Type&quot;:{&quot;editable&quot;:false}};points=[[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0.25,0],[1,0.5,0],[1,0.75,0],[0.75,1,0],[0.5,1,0],[0.25,1,0],[0,0.75,0],[0,0.5,0],[0,0.25,0]];fontSize=9;" vertex="1">
+            <mxGeometry height="80" width="180" x="980" y="660" as="geometry" />
+          </mxCell>
+        </object>
+        <object placeholders="1" c4Type="Relationship" c4Technology="HTTP/DOM" c4Description="Interactua amb" label="&lt;div style=&quot;text-align: left; font-size: 9px;&quot;&gt;&lt;div style=&quot;text-align: center; font-size: 9px;&quot;&gt;&lt;b style=&quot;font-size: 9px;&quot;&gt;%c4Description%&lt;/b&gt;&lt;/div&gt;&lt;div style=&quot;text-align: center; font-size: 9px;&quot;&gt;[%c4Technology%]&lt;/div&gt;&lt;/div&gt;" id="vHlKJtertv3N0gImLwNh-13">
+          <mxCell edge="1" parent="30Pfw7T2e7q-x__PA8Cp-1" source="vHlKJtertv3N0gImLwNh-0" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;jettySize=auto;orthogonalLoop=1;strokeColor=#707070;strokeWidth=2;fontColor=#707070;jumpStyle=none;dashed=1;metaEdit=1;metaData={&quot;c4Type&quot;:{&quot;editable&quot;:false}};fontSize=9;" target="vHlKJtertv3N0gImLwNh-5">
+            <mxGeometry relative="1" width="160" x="-0.5" as="geometry">
+              <mxPoint as="offset" />
+            </mxGeometry>
+          </mxCell>
+        </object>
+        <object placeholders="1" c4Type="Relationship" c4Technology="HTTP/URL" c4Description="Navega a" label="&lt;div style=&quot;text-align: left; font-size: 9px;&quot;&gt;&lt;div style=&quot;text-align: center; font-size: 9px;&quot;&gt;&lt;b style=&quot;font-size: 9px;&quot;&gt;%c4Description%&lt;/b&gt;&lt;/div&gt;&lt;div style=&quot;text-align: center; font-size: 9px;&quot;&gt;[%c4Technology%]&lt;/div&gt;&lt;/div&gt;" id="vHlKJtertv3N0gImLwNh-14">
+          <mxCell edge="1" parent="30Pfw7T2e7q-x__PA8Cp-1" source="vHlKJtertv3N0gImLwNh-0" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;jettySize=auto;orthogonalLoop=1;strokeColor=#707070;strokeWidth=2;fontColor=#707070;jumpStyle=none;dashed=1;metaEdit=1;metaData={&quot;c4Type&quot;:{&quot;editable&quot;:false}};fontSize=9;" target="vHlKJtertv3N0gImLwNh-4">
+            <mxGeometry relative="1" width="160" x="-0.3332" as="geometry">
+              <mxPoint as="offset" />
+            </mxGeometry>
+          </mxCell>
+        </object>
+        <object placeholders="1" c4Type="Relationship" c4Technology="Props / JSX" c4Description="Determina rutes i carrega" label="&lt;div style=&quot;text-align: left; font-size: 9px;&quot;&gt;&lt;div style=&quot;text-align: center; font-size: 9px;&quot;&gt;&lt;b style=&quot;font-size: 9px;&quot;&gt;%c4Description%&lt;/b&gt;&lt;/div&gt;&lt;div style=&quot;text-align: center; font-size: 9px;&quot;&gt;[%c4Technology%]&lt;/div&gt;&lt;/div&gt;" id="vHlKJtertv3N0gImLwNh-15">
+          <mxCell edge="1" parent="30Pfw7T2e7q-x__PA8Cp-1" source="vHlKJtertv3N0gImLwNh-4" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;jettySize=auto;orthogonalLoop=1;strokeColor=#707070;strokeWidth=2;fontColor=#707070;jumpStyle=none;dashed=1;metaEdit=1;metaData={&quot;c4Type&quot;:{&quot;editable&quot;:false}};fontSize=9;" target="vHlKJtertv3N0gImLwNh-5">
+            <mxGeometry relative="1" width="160" as="geometry">
+              <mxPoint as="offset" />
+            </mxGeometry>
+          </mxCell>
+        </object>
+        <object placeholders="1" c4Type="Relationship" c4Technology="Method call" c4Description="Precàrrega de dades (Loaders)" label="&lt;div style=&quot;text-align: left; font-size: 9px;&quot;&gt;&lt;div style=&quot;text-align: center; font-size: 9px;&quot;&gt;&lt;b style=&quot;font-size: 9px;&quot;&gt;%c4Description%&lt;/b&gt;&lt;/div&gt;&lt;div style=&quot;text-align: center; font-size: 9px;&quot;&gt;[%c4Technology%]&lt;/div&gt;&lt;/div&gt;" id="vHlKJtertv3N0gImLwNh-16">
+          <mxCell edge="1" parent="30Pfw7T2e7q-x__PA8Cp-1" source="vHlKJtertv3N0gImLwNh-4" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;jettySize=auto;orthogonalLoop=1;strokeColor=#707070;strokeWidth=2;fontColor=#707070;jumpStyle=none;dashed=1;metaEdit=1;metaData={&quot;c4Type&quot;:{&quot;editable&quot;:false}};fontSize=9;" target="vHlKJtertv3N0gImLwNh-7">
+            <mxGeometry relative="1" width="160" as="geometry">
+              <mxPoint as="offset" />
+            </mxGeometry>
+          </mxCell>
+        </object>
+        <object placeholders="1" c4Type="Relationship" c4Technology="React Context" c4Description="Consumeix estat de" label="&lt;div style=&quot;text-align: left; font-size: 9px;&quot;&gt;&lt;div style=&quot;text-align: center; font-size: 9px;&quot;&gt;&lt;b style=&quot;font-size: 9px;&quot;&gt;%c4Description%&lt;/b&gt;&lt;/div&gt;&lt;div style=&quot;text-align: center; font-size: 9px;&quot;&gt;[%c4Technology%]&lt;/div&gt;&lt;/div&gt;" id="vHlKJtertv3N0gImLwNh-17">
+          <mxCell edge="1" parent="30Pfw7T2e7q-x__PA8Cp-1" source="vHlKJtertv3N0gImLwNh-5" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;jettySize=auto;orthogonalLoop=1;strokeColor=#707070;strokeWidth=2;fontColor=#707070;jumpStyle=none;dashed=1;metaEdit=1;metaData={&quot;c4Type&quot;:{&quot;editable&quot;:false}};fontSize=9;" target="vHlKJtertv3N0gImLwNh-6">
+            <mxGeometry relative="1" width="160" as="geometry">
+              <mxPoint as="offset" />
+            </mxGeometry>
+          </mxCell>
+        </object>
+        <object placeholders="1" c4Type="Relationship" c4Technology="React Query Hooks" c4Description="Dades i accions on-chain" label="&lt;div style=&quot;text-align: left; font-size: 9px;&quot;&gt;&lt;div style=&quot;text-align: center; font-size: 9px;&quot;&gt;&lt;b style=&quot;font-size: 9px;&quot;&gt;%c4Description%&lt;/b&gt;&lt;/div&gt;&lt;div style=&quot;text-align: center; font-size: 9px;&quot;&gt;[%c4Technology%]&lt;/div&gt;&lt;/div&gt;" id="vHlKJtertv3N0gImLwNh-18">
+          <mxCell edge="1" parent="30Pfw7T2e7q-x__PA8Cp-1" source="vHlKJtertv3N0gImLwNh-5" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;jettySize=auto;orthogonalLoop=1;strokeColor=#707070;strokeWidth=2;fontColor=#707070;jumpStyle=none;dashed=1;metaEdit=1;metaData={&quot;c4Type&quot;:{&quot;editable&quot;:false}};fontSize=9;" target="vHlKJtertv3N0gImLwNh-8">
+            <mxGeometry relative="1" width="160" as="geometry">
+              <mxPoint as="offset" />
+            </mxGeometry>
+          </mxCell>
+        </object>
+        <object placeholders="1" c4Type="Relationship" c4Technology="Method call" c4Description="Valida dades i calcula Schulze" label="&lt;div style=&quot;text-align: left; font-size: 9px;&quot;&gt;&lt;div style=&quot;text-align: center; font-size: 9px;&quot;&gt;&lt;b style=&quot;font-size: 9px;&quot;&gt;%c4Description%&lt;/b&gt;&lt;/div&gt;&lt;div style=&quot;text-align: center; font-size: 9px;&quot;&gt;[%c4Technology%]&lt;/div&gt;&lt;/div&gt;" id="vHlKJtertv3N0gImLwNh-19">
+          <mxCell edge="1" parent="30Pfw7T2e7q-x__PA8Cp-1" source="vHlKJtertv3N0gImLwNh-5" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;jettySize=auto;orthogonalLoop=1;strokeColor=#707070;strokeWidth=2;fontColor=#707070;jumpStyle=none;dashed=1;metaEdit=1;metaData={&quot;c4Type&quot;:{&quot;editable&quot;:false}};fontSize=9;" target="vHlKJtertv3N0gImLwNh-12">
+            <mxGeometry relative="1" width="160" x="0.1968" as="geometry">
+              <mxPoint as="offset" />
+              <Array as="points">
+                <mxPoint x="740" y="390" />
+                <mxPoint x="905" y="390" />
+                <mxPoint x="905" y="580" />
+                <mxPoint x="1070" y="580" />
+              </Array>
+            </mxGeometry>
+          </mxCell>
+        </object>
+        <object placeholders="1" c4Type="Relationship" c4Technology="React Context" c4Description="Consumeix context" label="&lt;div style=&quot;text-align: left; font-size: 9px;&quot;&gt;&lt;div style=&quot;text-align: center; font-size: 9px;&quot;&gt;&lt;b style=&quot;font-size: 9px;&quot;&gt;%c4Description%&lt;/b&gt;&lt;/div&gt;&lt;div style=&quot;text-align: center; font-size: 9px;&quot;&gt;[%c4Technology%]&lt;/div&gt;&lt;/div&gt;" id="vHlKJtertv3N0gImLwNh-20">
+          <mxCell edge="1" parent="30Pfw7T2e7q-x__PA8Cp-1" source="vHlKJtertv3N0gImLwNh-9" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;jettySize=auto;orthogonalLoop=1;strokeColor=#707070;strokeWidth=2;fontColor=#707070;jumpStyle=none;dashed=1;metaEdit=1;metaData={&quot;c4Type&quot;:{&quot;editable&quot;:false}};fontSize=9;" target="vHlKJtertv3N0gImLwNh-6">
+            <mxGeometry relative="1" width="160" as="geometry">
+              <mxPoint as="offset" />
+            </mxGeometry>
+          </mxCell>
+        </object>
+        <object placeholders="1" c4Type="Relationship" c4Technology="REST / WalletConnect" c4Description="Sol·licita signar transacció" label="&lt;div style=&quot;text-align: left; font-size: 9px;&quot;&gt;&lt;div style=&quot;text-align: center; font-size: 9px;&quot;&gt;&lt;b style=&quot;font-size: 9px;&quot;&gt;%c4Description%&lt;/b&gt;&lt;/div&gt;&lt;div style=&quot;text-align: center; font-size: 9px;&quot;&gt;[%c4Technology%]&lt;/div&gt;&lt;/div&gt;" id="vHlKJtertv3N0gImLwNh-21">
+          <mxCell edge="1" parent="30Pfw7T2e7q-x__PA8Cp-1" source="vHlKJtertv3N0gImLwNh-10" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;jettySize=auto;orthogonalLoop=1;strokeColor=#707070;strokeWidth=2;fontColor=#707070;jumpStyle=none;dashed=1;metaEdit=1;metaData={&quot;c4Type&quot;:{&quot;editable&quot;:false}};fontSize=9;" target="vHlKJtertv3N0gImLwNh-1">
+            <mxGeometry relative="1" width="160" x="0.2002" as="geometry">
+              <mxPoint as="offset" />
+            </mxGeometry>
+          </mxCell>
+        </object>
+        <object placeholders="1" c4Type="Relationship" c4Technology="Method call" c4Description="Executa operacions ABI" label="&lt;div style=&quot;text-align: left; font-size: 9px;&quot;&gt;&lt;div style=&quot;text-align: center; font-size: 9px;&quot;&gt;&lt;b style=&quot;font-size: 9px;&quot;&gt;%c4Description%&lt;/b&gt;&lt;/div&gt;&lt;div style=&quot;text-align: center; font-size: 9px;&quot;&gt;[%c4Technology%]&lt;/div&gt;&lt;/div&gt;" id="vHlKJtertv3N0gImLwNh-22">
+          <mxCell edge="1" parent="30Pfw7T2e7q-x__PA8Cp-1" source="vHlKJtertv3N0gImLwNh-8" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;jettySize=auto;orthogonalLoop=1;strokeColor=#707070;strokeWidth=2;fontColor=#707070;jumpStyle=none;dashed=1;metaEdit=1;metaData={&quot;c4Type&quot;:{&quot;editable&quot;:false}};fontSize=9;" target="vHlKJtertv3N0gImLwNh-11">
+            <mxGeometry relative="1" width="160" as="geometry">
+              <mxPoint as="offset" />
+            </mxGeometry>
+          </mxCell>
+        </object>
+        <object placeholders="1" c4Type="Relationship" c4Technology="Method call" c4Description="Mapeja dades on-chain" label="&lt;div style=&quot;text-align: left; font-size: 9px;&quot;&gt;&lt;div style=&quot;text-align: center; font-size: 9px;&quot;&gt;&lt;b style=&quot;font-size: 9px;&quot;&gt;%c4Description%&lt;/b&gt;&lt;/div&gt;&lt;div style=&quot;text-align: center; font-size: 9px;&quot;&gt;[%c4Technology%]&lt;/div&gt;&lt;/div&gt;" id="vHlKJtertv3N0gImLwNh-23">
+          <mxCell edge="1" parent="30Pfw7T2e7q-x__PA8Cp-1" source="vHlKJtertv3N0gImLwNh-11" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;jettySize=auto;orthogonalLoop=1;strokeColor=#707070;strokeWidth=2;fontColor=#707070;jumpStyle=none;dashed=1;metaEdit=1;metaData={&quot;c4Type&quot;:{&quot;editable&quot;:false}};fontSize=9;" target="vHlKJtertv3N0gImLwNh-12">
+            <mxGeometry relative="1" width="160" as="geometry">
+              <mxPoint as="offset" />
+            </mxGeometry>
+          </mxCell>
+        </object>
+        <object placeholders="1" c4Type="Relationship" c4Technology="Transaction Signer" c4Description="Signa transaccions mitjançant" label="&lt;div style=&quot;text-align: left; font-size: 9px;&quot;&gt;&lt;div style=&quot;text-align: center; font-size: 9px;&quot;&gt;&lt;b style=&quot;font-size: 9px;&quot;&gt;%c4Description%&lt;/b&gt;&lt;/div&gt;&lt;div style=&quot;text-align: center; font-size: 9px;&quot;&gt;[%c4Technology%]&lt;/div&gt;&lt;/div&gt;" id="vHlKJtertv3N0gImLwNh-24">
+          <mxCell edge="1" parent="30Pfw7T2e7q-x__PA8Cp-1" source="vHlKJtertv3N0gImLwNh-11" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;jettySize=auto;orthogonalLoop=1;strokeColor=#707070;strokeWidth=2;fontColor=#707070;jumpStyle=none;dashed=1;metaEdit=1;metaData={&quot;c4Type&quot;:{&quot;editable&quot;:false}};fontSize=9;" target="vHlKJtertv3N0gImLwNh-10">
+            <mxGeometry relative="1" width="160" as="geometry">
+              <mxPoint as="offset" />
+            </mxGeometry>
+          </mxCell>
+        </object>
+        <object placeholders="1" c4Type="Relationship" c4Technology="REST API" c4Description="Envia transaccions ABI (HTTP)" label="&lt;div style=&quot;text-align: left; font-size: 9px;&quot;&gt;&lt;div style=&quot;text-align: center; font-size: 9px;&quot;&gt;&lt;b style=&quot;font-size: 9px;&quot;&gt;%c4Description%&lt;/b&gt;&lt;/div&gt;&lt;div style=&quot;text-align: center; font-size: 9px;&quot;&gt;[%c4Technology%]&lt;/div&gt;&lt;/div&gt;" id="vHlKJtertv3N0gImLwNh-25">
+          <mxCell edge="1" parent="30Pfw7T2e7q-x__PA8Cp-1" source="vHlKJtertv3N0gImLwNh-11" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;jettySize=auto;orthogonalLoop=1;strokeColor=#707070;strokeWidth=2;fontColor=#707070;jumpStyle=none;dashed=1;metaEdit=1;metaData={&quot;c4Type&quot;:{&quot;editable&quot;:false}};fontSize=9;" target="vHlKJtertv3N0gImLwNh-2">
+            <mxGeometry relative="1" width="160" x="0.3333" as="geometry">
+              <mxPoint as="offset" />
+            </mxGeometry>
+          </mxCell>
+        </object>
+        <object placeholders="1" c4Type="Relationship" c4Technology="React Hooks" c4Description="Sol·licita connexió i compte" label="&lt;div style=&quot;text-align: left; font-size: 9px;&quot;&gt;&lt;div style=&quot;text-align: center; font-size: 9px;&quot;&gt;&lt;b style=&quot;font-size: 9px;&quot;&gt;%c4Description%&lt;/b&gt;&lt;/div&gt;&lt;div style=&quot;text-align: center; font-size: 9px;&quot;&gt;[%c4Technology%]&lt;/div&gt;&lt;/div&gt;" id="vHlKJtertv3N0gImLwNh-26">
+          <mxCell edge="1" parent="30Pfw7T2e7q-x__PA8Cp-1" source="vHlKJtertv3N0gImLwNh-5" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;jettySize=auto;orthogonalLoop=1;strokeColor=#707070;strokeWidth=2;fontColor=#707070;jumpStyle=line;dashed=1;metaEdit=1;metaData={&quot;c4Type&quot;:{&quot;editable&quot;:false}};fontSize=9;flowAnimation=0;curved=0;jumpSize=15;" target="vHlKJtertv3N0gImLwNh-10">
+            <mxGeometry relative="1" width="160" x="-0.2951" as="geometry">
+              <mxPoint as="offset" />
+              <Array as="points">
+                <mxPoint x="740" y="390" />
+                <mxPoint x="575" y="390" />
+                <mxPoint x="575" y="580" />
+                <mxPoint x="410" y="580" />
+              </Array>
+            </mxGeometry>
+          </mxCell>
+        </object>
+        <object placeholders="1" c4Type="Relationship" c4Technology="React Query" c4Description="Interacciona amb cache" label="&lt;div style=&quot;text-align: left; font-size: 9px;&quot;&gt;&lt;div style=&quot;text-align: center; font-size: 9px;&quot;&gt;&lt;b style=&quot;font-size: 9px;&quot;&gt;%c4Description%&lt;/b&gt;&lt;/div&gt;&lt;div style=&quot;text-align: center; font-size: 9px;&quot;&gt;[%c4Technology%]&lt;/div&gt;&lt;/div&gt;" id="vHlKJtertv3N0gImLwNh-27">
+          <mxCell edge="1" parent="30Pfw7T2e7q-x__PA8Cp-1" source="vHlKJtertv3N0gImLwNh-8" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;jettySize=auto;orthogonalLoop=1;strokeColor=#707070;strokeWidth=2;fontColor=#707070;jumpStyle=none;dashed=1;metaEdit=1;metaData={&quot;c4Type&quot;:{&quot;editable&quot;:false}};fontSize=9;" target="vHlKJtertv3N0gImLwNh-7">
+            <mxGeometry relative="1" width="160" x="-0.0667" as="geometry">
+              <mxPoint as="offset" />
+            </mxGeometry>
+          </mxCell>
+        </object>
+        <object placeholders="1" c4Type="Relationship" c4Technology="React JSX" c4Description="Usa elements de" label="&lt;div style=&quot;text-align: left; font-size: 9px;&quot;&gt;&lt;div style=&quot;text-align: center; font-size: 9px;&quot;&gt;&lt;b style=&quot;font-size: 9px;&quot;&gt;%c4Description%&lt;/b&gt;&lt;/div&gt;&lt;div style=&quot;text-align: center; font-size: 9px;&quot;&gt;[%c4Technology%]&lt;/div&gt;&lt;/div&gt;" id="vHlKJtertv3N0gImLwNh-28">
+          <mxCell edge="1" parent="30Pfw7T2e7q-x__PA8Cp-1" source="vHlKJtertv3N0gImLwNh-5" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;jettySize=auto;orthogonalLoop=1;strokeColor=#707070;strokeWidth=2;fontColor=#707070;jumpStyle=none;dashed=1;metaEdit=1;metaData={&quot;c4Type&quot;:{&quot;editable&quot;:false}};fontSize=9;" target="vHlKJtertv3N0gImLwNh-9">
+            <mxGeometry relative="1" width="160" x="0.1316" as="geometry">
+              <mxPoint as="offset" />
+              <Array as="points">
+                <mxPoint x="740" y="390" />
+                <mxPoint x="905" y="390" />
+                <mxPoint x="905" y="520" />
+              </Array>
+            </mxGeometry>
+          </mxCell>
+        </object>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram name="C3 Component SC Algorand " id="Fc7O3r6b7EOt4uFi3Tkz">
+    <mxGraphModel dx="1378" dy="626" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="hsrb5DE-5zdCMa3eZUdL-0" />
+        <mxCell id="hsrb5DE-5zdCMa3eZUdL-1" parent="hsrb5DE-5zdCMa3eZUdL-0" />
+        <object placeholders="1" c4Name="Contracte intel·ligent Algorand" c4Type="DeploymentNode" label="&lt;div style=&quot;margin-left: 0.5rem;margin-bottom: 0.15rem;text-align: left; font-size: 9px;&quot;&gt;%c4Name%&lt;/div&gt;" id="hsrb5DE-5zdCMa3eZUdL-2">
+          <mxCell parent="hsrb5DE-5zdCMa3eZUdL-1" style="rounded=1;whiteSpace=wrap;html=1;labelBackgroundColor=none;fillColor=#dae8fc;align=left;arcSize=5;strokeColor=#6c8ebf;verticalAlign=bottom;metaEdit=1;metaData={&quot;c4Type&quot;:{&quot;editable&quot;:false}};points=[[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0.25,0],[1,0.5,0],[1,0.75,0],[0.75,1,0],[0.5,1,0],[0.25,1,0],[0,0.75,0],[0,0.5,0],[0,0.25,0]];fontSize=9;dashed=1;dashPattern=8 8;" vertex="1">
+            <mxGeometry height="560" width="698" x="212" y="270" as="geometry" />
+          </mxCell>
+        </object>
+        <object placeholders="1" c4Name="Full Node Algorand" c4Type="Software System" c4Description="Node d&#39;Algorand. Pot ser un node públic o formar part d&#39;una xarxa consorciada" label="&lt;b style=&quot;font-size: 9px;&quot;&gt;%c4Name%&lt;/b&gt;&lt;div style=&quot;font-size: 9px;&quot;&gt;[%c4Type%]&lt;/div&gt;&lt;br style=&quot;font-size: 9px;&quot;&gt;&lt;div style=&quot;font-size: 9px;&quot;&gt;%c4Description%&lt;/div&gt;" id="hsrb5DE-5zdCMa3eZUdL-6">
+          <mxCell parent="hsrb5DE-5zdCMa3eZUdL-1" style="rounded=1;whiteSpace=wrap;html=1;labelBackgroundColor=none;fillColor=#999999;fontColor=#ffffff;align=center;arcSize=10;strokeColor=#8A8A8A;metaEdit=1;metaData={&quot;c4Type&quot;:{&quot;editable&quot;:false}};points=[[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0.25,0],[1,0.5,0],[1,0.75,0],[0.75,1,0],[0.5,1,0],[0.25,1,0],[0,0.75,0],[0,0.5,0],[0,0.25,0]];fontSize=9;" vertex="1">
+            <mxGeometry height="80" width="130" x="41" y="450" as="geometry" />
+          </mxCell>
+        </object>
+        <object placeholders="1" c4Type="Relationship" c4Technology="Protocol intern" c4Description="Deriva les &#xa;transaccions &#xa;de l&#39;usuari &#xa;cap al contracte" label="&lt;div style=&quot;text-align: left; font-size: 9px;&quot;&gt;&lt;div style=&quot;text-align: center; font-size: 9px;&quot;&gt;&lt;b style=&quot;font-size: 9px;&quot;&gt;%c4Description%&lt;/b&gt;&lt;/div&gt;&lt;div style=&quot;text-align: center; font-size: 9px;&quot;&gt;[%c4Technology%]&lt;/div&gt;&lt;/div&gt;" id="hsrb5DE-5zdCMa3eZUdL-7">
+          <mxCell edge="1" parent="hsrb5DE-5zdCMa3eZUdL-1" source="hsrb5DE-5zdCMa3eZUdL-6" style="edgeStyle=none;rounded=0;html=1;jettySize=auto;orthogonalLoop=1;strokeColor=#707070;strokeWidth=2;fontColor=#707070;jumpStyle=none;dashed=1;metaEdit=1;metaData={&quot;c4Type&quot;:{&quot;editable&quot;:false}};fontSize=9;entryX=0;entryY=0.5;entryDx=0;entryDy=0;entryPerimeter=0;exitX=0.75;exitY=1;exitDx=0;exitDy=0;exitPerimeter=0;" target="Z7LQ7NDuatuli2k5_qSV-0">
+            <mxGeometry relative="1" width="160" x="-0.6078" as="geometry">
+              <mxPoint as="offset" />
+              <Array as="points">
+                <mxPoint x="139" y="585" />
+              </Array>
+              <mxPoint x="91" y="640" as="sourcePoint" />
+              <mxPoint x="280.0000000000002" y="585" as="targetPoint" />
+            </mxGeometry>
+          </mxCell>
+        </object>
+        <object placeholders="1" c4Type="Relationship" c4Technology="Protocol intern" c4Description="Resultat de la transacció" label="&lt;div style=&quot;text-align: left; font-size: 9px;&quot;&gt;&lt;div style=&quot;text-align: center; font-size: 9px;&quot;&gt;&lt;b style=&quot;font-size: 9px;&quot;&gt;%c4Description%&lt;/b&gt;&lt;/div&gt;&lt;div style=&quot;text-align: center; font-size: 9px;&quot;&gt;[%c4Technology%]&lt;/div&gt;&lt;/div&gt;" id="hsrb5DE-5zdCMa3eZUdL-10">
+          <mxCell edge="1" parent="hsrb5DE-5zdCMa3eZUdL-1" source="Z7LQ7NDuatuli2k5_qSV-0" style="edgeStyle=none;rounded=1;html=1;jettySize=auto;orthogonalLoop=1;strokeColor=#707070;strokeWidth=2;fontColor=#707070;jumpStyle=none;dashed=1;metaEdit=1;metaData={&quot;c4Type&quot;:{&quot;editable&quot;:false}};fontSize=9;entryX=1;entryY=0.5;entryDx=0;entryDy=0;entryPerimeter=0;exitX=0.25;exitY=0;exitDx=0;exitDy=0;exitPerimeter=0;curved=0;" target="hsrb5DE-5zdCMa3eZUdL-6">
+            <mxGeometry relative="1" width="160" x="0.1173" as="geometry">
+              <mxPoint as="offset" />
+              <Array as="points">
+                <mxPoint x="315" y="490" />
+              </Array>
+              <mxPoint x="130" y="260" as="sourcePoint" />
+              <mxPoint x="251" y="610" as="targetPoint" />
+            </mxGeometry>
+          </mxCell>
+        </object>
+        <object placeholders="1" c4Name="Enrutador principal" c4Type="Component" c4Technology="Algopy" c4Description="Punt d&#39;entrada del contracte. &#xa;Rep la transacció i, segons &#xa;els arguments, la deriva al &#xa;mòdul de votació o al de &#xa;propostes." label="&lt;b style=&quot;font-size: 9px;&quot;&gt;%c4Name%&lt;/b&gt;&lt;div style=&quot;font-size: 9px;&quot;&gt;[%c4Type%: %c4Technology%]&lt;/div&gt;&lt;br style=&quot;font-size: 9px;&quot;&gt;&lt;div style=&quot;font-size: 9px;&quot;&gt;%c4Description%&lt;/div&gt;" id="Z7LQ7NDuatuli2k5_qSV-0">
+          <mxCell parent="hsrb5DE-5zdCMa3eZUdL-1" style="rounded=1;whiteSpace=wrap;html=1;labelBackgroundColor=none;fillColor=#85BBF0;fontColor=#ffffff;align=center;arcSize=10;strokeColor=#78A8D8;metaEdit=1;metaData={&quot;c4Type&quot;:{&quot;editable&quot;:false}};points=[[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0.25,0],[1,0.5,0],[1,0.75,0],[0.75,1,0],[0.5,1,0],[0.25,1,0],[0,0.75,0],[0,0.5,0],[0,0.25,0]];fontSize=9;" vertex="1">
+            <mxGeometry height="120" width="140" x="280" y="525" as="geometry" />
+          </mxCell>
+        </object>
+        <object placeholders="1" c4Name="Lògica de votació" c4Type="Component" c4Technology="Algopy" c4Description="Rep el vot, verifica que es vàlid i que aquella direcció el pot emetre i l&#39;emet." label="&lt;b style=&quot;font-size: 9px;&quot;&gt;%c4Name%&lt;/b&gt;&lt;div style=&quot;font-size: 9px;&quot;&gt;[%c4Type%: %c4Technology%]&lt;/div&gt;&lt;br style=&quot;font-size: 9px;&quot;&gt;&lt;div style=&quot;font-size: 9px;&quot;&gt;%c4Description%&lt;/div&gt;" id="Z7LQ7NDuatuli2k5_qSV-1">
+          <mxCell parent="hsrb5DE-5zdCMa3eZUdL-1" style="rounded=1;whiteSpace=wrap;html=1;labelBackgroundColor=none;fillColor=#85BBF0;fontColor=#ffffff;align=center;arcSize=10;strokeColor=#78A8D8;metaEdit=1;metaData={&quot;c4Type&quot;:{&quot;editable&quot;:false}};points=[[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0.25,0],[1,0.5,0],[1,0.75,0],[0.75,1,0],[0.5,1,0],[0.25,1,0],[0,0.75,0],[0,0.5,0],[0,0.25,0]];fontSize=9;" vertex="1">
+            <mxGeometry height="130" width="165" x="267.5" y="310" as="geometry" />
+          </mxCell>
+        </object>
+        <object placeholders="1" c4Name="Emmagatzematge d&#39;estat" c4Type="Component" c4Technology="Algorand Box Storage" c4Description="Guarda tot l&#39;estat persistent: propostes, eleccions, vots de propostes i eleccions, organitzacions i censos." label="&lt;b style=&quot;font-size: 9px;&quot;&gt;%c4Name%&lt;/b&gt;&lt;div style=&quot;font-size: 9px;&quot;&gt;[%c4Type%: %c4Technology%]&lt;/div&gt;&lt;br style=&quot;font-size: 9px;&quot;&gt;&lt;div style=&quot;font-size: 9px;&quot;&gt;%c4Description%&lt;/div&gt;" id="Z7LQ7NDuatuli2k5_qSV-3">
+          <mxCell parent="hsrb5DE-5zdCMa3eZUdL-1" style="rounded=1;whiteSpace=wrap;html=1;labelBackgroundColor=none;fillColor=#85BBF0;fontColor=#ffffff;align=center;arcSize=10;strokeColor=#78A8D8;metaEdit=1;metaData={&quot;c4Type&quot;:{&quot;editable&quot;:false}};points=[[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0.25,0],[1,0.5,0],[1,0.75,0],[0.75,1,0],[0.5,1,0],[0.25,1,0],[0,0.75,0],[0,0.5,0],[0,0.25,0]];fontSize=9;" vertex="1">
+            <mxGeometry height="114" width="160" x="720" y="318" as="geometry" />
+          </mxCell>
+        </object>
+        <object placeholders="1" c4Name="Lògica de propostes" c4Type="Component" c4Technology="Algopy" c4Description="Rep i valida propostes d&#39;elecció (dates, candidats, entitats elegibles), les desa a l&#39;emmagatzematge" label="&lt;b style=&quot;font-size: 9px;&quot;&gt;%c4Name%&lt;/b&gt;&lt;div style=&quot;font-size: 9px;&quot;&gt;[%c4Type%: %c4Technology%]&lt;/div&gt;&lt;br style=&quot;font-size: 9px;&quot;&gt;&lt;div style=&quot;font-size: 9px;&quot;&gt;%c4Description%&lt;/div&gt;" id="Z7LQ7NDuatuli2k5_qSV-4">
+          <mxCell parent="hsrb5DE-5zdCMa3eZUdL-1" style="rounded=1;whiteSpace=wrap;html=1;labelBackgroundColor=none;fillColor=#85BBF0;fontColor=#ffffff;align=center;arcSize=10;strokeColor=#78A8D8;metaEdit=1;metaData={&quot;c4Type&quot;:{&quot;editable&quot;:false}};points=[[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0.25,0],[1,0.5,0],[1,0.75,0],[0.75,1,0],[0.5,1,0],[0.25,1,0],[0,0.75,0],[0,0.5,0],[0,0.25,0]];fontSize=9;" vertex="1">
+            <mxGeometry height="120" width="200" x="542" y="525" as="geometry" />
+          </mxCell>
+        </object>
+        <object placeholders="1" c4Type="Relationship" c4Technology="CallSub" c4Description="Solicitut de generació&#xa;de proposta" label="&lt;div style=&quot;text-align: left; font-size: 9px;&quot;&gt;&lt;div style=&quot;text-align: center; font-size: 9px;&quot;&gt;&lt;b style=&quot;font-size: 9px;&quot;&gt;%c4Description%&lt;/b&gt;&lt;/div&gt;&lt;/div&gt;" id="Z7LQ7NDuatuli2k5_qSV-5">
+          <mxCell edge="1" parent="hsrb5DE-5zdCMa3eZUdL-1" source="Z7LQ7NDuatuli2k5_qSV-0" style="edgeStyle=none;rounded=0;html=1;jettySize=auto;orthogonalLoop=1;strokeColor=#707070;strokeWidth=2;fontColor=#707070;jumpStyle=none;dashed=1;metaEdit=1;metaData={&quot;c4Type&quot;:{&quot;editable&quot;:false}};fontSize=9;entryX=0;entryY=0.5;entryDx=0;entryDy=0;entryPerimeter=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;exitPerimeter=0;" target="Z7LQ7NDuatuli2k5_qSV-4">
+            <mxGeometry relative="1" width="160" x="-0.0164" as="geometry">
+              <mxPoint as="offset" />
+              <Array as="points" />
+              <mxPoint x="472" y="710" as="sourcePoint" />
+              <mxPoint x="1148" y="1045" as="targetPoint" />
+            </mxGeometry>
+          </mxCell>
+        </object>
+        <object placeholders="1" c4Type="Relationship" c4Technology="Atomic State Update (app_global_put())" c4Description="Generació de&#xa;proposta" label="&lt;div style=&quot;text-align: left; font-size: 9px;&quot;&gt;&lt;div style=&quot;text-align: center; font-size: 9px;&quot;&gt;&lt;b style=&quot;font-size: 9px;&quot;&gt;%c4Description%&lt;/b&gt;&lt;/div&gt;&lt;/div&gt;" id="Z7LQ7NDuatuli2k5_qSV-6">
+          <mxCell edge="1" parent="hsrb5DE-5zdCMa3eZUdL-1" source="Z7LQ7NDuatuli2k5_qSV-4" style="edgeStyle=none;rounded=1;html=1;jettySize=auto;orthogonalLoop=1;strokeColor=#707070;strokeWidth=2;fontColor=#707070;jumpStyle=none;dashed=1;metaEdit=1;metaData={&quot;c4Type&quot;:{&quot;editable&quot;:false}};fontSize=9;fillColor=#f8cecc;fillOpacity=25;exitX=1;exitY=0.5;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.25;entryY=1;entryDx=0;entryDy=0;entryPerimeter=0;curved=0;" target="Z7LQ7NDuatuli2k5_qSV-3">
+            <mxGeometry relative="1" width="160" x="0.3216" y="10" as="geometry">
+              <mxPoint as="offset" />
+              <Array as="points">
+                <mxPoint x="760" y="585" />
+              </Array>
+              <mxPoint x="860" y="983" as="sourcePoint" />
+              <mxPoint x="770" y="432" as="targetPoint" />
+            </mxGeometry>
+          </mxCell>
+        </object>
+        <object placeholders="1" c4Type="Relationship" c4Description="Solicitud&#xa;vot" label="&lt;div style=&quot;text-align: left; font-size: 9px;&quot;&gt;&lt;div style=&quot;text-align: center; font-size: 9px;&quot;&gt;&lt;b style=&quot;font-size: 9px;&quot;&gt;%c4Description%&lt;/b&gt;&lt;/div&gt;&lt;/div&gt;" id="Z7LQ7NDuatuli2k5_qSV-7">
+          <mxCell edge="1" parent="hsrb5DE-5zdCMa3eZUdL-1" source="Z7LQ7NDuatuli2k5_qSV-0" style="edgeStyle=none;rounded=0;html=1;jettySize=auto;orthogonalLoop=1;strokeColor=#707070;strokeWidth=2;fontColor=#707070;jumpStyle=none;dashed=1;metaEdit=1;metaData={&quot;c4Type&quot;:{&quot;editable&quot;:false}};fontSize=9;exitX=0.5;exitY=0;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;entryPerimeter=0;" target="Z7LQ7NDuatuli2k5_qSV-1">
+            <mxGeometry relative="1" width="160" x="-0.0876" y="1" as="geometry">
+              <mxPoint as="offset" />
+              <mxPoint x="370" y="480" as="sourcePoint" />
+              <mxPoint x="468" y="480" as="targetPoint" />
+            </mxGeometry>
+          </mxCell>
+        </object>
+        <object placeholders="1" c4Type="Relationship" c4Description="Aprovació de proposta" label="&lt;div style=&quot;text-align: left; font-size: 9px;&quot;&gt;&lt;div style=&quot;text-align: center; font-size: 9px;&quot;&gt;&lt;b style=&quot;font-size: 9px;&quot;&gt;%c4Description%&lt;/b&gt;&lt;/div&gt;&lt;/div&gt;" id="ZkdLn1mt7JipDvb01gy4-3">
+          <mxCell edge="1" parent="hsrb5DE-5zdCMa3eZUdL-1" source="Z7LQ7NDuatuli2k5_qSV-1" style="edgeStyle=none;rounded=0;html=1;jettySize=auto;orthogonalLoop=1;strokeColor=#707070;strokeWidth=2;fontColor=#707070;jumpStyle=none;dashed=1;metaEdit=1;metaData={&quot;c4Type&quot;:{&quot;editable&quot;:false}};fontSize=9;entryX=0;entryY=0.25;entryDx=0;entryDy=0;entryPerimeter=0;exitX=0.997;exitY=0.294;exitDx=0;exitDy=0;exitPerimeter=0;" target="Z7LQ7NDuatuli2k5_qSV-3">
+            <mxGeometry relative="1" width="160" x="-0.022" as="geometry">
+              <mxPoint as="offset" />
+              <Array as="points" />
+              <mxPoint x="480" y="370" as="sourcePoint" />
+              <mxPoint x="767" y="370" as="targetPoint" />
+            </mxGeometry>
+          </mxCell>
+        </object>
+        <object placeholders="1" c4Type="Relationship" c4Description="Vot amb l&#39;ordre triat &#xa;de les opcions" label="&lt;div style=&quot;text-align: left; font-size: 9px;&quot;&gt;&lt;div style=&quot;text-align: center; font-size: 9px;&quot;&gt;&lt;b style=&quot;font-size: 9px;&quot;&gt;%c4Description%&lt;/b&gt;&lt;/div&gt;&lt;/div&gt;" id="ZkdLn1mt7JipDvb01gy4-4">
+          <mxCell edge="1" parent="hsrb5DE-5zdCMa3eZUdL-1" style="edgeStyle=none;rounded=0;html=1;jettySize=auto;orthogonalLoop=1;strokeColor=#707070;strokeWidth=2;fontColor=#707070;jumpStyle=none;dashed=1;metaEdit=1;metaData={&quot;c4Type&quot;:{&quot;editable&quot;:false}};fontSize=9;entryX=0;entryY=0.5;entryDx=0;entryDy=0;entryPerimeter=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;exitPerimeter=0;">
+            <mxGeometry relative="1" width="160" x="0.0261" as="geometry">
+              <mxPoint as="offset" />
+              <Array as="points" />
+              <mxPoint x="432.5" y="400" as="sourcePoint" />
+              <mxPoint x="720" y="400.0000000000001" as="targetPoint" />
+            </mxGeometry>
+          </mxCell>
+        </object>
+        <object placeholders="1" c4Name="Lògica d&#39;organitzacions" c4Type="Component" c4Technology="Algopy" c4Description="Gestiona la creació d&#39;organitzacions i el manteniment del seu cens." label="&lt;b style=&quot;font-size: 9px;&quot;&gt;%c4Name%&lt;/b&gt;&lt;div style=&quot;font-size: 9px;&quot;&gt;[%c4Type%: %c4Technology%]&lt;/div&gt;&lt;br style=&quot;font-size: 9px;&quot;&gt;&lt;div style=&quot;font-size: 9px;&quot;&gt;%c4Description%&lt;/div&gt;" id="XzMnCucnCX7u--pG5Gva-0">
+          <mxCell parent="hsrb5DE-5zdCMa3eZUdL-1" style="rounded=1;whiteSpace=wrap;html=1;labelBackgroundColor=none;fillColor=#85BBF0;fontColor=#ffffff;align=center;arcSize=10;strokeColor=#78A8D8;metaEdit=1;metaData={&quot;c4Type&quot;:{&quot;editable&quot;:false}};points=[[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0.25,0],[1,0.5,0],[1,0.75,0],[0.75,1,0],[0.5,1,0],[0.25,1,0],[0,0.75,0],[0,0.5,0],[0,0.25,0]];fontSize=9;" vertex="1">
+            <mxGeometry height="120" width="180" x="550" y="680" as="geometry" />
+          </mxCell>
+        </object>
+        <object placeholders="1" c4Type="Relationship" c4Technology="CallSub" c4Description="Sol·licitud de gestió &#xa;d&#39;organització/cens" label="&lt;div style=&quot;text-align: left; font-size: 9px;&quot;&gt;&lt;div style=&quot;text-align: center; font-size: 9px;&quot;&gt;&lt;b style=&quot;font-size: 9px;&quot;&gt;%c4Description%&lt;/b&gt;&lt;/div&gt;&lt;/div&gt;" id="9DiHE4JTNmDDxD4NkLyw-1">
+          <mxCell edge="1" parent="hsrb5DE-5zdCMa3eZUdL-1" source="Z7LQ7NDuatuli2k5_qSV-0" style="edgeStyle=none;rounded=1;html=1;jettySize=auto;orthogonalLoop=1;strokeColor=#707070;strokeWidth=2;fontColor=#707070;jumpStyle=none;dashed=1;metaEdit=1;metaData={&quot;c4Type&quot;:{&quot;editable&quot;:false}};fontSize=9;entryX=0;entryY=0.5;entryDx=0;entryDy=0;entryPerimeter=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;exitPerimeter=0;curved=0;" target="XzMnCucnCX7u--pG5Gva-0">
+            <mxGeometry relative="1" width="160" x="0.1186" as="geometry">
+              <mxPoint as="offset" />
+              <Array as="points">
+                <mxPoint x="350" y="740" />
+              </Array>
+              <mxPoint x="480" y="590" as="sourcePoint" />
+              <mxPoint x="602" y="590" as="targetPoint" />
+            </mxGeometry>
+          </mxCell>
+        </object>
+        <object placeholders="1" c4Type="Relationship" c4Technology="CallSub" c4Description="Creació &#xa;d&#39;organizació" label="&lt;div style=&quot;text-align: left; font-size: 9px;&quot;&gt;&lt;div style=&quot;text-align: center; font-size: 9px;&quot;&gt;&lt;b style=&quot;font-size: 9px;&quot;&gt;%c4Description%&lt;/b&gt;&lt;/div&gt;&lt;/div&gt;" id="9DiHE4JTNmDDxD4NkLyw-3">
+          <mxCell edge="1" parent="hsrb5DE-5zdCMa3eZUdL-1" source="XzMnCucnCX7u--pG5Gva-0" style="edgeStyle=none;rounded=1;html=1;jettySize=auto;orthogonalLoop=1;strokeColor=#707070;strokeWidth=2;fontColor=#707070;jumpStyle=none;dashed=1;metaEdit=1;metaData={&quot;c4Type&quot;:{&quot;editable&quot;:false}};fontSize=9;entryX=0.5;entryY=1;entryDx=0;entryDy=0;entryPerimeter=0;exitX=1;exitY=0.25;exitDx=0;exitDy=0;exitPerimeter=0;curved=0;" target="Z7LQ7NDuatuli2k5_qSV-3">
+            <mxGeometry relative="1" width="160" x="-0.7701" as="geometry">
+              <mxPoint as="offset" />
+              <Array as="points">
+                <mxPoint x="800" y="710" />
+              </Array>
+              <mxPoint x="510" y="740" as="sourcePoint" />
+              <mxPoint x="710" y="835" as="targetPoint" />
+            </mxGeometry>
+          </mxCell>
+        </object>
+        <object placeholders="1" c4Type="Relationship" c4Technology="CallSub" c4Description="Afecir o eliminar&#xa;direccions del&#xa;cens" label="&lt;div style=&quot;text-align: left; font-size: 9px;&quot;&gt;&lt;div style=&quot;text-align: center; font-size: 9px;&quot;&gt;&lt;b style=&quot;font-size: 9px;&quot;&gt;%c4Description%&lt;/b&gt;&lt;/div&gt;&lt;/div&gt;" id="9DiHE4JTNmDDxD4NkLyw-4">
+          <mxCell edge="1" parent="hsrb5DE-5zdCMa3eZUdL-1" source="XzMnCucnCX7u--pG5Gva-0" style="edgeStyle=none;rounded=1;html=1;jettySize=auto;orthogonalLoop=1;strokeColor=#707070;strokeWidth=2;fontColor=#707070;jumpStyle=none;dashed=1;metaEdit=1;metaData={&quot;c4Type&quot;:{&quot;editable&quot;:false}};fontSize=9;entryX=0.75;entryY=1;entryDx=0;entryDy=0;entryPerimeter=0;exitX=1;exitY=0.75;exitDx=0;exitDy=0;exitPerimeter=0;curved=0;" target="Z7LQ7NDuatuli2k5_qSV-3">
+            <mxGeometry relative="1" width="160" x="-0.7701" as="geometry">
+              <mxPoint as="offset" />
+              <Array as="points">
+                <mxPoint x="840" y="770" />
+              </Array>
+              <mxPoint x="800" y="888" as="sourcePoint" />
+              <mxPoint x="870" y="610" as="targetPoint" />
+            </mxGeometry>
+          </mxCell>
+        </object>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram name="C3 Component ancoratge" id="Zlz4aEtLnLwrZesqvvwG">
+    <mxGraphModel dx="1140" dy="518" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0cj0Jii-QwaWuXYelX2v-0" />
+        <mxCell id="0cj0Jii-QwaWuXYelX2v-1" parent="0cj0Jii-QwaWuXYelX2v-0" />
+        <object placeholders="1" c4Name="Servei d&#39;ancoratge" c4Type="DeploymentNode" label="&lt;div style=&quot;margin-left: 0.5rem;margin-bottom: 0.15rem;text-align: left; font-size: 9px;&quot;&gt;%c4Name%&lt;/div&gt;" id="0cj0Jii-QwaWuXYelX2v-2">
+          <mxCell parent="0cj0Jii-QwaWuXYelX2v-1" style="rounded=1;whiteSpace=wrap;html=1;labelBackgroundColor=none;fillColor=#dae8fc;align=left;arcSize=5;strokeColor=#6c8ebf;verticalAlign=bottom;metaEdit=1;metaData={&quot;c4Type&quot;:{&quot;editable&quot;:false}};points=[[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0.25,0],[1,0.5,0],[1,0.75,0],[0.75,1,0],[0.5,1,0],[0.25,1,0],[0,0.75,0],[0,0.5,0],[0,0.25,0]];fontSize=9;dashed=1;dashPattern=8 8;" vertex="1">
+            <mxGeometry height="265" width="349" x="321" y="585" as="geometry" />
+          </mxCell>
+        </object>
+        <object placeholders="1" c4Name="Full Node Ethereum" c4Type="Software System" c4Description="Usada exclusivament com a &#xa;notari públic per fer &#xa;emmagatzemar el hash dels &#xa;resultats finals i garantir&#xa;immutabilitat." label="&lt;b style=&quot;font-size: 9px;&quot;&gt;%c4Name%&lt;/b&gt;&lt;div style=&quot;font-size: 9px;&quot;&gt;[%c4Type%]&lt;/div&gt;&lt;br style=&quot;font-size: 9px;&quot;&gt;&lt;div style=&quot;font-size: 9px;&quot;&gt;%c4Description%&lt;/div&gt;" id="0cj0Jii-QwaWuXYelX2v-3">
+          <mxCell parent="0cj0Jii-QwaWuXYelX2v-1" style="rounded=1;whiteSpace=wrap;html=1;labelBackgroundColor=none;fillColor=#999999;fontColor=#ffffff;align=center;arcSize=10;strokeColor=#8A8A8A;metaEdit=1;metaData={&quot;c4Type&quot;:{&quot;editable&quot;:false}};points=[[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0.25,0],[1,0.5,0],[1,0.75,0],[0.75,1,0],[0.5,1,0],[0.25,1,0],[0,0.75,0],[0,0.5,0],[0,0.25,0]];fontSize=9;" vertex="1">
+            <mxGeometry height="90" width="125" x="152.5" y="803" as="geometry" />
+          </mxCell>
+        </object>
+        <object placeholders="1" c4Name="Full Node Algorand" c4Type="Software System" c4Description="Node d&#39;Algorand. Pot ser un node públic o formar part d&#39;una xarxa consorciada" label="&lt;b style=&quot;font-size: 9px;&quot;&gt;%c4Name%&lt;/b&gt;&lt;div style=&quot;font-size: 9px;&quot;&gt;[%c4Type%]&lt;/div&gt;&lt;br style=&quot;font-size: 9px;&quot;&gt;&lt;div style=&quot;font-size: 9px;&quot;&gt;%c4Description%&lt;/div&gt;" id="0cj0Jii-QwaWuXYelX2v-6">
+          <mxCell parent="0cj0Jii-QwaWuXYelX2v-1" style="rounded=1;whiteSpace=wrap;html=1;labelBackgroundColor=none;fillColor=#999999;fontColor=#ffffff;align=center;arcSize=10;strokeColor=#8A8A8A;metaEdit=1;metaData={&quot;c4Type&quot;:{&quot;editable&quot;:false}};points=[[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0.25,0],[1,0.5,0],[1,0.75,0],[0.75,1,0],[0.5,1,0],[0.25,1,0],[0,0.75,0],[0,0.5,0],[0,0.25,0]];fontSize=9;" vertex="1">
+            <mxGeometry height="80" width="130" x="150" y="531" as="geometry" />
+          </mxCell>
+        </object>
+        <object placeholders="1" c4Type="Relationship" c4Technology="HTTP" c4Description="Consulta els resultats" label="&lt;div style=&quot;text-align: left; font-size: 9px;&quot;&gt;&lt;div style=&quot;text-align: center; font-size: 9px;&quot;&gt;&lt;b style=&quot;font-size: 9px;&quot;&gt;%c4Description%&lt;/b&gt;&lt;/div&gt;&lt;div style=&quot;text-align: center; font-size: 9px;&quot;&gt;[%c4Technology%]&lt;/div&gt;&lt;/div&gt;" id="0cj0Jii-QwaWuXYelX2v-11">
+          <mxCell edge="1" parent="0cj0Jii-QwaWuXYelX2v-1" source="9EpHGBdIEjWqY23bf0AH-0" style="edgeStyle=none;rounded=1;html=1;jettySize=auto;orthogonalLoop=1;strokeColor=#707070;strokeWidth=2;fontColor=#707070;jumpStyle=none;dashed=1;metaEdit=1;metaData={&quot;c4Type&quot;:{&quot;editable&quot;:false}};fontSize=9;entryX=0.5;entryY=1;entryDx=0;entryDy=0;entryPerimeter=0;exitX=0;exitY=0.5;exitDx=0;exitDy=0;exitPerimeter=0;curved=0;" target="0cj0Jii-QwaWuXYelX2v-6">
+            <mxGeometry relative="1" width="160" x="-0.1052" as="geometry">
+              <mxPoint as="offset" />
+              <Array as="points">
+                <mxPoint x="215" y="640" />
+              </Array>
+              <mxPoint x="370" y="640" as="sourcePoint" />
+              <mxPoint x="120" y="610" as="targetPoint" />
+            </mxGeometry>
+          </mxCell>
+        </object>
+        <object placeholders="1" c4Type="Relationship" c4Technology="HTTP" c4Description="Escriu el hash final &#xa;consensuat per fer &#xa;l&#39;anchoring" label="&lt;div style=&quot;text-align: left; font-size: 9px;&quot;&gt;&lt;div style=&quot;text-align: center; font-size: 9px;&quot;&gt;&lt;b style=&quot;font-size: 9px;&quot;&gt;%c4Description%&lt;/b&gt;&lt;/div&gt;&lt;div style=&quot;text-align: center; font-size: 9px;&quot;&gt;[%c4Technology%]&lt;/div&gt;&lt;/div&gt;" id="0cj0Jii-QwaWuXYelX2v-12">
+          <mxCell edge="1" parent="0cj0Jii-QwaWuXYelX2v-1" source="EzRpQH-a5C0ElRTlhL7b-1" style="edgeStyle=none;rounded=1;html=1;jettySize=auto;orthogonalLoop=1;strokeColor=#707070;strokeWidth=2;fontColor=#707070;jumpStyle=none;dashed=1;metaEdit=1;metaData={&quot;c4Type&quot;:{&quot;editable&quot;:false}};fontSize=9;exitX=0;exitY=0.5;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;entryPerimeter=0;curved=0;" target="0cj0Jii-QwaWuXYelX2v-3">
+            <mxGeometry relative="1" width="160" x="-0.1447" y="3" as="geometry">
+              <mxPoint as="offset" />
+              <Array as="points">
+                <mxPoint x="215" y="767" />
+              </Array>
+              <mxPoint x="418.5" y="767.2499999999998" as="sourcePoint" />
+              <mxPoint x="720" y="1141" as="targetPoint" />
+            </mxGeometry>
+          </mxCell>
+        </object>
+        <object placeholders="1" c4Name="Lector de la xarxa" c4Type="Component" c4Technology="Python" c4Description="Encarregat de llegir els BOXES de la xarxa d&#39;algorand" label="&lt;b style=&quot;font-size: 9px;&quot;&gt;%c4Name%&lt;/b&gt;&lt;div style=&quot;font-size: 9px;&quot;&gt;[%c4Type%: %c4Technology%]&lt;/div&gt;&lt;br style=&quot;font-size: 9px;&quot;&gt;&lt;div style=&quot;font-size: 9px;&quot;&gt;%c4Description%&lt;/div&gt;" id="9EpHGBdIEjWqY23bf0AH-0">
+          <mxCell parent="0cj0Jii-QwaWuXYelX2v-1" style="rounded=1;whiteSpace=wrap;html=1;labelBackgroundColor=none;fillColor=#85BBF0;fontColor=#ffffff;align=center;arcSize=10;strokeColor=#78A8D8;metaEdit=1;metaData={&quot;c4Type&quot;:{&quot;editable&quot;:false}};points=[[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0.25,0],[1,0.5,0],[1,0.75,0],[0.75,1,0],[0.5,1,0],[0.25,1,0],[0,0.75,0],[0,0.5,0],[0,0.25,0]];fontSize=9;" vertex="1">
+            <mxGeometry height="90" width="125" x="338" y="596" as="geometry" />
+          </mxCell>
+        </object>
+        <object placeholders="1" c4Name="Servei principal d&#39;ancoratge" c4Type="Component" c4Technology="Python" c4Description="Encarregat de rebre la lectura de l&#39;estat, computar el hash, fer check del consens local i transmetre el hash al gestor de transaccion d&#39;Ethereum" label="&lt;b style=&quot;font-size: 9px;&quot;&gt;%c4Name%&lt;/b&gt;&lt;div style=&quot;font-size: 9px;&quot;&gt;[%c4Type%: %c4Technology%]&lt;/div&gt;&lt;br style=&quot;font-size: 9px;&quot;&gt;&lt;div style=&quot;font-size: 9px;&quot;&gt;%c4Description%&lt;/div&gt;" id="EzRpQH-a5C0ElRTlhL7b-0">
+          <mxCell parent="0cj0Jii-QwaWuXYelX2v-1" style="rounded=1;whiteSpace=wrap;html=1;labelBackgroundColor=none;fillColor=#85BBF0;fontColor=#ffffff;align=center;arcSize=10;strokeColor=#78A8D8;metaEdit=1;metaData={&quot;c4Type&quot;:{&quot;editable&quot;:false}};points=[[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0.25,0],[1,0.5,0],[1,0.75,0],[0.75,1,0],[0.5,1,0],[0.25,1,0],[0,0.75,0],[0,0.5,0],[0,0.25,0]];fontSize=9;" vertex="1">
+            <mxGeometry height="90" width="125" x="520" y="656" as="geometry" />
+          </mxCell>
+        </object>
+        <object placeholders="1" c4Name="Gestor de transaccions d&#39;Ethereum" c4Type="Component" c4Technology="Python" c4Description="Construeix i firma amb ECDSA el hash a enviar" label="&lt;b style=&quot;font-size: 9px;&quot;&gt;%c4Name%&lt;/b&gt;&lt;div style=&quot;font-size: 9px;&quot;&gt;[%c4Type%: %c4Technology%]&lt;/div&gt;&lt;br style=&quot;font-size: 9px;&quot;&gt;&lt;div style=&quot;font-size: 9px;&quot;&gt;%c4Description%&lt;/div&gt;" id="EzRpQH-a5C0ElRTlhL7b-1">
+          <mxCell parent="0cj0Jii-QwaWuXYelX2v-1" style="rounded=1;whiteSpace=wrap;html=1;labelBackgroundColor=none;fillColor=#85BBF0;fontColor=#ffffff;align=center;arcSize=10;strokeColor=#78A8D8;metaEdit=1;metaData={&quot;c4Type&quot;:{&quot;editable&quot;:false}};points=[[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0.25,0],[1,0.5,0],[1,0.75,0],[0.75,1,0],[0.5,1,0],[0.25,1,0],[0,0.75,0],[0,0.5,0],[0,0.25,0]];fontSize=9;" vertex="1">
+            <mxGeometry height="90" width="125" x="338" y="722" as="geometry" />
+          </mxCell>
+        </object>
+        <object placeholders="1" c4Type="Relationship" c4Technology="" c4Description="Sol·licita lectura" label="&lt;div style=&quot;text-align: left; font-size: 9px;&quot;&gt;&lt;div style=&quot;text-align: center; font-size: 9px;&quot;&gt;&lt;b style=&quot;font-size: 9px;&quot;&gt;%c4Description%&lt;/b&gt;&lt;/div&gt;&lt;div style=&quot;text-align: center; font-size: 9px;&quot;&gt;&lt;/div&gt;&lt;/div&gt;" id="EzRpQH-a5C0ElRTlhL7b-2">
+          <mxCell edge="1" parent="0cj0Jii-QwaWuXYelX2v-1" source="EzRpQH-a5C0ElRTlhL7b-0" style="edgeStyle=none;rounded=1;html=1;jettySize=auto;orthogonalLoop=1;strokeColor=#707070;strokeWidth=2;fontColor=#707070;jumpStyle=none;dashed=1;metaEdit=1;metaData={&quot;c4Type&quot;:{&quot;editable&quot;:false}};fontSize=9;entryX=1;entryY=0.5;entryDx=0;entryDy=0;entryPerimeter=0;curved=0;" target="9EpHGBdIEjWqY23bf0AH-0">
+            <mxGeometry relative="1" width="160" x="0.0074" y="-1" as="geometry">
+              <mxPoint as="offset" />
+              <Array as="points">
+                <mxPoint x="583" y="641" />
+              </Array>
+              <mxPoint x="453" y="820" as="sourcePoint" />
+              <mxPoint x="330" y="866" as="targetPoint" />
+            </mxGeometry>
+          </mxCell>
+        </object>
+        <object placeholders="1" c4Type="Relationship" c4Technology="" c4Description="Envia el hash &#xa;calculat" label="&lt;div style=&quot;text-align: left; font-size: 9px;&quot;&gt;&lt;div style=&quot;text-align: center; font-size: 9px;&quot;&gt;&lt;b style=&quot;font-size: 9px;&quot;&gt;%c4Description%&lt;/b&gt;&lt;/div&gt;&lt;div style=&quot;text-align: center; font-size: 9px;&quot;&gt;&lt;/div&gt;&lt;/div&gt;" id="EzRpQH-a5C0ElRTlhL7b-4">
+          <mxCell edge="1" parent="0cj0Jii-QwaWuXYelX2v-1" source="EzRpQH-a5C0ElRTlhL7b-0" style="edgeStyle=none;rounded=1;html=1;jettySize=auto;orthogonalLoop=1;strokeColor=#707070;strokeWidth=2;fontColor=#707070;jumpStyle=none;dashed=1;metaEdit=1;metaData={&quot;c4Type&quot;:{&quot;editable&quot;:false}};fontSize=9;entryX=1;entryY=0.5;entryDx=0;entryDy=0;entryPerimeter=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;exitPerimeter=0;curved=0;" target="EzRpQH-a5C0ElRTlhL7b-1">
+            <mxGeometry relative="1" width="160" x="0.0497" y="3" as="geometry">
+              <mxPoint as="offset" />
+              <Array as="points">
+                <mxPoint x="583" y="767" />
+              </Array>
+              <mxPoint x="720" y="773" as="sourcePoint" />
+              <mxPoint x="600" y="720" as="targetPoint" />
+            </mxGeometry>
+          </mxCell>
+        </object>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram name="C3 Component SC Ethereum" id="7OugJB3b5mqTG7eIWPBU">
+    <mxGraphModel dx="1140" dy="518" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="WuW67v57qaOdE3hcpQCs-0" />
+        <mxCell id="WuW67v57qaOdE3hcpQCs-1" parent="WuW67v57qaOdE3hcpQCs-0" />
+        <object placeholders="1" c4Name="Contracte intel·ligent Solidity" c4Type="DeploymentNode" label="&lt;div style=&quot;margin-left: 0.5rem;margin-bottom: 0.15rem;text-align: left; font-size: 9px;&quot;&gt;%c4Name%&lt;/div&gt;" id="WuW67v57qaOdE3hcpQCs-2">
+          <mxCell parent="WuW67v57qaOdE3hcpQCs-1" style="rounded=1;whiteSpace=wrap;html=1;labelBackgroundColor=none;fillColor=#dae8fc;align=left;arcSize=5;strokeColor=#6c8ebf;verticalAlign=bottom;metaEdit=1;metaData={&quot;c4Type&quot;:{&quot;editable&quot;:false}};points=[[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0.25,0],[1,0.5,0],[1,0.75,0],[0.75,1,0],[0.5,1,0],[0.25,1,0],[0,0.75,0],[0,0.5,0],[0,0.25,0]];fontSize=9;dashed=1;dashPattern=8 8;" vertex="1">
+            <mxGeometry height="385" width="370" x="200" y="200" as="geometry" />
+          </mxCell>
+        </object>
+        <object placeholders="1" c4Name="Full Node Ethereum" c4Type="Software System" c4Description="Usada exclusivament com a &#xa;notari públic per fer &#xa;emmagatzemar el hash dels &#xa;resultats finals i garantir&#xa;immutabilitat." label="&lt;b style=&quot;font-size: 9px;&quot;&gt;%c4Name%&lt;/b&gt;&lt;div style=&quot;font-size: 9px;&quot;&gt;[%c4Type%]&lt;/div&gt;&lt;br style=&quot;font-size: 9px;&quot;&gt;&lt;div style=&quot;font-size: 9px;&quot;&gt;%c4Description%&lt;/div&gt;" id="WuW67v57qaOdE3hcpQCs-3">
+          <mxCell parent="WuW67v57qaOdE3hcpQCs-1" style="rounded=1;whiteSpace=wrap;html=1;labelBackgroundColor=none;fillColor=#999999;fontColor=#ffffff;align=center;arcSize=10;strokeColor=#8A8A8A;metaEdit=1;metaData={&quot;c4Type&quot;:{&quot;editable&quot;:false}};points=[[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0.25,0],[1,0.5,0],[1,0.75,0],[0.75,1,0],[0.5,1,0],[0.25,1,0],[0,0.75,0],[0,0.5,0],[0,0.25,0]];fontSize=9;" vertex="1">
+            <mxGeometry height="90" width="122" x="38" y="262" as="geometry" />
+          </mxCell>
+        </object>
+        <object placeholders="1" c4Type="Relationship" c4Technology="Protocol intern" c4Description="Deriva la transacció &#xa;d&#39;ancoratge cap al &#xa;contracte" label="&lt;div style=&quot;text-align: left; font-size: 9px;&quot;&gt;&lt;div style=&quot;text-align: center; font-size: 9px;&quot;&gt;&lt;b style=&quot;font-size: 9px;&quot;&gt;%c4Description%&lt;/b&gt;&lt;/div&gt;&lt;div style=&quot;text-align: center; font-size: 9px;&quot;&gt;[%c4Technology%]&lt;/div&gt;&lt;/div&gt;" id="WuW67v57qaOdE3hcpQCs-13">
+          <mxCell edge="1" parent="WuW67v57qaOdE3hcpQCs-1" source="WuW67v57qaOdE3hcpQCs-3" style="edgeStyle=none;rounded=1;html=1;jettySize=auto;orthogonalLoop=1;strokeColor=#707070;strokeWidth=2;fontColor=#707070;jumpStyle=none;dashed=1;metaEdit=1;metaData={&quot;c4Type&quot;:{&quot;editable&quot;:false}};fontSize=9;exitX=0.5;exitY=1;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;entryPerimeter=0;curved=0;" target="TVHqDK490UJ9utyOVWBL-0">
+            <mxGeometry relative="1" width="160" x="0.0728" as="geometry">
+              <mxPoint as="offset" />
+              <Array as="points">
+                <mxPoint x="100" y="385" />
+              </Array>
+              <mxPoint x="487.5" y="350" as="sourcePoint" />
+              <mxPoint x="281.4999999999998" y="371.5" as="targetPoint" />
+            </mxGeometry>
+          </mxCell>
+        </object>
+        <object placeholders="1" c4Name="Registrador de hashes" c4Type="Component" c4Technology="Solidity" c4Description="Rep els hashes, verifica que l&#39;emissor estigui autoritzat contrastant-ho amb l&#39;snapshot i persisteix els hashes vàlids " label="&lt;b style=&quot;font-size: 9px;&quot;&gt;%c4Name%&lt;/b&gt;&lt;div style=&quot;font-size: 9px;&quot;&gt;[%c4Type%: %c4Technology%]&lt;/div&gt;&lt;br style=&quot;font-size: 9px;&quot;&gt;&lt;div style=&quot;font-size: 9px;&quot;&gt;%c4Description%&lt;/div&gt;" id="TVHqDK490UJ9utyOVWBL-0">
+          <mxCell parent="WuW67v57qaOdE3hcpQCs-1" style="rounded=1;whiteSpace=wrap;html=1;labelBackgroundColor=none;fillColor=#85BBF0;fontColor=#ffffff;align=center;arcSize=10;strokeColor=#78A8D8;metaEdit=1;metaData={&quot;c4Type&quot;:{&quot;editable&quot;:false}};points=[[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0.25,0],[1,0.5,0],[1,0.75,0],[0.75,1,0],[0.5,1,0],[0.25,1,0],[0,0.75,0],[0,0.5,0],[0,0.25,0]];fontSize=9;" vertex="1">
+            <mxGeometry height="110" width="150" x="225" y="330" as="geometry" />
+          </mxCell>
+        </object>
+        <object placeholders="1" c4Name="Motor de concens" c4Type="Component" c4Technology="Solidity" c4Description="Avalaua si s&#39;ha arribat al llindar de K vots després de cada transacció." label="&lt;b style=&quot;font-size: 9px;&quot;&gt;%c4Name%&lt;/b&gt;&lt;div style=&quot;font-size: 9px;&quot;&gt;[%c4Type%: %c4Technology%]&lt;/div&gt;&lt;br style=&quot;font-size: 9px;&quot;&gt;&lt;div style=&quot;font-size: 9px;&quot;&gt;%c4Description%&lt;/div&gt;" id="UYhNpxd-BTG5QMO2rgfl-4">
+          <mxCell parent="WuW67v57qaOdE3hcpQCs-1" style="rounded=1;whiteSpace=wrap;html=1;labelBackgroundColor=none;fillColor=#85BBF0;fontColor=#ffffff;align=center;arcSize=10;strokeColor=#78A8D8;metaEdit=1;metaData={&quot;c4Type&quot;:{&quot;editable&quot;:false}};points=[[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0.25,0],[1,0.5,0],[1,0.75,0],[0.75,1,0],[0.5,1,0],[0.25,1,0],[0,0.75,0],[0,0.5,0],[0,0.25,0]];fontSize=9;" vertex="1">
+            <mxGeometry height="82" width="127" x="394.5" y="478" as="geometry" />
+          </mxCell>
+        </object>
+        <object placeholders="1" c4Type="Relationship" c4Technology="Protocol intern" c4Description="Activa el procés de&#xa;recompte per verificar&#xa;si s&#39;ha assolit el consens" label="&lt;div style=&quot;text-align: left; font-size: 9px;&quot;&gt;&lt;div style=&quot;text-align: center; font-size: 9px;&quot;&gt;&lt;b style=&quot;font-size: 9px;&quot;&gt;%c4Description%&lt;/b&gt;&lt;/div&gt;&lt;div style=&quot;text-align: center; font-size: 9px;&quot;&gt;&lt;/div&gt;&lt;/div&gt;" id="UYhNpxd-BTG5QMO2rgfl-5">
+          <mxCell edge="1" parent="WuW67v57qaOdE3hcpQCs-1" source="TVHqDK490UJ9utyOVWBL-0" style="edgeStyle=none;rounded=1;html=1;jettySize=auto;orthogonalLoop=1;strokeColor=#707070;strokeWidth=2;fontColor=#707070;jumpStyle=none;dashed=1;metaEdit=1;metaData={&quot;c4Type&quot;:{&quot;editable&quot;:false}};fontSize=9;exitX=0.25;exitY=1;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;entryPerimeter=0;curved=0;" target="UYhNpxd-BTG5QMO2rgfl-4">
+            <mxGeometry relative="1" width="160" x="-0.4783" as="geometry">
+              <mxPoint as="offset" />
+              <Array as="points">
+                <mxPoint x="263" y="520" />
+              </Array>
+              <mxPoint x="230" y="440" as="sourcePoint" />
+              <mxPoint x="360" y="477" as="targetPoint" />
+            </mxGeometry>
+          </mxCell>
+        </object>
+        <object placeholders="1" c4Name="Servei d&#39;administració" c4Type="Component" c4Technology="Solidity" c4Description="Gestiona les direccions autoritzades i la creació de noves eleccions." label="&lt;b style=&quot;font-size: 9px;&quot;&gt;%c4Name%&lt;/b&gt;&lt;div style=&quot;font-size: 9px;&quot;&gt;[%c4Type%: %c4Technology%]&lt;/div&gt;&lt;br style=&quot;font-size: 9px;&quot;&gt;&lt;div style=&quot;font-size: 9px;&quot;&gt;%c4Description%&lt;/div&gt;" id="bomId7nDyRrHdplN6e8v-0">
+          <mxCell parent="WuW67v57qaOdE3hcpQCs-1" style="rounded=1;whiteSpace=wrap;html=1;labelBackgroundColor=none;fillColor=#85BBF0;fontColor=#ffffff;align=center;arcSize=10;strokeColor=#78A8D8;metaEdit=1;metaData={&quot;c4Type&quot;:{&quot;editable&quot;:false}};points=[[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0.25,0],[1,0.5,0],[1,0.75,0],[0.75,1,0],[0.5,1,0],[0.25,1,0],[0,0.75,0],[0,0.5,0],[0,0.25,0]];fontSize=9;" vertex="1">
+            <mxGeometry height="90" width="117" x="399.5" y="220" as="geometry" />
+          </mxCell>
+        </object>
+        <object placeholders="1" c4Name="Administrador" c4Type="Person" c4Description="Administrador&#xa;de nodes" label="&lt;b style=&quot;font-size: 9px;&quot;&gt;%c4Name%&lt;/b&gt;&lt;div style=&quot;font-size: 9px;&quot;&gt;[%c4Type% / entity]&lt;/div&gt;&lt;br style=&quot;font-size: 9px;&quot;&gt;&lt;div style=&quot;font-size: 9px;&quot;&gt;%c4Description%&lt;/div&gt;" id="eNny2atmX9y_FTfTYBUr-0">
+          <mxCell parent="WuW67v57qaOdE3hcpQCs-1" style="html=1;dashed=0;whitespace=wrap;fillColor=#08427b;strokeColor=none;fontColor=#ffffff;shape=mxgraph.c4.person;align=center;metaEdit=1;points=[[0.5,0,0],[1,0.5,0],[1,0.75,0],[0.75,1,0],[0.5,1,0],[0.25,1,0],[0,0.75,0],[0,0.5,0]];metaData={&quot;c4Type&quot;:{&quot;editable&quot;:false}};fontSize=9;" vertex="1">
+            <mxGeometry height="110" width="110" x="403" y="30" as="geometry" />
+          </mxCell>
+        </object>
+        <object placeholders="1" c4Type="Relationship" c4Technology="JSON-RPC / Web3" c4Description="Envia transaccions &#xa;d&#39;administració" label="&lt;div style=&quot;text-align: left; font-size: 9px;&quot;&gt;&lt;div style=&quot;text-align: center; font-size: 9px;&quot;&gt;&lt;b style=&quot;font-size: 9px;&quot;&gt;%c4Description%&lt;/b&gt;&lt;/div&gt;&lt;div style=&quot;text-align: center; font-size: 9px;&quot;&gt;[%c4Technology%]&lt;/div&gt;&lt;/div&gt;" id="eNny2atmX9y_FTfTYBUr-1">
+          <mxCell edge="1" parent="WuW67v57qaOdE3hcpQCs-1" source="eNny2atmX9y_FTfTYBUr-0" style="edgeStyle=none;rounded=0;html=1;jettySize=auto;orthogonalLoop=1;strokeColor=#707070;strokeWidth=2;fontColor=#707070;jumpStyle=none;dashed=1;metaEdit=1;metaData={&quot;c4Type&quot;:{&quot;editable&quot;:false}};fontSize=9;entryX=0.5;entryY=0;entryDx=0;entryDy=0;entryPerimeter=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;exitPerimeter=0;" target="bomId7nDyRrHdplN6e8v-0">
+            <mxGeometry relative="1" width="160" x="-0.3333" as="geometry">
+              <mxPoint as="offset" />
+              <Array as="points" />
+              <mxPoint x="404" y="-60" as="sourcePoint" />
+              <mxPoint x="470" y="16" as="targetPoint" />
+            </mxGeometry>
+          </mxCell>
+        </object>
+        <object placeholders="1" c4Type="Relationship" c4Technology="Protocol intern" c4Description="Crea les snapshots d&#39;eleccions&#xa; i defineix llindars K" label="&lt;div style=&quot;text-align: left; font-size: 9px;&quot;&gt;&lt;div style=&quot;text-align: center; font-size: 9px;&quot;&gt;&lt;b style=&quot;font-size: 9px;&quot;&gt;%c4Description%&lt;/b&gt;&lt;/div&gt;&lt;div style=&quot;text-align: center; font-size: 9px;&quot;&gt;&lt;/div&gt;&lt;/div&gt;" id="eNny2atmX9y_FTfTYBUr-2">
+          <mxCell edge="1" parent="WuW67v57qaOdE3hcpQCs-1" source="bomId7nDyRrHdplN6e8v-0" style="edgeStyle=none;rounded=1;html=1;jettySize=auto;orthogonalLoop=1;strokeColor=#707070;strokeWidth=2;fontColor=#707070;jumpStyle=none;dashed=1;metaEdit=1;metaData={&quot;c4Type&quot;:{&quot;editable&quot;:false}};fontSize=9;exitX=0;exitY=0.5;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;entryPerimeter=0;curved=0;" target="TVHqDK490UJ9utyOVWBL-0">
+            <mxGeometry relative="1" width="160" x="0.4207" y="-1" as="geometry">
+              <mxPoint as="offset" />
+              <Array as="points">
+                <mxPoint x="300" y="265" />
+              </Array>
+              <mxPoint x="190" y="370" as="sourcePoint" />
+              <mxPoint x="320" y="407" as="targetPoint" />
+            </mxGeometry>
+          </mxCell>
+        </object>
+        <object placeholders="1" c4Type="Relationship" c4Technology="Protocol intern" c4Description="Emetre la transacció &#xa;d&#39;anchoring a la xarxa" label="&lt;div style=&quot;text-align: left; font-size: 9px;&quot;&gt;&lt;div style=&quot;text-align: center; font-size: 9px;&quot;&gt;&lt;b style=&quot;font-size: 9px;&quot;&gt;%c4Description%&lt;/b&gt;&lt;/div&gt;&lt;div style=&quot;text-align: center; font-size: 9px;&quot;&gt;[%c4Technology%]&lt;/div&gt;&lt;/div&gt;" id="eNny2atmX9y_FTfTYBUr-3">
+          <mxCell edge="1" parent="WuW67v57qaOdE3hcpQCs-1" source="UYhNpxd-BTG5QMO2rgfl-4" style="edgeStyle=none;rounded=1;html=1;jettySize=auto;orthogonalLoop=1;strokeColor=#707070;strokeWidth=2;fontColor=#707070;jumpStyle=none;dashed=1;metaEdit=1;metaData={&quot;c4Type&quot;:{&quot;editable&quot;:false}};fontSize=9;exitX=0;exitY=0.75;exitDx=0;exitDy=0;exitPerimeter=0;curved=0;">
+            <mxGeometry relative="1" width="160" x="0.4464" as="geometry">
+              <mxPoint as="offset" />
+              <Array as="points">
+                <mxPoint x="70" y="540" />
+              </Array>
+              <mxPoint x="331" y="520" as="sourcePoint" />
+              <mxPoint x="70" y="353" as="targetPoint" />
+            </mxGeometry>
+          </mxCell>
+        </object>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
