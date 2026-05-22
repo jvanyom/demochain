@@ -15,12 +15,14 @@ const WALLET_LABELS: Record<string, string> = {
     pera: 'Pera Wallet',
 };
 
-export function WalletConnect() {
+function WalletConnectContent() {
     const {t} = useTranslation();
     const {wallets, activeAddress} = useWallet();
 
     const [menuOpen, setMenuOpen] = useState(false);
     const [filter, setFilter] = useState('');
+
+    return renderWalletUI({t, wallets, activeAddress, menuOpen, setMenuOpen, filter, setFilter});
 
     const connectedWallet = wallets.find((w) => w.isConnected);
     const rawAccounts = connectedWallet?.accounts ?? [];

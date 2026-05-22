@@ -7,10 +7,7 @@ logger = logging.getLogger(__name__)
 
 # define deployment behaviour based on supplied app spec
 def deploy() -> None:
-    from smart_contracts.artifacts.demochain.demochain_client import (
-        HelloArgs,
-        DemochainFactory,
-    )
+    from smart_contracts.artifacts.demochain.demochain_client import DemochainFactory
 
     algorand = algokit_utils.AlgorandClient.from_environment()
     deployer_ = algorand.account.from_environment("DEPLOYER")
@@ -36,9 +33,6 @@ def deploy() -> None:
             )
         )
 
-    name = "world"
-    response = app_client.send.hello(args=HelloArgs(name=name))
     logger.info(
-        f"Called hello on {app_client.app_name} ({app_client.app_id}) "
-        f"with name={name}, received: {response.abi_return}"
+        f"Deployed {app_client.app_name} ({app_client.app_id})"
     )

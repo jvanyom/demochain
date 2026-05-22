@@ -1,0 +1,1320 @@
+#pragma version 11
+#pragma typetrack false
+
+// algopy.arc4.ARC4Contract.approval_program() -> uint64:
+main:
+    intcblock 1 0 2 8 259200
+    bytecblock "cen_" "org_" "org_id" 0x0000000000000000 "proposal_id" 0x80 0x151f7c75 "pr_" "at_" 0x151f7c7580
+    txn ApplicationID
+    bnz main_after_if_else@2
+    // smart_contracts/demochain/contract.py:43
+    // self.org_id = arc4.UInt64(0)
+    bytec_2 // "org_id"
+    bytec_3 // 0x0000000000000000
+    app_global_put
+    // smart_contracts/demochain/contract.py:50
+    // self.proposal_id = arc4.UInt64(0)
+    bytec 4 // "proposal_id"
+    bytec_3 // 0x0000000000000000
+    app_global_put
+
+main_after_if_else@2:
+    // smart_contracts/demochain/contract.py:41
+    // class Demochain(ARC4Contract):
+    txn NumAppArgs
+    bz main___algopy_default_create@16
+    txn OnCompletion
+    !
+    assert
+    txn ApplicationID
+    assert
+    pushbytess 0xbd7e3ec4 0x36d420a9 0x92abd4de 0xf1f0d0fd 0x1fc900ee 0x80040863 0xa0d8582f // method "create_org(string,string)uint64", method "add_to_census(uint64,address[])bool", method "remove_from_census(uint64,address[])bool", method "is_in_census(uint64,address)bool", method "create_proposal(uint64,string,string,string[],uint64,uint64)uint64", method "cast_approval_vote(uint64,bool)void", method "cast_election_vote(uint64,uint8[])void"
+    txna ApplicationArgs 0
+    match create_org add_to_census remove_from_census is_in_census create_proposal cast_approval_vote cast_election_vote
+    err
+
+main___algopy_default_create@16:
+    txn OnCompletion
+    !
+    txn ApplicationID
+    !
+    &&
+    return
+
+
+// _puya_lib.arc4.dynamic_array_read_byte_length_element(array: bytes, index: uint64) -> bytes:
+dynamic_array_read_byte_length_element:
+    proto 2 1
+    frame_dig -2
+    extract 2 0
+    frame_dig -1
+    intc_2 // 2
+    *
+    dig 1
+    swap
+    extract_uint16
+    dup2
+    extract_uint16
+    intc_2 // 2
+    +
+    extract3
+    retsub
+
+
+// smart_contracts.demochain.contract.Demochain.create_org[routing]() -> void:
+create_org:
+    // smart_contracts/demochain/contract.py:60
+    // @abimethod()
+    txna ApplicationArgs 1
+    dup
+    intc_1 // 0
+    extract_uint16 // on error: invalid array length header
+    intc_2 // 2
+    +
+    dig 1
+    len
+    dup
+    uncover 2
+    ==
+    assert // invalid number of bytes for arc4.dynamic_array<arc4.uint8>
+    txna ApplicationArgs 2
+    dup
+    intc_1 // 0
+    extract_uint16 // on error: invalid array length header
+    intc_2 // 2
+    +
+    dig 1
+    len
+    ==
+    assert // invalid number of bytes for arc4.dynamic_array<arc4.uint8>
+    // smart_contracts/demochain/contract.py:63
+    // assert not self._is_blank(name), "org.empty-name"
+    dig 2
+    callsub _is_blank
+    !
+    assert // org.empty-name
+    // smart_contracts/demochain/contract.py:64
+    // assert not self._is_blank(description), "org.empty-description"
+    dup
+    callsub _is_blank
+    !
+    assert // org.empty-description
+    // smart_contracts/demochain/contract.py:65
+    // assert name not in self.organization_names, "org.already-exists"
+    pushbytes "on_"
+    dig 3
+    concat
+    dup
+    box_len
+    bury 1
+    !
+    assert // org.already-exists
+    // smart_contracts/demochain/contract.py:67
+    // self.org_id = arc4.UInt64(self.org_id.as_uint64() + 1)
+    intc_1 // 0
+    bytec_2 // "org_id"
+    app_global_get_ex
+    assert // check self.org_id exists
+    btoi
+    intc_0 // 1
+    +
+    itob
+    bytec_2 // "org_id"
+    dig 1
+    app_global_put
+    // smart_contracts/demochain/contract.py:72
+    // arc4.Address(Txn.sender),
+    txn Sender
+    // smart_contracts/demochain/contract.py:69-73
+    // self.organizations[self.org_id] = Organization(
+    //     name,
+    //     description,
+    //     arc4.Address(Txn.sender),
+    // )
+    pushint 36
+    uncover 5
+    +
+    itob
+    extract 6 2
+    pushbytes 0x0024
+    swap
+    concat
+    swap
+    concat
+    uncover 4
+    concat
+    uncover 3
+    concat
+    // smart_contracts/demochain/contract.py:69
+    // self.organizations[self.org_id] = Organization(
+    bytec_1 // "org_"
+    dig 2
+    concat
+    // smart_contracts/demochain/contract.py:69-73
+    // self.organizations[self.org_id] = Organization(
+    //     name,
+    //     description,
+    //     arc4.Address(Txn.sender),
+    // )
+    dup
+    box_del
+    pop
+    swap
+    box_put
+    // smart_contracts/demochain/contract.py:74
+    // self.organization_names[name] = arc4.Bool(True)
+    swap
+    bytec 5 // 0x80
+    box_put
+    // smart_contracts/demochain/contract.py:75
+    // self.census[arc4.Tuple((self.org_id, arc4.Address(Txn.sender)))] = arc4.Bool(
+    dup
+    txn Sender
+    concat
+    bytec_0 // "cen_"
+    swap
+    concat
+    // smart_contracts/demochain/contract.py:74
+    // self.organization_names[name] = arc4.Bool(True)
+    bytec 5 // 0x80
+    // smart_contracts/demochain/contract.py:75-77
+    // self.census[arc4.Tuple((self.org_id, arc4.Address(Txn.sender)))] = arc4.Bool(
+    //     True
+    // )
+    box_put
+    // smart_contracts/demochain/contract.py:60
+    // @abimethod()
+    bytec 6 // 0x151f7c75
+    swap
+    concat
+    log
+    intc_0 // 1
+    return
+
+
+// smart_contracts.demochain.contract.Demochain.add_to_census[routing]() -> void:
+add_to_census:
+    // smart_contracts/demochain/contract.py:81
+    // @abimethod()
+    txna ApplicationArgs 1
+    dupn 2
+    len
+    intc_3 // 8
+    ==
+    assert // invalid number of bytes for arc4.uint64
+    txna ApplicationArgs 2
+    dup
+    cover 2
+    dup
+    intc_1 // 0
+    extract_uint16 // on error: invalid array length header
+    dup
+    cover 3
+    dup
+    pushint 32
+    *
+    intc_2 // 2
+    +
+    uncover 2
+    len
+    ==
+    assert // invalid number of bytes for arc4.dynamic_array<arc4.static_array<arc4.uint8, 32>>
+    // smart_contracts/demochain/contract.py:85
+    // assert addresses.length <= MAX_CENSUS_BATCH, "org.census.too-many-addresses"
+    pushint 7
+    <=
+    assert // org.census.too-many-addresses
+    // smart_contracts/demochain/contract.py:86
+    // assert org_id in self.organizations, "org.not-found"
+    bytec_1 // "org_"
+    swap
+    concat
+    dup
+    box_len
+    bury 1
+    assert // org.not-found
+    // smart_contracts/demochain/contract.py:87
+    // assert Txn.sender == self.organizations[org_id].admin.native, (
+    txn Sender
+    swap
+    pushints 4 32
+    box_extract // on error: index out of bounds
+    ==
+    // smart_contracts/demochain/contract.py:87-89
+    // assert Txn.sender == self.organizations[org_id].admin.native, (
+    //     "org.census.unauthorized"
+    // )
+    assert // org.census.unauthorized
+    // smart_contracts/demochain/contract.py:91
+    // for i in urange(addresses.length):
+    intc_1 // 0
+
+add_to_census_for_header@2:
+    // smart_contracts/demochain/contract.py:91
+    // for i in urange(addresses.length):
+    dup
+    dig 2
+    <
+    bz add_to_census_after_for@5
+    // smart_contracts/demochain/contract.py:92
+    // address = addresses[i].copy()
+    dig 2
+    extract 2 0
+    dig 1
+    dup
+    cover 2
+    pushint 32
+    *
+    pushint 32
+    extract3 // on error: index access is out of bounds
+    // smart_contracts/demochain/contract.py:93
+    // assert address != arc4.Address(Global.zero_address), (
+    dup
+    global ZeroAddress
+    !=
+    // smart_contracts/demochain/contract.py:93-95
+    // assert address != arc4.Address(Global.zero_address), (
+    //     "org.census.invalid-address"
+    // )
+    assert // org.census.invalid-address
+    // smart_contracts/demochain/contract.py:96
+    // key = arc4.Tuple((org_id, address))
+    dig 5
+    swap
+    concat
+    // smart_contracts/demochain/contract.py:97
+    // assert key not in self.census, "org.census.duplicated-address"
+    bytec_0 // "cen_"
+    swap
+    concat
+    dup
+    box_len
+    bury 1
+    !
+    assert // org.census.duplicated-address
+    // smart_contracts/demochain/contract.py:98
+    // self.census[key] = arc4.Bool(True)
+    bytec 5 // 0x80
+    box_put
+    // smart_contracts/demochain/contract.py:91
+    // for i in urange(addresses.length):
+    intc_0 // 1
+    +
+    bury 1
+    b add_to_census_for_header@2
+
+add_to_census_after_for@5:
+    // smart_contracts/demochain/contract.py:81
+    // @abimethod()
+    bytec 9 // 0x151f7c7580
+    log
+    intc_0 // 1
+    return
+
+
+// smart_contracts.demochain.contract.Demochain.remove_from_census[routing]() -> void:
+remove_from_census:
+    // smart_contracts/demochain/contract.py:102
+    // @abimethod()
+    txna ApplicationArgs 1
+    dupn 2
+    len
+    intc_3 // 8
+    ==
+    assert // invalid number of bytes for arc4.uint64
+    txna ApplicationArgs 2
+    dup
+    cover 2
+    dup
+    intc_1 // 0
+    extract_uint16 // on error: invalid array length header
+    dup
+    cover 3
+    dup
+    pushint 32
+    *
+    intc_2 // 2
+    +
+    uncover 2
+    len
+    ==
+    assert // invalid number of bytes for arc4.dynamic_array<arc4.static_array<arc4.uint8, 32>>
+    // smart_contracts/demochain/contract.py:106
+    // assert addresses.length <= MAX_CENSUS_BATCH, "org.census.too-many-addresses"
+    pushint 7
+    <=
+    assert // org.census.too-many-addresses
+    // smart_contracts/demochain/contract.py:107
+    // assert org_id in self.organizations, "org.not-found"
+    bytec_1 // "org_"
+    swap
+    concat
+    dup
+    box_len
+    bury 1
+    assert // org.not-found
+    // smart_contracts/demochain/contract.py:109
+    // assert Txn.sender == org.admin.native, "org.census.unauthorized"
+    txn Sender
+    // smart_contracts/demochain/contract.py:108-109
+    // org = self.organizations[org_id].copy()
+    // assert Txn.sender == org.admin.native, "org.census.unauthorized"
+    swap
+    pushints 4 32
+    box_extract // on error: index out of bounds
+    dup
+    cover 2
+    // smart_contracts/demochain/contract.py:109
+    // assert Txn.sender == org.admin.native, "org.census.unauthorized"
+    ==
+    assert // org.census.unauthorized
+    // smart_contracts/demochain/contract.py:111
+    // for i in urange(addresses.length):
+    intc_1 // 0
+
+remove_from_census_for_header@2:
+    // smart_contracts/demochain/contract.py:111
+    // for i in urange(addresses.length):
+    dup
+    dig 3
+    <
+    bz remove_from_census_after_for@5
+    // smart_contracts/demochain/contract.py:112
+    // address = addresses[i].copy()
+    dig 3
+    extract 2 0
+    dig 1
+    dup
+    cover 2
+    pushint 32
+    *
+    pushint 32
+    extract3 // on error: index access is out of bounds
+    // smart_contracts/demochain/contract.py:113
+    // assert address != org.admin, "org.census.cannot-be-empty"
+    dup
+    dig 4
+    !=
+    assert // org.census.cannot-be-empty
+    // smart_contracts/demochain/contract.py:114
+    // key = arc4.Tuple((org_id, address))
+    dig 6
+    swap
+    concat
+    // smart_contracts/demochain/contract.py:115
+    // assert key in self.census, "org.census.non-registered-address"
+    bytec_0 // "cen_"
+    swap
+    concat
+    dup
+    box_len
+    bury 1
+    assert // org.census.non-registered-address
+    // smart_contracts/demochain/contract.py:116
+    // del self.census[key]
+    box_del
+    pop
+    // smart_contracts/demochain/contract.py:111
+    // for i in urange(addresses.length):
+    intc_0 // 1
+    +
+    bury 1
+    b remove_from_census_for_header@2
+
+remove_from_census_after_for@5:
+    // smart_contracts/demochain/contract.py:102
+    // @abimethod()
+    bytec 9 // 0x151f7c7580
+    log
+    intc_0 // 1
+    return
+
+
+// smart_contracts.demochain.contract.Demochain.is_in_census[routing]() -> void:
+is_in_census:
+    // smart_contracts/demochain/contract.py:120
+    // @abimethod()
+    txna ApplicationArgs 1
+    dup
+    len
+    intc_3 // 8
+    ==
+    assert // invalid number of bytes for arc4.uint64
+    txna ApplicationArgs 2
+    dup
+    len
+    pushint 32
+    ==
+    assert // invalid number of bytes for arc4.static_array<arc4.uint8, 32>
+    // smart_contracts/demochain/contract.py:122
+    // key = arc4.Tuple((org_id, address))
+    concat
+    // smart_contracts/demochain/contract.py:123
+    // return arc4.Bool(key in self.census)
+    bytec_0 // "cen_"
+    swap
+    concat
+    box_len
+    bury 1
+    pushbytes 0x00
+    intc_1 // 0
+    uncover 2
+    setbit
+    // smart_contracts/demochain/contract.py:120
+    // @abimethod()
+    bytec 6 // 0x151f7c75
+    swap
+    concat
+    log
+    intc_0 // 1
+    return
+
+
+// smart_contracts.demochain.contract.Demochain.create_proposal[routing]() -> void:
+create_proposal:
+    intc_1 // 0
+    dupn 2
+    pushbytes ""
+    dupn 4
+    // smart_contracts/demochain/contract.py:125
+    // @abimethod()
+    txna ApplicationArgs 1
+    dup
+    len
+    intc_3 // 8
+    ==
+    assert // invalid number of bytes for arc4.uint64
+    txna ApplicationArgs 2
+    dupn 2
+    intc_1 // 0
+    extract_uint16 // on error: invalid array length header
+    intc_2 // 2
+    +
+    swap
+    len
+    dup
+    uncover 2
+    ==
+    assert // invalid number of bytes for arc4.dynamic_array<arc4.uint8>
+    txna ApplicationArgs 3
+    dupn 2
+    intc_1 // 0
+    extract_uint16 // on error: invalid array length header
+    intc_2 // 2
+    +
+    swap
+    len
+    dup
+    uncover 2
+    ==
+    assert // invalid number of bytes for arc4.dynamic_array<arc4.uint8>
+    txna ApplicationArgs 4
+    dupn 2
+    intc_1 // 0
+    extract_uint16 // on error: invalid array length header
+    dup
+    cover 2
+    intc_2 // 2
+    *
+    swap
+    dup
+    len
+    swap
+    extract 2 0
+    intc_1 // 0
+
+create_proposal_for_header@1:
+    // smart_contracts/demochain/contract.py:125
+    // @abimethod()
+    dup
+    dig 5
+    <
+    bz create_proposal_after_for@4
+    dupn 2
+    intc_2 // 2
+    *
+    dig 3
+    dup
+    uncover 2
+    extract_uint16 // on error: invalid array encoding
+    dup
+    dig 7
+    dup
+    cover 4
+    ==
+    assert // invalid tail pointer for (len+(len+utf8[])[])
+    dig 1
+    len
+    substring3
+    intc_1 // 0
+    extract_uint16 // on error: invalid array length header
+    intc_2 // 2
+    +
+    +
+    bury 5
+    intc_0 // 1
+    +
+    bury 1
+    b create_proposal_for_header@1
+
+create_proposal_after_for@4:
+    // smart_contracts/demochain/contract.py:125
+    // @abimethod()
+    dig 3
+    intc_2 // 2
+    +
+    dig 3
+    ==
+    assert // invalid number of bytes for arc4.dynamic_array<arc4.dynamic_array<arc4.uint8>>
+    txna ApplicationArgs 5
+    dup
+    bury 18
+    dup
+    len
+    intc_3 // 8
+    ==
+    assert // invalid number of bytes for arc4.uint64
+    txna ApplicationArgs 6
+    dup
+    bury 21
+    dup
+    len
+    intc_3 // 8
+    ==
+    assert // invalid number of bytes for arc4.uint64
+    // smart_contracts/demochain/contract.py:135
+    // assert org_id in self.organizations, "org.not-found"
+    bytec_1 // "org_"
+    dig 13
+    dup
+    cover 2
+    concat
+    box_len
+    bury 1
+    assert // org.not-found
+    // smart_contracts/demochain/contract.py:136
+    // assert arc4.Tuple((org_id, arc4.Address(Txn.sender))) in self.census, (
+    txn Sender
+    concat
+    bytec_0 // "cen_"
+    swap
+    concat
+    box_len
+    bury 1
+    // smart_contracts/demochain/contract.py:136-138
+    // assert arc4.Tuple((org_id, arc4.Address(Txn.sender))) in self.census, (
+    //     "proposal.unauthorized"
+    // )
+    assert // proposal.unauthorized
+    // smart_contracts/demochain/contract.py:139
+    // assert not self._is_blank(title), "proposal.empty-title"
+    dig 11
+    callsub _is_blank
+    !
+    assert // proposal.empty-title
+    // smart_contracts/demochain/contract.py:140
+    // assert not self._is_blank(description), "proposal.empty-description"
+    dig 9
+    callsub _is_blank
+    !
+    assert // proposal.empty-description
+    // smart_contracts/demochain/contract.py:141
+    // assert start_date.as_uint64() >= Global.latest_timestamp + MIN_START_ADVANCE, (
+    swap
+    btoi
+    global LatestTimestamp
+    intc 4 // 259200
+    +
+    dig 1
+    <=
+    // smart_contracts/demochain/contract.py:141-143
+    // assert start_date.as_uint64() >= Global.latest_timestamp + MIN_START_ADVANCE, (
+    //     "proposal.starting-too-soon"
+    // )
+    assert // proposal.starting-too-soon
+    // smart_contracts/demochain/contract.py:144
+    // assert ending_date.as_uint64() >= start_date.as_uint64() + MIN_VOTING_WINDOW, (
+    swap
+    btoi
+    swap
+    pushint 86400
+    +
+    >=
+    // smart_contracts/demochain/contract.py:144-146
+    // assert ending_date.as_uint64() >= start_date.as_uint64() + MIN_VOTING_WINDOW, (
+    //     "proposal.small-voting-window"
+    // )
+    assert // proposal.small-voting-window
+    // smart_contracts/demochain/contract.py:147
+    // assert options.length >= 2, "proposal.too-few-options"
+    dig 4
+    intc_2 // 2
+    >=
+    assert // proposal.too-few-options
+    // smart_contracts/demochain/contract.py:149
+    // for i in urange(options.length):
+    intc_1 // 0
+    bury 14
+
+create_proposal_for_header@6:
+    // smart_contracts/demochain/contract.py:149
+    // for i in urange(options.length):
+    dig 13
+    dig 5
+    <
+    dup
+    bury 17
+    bz create_proposal_after_for@13
+    dig 15
+    assert // index out of bounds
+    // smart_contracts/demochain/contract.py:150
+    // opt_i = options[i]
+    dig 5
+    dig 14
+    dup
+    cover 2
+    callsub dynamic_array_read_byte_length_element
+    dup
+    bury 20
+    // smart_contracts/demochain/contract.py:151
+    // assert not self._is_blank(opt_i), "proposal.empty-options"
+    callsub _is_blank
+    !
+    assert // proposal.empty-options
+    // smart_contracts/demochain/contract.py:152
+    // for j in urange(i + 1, options.length):
+    intc_0 // 1
+    +
+    dup
+    bury 13
+    bury 13
+
+create_proposal_for_header@8:
+    // smart_contracts/demochain/contract.py:152
+    // for j in urange(i + 1, options.length):
+    dig 12
+    dig 5
+    <
+    dup
+    bury 16
+    bz create_proposal_after_for@11
+    dig 14
+    assert // index out of bounds
+    // smart_contracts/demochain/contract.py:153
+    // assert opt_i.bytes != options[j].bytes, "proposal.duplicated-options"
+    dig 5
+    dig 13
+    dup
+    cover 2
+    callsub dynamic_array_read_byte_length_element
+    dig 19
+    !=
+    assert // proposal.duplicated-options
+    // smart_contracts/demochain/contract.py:152
+    // for j in urange(i + 1, options.length):
+    intc_0 // 1
+    +
+    bury 13
+    b create_proposal_for_header@8
+
+create_proposal_after_for@11:
+    dig 11
+    bury 14
+    b create_proposal_for_header@6
+
+create_proposal_after_for@13:
+    // smart_contracts/demochain/contract.py:155
+    // self.proposal_id = arc4.UInt64(self.proposal_id.as_uint64() + 1)
+    intc_1 // 0
+    bytec 4 // "proposal_id"
+    app_global_get_ex
+    assert // check self.proposal_id exists
+    btoi
+    intc_0 // 1
+    +
+    itob
+    bytec 4 // "proposal_id"
+    dig 1
+    app_global_put
+    // smart_contracts/demochain/contract.py:161
+    // arc4.Address(Txn.sender),
+    txn Sender
+    // smart_contracts/demochain/contract.py:156-164
+    // self.proposals[self.proposal_id] = Proposal(
+    //     title,
+    //     description,
+    //     options.copy(),
+    //     org_id,
+    //     arc4.Address(Txn.sender),
+    //     start_date,
+    //     ending_date,
+    // )
+    pushint 62
+    dig 11
+    +
+    dup
+    itob
+    extract 6 2
+    pushbytes 0x003e
+    swap
+    concat
+    swap
+    dig 10
+    +
+    itob
+    extract 6 2
+    concat
+    dig 13
+    concat
+    swap
+    concat
+    dig 18
+    concat
+    dig 20
+    concat
+    dig 11
+    concat
+    dig 9
+    concat
+    dig 7
+    concat
+    // smart_contracts/demochain/contract.py:156
+    // self.proposals[self.proposal_id] = Proposal(
+    bytec 7 // "pr_"
+    dig 2
+    concat
+    // smart_contracts/demochain/contract.py:156-164
+    // self.proposals[self.proposal_id] = Proposal(
+    //     title,
+    //     description,
+    //     options.copy(),
+    //     org_id,
+    //     arc4.Address(Txn.sender),
+    //     start_date,
+    //     ending_date,
+    // )
+    dup
+    box_del
+    pop
+    swap
+    box_put
+    // smart_contracts/demochain/contract.py:165
+    // self.approval_tallies[self.proposal_id] = ApprovalTally(
+    bytec 8 // "at_"
+    dig 1
+    concat
+    // smart_contracts/demochain/contract.py:165-167
+    // self.approval_tallies[self.proposal_id] = ApprovalTally(
+    //     arc4.UInt32(0), arc4.UInt32(0)
+    // )
+    bytec_3 // 0x0000000000000000
+    box_put
+    // smart_contracts/demochain/contract.py:125
+    // @abimethod()
+    bytec 6 // 0x151f7c75
+    swap
+    concat
+    log
+    intc_0 // 1
+    return
+
+
+// smart_contracts.demochain.contract.Demochain.cast_approval_vote[routing]() -> void:
+cast_approval_vote:
+    // smart_contracts/demochain/contract.py:171
+    // @abimethod()
+    txna ApplicationArgs 1
+    dup
+    len
+    intc_3 // 8
+    ==
+    assert // invalid number of bytes for arc4.uint64
+    txna ApplicationArgs 2
+    dup
+    len
+    intc_0 // 1
+    ==
+    assert // invalid number of bytes for arc4.bool
+    // smart_contracts/demochain/contract.py:173
+    // assert proposal_id in self.proposals, "proposal.not-found"
+    bytec 7 // "pr_"
+    dig 2
+    concat
+    dup
+    box_len
+    bury 1
+    assert // proposal.not-found
+    // smart_contracts/demochain/contract.py:177
+    // Global.latest_timestamp + MIN_START_ADVANCE
+    global LatestTimestamp
+    intc 4 // 259200
+    +
+    // smart_contracts/demochain/contract.py:178
+    // < proposal.starting_date.as_uint64()
+    dig 1
+    pushint 46
+    intc_3 // 8
+    box_extract // on error: index out of bounds
+    btoi
+    // smart_contracts/demochain/contract.py:177-178
+    // Global.latest_timestamp + MIN_START_ADVANCE
+    // < proposal.starting_date.as_uint64()
+    <
+    // smart_contracts/demochain/contract.py:176-179
+    // assert (
+    //     Global.latest_timestamp + MIN_START_ADVANCE
+    //     < proposal.starting_date.as_uint64()
+    // ), "proposal.ended"
+    assert // proposal.ended
+    // smart_contracts/demochain/contract.py:181
+    // assert arc4.Tuple((proposal.org_id, arc4.Address(Txn.sender))) in self.census, (
+    pushint 6
+    intc_3 // 8
+    box_extract // on error: index out of bounds
+    txn Sender
+    concat
+    bytec_0 // "cen_"
+    swap
+    concat
+    box_len
+    bury 1
+    // smart_contracts/demochain/contract.py:181-183
+    // assert arc4.Tuple((proposal.org_id, arc4.Address(Txn.sender))) in self.census, (
+    //     "proposal.unauthorized"
+    // )
+    assert // proposal.unauthorized
+    // smart_contracts/demochain/contract.py:185
+    // ballot_id = BallotId(arc4.Address(Txn.sender), proposal_id)
+    txn Sender
+    dig 2
+    concat
+    // smart_contracts/demochain/contract.py:186
+    // assert ballot_id not in self.approval_ballots, "proposal.already-voted"
+    pushbytes "ab_"
+    swap
+    concat
+    dup
+    box_len
+    bury 1
+    !
+    assert // proposal.already-voted
+    // smart_contracts/demochain/contract.py:188
+    // self.approval_ballots[ballot_id] = approve
+    dig 1
+    box_put
+    // smart_contracts/demochain/contract.py:190
+    // tally = self.approval_tallies[proposal_id].copy()
+    bytec 8 // "at_"
+    uncover 2
+    concat
+    dup
+    cover 2
+    box_get
+    swap
+    cover 3
+    assert // check self.approval_tallies entry exists
+    // smart_contracts/demochain/contract.py:191
+    // if approve:
+    pushbytes 0x00
+    !=
+    bz cast_approval_vote_else_body@3
+    // smart_contracts/demochain/contract.py:193
+    // arc4.UInt32(tally.votes_for.as_uint64() + 1),
+    swap
+    dup
+    intc_1 // 0
+    extract_uint32
+    intc_0 // 1
+    +
+    itob
+    dup
+    bitlen
+    pushint 32
+    <=
+    assert // overflow
+    extract 4 4
+    // smart_contracts/demochain/contract.py:194
+    // arc4.UInt32(tally.total_votes.as_uint64() + 1),
+    swap
+    pushint 4
+    extract_uint32
+    intc_0 // 1
+    +
+    itob
+    dup
+    bitlen
+    pushint 32
+    <=
+    assert // overflow
+    extract 4 4
+    // smart_contracts/demochain/contract.py:192-195
+    // self.approval_tallies[proposal_id] = ApprovalTally(
+    //     arc4.UInt32(tally.votes_for.as_uint64() + 1),
+    //     arc4.UInt32(tally.total_votes.as_uint64() + 1),
+    // )
+    concat
+    box_put
+
+cast_approval_vote_after_if_else@4:
+    // smart_contracts/demochain/contract.py:171
+    // @abimethod()
+    intc_0 // 1
+    return
+
+cast_approval_vote_else_body@3:
+    // smart_contracts/demochain/contract.py:198
+    // arc4.UInt32(tally.votes_for.as_uint64()),
+    swap
+    dup
+    extract 0 4
+    // smart_contracts/demochain/contract.py:199
+    // arc4.UInt32(tally.total_votes.as_uint64() + 1),
+    swap
+    pushint 4
+    extract_uint32
+    intc_0 // 1
+    +
+    itob
+    dup
+    bitlen
+    pushint 32
+    <=
+    assert // overflow
+    extract 4 4
+    // smart_contracts/demochain/contract.py:197-200
+    // self.approval_tallies[proposal_id] = ApprovalTally(
+    //     arc4.UInt32(tally.votes_for.as_uint64()),
+    //     arc4.UInt32(tally.total_votes.as_uint64() + 1),
+    // )
+    concat
+    box_put
+    b cast_approval_vote_after_if_else@4
+
+
+// smart_contracts.demochain.contract.Demochain.cast_election_vote[routing]() -> void:
+cast_election_vote:
+    intc_1 // 0
+    dup
+    pushbytes ""
+    dupn 3
+    // smart_contracts/demochain/contract.py:202
+    // @abimethod()
+    txna ApplicationArgs 1
+    dupn 2
+    len
+    intc_3 // 8
+    ==
+    assert // invalid number of bytes for arc4.uint64
+    txna ApplicationArgs 2
+    dup
+    cover 2
+    dup
+    intc_1 // 0
+    extract_uint16 // on error: invalid array length header
+    dup
+    cover 3
+    intc_2 // 2
+    +
+    swap
+    len
+    ==
+    assert // invalid number of bytes for arc4.dynamic_array<arc4.uint8>
+    // smart_contracts/demochain/contract.py:208
+    // assert proposal_id in self.proposals, "proposal.not-found"
+    bytec 7 // "pr_"
+    dig 1
+    concat
+    dup
+    cover 2
+    dup
+    box_len
+    bury 1
+    assert // proposal.not-found
+    // smart_contracts/demochain/contract.py:211
+    // assert Global.latest_timestamp >= proposal.starting_date.as_uint64(), (
+    global LatestTimestamp
+    // smart_contracts/demochain/contract.py:210-211
+    // proposal = self.proposals[proposal_id].copy()
+    // assert Global.latest_timestamp >= proposal.starting_date.as_uint64(), (
+    dig 1
+    pushint 46
+    intc_3 // 8
+    box_extract // on error: index out of bounds
+    // smart_contracts/demochain/contract.py:211
+    // assert Global.latest_timestamp >= proposal.starting_date.as_uint64(), (
+    btoi
+    swap
+    dig 1
+    >=
+    // smart_contracts/demochain/contract.py:211-213
+    // assert Global.latest_timestamp >= proposal.starting_date.as_uint64(), (
+    //     "election.not-started"
+    // )
+    assert // election.not-started
+    // smart_contracts/demochain/contract.py:214
+    // assert Global.latest_timestamp < proposal.ending_date.as_uint64(), (
+    global LatestTimestamp
+    uncover 2
+    pushint 54
+    intc_3 // 8
+    box_extract // on error: index out of bounds
+    btoi
+    <
+    // smart_contracts/demochain/contract.py:214-216
+    // assert Global.latest_timestamp < proposal.ending_date.as_uint64(), (
+    //     "election.ended"
+    // )
+    assert // election.ended
+    // smart_contracts/demochain/contract.py:237
+    // tally = self.approval_tallies[proposal_id].copy()
+    bytec 8 // "at_"
+    uncover 2
+    concat
+    box_get
+    swap
+    cover 2
+    assert // check self.approval_tallies entry exists
+    // smart_contracts/demochain/contract.py:239
+    // Global.latest_timestamp >= proposal.starting_date.as_uint64()
+    global LatestTimestamp
+    <=
+    // smart_contracts/demochain/contract.py:239-242
+    // Global.latest_timestamp >= proposal.starting_date.as_uint64()
+    // and APPROVAL_QUORUM_DEN * tally.votes_for.as_uint64()
+    // >= APPROVAL_QUORUM_NUM
+    // * tally.total_votes.as_uint64()  # votes_for / total_votes >= APPROVAL_QUORUM_NUM / APPROVAL_QUORUM_DEN
+    bz cast_election_vote_bool_false@13
+    // smart_contracts/demochain/contract.py:240
+    // and APPROVAL_QUORUM_DEN * tally.votes_for.as_uint64()
+    dupn 2
+    intc_1 // 0
+    extract_uint32
+    pushint 4
+    *
+    // smart_contracts/demochain/contract.py:242
+    // * tally.total_votes.as_uint64()  # votes_for / total_votes >= APPROVAL_QUORUM_NUM / APPROVAL_QUORUM_DEN
+    swap
+    pushint 4
+    extract_uint32
+    // smart_contracts/demochain/contract.py:241
+    // >= APPROVAL_QUORUM_NUM
+    pushint 3
+    // smart_contracts/demochain/contract.py:241-242
+    // >= APPROVAL_QUORUM_NUM
+    // * tally.total_votes.as_uint64()  # votes_for / total_votes >= APPROVAL_QUORUM_NUM / APPROVAL_QUORUM_DEN
+    *
+    // smart_contracts/demochain/contract.py:240-242
+    // and APPROVAL_QUORUM_DEN * tally.votes_for.as_uint64()
+    // >= APPROVAL_QUORUM_NUM
+    // * tally.total_votes.as_uint64()  # votes_for / total_votes >= APPROVAL_QUORUM_NUM / APPROVAL_QUORUM_DEN
+    >=
+    // smart_contracts/demochain/contract.py:239-242
+    // Global.latest_timestamp >= proposal.starting_date.as_uint64()
+    // and APPROVAL_QUORUM_DEN * tally.votes_for.as_uint64()
+    // >= APPROVAL_QUORUM_NUM
+    // * tally.total_votes.as_uint64()  # votes_for / total_votes >= APPROVAL_QUORUM_NUM / APPROVAL_QUORUM_DEN
+    bz cast_election_vote_bool_false@13
+    intc_0 // 1
+
+cast_election_vote_bool_merge@14:
+    // smart_contracts/demochain/contract.py:217
+    // assert self._is_proposal_approved(proposal_id), "proposal.not-approved"
+    assert // proposal.not-approved
+    // smart_contracts/demochain/contract.py:219
+    // assert arc4.Tuple((proposal.org_id, arc4.Address(Txn.sender))) in self.census, (
+    dig 1
+    dup
+    pushint 6
+    intc_3 // 8
+    box_extract // on error: index out of bounds
+    txn Sender
+    concat
+    bytec_0 // "cen_"
+    swap
+    concat
+    box_len
+    bury 1
+    // smart_contracts/demochain/contract.py:219-221
+    // assert arc4.Tuple((proposal.org_id, arc4.Address(Txn.sender))) in self.census, (
+    //     "proposal.unauthorized"
+    // )
+    assert // proposal.unauthorized
+    // smart_contracts/demochain/contract.py:223
+    // n = proposal.options.length
+    dup
+    pushint 4
+    intc_2 // 2
+    box_extract
+    btoi
+    intc_2 // 2
+    box_extract
+    btoi
+    dup
+    bury 8
+    // smart_contracts/demochain/contract.py:224
+    // assert preference_order.length == n, "election.missing-options"
+    dig 3
+    ==
+    assert // election.missing-options
+    // smart_contracts/demochain/contract.py:225
+    // for i in urange(n):
+    intc_1 // 0
+    bury 9
+
+cast_election_vote_for_header@2:
+    // smart_contracts/demochain/contract.py:225
+    // for i in urange(n):
+    dig 8
+    dig 7
+    <
+    bz cast_election_vote_after_for@9
+    // smart_contracts/demochain/contract.py:226
+    // assert preference_order[i].as_uint64() < n, "election.missing-options"
+    dig 3
+    extract 2 0
+    dup
+    bury 12
+    dup
+    dig 10
+    dup
+    cover 3
+    intc_0 // 1
+    extract3 // on error: index access is out of bounds
+    bury 12
+    dig 1
+    getbyte
+    dig 8
+    <
+    assert // election.missing-options
+    // smart_contracts/demochain/contract.py:227
+    // for j in urange(i + 1, n):
+    intc_0 // 1
+    +
+    dup
+    bury 7
+    bury 8
+
+cast_election_vote_for_header@4:
+    // smart_contracts/demochain/contract.py:227
+    // for j in urange(i + 1, n):
+    dig 7
+    dig 7
+    <
+    bz cast_election_vote_after_for@7
+    // smart_contracts/demochain/contract.py:228
+    // assert preference_order[i] != preference_order[j], (
+    dig 10
+    dig 8
+    dup
+    cover 2
+    intc_0 // 1
+    extract3 // on error: index access is out of bounds
+    dig 11
+    b!=
+    // smart_contracts/demochain/contract.py:228-230
+    // assert preference_order[i] != preference_order[j], (
+    //     "election.missing-options"
+    // )
+    assert // election.missing-options
+    // smart_contracts/demochain/contract.py:227
+    // for j in urange(i + 1, n):
+    intc_0 // 1
+    +
+    bury 8
+    b cast_election_vote_for_header@4
+
+cast_election_vote_after_for@7:
+    dig 5
+    bury 9
+    b cast_election_vote_for_header@2
+
+cast_election_vote_after_for@9:
+    // smart_contracts/demochain/contract.py:232
+    // ballot_id = BallotId(arc4.Address(Txn.sender), proposal_id)
+    txn Sender
+    dig 5
+    concat
+    // smart_contracts/demochain/contract.py:233
+    // self.election_ballots[ballot_id] = preference_order.copy()
+    pushbytes "eb_"
+    swap
+    concat
+    dup
+    box_del
+    pop
+    dig 4
+    box_put
+    // smart_contracts/demochain/contract.py:202
+    // @abimethod()
+    intc_0 // 1
+    return
+
+cast_election_vote_bool_false@13:
+    intc_1 // 0
+    b cast_election_vote_bool_merge@14
+
+
+// smart_contracts.demochain.contract.Demochain._is_blank(s: bytes) -> uint64:
+_is_blank:
+    // smart_contracts/demochain/contract.py:245
+    // def _is_blank(self, s: arc4.String) -> bool:
+    proto 1 1
+    pushbytes ""
+    // smart_contracts/demochain/contract.py:246
+    // b = s.native.bytes
+    frame_dig -1
+    extract 2 0
+    dup
+    // smart_contracts/demochain/contract.py:247
+    // if b.length == 0:
+    len
+    dup
+    bnz _is_blank_after_if_else@2
+    // smart_contracts/demochain/contract.py:248
+    // return True
+    intc_0 // 1
+    frame_bury 0
+    retsub
+
+_is_blank_after_if_else@2:
+    // smart_contracts/demochain/contract.py:249
+    // for i in urange(b.length):
+    intc_1 // 0
+    frame_bury 0
+
+_is_blank_for_header@3:
+    // smart_contracts/demochain/contract.py:249
+    // for i in urange(b.length):
+    frame_dig 0
+    frame_dig 2
+    <
+    bz _is_blank_after_for@8
+    // smart_contracts/demochain/contract.py:250
+    // if op.getbyte(b, i) != 32:
+    frame_dig 1
+    frame_dig 0
+    getbyte
+    pushint 32
+    !=
+    bz _is_blank_after_if_else@6
+    // smart_contracts/demochain/contract.py:251
+    // return False
+    intc_1 // 0
+    frame_bury 0
+    retsub
+
+_is_blank_after_if_else@6:
+    // smart_contracts/demochain/contract.py:249
+    // for i in urange(b.length):
+    frame_dig 0
+    intc_0 // 1
+    +
+    frame_bury 0
+    b _is_blank_for_header@3
+
+_is_blank_after_for@8:
+    // smart_contracts/demochain/contract.py:252
+    // return True
+    intc_0 // 1
+    frame_bury 0
+    retsub
