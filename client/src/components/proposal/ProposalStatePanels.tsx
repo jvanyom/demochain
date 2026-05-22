@@ -11,7 +11,7 @@ interface PendingApprovalPanelProps {
     isConnected: boolean;
     isMember: boolean;
     voting: 'approve' | 'reject' | null;
-    mutationError: Error | null;
+    mutationError: string | null;
     onVote: (approve: boolean) => void;
 }
 
@@ -64,7 +64,7 @@ export function PendingApprovalPanel({
 
             {mutationError && (
                 <p className="mt-3 text-xs text-rose-500">
-                    {mutationError.message ?? 'Transaction failed.'}
+                    {mutationError}
                 </p>
             )}
         </div>

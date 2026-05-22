@@ -48,14 +48,6 @@ function minStartDateStr(): string {
     return d.toISOString().slice(0, 16);
 }
 
-function classifyError(err: unknown): 'wallet.rejected' | 'network' | 'contract' | 'unknown' {
-    const msg = err instanceof Error ? err.message.toLowerCase() : '';
-    if (msg.includes('cancel') || msg.includes('rejected') || msg.includes('user rejected')) return 'wallet.rejected';
-    if (msg.includes('network') || msg.includes('timeout') || msg.includes('fetch')) return 'network';
-    if (err instanceof Error && err.message.startsWith('proposal.')) return 'contract';
-    return 'unknown';
-}
-
 const STEP_FIELDS = [
     OrgStepFields,
     BasicsStepFields,
@@ -167,11 +159,9 @@ export function NewProposalPage() {
             setConfirmedTxId(txId);
             wizard.succeedSubmit();
         } catch (err) {
-            const kind = classifyError(err);
-
-            const messageKey = kind === 'contract' && err instanceof Error ? err.message : kind;
-
-            wizard.failSubmit(t(`errors.${messageKey}`));
+            wizard.failSubmit(
+                t(`errors.${err instanceof Error ? err.message : 'contract'}`, {defaultValue: t('errors.contract')})
+            );
         }
     };
 
@@ -182,10 +172,12 @@ export function NewProposalPage() {
                     <div className="mb-2 text-xs font-semibold uppercase tracking-wider text-muted">
                         {t('common.step', {current: STEPS.length, total: STEPS.length})}
                     </div>
+
                     <h1 className="mb-8 font-display text-4xl font-semibold tracking-tight text-fg sm:text-5xl">
                         {t('proposal.new.title')}
                     </h1>
                 </div>
+
                 <ProposalReceipt
                     open
                     proposalTitle={title}
@@ -204,6 +196,7 @@ export function NewProposalPage() {
             <div className="mb-2 text-xs font-semibold uppercase tracking-wider text-muted">
                 {t('common.step', {current: wizard.step + 1, total: STEPS.length})}
             </div>
+
             <h1 className="mb-8 font-display text-4xl font-semibold tracking-tight text-fg sm:text-5xl">
                 {t('proposal.new.title')}
             </h1>
@@ -248,6 +241,7 @@ export function NewProposalPage() {
                         onSelectOrg={(id) => setValue('orgId', id)}
                     />
                 )}
+
                 {wizard.step === 1 && (
                     <BasicsStep
                         title={title}
@@ -258,6 +252,7 @@ export function NewProposalPage() {
                         fieldError={fieldError}
                     />
                 )}
+
                 {wizard.step === 2 && (
                     <DatesStep
                         start={startDate}
@@ -270,6 +265,7 @@ export function NewProposalPage() {
                         fieldError={fieldError}
                     />
                 )}
+
                 {wizard.step === 3 && (
                     <OptionsStep
                         fields={fields}
@@ -291,9 +287,6 @@ export function NewProposalPage() {
                         start={startDate}
                         end={endDate}
                         options={optionItems}
-                        submitError={wizard.error}
-                        submitting={wizard.submitting}
-                        onRetry={handleSubmit}
                     />
                 )}
             </WizardLayout>

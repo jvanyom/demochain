@@ -1,0 +1,22 @@
+sequenceDiagram
+    autonumber
+    actor V as Votant
+    participant C as Client web (React)
+    participant W as Cartera (Pera / KMD)
+    participant A as Node Algorand
+    participant SC as Contracte Algorand
+
+    V->>C: Obre la proposta i clica<br/>"A favor" o "En contra"
+    C->>C: Comprova que la proposta està<br/>en estat PendingApproval
+    C->>W: Sol·licita signatura<br/>cast_approval_vote(proposalId, valor)
+    W-->>V: Demana confirmació
+    V-->>W: Confirma
+    W-->>C: Transacció signada
+    C->>A: Envia transacció (HTTP)
+    A->>SC: Executa cast_approval_vote
+    SC->>SC: Verifica que el votant és al cens
+    SC->>SC: Verifica que no ha votat abans<br/>(vot d'aprovació immutable)
+    SC->>SC: Escriu el vot a Box Storage
+    SC-->>A: OK
+    A-->>C: Confirmació
+    C-->>V: Mostra el comptador actualitzat<br/>(progrés cap als 2/3)

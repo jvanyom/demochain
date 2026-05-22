@@ -116,7 +116,7 @@ export function NewOrganizationPage() {
             wizard.succeedSubmit();
             setConfirmed(true);
         } catch (err) {
-            wizard.failSubmit(err instanceof Error ? err.message : 'Transaction failed.');
+            wizard.failSubmit(t(`errors.${err instanceof Error ? err.message : 'contract'}`, {defaultValue: t('errors.contract')}));
         }
     };
 

@@ -1,12 +1,11 @@
 {
-  "GossipFanout": 0,
-  "IncomingConnectionsLimit": 0,
+  "GossipFanout": 1,
   "EndpointAddress": "0.0.0.0:8080",
   "DNSBootstrapID": "",
-  "NodeExporterPath": "/node/bin/node_exporter",
-  "EnableProfiler": true,
-  "EnableRuntimeMetrics": true,
-  "DisableNetworking": true,
+  "IncomingConnectionsLimit": 0,
+  "Archival": true,
+  "isIndexerActive": false,
+  "EnableDeveloperAPI": true,
   "EnableExperimentalAPI": true,
-  "EnableDeveloperAPI": true
+  "EnablePrivateNetworkAccessHeader": true
 }

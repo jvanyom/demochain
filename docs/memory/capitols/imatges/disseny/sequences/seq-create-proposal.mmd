@@ -1,0 +1,22 @@
+sequenceDiagram
+    autonumber
+    actor V as Votant (administrador)
+    participant C as Client web (React)
+    participant W as Cartera (Pera / KMD)
+    participant A as Node Algorand
+    participant SC as Contracte Algorand
+
+    V->>C: Omple el formulari de proposta<br/>(títol, descripció, opcions, dates, org)
+    C->>C: Valida format i restriccions temporals<br/>(inici >= ara+3d, fi >= inici+1d)
+    C->>W: Sol·licita signatura de la transacció ABI<br/>create_proposal(...)
+    W-->>V: Demana confirmació
+    V-->>W: Confirma
+    W-->>C: Transacció signada
+    C->>A: Envia transacció signada (HTTP)
+    A->>SC: Executa create_proposal
+    SC->>SC: Valida cens, dates i opcions
+    SC->>SC: Escriu la proposta a Box Storage
+    SC-->>A: OK + proposalId
+    A-->>C: Confirmació + proposalId
+    C->>C: Invalida la caché de propostes (react-query)
+    C-->>V: Mostra la proposta en estat<br/>PendingApproval

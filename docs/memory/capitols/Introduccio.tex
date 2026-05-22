@@ -1,0 +1,431 @@
+%!TeX root=../Memory.tex
+
+\chapter{Introducció}
+\label{cap:introduccio}
+
+Aquest capítol presenta el projecte \textbf{Demochain}, un sistema de votació
+descentralitzada construït sobre la xarxa \emph{blockchain} d'Algorand i
+ancorat periòdicament a Ethereum. L'objectiu d'aquest capítol és situar el
+projecte en el seu doble context --acadèmic i tècnic--, exposar la problemàtica
+que pretén abordar, repassar els antecedents més rellevants en l'àmbit de la
+votació electrònica verificable, justificar la motivació de l'equip i fixar
+els objectius i l'abast del que s'entrega. La discussió detallada de cada
+aspecte arquitectònic i d'enginyeria es deixa per als capítols posteriors.
+
+%-----------------------------------------------------------------------
+\section{Presentació de l'equip}
+\label{sec:equip}
+
+El projecte ha estat desenvolupat per un equip de quatre estudiants del
+Grau d'Enginyeria Informàtica de la \ac{UIB}. Cap membre de l'equip tenia
+experiència prèvia en desenvolupament de \emph{blockchain} ni en
+criptografia aplicada en començar el projecte; tots compartim formació en
+Python i, en menor grau, en \emph{frontend} amb tecnologies basades en
+JavaScript. Aquest punt de partida ha condicionat fortament tant la
+planificació --amb una fase inicial de recerca explícita-- com l'abast
+final del producte entregat.
+
+\begin{description}
+    \item[\textbf{Jordi Vanyó Mestre}] -- Responsable del client web i de la
+    integració amb Algorand. Lidera el desenvolupament del \emph{frontend}
+    en React i TypeScript, l'arquitectura del repositori i la interacció
+    directa amb el contracte d'Algorand (codificació i descodificació
+    ARC-4, gestió de \emph{boxes} i signatura de transaccions des del
+    navegador).
+
+    \item[\textbf{Dylan Luigi Canning Garcia}] -- Responsable del sistema
+    d'ancoratge i del contracte notari a Ethereum. Encarregat del servei en
+    Python que llegeix l'estat de la cadena Algorand, en calcula un
+    \emph{hash} determinista i el publica al contracte
+    \texttt{NotaryContract} desplegat a la \emph{testnet} Sepolia.
+
+    \item[\textbf{Antonio Contestí Coll}] -- Responsable de la coordinació
+    del projecte i de la documentació. Encarregat de la gestió del
+    \emph{backlog} a GitHub Projects, del seguiment dels \emph{sprints},
+    de la coherència de la documentació tècnica i de l'enllaç entre els
+    diferents paquets de treball.
+
+    \item[\textbf{Marc Link Cladera}] -- Responsable del \emph{smart
+    contract} d'Algorand i de l'arquitectura general. Lidera el disseny
+    del contracte \texttt{Demochain} en \emph{algopy}, els diagrames del
+    model C4 \cite{brown2018c4} i les decisions arquitectòniques
+    recollides als \acp{ADR}.
+\end{description}
+
+La distribució de responsabilitats no és estricta. Totes les decisions
+arquitectòniques rellevants s'han pres en reunions setmanals conjuntes, i
+tot el codi ha entrat a la branca principal a través de \emph{pull
+requests} amb revisió creuada (vegeu secció~\ref{sec:versionat} del
+capítol~\ref{cap:planificacio}).
+
+%-----------------------------------------------------------------------
+\section{Marc acadèmic}
+\label{sec:marc-academic}
+
+El projecte s'emmarca en l'assignatura \textbf{21782 -- Laboratori de
+Projectes de Software} (Grup 1, Mallorca) del Grau d'Enginyeria
+Informàtica de la \acl{UIB} (\ac{UIB}), impartit a l'Escola Politècnica
+Superior. Aquesta assignatura té com a propòsit que l'estudiantat
+afronti un projecte de programari de complexitat realista aplicant de
+manera integrada el conjunt de pràctiques d'enginyeria del programari
+adquirides al llarg del grau: anàlisi de requisits, disseny
+arquitectònic, planificació iterativa, control de versions, treball en
+equip i documentació tècnica. La naturalesa transversal del producte
+escollit --un sistema de votació descentralitzat amb dos contractes
+intel·ligents, servei d'ancoratge i client web-- ha permès aplicar i
+integrar coneixements de diverses matèries: estructures de dades i
+algorítmica, sistemes distribuïts, seguretat informàtica, programació
+web i bases de dades.
+
+L'execució del projecte s'ha desenvolupat durant el curs acadèmic
+\textbf{2025-26}, amb la fase inicial de recerca cap a febrer de 2026 i
+l'entrega final el 25 de maig de 2026. Tot el codi font, els
+\acp{ADR}, els diagrames C4 i la traça completa del \emph{backlog} estan
+disponibles al repositori públic \cite{demochainrepo} sota llicència
+oberta, en consonància amb l'esperit acadèmic del projecte.
+
+%-----------------------------------------------------------------------
+\section{Context del problema}
+\label{sec:context-problema}
+
+La transformació digital de processos col·lectius --consultes,
+primàries, eleccions internes d'entitats, referèndums-- ha posat de
+manifest una tensió de fons: els sistemes de votació electrònica
+desplegats fins ara tendeixen a substituir un punt únic de confiança
+(el responsable del recompte físic) per un altre (el responsable del
+sistema informàtic). Un servidor central que rep, emmagatzema i
+recompta vots és, per definició, una entitat en qui s'han de dipositar
+fiançament tant la integritat del recompte com la privacitat del vot
+individual. La promesa de la tecnologia \emph{blockchain} aplicada a
+la votació és precisament l'eliminació d'aquest punt únic de
+confiança.
+
+Els antecedents internacionals d'aquesta problemàtica --casos
+desplegats a escala nacional com els d'Estònia, Suïssa o els Estats
+Units--, els sistemes acadèmics que defineixen el referent
+criptogràfic actual (Helios, Belenios, ElectionGuard) i els projectes
+contemporanis sobre \emph{blockchain} (DAVINCI Protocol) es revisen en
+detall al capítol~\ref{cap:estat-art} (\emph{Estat de l'art}). En
+aquesta introducció ens limitem a constatar que cap d'aquests sistemes
+no s'ajusta plenament al cas d'ús d'una organització de mida moderada
+--una universitat, una entitat civica o un col·lectiu professional--
+que vulgui un sistema obert, descentralitzat, de baix cost operatiu i
+amb verificabilitat pública. El nostre projecte explora precisament
+aquesta franja.
+
+%-----------------------------------------------------------------------
+\section{Motivació}
+\label{sec:motivacio}
+
+La motivació del projecte s'articula en tres plànols complementaris:
+
+\subsection{Motivació tècnica}
+
+L'ecosistema \emph{blockchain} ha viscut una maduració significativa
+durant els darrers anys. Plataformes com Algorand \cite{chen2017algorand}
+ofereixen ara propietats que fan tècnicament viable un sistema de
+votació seriós: finalitat de bloc en pocs segons, comissions
+menyspreables (de l'ordre de la mil·lèsima de cèntim per transacció), suport
+nadiu per a \emph{smart contracts} expressius mitjançant
+\emph{algopy} \cite{algorandfoundation2024puya} i operacions
+criptogràfiques avançades a nivell de màquina virtual (incloent-hi
+opcodes BN254 per a la verificació de proves zk-SNARK). El conjunt
+d'aquestes propietats no estava disponible fa cinc anys.
+
+Paral·lelament, Ethereum continua sent la xarxa pública més consolidada
+i auditada \cite{buterin2014ethereum}. Tot i el seu cost elevat per a
+operacions intensives, la seva fiabilitat com a registre immutable de
+fets és superior a la de qualsevol alternativa. Això la fa idònia com a
+\emph{capa de notarització} per a fets ocorreguts en altres xarxes.
+
+La combinació d'aquestes dues plataformes --una xarxa permissionada
+ràpida i barata per a la lògica electoral, una xarxa pública robusta
+per al registre immutable del resultat-- representa una direcció
+arquitectònica que mereix exploració empírica.
+
+\subsection{Motivació acadèmica}
+
+El projecte ofereix un escenari pràcticament ideal per posar a prova
+de manera coherent un conjunt ampli de pràctiques d'enginyeria del
+programari:
+
+\begin{itemize}
+    \item Gestió iterativa del \emph{backlog} amb GitHub Projects,
+    \emph{sprints} \cite{schwaber2020scrum} i criteris d'acceptació
+    en format \emph{Donat/Quan/Aleshores}.
+    \item Documentació arquitectònica mitjançant el model C4
+    \cite{brown2018c4} i \acp{ADR} per a totes les decisions
+    significatives.
+    \item Control de versions amb \emph{feature branches}, \emph{pull
+    requests} amb revisió creuada obligatòria i \emph{Conventional
+    Commits} \cite{conventionalcommits}.
+    \item Integració contínua amb GitHub Actions, \emph{git hooks}
+    locals i comprovacions automàtiques de format i convenció.
+\end{itemize}
+
+La complexitat tècnica del producte (multilingüe quant a
+\emph{stack}: Python, TypeScript, Solidity; multinivell: \emph{frontend},
+\emph{smart contracts} en dues cadenes, servei d'ancoratge) força que
+aquestes pràctiques no siguin un afegit decoratiu sinó una necessitat
+operativa.
+
+\subsection{Motivació personal}
+
+A nivell personal, el projecte combina dos ingredients que el fan
+atractiu per a un equip d'estudiants en fase final de grau. D'una
+banda, l'aprenentatge significatiu d'una tecnologia emergent
+--\emph{blockchain}, \emph{smart contracts}-- sobre la qual cap dels
+membres tenia coneixement previ. De l'altra, l'oportunitat de treballar
+en un problema d'impacte social potencial: la votació és un mecanisme
+fonamental de qualsevol col·lectiu organitzat, i contribuir a millorar-ne
+la transparència té un valor que va més enllà del purament tècnic.
+
+%-----------------------------------------------------------------------
+\section{Objectius del projecte}
+\label{sec:objectiu}
+
+L'objectiu general del projecte és \textbf{dissenyar, implementar i
+documentar un sistema de votació descentralitzat de propòsit general},
+basat en una xarxa permissionada d'Algorand i ancorat a Ethereum, que
+serveixi com a prova de concepte tècnicament sòlida sobre la qual es
+puguin construir extensions futures --notablement la capa de privacitat
+criptogràfica.
+
+Concretament, el sistema entregat ha de satisfer els objectius
+específics següents:
+
+\begin{enumerate}
+    \item \textbf{Gestió d'organitzacions i cens.} Qualsevol usuari ha de
+    poder crear una organització amb nom únic, esdevenir-ne administrador
+    automàticament i gestionar un cens d'adreces autoritzades. La càrrega
+    massiva d'adreces s'ha de poder fer mitjançant un fitxer \ac{CSV} de
+    manera transparent per a l'administrador.
+
+    \item \textbf{Propostes amb fase d'aprovació.} Un membre del cens
+    d'una organització ha de poder crear propostes amb un conjunt
+    d'opcions i un rang temporal de votació. Abans de la data d'inici,
+    la comunitat decideix per quòrum de dos terços si la proposta
+    arribarà a celebrar-se com a elecció.
+
+    \item \textbf{Votació preferencial.} Quan una proposta es converteix
+    en elecció, els membres del cens han de poder emetre un
+    \emph{rànquing} complet de les opcions disponibles. El recompte
+    final s'ha de calcular pel mètode de Schulze \cite{schulze2011newmethod},
+    que garanteix propietats formals desitjables com la monotonicitat,
+    la independència de clons i la consistència amb Condorcet.
+
+    \item \textbf{Verificació pública del vot.} Qualsevol persona,
+    sigui o no membre del cens, ha de poder consultar el contingut del
+    vot emès per una adreça arbitrària directament des de la cadena
+    d'Algorand.
+
+    \item \textbf{Ancoratge multi-node a Ethereum.} En finalitzar una
+    elecció, diversos nodes han de llegir independentment l'estat de la
+    cadena Algorand, calcular el mateix \emph{hash} determinista i
+    enviar-lo al contracte notari d'Ethereum. Quan un nombre suficient
+    de nodes coincideix (consens K-de-N), el resultat queda ancorat de
+    manera immutable a Sepolia.
+
+    \item \textbf{Reproductibilitat del desplegament.} Tot el sistema
+    --\emph{LocalNet} d'Algorand, contracte, \emph{indexer},
+    \emph{client} web i serveis auxiliars-- s'ha de poder aixecar
+    localment amb una sola comanda mitjançant Docker Compose.
+
+    \item \textbf{Pràctiques d'enginyeria del programari aplicades amb
+    rigor.} \emph{Backlog} estructurat en èpiques, històries d'usuari i
+    tasques amb criteris d'acceptació explícits; control de versions
+    amb \emph{feature branches} i \ac{PR} obligatòria; \emph{Conventional
+    Commits}; \acp{ADR} documentats; arquitectura descrita amb el model
+    C4.
+\end{enumerate}
+
+%-----------------------------------------------------------------------
+\section{Contribucions del projecte}
+\label{sec:contribucions}
+
+En relació amb els antecedents discutits al capítol~\ref{cap:estat-art},
+el projecte \emph{Demochain} aporta una combinació de decisions de
+disseny que el diferencien dels sistemes existents:
+
+\begin{itemize}
+    \item \textbf{Algorand com a capa primària.} La gran majoria de
+    sistemes basats en \emph{blockchain} es construeixen sobre Ethereum
+    o variants d'aquesta. La tria d'Algorand com a cadena d'execució del
+    contracte de votació és poc habitual i prové d'una anàlisi
+    documentada (\ac{ADR} 001) que pondera el cost per transacció, la
+    finalitat ràpida del bloc i la disponibilitat d'\emph{smart contracts}
+    expressius programables en Python.
+
+    \item \textbf{Ancoratge K-de-N a Ethereum com a notari independent.}
+    En lloc de confiar la integritat del resultat exclusivament a la
+    cadena d'execució, el projecte hi afegeix una capa explícita de
+    notarització: un conjunt de nodes independents calculen el
+    \emph{hash} del resultat de manera determinista i el publiquen
+    conjuntament al contracte \texttt{NotaryContract} d'Ethereum. La
+    propietat aconseguida és que cap entitat individual --ni Algorand,
+    ni cap node concret-- pot alterar el resultat unilateralment sense
+    que això sigui públicament detectable.
+
+    \item \textbf{Recompte amb el mètode de Schulze.} Els sistemes de
+    votació basats en \emph{blockchain} acostumen a oferir recompte per
+    pluralitat o, en el millor cas, vot en doble volta. \emph{Demochain}
+    implementa el mètode de Schulze \cite{schulze2011newmethod}, que
+    permet capturar matisos de preferència que un sistema de
+    pluralitat descarta i ofereix propietats formals demostrables.
+
+    \item \textbf{Codi obert pensat per a desplegament real.} El
+    repositori inclou el \emph{stack} complet (contracte, client,
+    ancoratge, infraestructura amb Docker Compose) llest per ser
+    desplegat per una entitat universitària o associativa amb recursos
+    modests. No és un experiment de laboratori sinó una base
+    productiva.
+\end{itemize}
+
+És útil situar el projecte respecte a DAVINCI \cite{vocdoni2026davinci},
+que és el sistema contemporani més proper. DAVINCI opta per construir
+una capa pròpia de tipus \emph{Layer 2} sobre Ethereum amb una xarxa
+de \emph{sequencers} dedicats i un \emph{zkVM} propi. Aquest enfocament
+és més ambiciós i tècnicament més pesat, però també exigeix una
+infraestructura especialitzada per ser desplegat. \emph{Demochain}
+adopta una estratègia complementària: emprar una cadena pública de
+propòsit general (Algorand) com a capa de votació, recolzar-se en una
+altra cadena pública (Ethereum) com a capa de notarització, i mantenir
+el component d'ancoratge com un servei petit i auditables en Python
+que qualsevol universitat o entitat pot operar amb recursos modestos.
+Es tracta, doncs, de dues respostes diferents a una mateixa pregunta
+de fons: com aconseguir verificabilitat pública i resistència a
+manipulació sense centralitzar la confiança.
+
+Cal subratllar, finalment, que aquestes contribucions són de disseny i
+d'integració. El projecte no aporta cap primitiva criptogràfica
+original ni cap protocol nou: tots els components criptogràfics emprats
+estan ben establerts a la literatura.
+
+%-----------------------------------------------------------------------
+\section{Abast i no objectius}
+\label{sec:abast}
+
+És important deixar constància, ja a la introducció, dels límits del
+que s'entrega. El \ac{MVP} actual \textbf{no inclou} privacitat
+criptogràfica del vot. Concretament, queden fora de l'abast d'aquesta
+versió:
+
+\begin{itemize}
+    \item Xifratge homomòrfic dels vots (esquema ElGamal exponencial), tal
+    com el descriu Adida \cite{adida2008helios}.
+    \item Proves de coneixement zero (\acsp{zkSNARK} \emph{Groth16}) per
+    acreditar l'elegibilitat del votant sense revelar-ne la identitat.
+    \item Generació distribuïda de claus i cerimònia de desxifrat amb
+    \emph{trustees} i proves Chaum-Pedersen, segons l'esquema de
+    Belenios \cite{cortier2019belenios}.
+    \item Integració amb un proveïdor d'identitat (\ac{IdP}) extern per a
+    l'autenticació del votant.
+\end{itemize}
+
+Aquests components estaven contemplats al \emph{backlog} inicial
+(èpiques E3, E4, E5 i E6 al repositori \cite{demochainrepo}) i es van
+descartar de l'abast del \ac{MVP} al final del primer mes de
+desenvolupament, en constatar que la seva complexitat depassava
+l'horitzó temporal del projecte. La justificació detallada d'aquesta
+decisió i la seva planificació com a treball futur es recullen al
+capítol~\ref{cap:planificacio} (secció~\ref{sec:reduccio-abast}) i al
+capítol de conclusions.
+
+Cal subratllar que el sistema entregat \textbf{sí ofereix
+verificabilitat pública} del resultat: qualsevol persona pot consultar
+els vots individuals a la cadena d'Algorand i comprovar que el
+\emph{hash} ancorat a Ethereum coincideix amb l'estat real de
+l'elecció. Aquesta propietat ja és, per ella mateixa, una millora
+substancial respecte als sistemes de votació centralitzats
+convencionals; el que queda fora és la capa de \textbf{privacitat}
+criptogràfica, que protegiria el vot individual de la inspecció
+pública.
+
+%-----------------------------------------------------------------------
+\section{Enfocament metodològic}
+\label{sec:metodologia}
+
+L'execució del projecte ha adoptat un enfocament \textbf{iteratiu i
+incremental} inspirat en Scrum \cite{schwaber2020scrum}, amb les
+adaptacions necessàries per a un equip acadèmic petit. La metodologia
+es resumeix en quatre pràctiques principals que es desenvolupen amb
+detall al capítol~\ref{cap:planificacio}:
+
+\begin{enumerate}
+    \item \textbf{Recerca prèvia documentada.} Abans de prendre cap
+    decisió arquitectònica significativa, s'ha investigat l'espai de
+    solucions i s'ha documentat la decisió en un \acl{ADR} (\ac{ADR}).
+    Els dos \acp{ADR} actuals (\acl{ADR} 000 sobre llenguatge de
+    \emph{smart contracts} i \acl{ADR} 001 sobre plataforma
+    \emph{blockchain}) consten al repositori.
+
+    \item \textbf{Planificació amb \emph{backlog} jerarquitzat.}
+    Èpiques, històries d'usuari, \emph{spikes} i tasques estructurats
+    a GitHub Projects amb identificadors traçables (E1, E2-US1,
+    E2-US1-T3, etc.) i criteris d'acceptació formals.
+
+    \item \textbf{Arquitectura documentada amb C4.} Diagrames de
+    context, contenidors i components mantinguts al directori
+    \texttt{docs/diagrams/} del repositori, ampliats a mesura que el
+    sistema creix \cite{brown2018c4}.
+
+    \item \textbf{Control de versions amb revisió creuada
+    obligatòria.} Tot el codi entra a la branca principal via
+    \emph{pull request}, amb \emph{check} automàtic de format i
+    convenció i revisió manual d'almenys un altre membre de l'equip.
+\end{enumerate}
+
+%-----------------------------------------------------------------------
+\section{Estructura del document}
+\label{sec:estructura}
+
+La resta del document s'organitza en sis capítols més, amb una
+estructura que combina les fases conceptuals d'un projecte d'enginyeria
+del programari amb una secció final de tancament.
+
+\begin{itemize}
+    \item El \textbf{capítol~\ref{cap:estat-art} (Estat de l'art)}
+    revisa les experiències nacionals de votació electrònica
+    desplegades a Estònia, Suïssa i els Estats Units, els sistemes
+    acadèmics consolidats (Helios, Belenios, ElectionGuard) i els
+    projectes contemporanis sobre \emph{blockchain} (DAVINCI
+    Protocol), i situa el nostre projecte en aquest panorama.
+
+    \item El \textbf{capítol~3 (Anàlisi)} identifica les parts
+    interessades del sistema, exposa l'especificació funcional --casos
+    d'ús, històries d'usuari i requisits de producte-- i
+    l'especificació no funcional --requisits de qualitat i restriccions
+    tecnològiques, legals i de calendari. Inclou també el llenguatge
+    ubic del domini, el model de dades de les estructures emmagatzemades
+    al contracte i una síntesi de la recerca prèvia sobre
+    \emph{blockchain} i criptografia.
+
+    \item El \textbf{capítol~4 (Disseny)} presenta l'arquitectura del
+    sistema mitjançant el model C4 (diagrames de context, contenidors
+    i components per a cada peça del sistema), descriu el patró de
+    desplegament basat en Docker Compose i exposa el disseny de la
+    interfície d'usuari amb les pantalles del client i els diagrames
+    de seqüència de les interaccions principals.
+
+    \item El \textbf{capítol~\ref{cap:planificacio} (Planificació)}
+    detalla la gestió del cicle de vida del projecte: l'estructura del
+    \emph{backlog}, les \aclu{DoR} (\ac{DoR}) i \aclu{DoD} (\ac{DoD}),
+    els \emph{sprints} executats, els camins crítics identificats i la
+    política de versionat del codi.
+
+    \item El \textbf{capítol~6 (Desenvolupament)} descriu l'execució
+    real del projecte: l'organització de l'equip, la traça de les
+    iteracions, les versions generades, els problemes trobats i les
+    seves resolucions, i les demostracions funcionals del producte
+    final.
+
+    \item El \textbf{capítol~7 (Conclusions)} valora el producte
+    entregat respecte als objectius inicials, exposa el que s'ha fet,
+    el que no s'ha fet i el que queda per fer, reflexiona sobre el
+    funcionament de l'equip i les lliçons apreses, i identifica les
+    línies de treball futures més rellevants.
+\end{itemize}
+
+El codi font del projecte, els \acp{ADR}, els diagrames C4 i la traça
+completa del \emph{backlog} estan disponibles al repositori públic de
+GitHub \cite{demochainrepo}.

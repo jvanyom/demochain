@@ -4,6 +4,8 @@ dist
 .obsidian
 .idea
 .agents
+.algokit
+artifacts
 
 # Entorns locals
 .env.local

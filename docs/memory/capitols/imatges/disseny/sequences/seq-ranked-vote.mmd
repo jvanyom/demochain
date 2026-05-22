@@ -1,0 +1,27 @@
+sequenceDiagram
+    autonumber
+    actor V as Votant
+    participant C as Client web (React)
+    participant W as Cartera (Pera / KMD)
+    participant A as Node Algorand
+    participant SC as Contracte Algorand
+
+    V->>C: Obre la pantalla de votació
+    C->>A: Llegeix l'estat de la proposta<br/>(quòrum 2/3 + finestra temporal)
+    A->>SC: Consulta
+    SC-->>A: Retorna estat = Open
+    A-->>C: Estat = Open
+    C-->>V: Mostra la llista de candidats<br/>arrossegables (dnd-kit)
+    V->>C: Ordena les opcions segons<br/>les seves preferències
+    C->>C: Valida que el ranking és complet<br/>(totes les opcions ordenades)
+    C->>W: Sol·licita signatura<br/>cast_ranked_vote(proposalId, ranking)
+    W-->>V: Demana confirmació
+    V-->>W: Confirma
+    W-->>C: Transacció signada
+    C->>A: Envia transacció (HTTP)
+    A->>SC: Executa cast_ranked_vote
+    SC->>SC: Verifica cens + finestra Open
+    SC->>SC: Sobreescriu el vot anterior si n'hi havia<br/>(vot d'elecció és modificable)
+    SC-->>A: OK
+    A-->>C: Confirmació
+    C-->>V: Confirmació visual del ranking emès

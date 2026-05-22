@@ -1,0 +1,13 @@
+*.aux
+*.fdb_latexmk
+*.fls
+*.gz
+*.log
+*.out
+*.toc
+*.bbl
+*.blg
+*.brf
+
+# Temporalment
+*.pdf
