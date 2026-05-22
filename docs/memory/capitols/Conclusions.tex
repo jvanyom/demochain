@@ -25,13 +25,14 @@ següents:
 \begin{itemize}
     \item \textbf{Smart contract d'Algorand} escrit en \emph{algopy}
     \cite{algorandfoundation2024puya}, amb gestió d'organitzacions
-    (creació, cens d'adreces autoritzades amb càrrega massiva fins a
-    set adreces per transacció), propostes amb fase d'aprovació per
+    (creació, cens d'adreces autoritzades amb càrrega massiva que es 
+    gestiona realitzant grup de transaccions o cada transacció carrega
+    set adreces ), propostes amb fase d'aprovació per
     quòrum de dos terços, votació preferencial amb \emph{rànquings}
     complets, i prevenció de doble vot.
 
     \item \textbf{Smart contract d'Ethereum} (\texttt{NotaryContract})
-    en Solidity 0.8.20, desplegable a la \emph{testnet} Sepolia, que
+    en Solidity, desplegable a la \emph{testnet} Sepolia, que
     implementa un protocol de consens K-de-N entre nodes
     universitaris. La llista de nodes autoritzats i el llindar K es
     congelen en obrir una elecció, garantint que cap canvi posterior
@@ -48,9 +49,11 @@ següents:
     completa per a la creació d'organitzacions, càrrega de cens via
     \ac{CSV}, gestió de propostes, votació preferencial amb
     reordenació per arrossegament, recompte amb el mètode de Schulze
-    \cite{schulze2011newmethod} computat localment, i panell de
-    verificació pública que permet consultar el vot emès per qualsevol
-    adreça.
+    \cite{schulze2011newmethod} computat localment a partir de les
+    papeletes individuals --el contracte d'Algorand no emmagatzema cap
+    resultat precalculat, només els vots, fet que reforça l'argument
+    de verificabilitat pública--, i panell de verificació pública que
+    permet consultar el vot emès per qualsevol adreça.
 
     \item \textbf{Infraestructura local reproductible} amb Docker
     Compose: un sol \texttt{docker compose up} aixeca un \emph{LocalNet}
@@ -65,7 +68,7 @@ següents:
     amb \emph{feature branches} i revisió creuada obligatòria,
     \emph{Conventional Commits} \cite{conventionalcommits} validats
     automàticament tant en local com en CI, dos \aclp{ADR} formals i
-    diagrames C4 \cite{brown2018c4} a tots els nivells.
+    diagrames C4 \cite{brown2018c4}.
 \end{itemize}
 
 El sistema permet executar el cicle complet d'una elecció --crear una
@@ -108,7 +111,7 @@ Aquesta orientació diferencia clarament el projecte de plataformes com
 DAVINCI \cite{vocdoni2026davinci}, on l'usuari final pot participar
 activament a la xarxa de \emph{sequencers}. Optar per nodes
 institucionals és una elecció conscient: aposta per la
-\textbf{verificabilitat pública} sense exigir una participació activa a
+verificabilitat pública sense exigir una participació activa a
 la infraestructura per part del votant.
 
 \subsection{Què no s'ha fet (però es farà més endavant)}
@@ -123,8 +126,8 @@ fora de l'abast del \ac{MVP}.
 homomòrfic ElGamal exponencial \cite{adida2008helios} i proves
 \emph{Groth16} de coneixement zero \cite{cortier2019belenios} per a la
 verificació de l'elegibilitat sense revelar la identitat del votant.
-Aquesta línia està documentada amb detall a les èpiques E3 i E4 del
-repositori \cite{demochainrepo} i requereix una dedicació
+Aquesta línia està documentada amb detall a les èpiques E3, E4 i E5
+del repositori \cite{demochainrepo} i requereix una dedicació
 estimada de diversos mesos addicionals per ser duta a producció amb
 les garanties necessàries.
 
@@ -146,8 +149,9 @@ històries d'usuari E6-US1 i E6-US2 encara obertes al repositori.
 \paragraph{Mecanismes de resistència a la coacció
 (\emph{receipt-freeness}).} Impedir que el votant pugui demostrar a un
 tercer què ha votat, una propietat fonamental per prevenir compra de
-vots i coerció. Aquest mecanisme està implementat al
-\emph{state-of-the-art} per sistemes com DAVINCI i és imprescindible
+vots i coerció. Aquest mecanisme està documentat a la \ac{US} E3-US4
+del repositori \cite{demochainrepo} i està implementat al
+\emph{state-of-the-art} per sistemes com DAVINCI; és imprescindible
 per a desplegaments amb riscos socials reals.
 
 \subsection{Posada en producció}
@@ -176,11 +180,18 @@ universitat real requereix una sèrie de passos addicionals:
     de seguretat del contracte i una gestió curosa de les claus dels
     administradors.
 
-    \item \textbf{Construcció en producció del client web.} El client
-    actual s'executa amb el servidor de desenvolupament de Vite.
-    Per a producció caldria una construcció estàtica (\texttt{bun run
-    build}), servida via CDN o un servidor web convencional (Nginx),
-    amb HTTPS i polítiques d'origen creuat adequades.
+    \item \textbf{Distribució del client web als votants.} Cada votant es descarrega el codi obert
+    del client des del repositori públic \cite{demochainrepo} i
+    l'executa localment a la seva pròpia màquina. Aquesta decisió
+    reforça la verificabilitat --qualsevol pot inspeccionar el codi
+    que executa-- i elimina un punt central de compromís en què un
+    tercer podria servir una versió alterada del client a un subconjunt
+    de votants. Per a producció caldria, doncs, publicar versions
+    \emph{taggejades} i reproduïbles del client, amb instruccions
+    clares per a la construcció local (\texttt{bun install} +
+    \texttt{bun run dev} o \texttt{bun run build}) i, opcionalment,
+    \emph{builds} verificables firmats criptogràficament pels
+    mantenidors.
 
     \item \textbf{Procediments operatius compartits.} Documentació
     operativa: com es coordinen les universitats per actualitzar el
@@ -274,18 +285,11 @@ ser dolorosa però necessària. La lliçó és coneguda però val la pena
 recordar-la: \emph{millor entregar menys, però sòlid, que més i
 trencat}.
 
-\paragraph{La sincronització de canvis al contracte i al client.}
-Quan el contracte canviava algun mètode o algun camp d'una estructura
-ARC-4, el client havia de regenerar el fitxer \texttt{Demochain.arc56.json}
-i adaptar els \emph{mappers}. Aquest cicle, encara que automatitzable
-amb les eines d'AlgoKit \cite{algorandfoundation2024algokit}, va
-requerir més coordinació manual de la que s'havia anticipat.
-
 \paragraph{La gestió del temps en paral·lel amb la resta del grau.}
 Tot l'equip combinava el projecte amb altres assignatures. Els
 \emph{sprints} de dues setmanes han resultat, en pràctica, més curts
-del que sembla quan es resten les setmanes amb càrrega d'exàmens o
-entregues d'altres matèries. Una planificació amb \emph{sprints} de
+del que sembla quan es resten les setmanes amb càrrega laboral o
+el trball final de grau. Una planificació amb \emph{sprints} de
 tres setmanes hauria estat probablement més realista.
 
 \subsection{El funcionament com a equip}
