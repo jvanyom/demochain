@@ -1,0 +1,31 @@
+sequenceDiagram
+    autonumber
+    participant SC as Contracte Algorand
+    participant N1 as Servei ancoratge<br/>(Node 1)
+    participant N2 as Servei ancoratge<br/>(Node 2..N)
+    participant NC as NotaryContract<br/>(Ethereum Sepolia)
+
+    Note over N1,N2: Cada node universitari executa<br/>el servei d'ancoratge en paral·lel
+    par Cicle independent per node
+        N1->>SC: Llegeix paperetes de l'elecció<br/>(ordenades per direcció)
+        SC-->>N1: Paperetes + propostes
+        N1->>N1: Genera JSON canònic<br/>(claus ordenades, sense espais)
+        N1->>N1: Calcula SHA-256 → hash
+        N1->>NC: submitHash(electionId, hash)<br/>signat amb la seva clau Ethereum
+    and
+        N2->>SC: Llegeix paperetes de l'elecció
+        SC-->>N2: Paperetes + propostes
+        N2->>N2: Genera JSON canònic
+        N2->>N2: Calcula SHA-256 → hash
+        N2->>NC: submitHash(electionId, hash)
+    end
+    NC->>NC: Comprova llista blanca de nodes
+    NC->>NC: Compta nodes que coincideixen<br/>amb el mateix hash
+    alt K coincideixen
+        NC->>NC: Marca l'elecció com a ancorada<br/>i emet event Anchored
+        NC-->>N1: Event registrat
+        NC-->>N2: Event registrat
+    else encara no s'arriba a K
+        NC-->>N1: Hash registrat, esperant més nodes
+        NC-->>N2: Hash registrat, esperant més nodes
+    end

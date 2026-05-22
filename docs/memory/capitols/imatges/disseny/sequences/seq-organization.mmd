@@ -1,0 +1,49 @@
+sequenceDiagram
+    autonumber
+    actor A as Administrador
+    participant C as Client web (React)
+    participant W as Cartera (Pera / KMD)
+    participant N as Node Algorand
+    participant SC as Contracte Algorand
+
+    Note over A,SC: 1) Creació de l'organització
+    A->>C: Omple el formulari<br/>(nom, descripció, cens inicial)
+    C->>C: Valida nom únic i format d'adreces
+    C->>W: Signa create_organization(...)
+    W-->>C: Transacció signada
+    C->>N: Envia transacció (HTTP)
+    N->>SC: Executa create_organization
+    SC->>SC: Crea l'organització i hi afegeix<br/>l'administrador automàticament al cens
+    SC-->>N: OK + orgId
+    N-->>C: Confirmació
+    C-->>A: Redirigeix al detall de l'organització
+
+    Note over A,SC: 2) Alta massiva del cens mitjançant CSV
+    A->>C: Carrega fitxer CSV amb N adreces
+    C->>C: Parsa el CSV, valida adreces i<br/>les trosseja en lots de 7
+    loop Per cada lot de 7 adreces
+        C->>W: Signa add_census_members(orgId, lot)
+        W-->>A: Demana confirmació
+        A-->>W: Confirma
+        W-->>C: Transacció signada
+        C->>N: Envia transacció (HTTP)
+        N->>SC: Executa add_census_members
+        SC->>SC: Verifica que el remitent és l'admin
+        SC->>SC: Afegeix les adreces al cens
+        SC-->>N: OK
+        N-->>C: Confirmació
+        C-->>A: Actualitza la barra de progrés
+    end
+
+    Note over A,SC: 3) Eliminació d'una adreça del cens
+    A->>C: Selecciona una adreça i clica<br/>"Elimina del cens"
+    C->>C: Comprova que no és l'administrador<br/>(no es pot eliminar mai)
+    C->>W: Signa remove_census_member(orgId, adreça)
+    W-->>C: Transacció signada
+    C->>N: Envia transacció (HTTP)
+    N->>SC: Executa remove_census_member
+    SC->>SC: Verifica admin i regla mínim 1 membre
+    SC->>SC: Elimina l'adreça del cens
+    SC-->>N: OK
+    N-->>C: Confirmació
+    C-->>A: Refresca la llista del cens
