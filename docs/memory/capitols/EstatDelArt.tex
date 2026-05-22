@@ -1,0 +1,235 @@
+%!TeX root=../Memory.tex
+
+\chapter{Estat de l'art}
+\label{cap:estat-art}
+
+La votació electrònica és un camp amb una història llarga i un nombre
+significatiu d'experiències reals desplegades a diferents països i
+contextos institucionals. Aquest capítol revisa, en primer lloc, els
+casos d'ús desplegats a escala nacional que han marcat el debat
+internacional sobre la viabilitat del vot electrònic; en segon lloc,
+els sistemes acadèmics que defineixen el referent criptogràfic actual
+de la votació verificable; i, en tercer lloc, els projectes contemporanis
+que estan combinant criptografia avançada amb infraestructura
+\emph{blockchain}. L'objectiu és situar el projecte \emph{Demochain} en
+un panorama tècnic concret abans d'entrar en l'anàlisi i el disseny
+del sistema.
+
+%-----------------------------------------------------------------------
+\section{Experiències nacionals de votació electrònica}
+\label{sec:experiencies-nacionals}
+
+La transformació digital de processos col·lectius --consultes, primàries,
+eleccions internes d'entitats, referèndums-- ha posat de manifest una
+tensió de fons: els sistemes de votació electrònica desplegats fins
+ara tendeixen a substituir un punt únic de confiança (el responsable
+del recompte físic) per un altre (el responsable del sistema
+informàtic). El problema no és intrínsec a la digitalització, sinó al
+model arquitectònic. Un servidor central que rep, emmagatzema i
+recompta vots és, per definició, una entitat en qui s'han de
+dipositar fiançament tant la integritat del recompte com la privacitat
+del vot individual.
+
+L'experiència internacional dels darrers vint anys mostra el ventall
+de resultats que ha donat aquest model.
+
+\subsection{Estònia: l'i-Voting com a cas paradigmàtic}
+
+Estònia és el cas paradigmàtic d'adopció a gran escala. El sistema
+\emph{i-Voting} permet el vot a Internet per a eleccions nacionals
+vinculants des de 2007 \cite{e-estonia2024voting} i la proporció de
+votants per Internet ha crescut de manera sostinguda fins superar el
+50\% en eleccions recents. El sistema es recolza en el document
+d'identitat digital nacional (eID) i en un protocol de doble sobre
+electrònic: el vot intern es xifra amb la clau pública de la comissió
+electoral i s'envolta d'una signatura amb la clau privada del votant.
+
+Tot i ser un cas d'èxit pel que fa al desplegament massiu, l'i-Voting
+estonià ha estat objecte d'anàlisi de seguretat externa. Springall et
+al. \cite{springall2014estonia} van publicar el 2014 un estudi
+detallat que identifica vulnerabilitats serioses en aspectes
+operacionals i procedimentals --la gestió del programari del client, la
+construcció de les imatges del sistema operatiu d'arrencada, els
+controls físics al centre d'operacions-- que il·lustren la dificultat
+de garantir totes les propietats desitjades en un sistema
+centralitzat. Les autoritats estonianes van respondre amb millores
+incrementals però el model arquitectònic centralitzat es manté.
+
+\subsection{Suïssa: el cas SwissPost i la suspensió del 2019}
+
+Suïssa va desplegar entre 2018 i 2019 el sistema de \emph{e-voting} de
+SwissPost, basat en una implementació de Scytl. El sistema declarava
+oferir verificabilitat universal mitjançant proves de coneixement zero
+sobre les decisions de mescla (\emph{mixnet}) que reordenen els vots.
+
+El març de 2019 un equip de criptògrafs independents
+\cite{lewis2019swisspost} va publicar una anàlisi que demostrava que
+les proves de Bayer-Groth implementades empraven \emph{commitments}
+amb \emph{trapdoor}, una propietat que en principi hauria de ser
+absent. Aquesta debilitat permetria, en escenaris específics, alterar
+el resultat sense que la verificació detectés cap incidència. La
+publicació va portar a la suspensió del sistema. Només va tornar a
+desplegar-se anys més tard amb una reescriptura completa i un règim
+d'auditoria pública del codi.
+
+\subsection{Estats Units: l'aplicació Voatz a West Virginia}
+
+Als Estats Units, l'aplicació \emph{Voatz} es va emprar en eleccions
+federals primàries de l'estat de West Virginia el 2018, dirigida
+inicialment a votants residents a l'estranger. Voatz promocionava
+l'ús de tecnologia \emph{blockchain} per garantir la integritat dels
+vots, però l'arquitectura interna era essencialment centralitzada: la
+\emph{blockchain} s'emprava com a capa de registre d'auditoria
+secundària, no com a capa primària d'execució.
+
+L'anàlisi de seguretat publicada per Specter, Koppel i Weitzner del
+MIT el 2020 \cite{specter2020voatz} va revelar vulnerabilitats que
+permetien alterar, observar i invalidar el vot dels usuaris, així com
+problemes estructurals en el model de seguretat declarat per
+l'aplicació. La conclusió dels autors --reflectida al títol de l'article,
+\emph{The Ballot is Busted Before the Blockchain}-- és que la mera
+incorporació de tecnologia \emph{blockchain} no garanteix la integritat
+del sistema si l'arquitectura de l'aplicació presenta defectes en
+altres capes.
+
+\subsection{Lliçó general}
+
+Aquests tres casos no qüestionen la viabilitat de la votació
+electrònica en si: el problema no és la digitalització, sinó com es
+distribueix la confiança. La pregunta de fons és si és possible
+construir un sistema en què cap entitat individual --ni l'administrador,
+ni el desenvolupador, ni el proveïdor d'infraestructura-- pugui
+alterar o manipular el resultat sense que això sigui detectable. És
+precisament aquesta la promesa de la tecnologia \emph{blockchain}
+aplicada a la votació, sempre i quan s'apliqui amb honestedat i no
+com a element de \emph{marketing}.
+
+%-----------------------------------------------------------------------
+\section{Sistemes acadèmics de votació verificable}
+\label{sec:sistemes-academics}
+
+L'aplicació de la criptografia a la votació electrònica verificable té
+una tradició acadèmica madura. Els projectes següents han estat
+referents directes o indirectes durant la fase de recerca del nostre
+projecte.
+
+\subsection{Helios}
+
+Helios \cite{adida2008helios}, presentat per Ben Adida al USENIX
+Security Symposium de 2008, és un sistema obert de votació web amb
+verificabilitat universal. La seva contribució fonamental és la
+combinació de \emph{mixnets} per garantir l'anonimat dels vots i
+xifratge ElGamal amb proves de coneixement zero per permetre que
+qualsevol persona pugui verificar que els vots s'han inclòs al
+recompte sense conèixer-ne el contingut.
+
+Helios s'ha emprat per a eleccions internes d'institucions
+acadèmiques: la \emph{International Association for Cryptologic
+Research} (IACR), la Universitat Catòlica de Lovaina, la Universitat
+de Princeton, entre d'altres. El seu model d'amenaces, però, es basa
+en un servidor central que executa el \emph{tally} (el càlcul del
+recompte): una sola entitat pot bloquejar el procés si es nega a
+publicar el resultat. Aquest punt feble motivà el desenvolupament de
+Belenios.
+
+\subsection{Belenios}
+
+Belenios \cite{cortier2019belenios}, desenvolupat per l'equip de
+Véronique Cortier a INRIA Nancy, és una evolució conceptual d'Helios.
+Aporta dues novetats principals: xifratge \emph{threshold} ElGamal i
+una cerimònia de desxifrat distribuïda entre múltiples
+\emph{trustees}. Amb aquest esquema, cap \emph{trustee} per separat
+pot desxifrar un vot individual; només una majoria qualificada
+(\emph{p.ex.}, 3 de 5) pot reconstruir la clau privada per
+descomprimir el recompte agregat.
+
+Aquesta arquitectura elimina el punt únic de fallada del \emph{tally
+authority} d'Helios però introdueix una complexitat operativa
+addicional: la cerimònia de desxifrat requereix coordinació entre els
+\emph{trustees}, cadascun amb la seva clau, i si massa \emph{trustees}
+es perden o es neguen a participar, el resultat no es pot calcular.
+Belenios s'empra activament per a eleccions universitàries franceses.
+
+\subsection{Microsoft ElectionGuard}
+
+ElectionGuard \cite{microsoft2019electionguard} és un SDK obert publicat
+per Microsoft Research el 2019 per a votació verificable
+\emph{end-to-end}. La seva proposta principal és aportar una capa
+criptogràfica reutilitzable que es pot integrar amb sistemes
+existents (urnes electròniques, sistemes de votació per correu) sense
+substituir-los. Empra, com Belenios, ElGamal \emph{threshold} amb
+proves de coneixement zero.
+
+ElectionGuard s'ha desplegat a un nombre creixent d'eleccions reals als
+Estats Units en mode pilot, sempre com a capa de verificabilitat
+adjunta a un sistema de votació primari. La seva filosofia és
+deliberadament conservadora: no pretén substituir els sistemes
+existents, sinó dotar-los d'una capa de verificabilitat criptogràfica.
+
+%-----------------------------------------------------------------------
+\section{Projectes contemporanis sobre blockchain}
+\label{sec:projectes-blockchain}
+
+Helios, Belenios i ElectionGuard han assolit un grau alt de maduresa
+criptogràfica però mantenen un component centralitzat clar:
+l'autoritat electoral és sempre una entitat coneguda i en última
+instància responsable de l'execució del sistema. La novetat
+conceptual que aporten les xarxes \emph{blockchain} és la possibilitat
+de substituir aquesta autoritat per un protocol distribuït de consens,
+on un conjunt de nodes independents executen i verifiquen la lògica
+electoral sense que cap d'ells pugui modificar-la unilateralment.
+
+\subsection{DAVINCI Protocol (Vocdoni)}
+
+El projecte més rellevant en aquesta línia, en el moment de redactar
+aquesta memòria, és \emph{DAVINCI Protocol} \cite{vocdoni2026davinci},
+desenvolupat per Vocdoni. Vocdoni és un equip amb experiència
+contrastada des de 2018 en governança descentralitzada, que ha treballat
+amb partits polítics, governs locals, entitats civiques i DAOs.
+
+DAVINCI combina una capa \emph{Layer 2} sobre Ethereum amb una xarxa
+descentralitzada de \emph{sequencers}, una màquina d'estat verificada
+amb proves \acp{zkSNARK} i xifratge \emph{threshold} ElGamal per
+garantir privacitat del vot. Inclou també mecanismes de resistència a
+la coacció (\emph{receipt-freeness}) que impedeixen al votant
+demostrar a un tercer què ha votat, una propietat fonamental per
+prevenir la compra de vots i la coerció en entorns no controlats.
+
+El projecte es publica sota llicència AGPL-3.0 i és, dels sistemes
+revisats, el més proper conceptualment al que es voldria arribar a
+llarg termini amb \emph{Demochain}: materialitza, en producció, bona
+part de les propietats criptogràfiques que s'han hagut de deixar fora
+de l'abast del nostre MVP (vegeu secció~\ref{sec:abast} del
+capítol~\ref{cap:introduccio}).
+
+\subsection{Lliçons recollides}
+
+La revisió del panorama actual permet identificar tres tendències
+clares en l'estat de l'art:
+
+\begin{enumerate}
+    \item Els sistemes acadèmics consolidats (Helios, Belenios,
+    ElectionGuard) aporten primitives criptogràfiques sòlides però
+    mantenen un component centralitzat operatiu.
+
+    \item Els projectes contemporanis sobre \emph{blockchain}
+    (DAVINCI) combinen aquestes primitives amb infraestructura
+    distribuïda però requereixen un disseny d'infraestructura
+    significativament més complex (xarxes pròpies de \emph{sequencers},
+    \emph{zkVMs} dedicats).
+
+    \item Els intents d'adopció massiva amb tecnologia comercial
+    sense rigor criptogràfic (Voatz, casos primerencs de SwissPost)
+    han tendit a fracassar quan han estat sotmesos a auditoria
+    externa.
+\end{enumerate}
+
+El nostre projecte se situa, deliberadament, en una posició
+intermèdia: aprofita una infraestructura \emph{blockchain} existent i
+pública (Algorand) com a capa de votació, en lloc de construir-ne
+una de pròpia, i empra una segona \emph{blockchain} pública (Ethereum)
+com a capa de notarització independent. La capa criptogràfica
+avançada queda explícitament identificada com a treball futur, sense
+ocultar-ho en cap moment ni reclamar propietats que el sistema actual
+no garanteix. La justificació detallada d'aquesta tria
+arquitectònica es recull al capítol de disseny.
