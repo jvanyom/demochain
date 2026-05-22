@@ -1,9 +1,221 @@
-@article{exemple,
-  author  = {},
-  title   = {},
-  journal = {},
-  year    = {},
-  volume  = {},
-  pages   = {},
-  doi     = {}
+%% ----------------------------------------------------------------
+%% Bibliografia del projecte DEMOCHAIN
+%% Referències ordenades temàticament: blockchain, criptografia,
+%% mètodes de votació, enginyeria del programari.
+%% ----------------------------------------------------------------
+
+%% ===== Blockchain i smart contracts =====
+
+@misc{nakamoto2008bitcoin,
+  author       = {Nakamoto, Satoshi},
+  title        = {Bitcoin: A Peer-to-Peer Electronic Cash System},
+  year         = {2008},
+  howpublished = {\url{https://bitcoin.org/bitcoin.pdf}}
+}
+
+@misc{buterin2014ethereum,
+  author       = {Buterin, Vitalik},
+  title        = {{Ethereum}: A Next-Generation Smart Contract and Decentralized Application Platform},
+  year         = {2014},
+  howpublished = {\url{https://ethereum.org/en/whitepaper/}}
+}
+
+@inproceedings{chen2017algorand,
+  author    = {Chen, Jing and Micali, Silvio},
+  title     = {{Algorand}: A Secure and Efficient Distributed Ledger},
+  booktitle = {Theoretical Computer Science},
+  volume    = {777},
+  pages     = {155--183},
+  year      = {2019},
+  doi       = {10.1016/j.tcs.2019.02.001}
+}
+
+@misc{algorandfoundation2024algokit,
+  author       = {{Algorand Foundation}},
+  title        = {{AlgoKit}: Developer Toolkit for Algorand},
+  year         = {2024},
+  howpublished = {\url{https://developer.algorand.org/algokit/}},
+  note         = {Consultat el maig de 2026}
+}
+
+@misc{algorandfoundation2024puya,
+  author       = {{Algorand Foundation}},
+  title        = {{Algorand Python (algopy)} i compilador {Puya}},
+  year         = {2024},
+  howpublished = {\url{https://algorandfoundation.github.io/puya/}},
+  note         = {Consultat el maig de 2026}
+}
+
+@misc{algorandfoundation2023arc4,
+  author       = {{Algorand Foundation}},
+  title        = {{ARC-4}: Application {Binary} {Interface} (ABI) per {Algorand}},
+  year         = {2023},
+  howpublished = {\url{https://arc.algorand.foundation/ARCs/arc-0004}},
+  note         = {Consultat el maig de 2026}
+}
+
+@misc{algorandfoundation2023arc56,
+  author       = {{Algorand Foundation}},
+  title        = {{ARC-56}: {Application} {Specification}},
+  year         = {2023},
+  howpublished = {\url{https://arc.algorand.foundation/ARCs/arc-0056}},
+  note         = {Consultat el maig de 2026}
+}
+
+@misc{eip1559,
+  author       = {Buterin, Vitalik and others},
+  title        = {{EIP-1559}: Fee market change for {ETH} 1.0 chain},
+  year         = {2019},
+  howpublished = {\url{https://eips.ethereum.org/EIPS/eip-1559}}
+}
+
+%% ===== Mètode de Schulze =====
+
+@article{schulze2011newmethod,
+  author  = {Schulze, Markus},
+  title   = {A new monotonic, clone-independent, reversal symmetric, and Condorcet-consistent single-winner election method},
+  journal = {Social Choice and Welfare},
+  volume  = {36},
+  number  = {2},
+  pages   = {267--303},
+  year    = {2011},
+  doi     = {10.1007/s00355-010-0475-4}
+}
+
+@book{floyd1962algorithm,
+  author    = {Floyd, Robert W.},
+  title     = {Algorithm 97: Shortest Path},
+  publisher = {Communications of the ACM},
+  volume    = {5},
+  number    = {6},
+  pages     = {345},
+  year      = {1962},
+  doi       = {10.1145/367766.368168}
+}
+
+%% ===== Enginyeria del programari =====
+
+@book{brown2018c4,
+  author    = {Brown, Simon},
+  title     = {The {C4} model for visualising software architecture},
+  publisher = {Leanpub},
+  year      = {2018},
+  url       = {https://c4model.com}
+}
+
+@book{schwaber2020scrum,
+  author    = {Schwaber, Ken and Sutherland, Jeff},
+  title     = {The {Scrum} {Guide}},
+  year      = {2020},
+  url       = {https://scrumguides.org}
+}
+
+@misc{conventionalcommits,
+  author       = {{Conventional Commits}},
+  title        = {Conventional {Commits} 1.0.0},
+  year         = {2023},
+  howpublished = {\url{https://www.conventionalcommits.org/}}
+}
+
+@misc{semver,
+  author       = {Preston-Werner, Tom},
+  title        = {Semantic {Versioning} 2.0.0},
+  year         = {2023},
+  howpublished = {\url{https://semver.org/}}
+}
+
+%% ===== Funcions hash i certificació =====
+
+@misc{nist2015sha,
+  author       = {{National Institute of Standards and Technology}},
+  title        = {Secure Hash Standard ({SHS}), {FIPS} {PUB} 180-4},
+  year         = {2015},
+  doi          = {10.6028/NIST.FIPS.180-4}
+}
+
+@misc{ietf8785json,
+  author       = {Rundgren, A. and Jordan, B. and Erdtman, S.},
+  title        = {{JSON} Canonicalization Scheme ({JCS})},
+  year         = {2020},
+  howpublished = {\url{https://www.rfc-editor.org/rfc/rfc8785}}
+}
+
+%% ===== Antecedents en votació electrònica =====
+
+@inproceedings{adida2008helios,
+  author    = {Adida, Ben},
+  title     = {{Helios}: Web-based Open-Audit Voting},
+  booktitle = {Proceedings of the 17th USENIX Security Symposium},
+  pages     = {335--348},
+  year      = {2008},
+  url       = {https://www.usenix.org/legacy/event/sec08/tech/full_papers/adida/adida.pdf}
+}
+
+@inproceedings{cortier2019belenios,
+  author    = {Cortier, Véronique and Gaudry, Pierrick and Glondu, Stéphane},
+  title     = {{Belenios}: A Simple Private and Verifiable Electronic Voting System},
+  booktitle = {Foundations of Security, Protocols, and Equational Reasoning},
+  series    = {Lecture Notes in Computer Science},
+  volume    = {11565},
+  pages     = {214--238},
+  year      = {2019},
+  doi       = {10.1007/978-3-030-19052-1\_14}
+}
+
+@misc{microsoft2019electionguard,
+  author       = {{Microsoft Research}},
+  title        = {{ElectionGuard}: An open source software development kit (SDK) for end-to-end verifiable elections},
+  year         = {2019},
+  howpublished = {\url{https://www.electionguard.vote/}},
+  note         = {Consultat el maig de 2026}
+}
+
+@inproceedings{springall2014estonia,
+  author    = {Springall, Drew and Finkenauer, Travis and Durumeric, Zakir and Kitcat, Jason and Hursti, Harri and MacAlpine, Margaret and Halderman, J. Alex},
+  title     = {Security Analysis of the {Estonian} {Internet} Voting System},
+  booktitle = {Proceedings of the 2014 ACM SIGSAC Conference on Computer and Communications Security (CCS)},
+  pages     = {703--715},
+  year      = {2014},
+  doi       = {10.1145/2660267.2660315}
+}
+
+@misc{lewis2019swisspost,
+  author       = {Lewis, Sarah Jamie and Pereira, Olivier and Teague, Vanessa},
+  title        = {Ceci n'est pas une preuve: The use of trapdoor commitments in {Bayer-Groth} proofs and the implications for the verifiability of the {Scytl-SwissPost} {Internet} voting system},
+  year         = {2019},
+  howpublished = {\url{https://people.eng.unimelb.edu.au/vjteague/SwissVote.html}}
+}
+
+@inproceedings{specter2020voatz,
+  author    = {Specter, Michael A. and Koppel, James and Weitzner, Daniel},
+  title     = {The Ballot is Busted Before the Blockchain: A Security Analysis of {Voatz}, the First {Internet} Voting Application Used in {U.S.} Federal Elections},
+  booktitle = {Proceedings of the 29th USENIX Security Symposium},
+  pages     = {1535--1553},
+  year      = {2020},
+  url       = {https://www.usenix.org/conference/usenixsecurity20/presentation/specter}
+}
+
+@misc{vocdoni2026davinci,
+  author       = {{Vocdoni}},
+  title        = {{DAVINCI} {Protocol}: A digital voting protocol designed for mass adoption},
+  year         = {2026},
+  howpublished = {\url{https://davinci.vote/}},
+  note         = {Consultat el maig de 2026. Codi font: \url{https://github.com/vocdoni}, llicència AGPL-3.0}
+}
+
+@misc{e-estonia2024voting,
+  author       = {{e-Estonia}},
+  title        = {{i-Voting}: Internet voting in {Estonia}},
+  year         = {2024},
+  howpublished = {\url{https://e-estonia.com/solutions/e-governance/i-voting/}},
+  note         = {Consultat el maig de 2026}
+}
+
+%% ===== Repositori del projecte =====
+
+@misc{demochainrepo,
+  author       = {Vanyó Mestre, Jordi and Canning Garcia, Dylan Luigi and Contestí Coll, Antonio and Link Cladera, Marc},
+  title        = {{Demochain}: sistema de votació descentralitzat (codi font)},
+  year         = {2026},
+  howpublished = {\url{https://github.com/jvanyom/demochain}}
 }
