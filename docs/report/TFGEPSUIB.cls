@@ -13,7 +13,7 @@
 % EL FORMAT DEL DOCUMENT FINAL.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \NeedsTeXFormat{LaTeX2e}[1999/12/01]
-\ProvidesClass{TFGEPSUIB}[2025/07/28 v1.5, Format LaTeX pel treball final de grau a l'EPS de la UIB]
+% \ProvidesClass{TFGEPSUIB}[2025/07/28 v1.5, Format LaTeX pel treball final de grau a l'EPS de la UIB]
 
 %------------------------------------------------
 % V1.5
@@ -280,7 +280,7 @@
     \AtPageUpperLeft{%
 %    	\grid
 		\put(24,-14){\makebox(0,0)[lt]{%
-			\includegraphics[height=21mm]{./537341_escudoUIB_horizontal.png}%
+			\includegraphics[height=21mm]{chapters/images/uib/escut-uib-horitzontal}%
 			}% Fi de makebox
 		}% Fi de put
        	\put(33,-60){\makebox(0,0)[lt]{\LARGE\sffamily\bfseries\textcolor{colorTFG}{\MakeUppercase{\nomprojecte}}}}

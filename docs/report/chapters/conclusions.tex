@@ -1,0 +1,328 @@
+%!TeX root=../report.tex
+
+
+\chapter{Conclusions}
+\label{ch:conclusions}
+
+Aquest capítol tanca la memòria valorant el que s'ha entregat respecte al que s'havia plantejat al començament del
+projecte.
+La primera part revisa el producte final --el que s'ha fet, el que s'ha decidit no fer, el que queda per fer més
+endavant i les condicions de posada en producció i manteniment.
+La segona part és una reflexió de l'equip sobre el procés: què ha funcionat, què no, com s'ha treballat conjuntament i
+quin valor real aporta el resultat a les diferents parts interessades.
+
+%-----------------------------------------------------------------------
+
+
+\section{Producte final entregat}
+\label{sec:producte-final}
+
+\subsection{Què s'ha fet}
+\label{subsec:que-s'ha-fet}
+
+El projecte entrega un \acl{MVP} (\ac{MVP}) \textbf{funcional i demostrable} d'un sistema de votació descentralitzada
+amb les peces següents:
+
+\begin{itemize}
+    \item \textbf{Smart contract d'Algorand} escrit en \emph{algopy}~\cite{algorandfoundation2024puya}, amb gestió
+    d'organitzacions (creació, cens d'adreces autoritzades amb càrrega massiva que es gestiona realitzant grup de
+    transaccions o cada transacció carrega set adreces), propostes amb fase d'aprovació per quòrum de dos terços,
+    votació preferencial amb \emph{rànquings} complets, i prevenció de doble vot.
+
+    \item \textbf{Smart contract d'Ethereum} (\texttt{NotaryContract}) en Solidity, desplegable a la \emph{testnet}
+    Sepolia, que implementa un protocol de consens \textit{K-of-N} entre nodes universitaris.
+    La llista de nodes autoritzats i el llindar K es congelen en obrir una elecció, garantint que cap canvi posterior
+    pugui alterar els paràmetres de validació.
+
+    \item \textbf{Sistema d'ancoratge} en Python que llegeix l'estat final d'una elecció des d'Algorand, produeix un
+    \textit{hash} determinista (\ac{JSON} canònic + \ac{SHA}-256) i el publica al contracte notari d'Ethereum.
+    La determinació de l'ordre dels vots per direcció lexicogràfica garanteix que tots els nodes generen exactament el
+    mateix \textit{hash} si no hi ha manipulació.
+
+    \item \textbf{Client web} amb React 19 i TypeScript, amb interfície completa per a la creació d'organitzacions,
+    càrrega de cens via \ac{CSV}, gestió de propostes, votació preferencial amb reordenació per arrossegament, recompte
+    amb el mètode de Schulze~\cite{schulze2011newmethod} computat localment a partir de les paperetes individuals --el
+    contracte d'Algorand no emmagatzema cap resultat precalculat, només els vots, fet que reforça l'argument de
+    verificabilitat pública--, i panell de verificació pública que permet consultar el vot emès per qualsevol adreça.
+
+    \item \textbf{Infraestructura local reproducible} amb Docker Compose: un únic \texttt{docker compose up} aixeca una
+    \emph{LocalNet} d'Algorand amb dos nodes (\emph{lead} i \emph{follower}), l'\emph{Indexer} amb la seva base de dades
+    PostgreSQL, el servei Conduit, compila i desplega el contracte, i serveix el client web a través de Vite.
+
+    \item \textbf{Pràctiques d'enginyeria de \textit{software}} consolidades: \emph{backlog} jerarquitzat amb nou
+    èpiques i més de 100 \emph{issues} traçades a GitHub Projects, control de versions amb \emph{feature branches} i
+    revisió creuada obligatòria, \emph{Conventional Commits}~\cite{conventionalcommits} validats automàticament tant en
+    local com en \ac{CI}, dos \aclp{ADR} formals i diagrames C4~\cite{brown2018c4}.
+\end{itemize}
+
+El sistema permet executar el cicle complet d'una elecció --crear una organització, carregar un cens, redactar una
+proposta, obtenir-ne l'aprovació per quòrum, votar preferencialment, calcular el guanyador amb Schulze i ancorar el
+resultat a Ethereum-- en menys de cinc minuts sobre l'entorn de desenvolupament local.
+
+\subsection{Què s'ha decidit no fer (i no es farà)}
+\label{subsec:que-s'ha-decidit-no-fer-(i-no-es-fara)}
+
+Una de les decisions arquitectòniques que ha pres l'equip mereix una explicació explícita perquè condiciona l'evolució
+futura del projecte: \textbf{els nodes de la xarxa permissionada no seran els mateixos votants}.
+L'arquitectura final assumeix que els nodes Algorand estan operats per entitats institucionals --universitats, entitats
+cíviques, col·legis professionals-- i que els votants accedeixen al sistema com a usuaris finals d'un client que es
+connecta a aquests nodes a través d'una \ac{API}.
+
+Aquesta decisió s'ha pres pels motius següents:
+
+\begin{itemize}
+    \item Operar un node Algorand requereix recursos de maquinari, coneixement tècnic i una amplada de banda constant.
+    Esperar que cada votant operi un node és tècnicament irreal i pràcticament excloent per a usuaris no tècnics.
+
+    \item El model de nodes institucionals s'alinea amb el cas d'ús natural del projecte: cada universitat opera un
+    node, contribueix a la xarxa permissionada i participa en el consens \textit{K-of-N} d'ancoratge.
+
+    \item La distribució de confiança ja queda garantida pel fet que múltiples entitats independents operen els nodes;
+    no cal que cada votant en sigui un per assolir el mateix grau de descentralització.
+\end{itemize}
+
+Aquesta orientació diferencia clarament el projecte de plataformes com DAVINCI~\cite{vocdoni2026davinci}, on l'usuari
+final pot participar activament a la xarxa de \emph{sequencers}.
+Optar per nodes institucionals és una elecció conscient: aposta per la verificabilitat pública sense exigir una
+participació activa a la infraestructura per part del votant.
+
+\subsection{Què no s'ha fet, (però es farà més endavant)}
+\label{subsec:que-no-s'ha-fet-(pero-es-fara-mes-endavant)}
+
+Les funcionalitats següents queden identificades explícitament com a treball futur.
+No s'han abandonat: són part del projecte a llarg termini i corresponen a èpiques del \emph{backlog} que es van
+prioritzar a la fase de planificació, però que s'han hagut de moure fora de l'abast de l'\ac{MVP}.
+
+\paragraph{Criptografia avançada del vot}.
+Incorporar xifratge homomòrfic ElGamal exponencial~\cite{adida2008helios} i proves \emph{Groth16} de coneixement
+zero~\cite{cortier2019belenios} per a la verificació de l'elegibilitat sense revelar la identitat del votant.
+Aquesta línia està documentada amb detall a les èpiques E3, E4 i E5 del repositori~\cite{demochainrepo} i requereix una
+dedicació estimada de diversos mesos addicionals per ser duta a producció amb les garanties necessàries.
+
+\paragraph{Cerimònia distribuïda de desxifrat amb \emph{trustees}}.
+Una vegada introduït el xifratge, caldrà implementar el protocol de generació distribuïda de claus (DKG) i de desxifrat
+en fases amb proves Chaum-Pedersen per evitar que cap \emph{trustee} individual pugui revelar els vots.
+Aquesta funcionalitat correspon a la \ac{US} E4-\ac{US}3 (\emph{Cerimònia de desxifrat dels trustees}), encara oberta.
+
+\paragraph{Integració amb un \acl{IdP} (\ac{IdP}) extern}.
+L'autenticació del votant, via un proveïdor d'identitat (per exemple Keycloak, o el directori d'identitats d'una
+universitat), i la derivació determinista de la clau de votació Ed25519 a partir de les credencials del votant és
+l'objectiu de l'èpica E6, amb les històries d'usuari E6-\ac{US}1 i E6-\ac{US}2 encara obertes al repositori.
+
+\paragraph{Mecanismes de resistència a la coacció(\emph{receipt-freeness})}.
+Impedir que el votant pugui demostrar a un tercer que ha votat, una propietat fonamental per prevenir compra de vots i
+coerció.
+Aquest mecanisme està documentat a la \ac{US} E3-\ac{US}4 del repositori~\cite{demochainrepo} i està implementat al
+\emph{state-of-the-art} per sistemes com DAVINCI; és imprescindible per a desplegaments amb riscos socials reals.
+
+\subsection{Posada en producció}
+\label{subsec:posada-en-produccio}
+
+La transició de l'\ac{MVP} actual a un sistema desplegable per una universitat real requereix una sèrie de passos
+addicionals:
+
+\begin{enumerate}
+    \item \textbf{Operació d'un node Algorand permissionat per cadascuna de les universitats participants.} Cada entitat
+    hauria d'aixecar un node Algorand connectat a la xarxa permissionada del consorci, amb la configuració de seguretat
+    adequada (TLS, \emph{firewalling}, monitoratge, còpies de seguretat).
+
+    \item \textbf{Servei d'ancoratge dedicat per node.} Cada node universitari hauria d'operar el seu propi servei
+    d'ancoratge amb una clau privada d'Ethereum donada d'alta a la \emph{whitelist} del contracte notari.
+    El servei hauria de córrer com a \emph{daemon} de sistema (\texttt{systemd}) amb reinici automàtic, monitoratge del
+    cost de gas i alertes operatives.
+
+    \item \textbf{Desplegament estable a Ethereum.} Per a un desplegament real, el contracte \texttt{NotaryContract}
+    hauria de passar de la \emph{testnet} Sepolia a la \emph{mainnet} d'Ethereum.
+    Això implica costos reals de \emph{gas}, una auditoria de seguretat del contracte i una gestió curosa de les claus
+    dels administradors.
+
+    \item \textbf{Distribució del client web als votants.} Cada votant es descarrega el codi obert del client des del
+    repositori públic~\cite{demochainrepo} i l'executa localment a la seva pròpia màquina.
+    Aquesta decisió reforça la verificabilitat --qualsevol pot inspeccionar el codi que executa-- i elimina un punt
+    central de compromís en què un tercer podria servir una versió alterada del client a un subconjunt de votants.
+    Per a producció caldria, doncs, publicar versions \emph{tagged} i reproduïbles del client, amb instruccions
+    clares per a la construcció local (\texttt{bun install} + \texttt{bun run dev} o \texttt{bun run build}) i,
+    opcionalment, \emph{builds} verificables firmats criptogràficament pels mantenidors.
+
+    \item \textbf{Procediments operatius compartits.} Documentació operativa: com es coordinen les universitats per
+    actualitzar el contracte, què es fa si un node es perd, com es porten a terme les incorporacions i baixes de membres
+    del consorci.
+\end{enumerate}
+
+\subsection{Manteniment}
+\label{subsec:manteniment}
+
+El manteniment a llarg termini del sistema cobreix tres àmbits diferenciats:
+
+\paragraph{Manteniment del codi}.
+Actualitzacions periòdiques de les dependències (algopy, react, web3.py, algosdk) per incorporar correccions de
+seguretat i compatibilitat.
+La cobertura de tests automàtics existent (\emph{p. ex.} els cinc fitxers de test unitari del contracte i els tests del
+client) ha de mantenir-se i estendre's.
+
+\paragraph{Auditoria de seguretat del contracte}.
+Els \emph{smart contracts} d'Algorand i d'Ethereum són essencialment immutables un cop desplegats.
+Qualsevol incidència crítica requereix migrar a una nova versió i fer una transició coordinada.
+És imprescindible sotmetre el contracte d'Algorand a una auditoria de seguretat externa abans d'un desplegament real,
+especialment quan s'incorporin les capes criptogràfiques.
+
+\paragraph{Monitoratge operatiu}.
+En producció, l'estat de la xarxa Algorand, el servei d'ancoratge i el client web s'haurien de monitorar amb eines
+estàndard (Prometheus, Grafana) i amb alertes configurades sobre indicadors crítics: lag dels nodes, fallades en les
+submissions a Ethereum, despeses anòmales de \emph{gas}.
+
+%-----------------------------------------------------------------------
+
+
+\section{Lliçons apreses}
+\label{sec:llicons}
+
+Aquesta secció recull la reflexió de l'equip sobre el procés seguit.
+No pretén ser exhaustiva sinó assenyalar els punts que, en retrospectiva, han marcat de manera més clara el
+desenvolupament del projecte.
+
+\subsection{Què ha funcionat}
+\label{subsec:que-ha-funcionat}
+
+\paragraph{La inversió en recerca prèvia}.
+Dedicar el primer mes gairebé en exclusiva a entendre l'ecosistema Algorand, el llenguatge \emph{algopy} i els mètodes
+de votació ordinal va semblar lent mentre durava.
+En retrospectiva, ha estat la decisió més encertada del projecte: el contracte que es va escriure després estava lliure
+d'errors conceptuals que altrament haurien requerit reescriptures costoses.
+Els dos \acp{ADR} formalitzats al final d'aquesta fase (\acl{ADR} 000 sobre \emph{algopy} i \acl{ADR} 001 sobre la
+plataforma) van fixar el rumb i van evitar discussions repetides.
+
+\paragraph{L'\emph{stack} d'enginyeria del \textit{software}}.
+Les pràctiques adoptades --\emph{Conventional Commits}~\cite{conventionalcommits}, \emph{feature branches},
+\emph{pull requests} amb revisió creuada obligatòria, GitHub Actions, \emph{git hooks} locals que autoformaten el
+codi-- han creat un entorn de treball en què la qualitat del codi s'ha mantingut alta amb molt poc esforç conscient.
+En particular, la regla de protecció de \texttt{main} que impedeix fer \emph{merge} la mateixa \ac{PR} ha forçat de
+manera natural la revisió creuada entre membres de l'equip.
+
+\paragraph{Docker Compose com a punt de pivot}.
+Tenir un fitxer \texttt{docker-compose.yml} que aixecava tot el sistema (\emph{LocalNet} Algorand, Indexer, Conduit,
+base de dades, client web, desplegament del contracte) amb una sola comanda ha estat decisiu.
+Cada membre de l'equip podia provar canvis dels altres en pocs minuts, i la incorporació de noves dependències no
+requeria documentació manual: era automàtica.
+
+\paragraph{Diagrames C4 mantinguts al repositori}.
+Els diagrames a tres nivells (context, contenidors, components per a cada peça) han servit com a llenguatge comú per a
+les decisions arquitectòniques.
+Quan un membre nou ha de tocar una àrea que no és la seva, els diagrames li donen l'orientació mínima per saber on i què
+mirar.
+
+\subsection{Què no ha funcionat}
+\label{subsec:que-no-ha-funcionat}
+
+\paragraph{L'ambició criptogràfica inicial}.
+Plantejar la criptografia avançada (ElGamal homomòrfic + \ac{ZK}-SNARK + \textit{trustees}) al mateix temps que tots
+els altres components del sistema va resultar inviable.
+Sense un mes addicional de recerca específica sobre cada una d'aquestes primitives, l'equip no tenia les bases per
+implementar-les amb correcció.
+La decisió de reduir l'abast a una votació en clar amb verificabilitat pública (vegeu secció~\ref{sec:reduccio-abast}
+del capítol~\ref{ch:planificacio}) va ser dolorosa però necessària.
+La lliçó és coneguda, però val la pena recordar-la: \emph{millor entregar menys, però sòlid, que més i trencat}.
+
+\paragraph{La gestió del temps en paral·lel amb la resta del grau}.
+Tot l'equip combinava el projecte amb altres assignatures.
+Els \emph{sprints} de dues setmanes han resultat, en pràctica, més curts del que sembla quan es resten les setmanes amb
+càrrega laboral o el treball final de grau.
+Una planificació amb \emph{sprints} de tres setmanes hauria estat probablement més realista.
+
+\subsection{El funcionament com a equip}
+\label{subsec:el-funcionament-com-a-equip}
+
+L'equip ha funcionat de manera notablement cohesionada.
+Quatre membres amb perfils similars (frau d'enginyeria Informàtica, sense experiència prèvia en \emph{blockchain}) i una
+distribució natural de responsabilitats --un per àrea-- ha permès paral·lelitzar el treball sense generar conflictes
+d'autoria.
+Les reunions setmanals, inicialment presencials i progressivament híbrides, han servit tant per a la coordinació tècnica
+com per a la presa de decisions col·lectiva.
+
+Cap decisió rellevant s'ha pres unilateralment.
+Els canvis d'abast, la reorganització de \emph{sprints} i la incorporació o eliminació d'eines tècniques s'han discutit
+en grup i s'han documentat posteriorment (al \emph{backlog}, als \acp{ADR} o en aquesta memòria).
+Aquest patró ha estat un dels actius més clars del projecte i s'hauria de mantenir si l'equip continua treballant en
+versions posteriors del sistema.
+
+La revisió creuada de \acsp{PR}, forçada per la configuració del repositori, ha contribuït a una comprensió compartida
+del codi: encara que cada membre lideri una àrea, tots tenen un coneixement funcional bàsic de les altres tres.
+Aquesta propietat és especialment valuosa per a la continuïtat del projecte.
+
+\subsection{El producte: orgull i autocrítica}
+\label{subsec:el-producte:-orgull-i-autocritica}
+
+Globalment, l'equip considera que el producte entregat compleix amb suficiència els objectius plantejats al
+capítol~\ref{ch:introduccio}.
+El sistema funciona, és reproduïble, està documentat amb rigor i les decisions arquitectòniques són defensables.
+Les renúncies fetes al llarg del projecte --notablement la criptografia avançada-- s'han pres amb consciència i s'han
+documentat amb transparència, sense ocultar-les ni dissimular-les.
+
+L'autocrítica principal és que el sistema, en la seva forma actual, encara no està preparat per un desplegament en un
+context amb riscos socials reals.
+Sense la capa de privacitat criptogràfica i sense una auditoria de seguretat externa del contracte, recomanar el sistema
+per a unes eleccions seriós seria irresponsable.
+Aquesta limitació no és un defecte amagat sinó una propietat coneguda de l'\ac{MVP}: el producte actual és, com el seu
+nom indica, una \emph{prova de viabilitat}, no un sistema productiu.
+
+%-----------------------------------------------------------------------
+
+
+\section{Aportació a les parts interessades}
+\label{sec:aportacio-stakeholders}
+
+Finalment, val la pena articular què aporta el projecte a cada una de les parts interessades identificades al
+començament:
+
+\paragraph{A les universitats i entitats educatives}.
+Una base de codi oberta, documentada i reproduïble que es pot avaluar com a punt de partida per a un sistema propi de
+votació interna (eleccions de rector, claustre, representació estudiantil).
+El sistema actual no és apte per a aquest desplegament sense la capa criptogràfica, però la infraestructura --Algorand
+permissionat + ancoratge a Ethereum + client web obert-- és transferible immediatament.
+
+\paragraph{A entitats cíviques i col·lectius professionals}.
+La demostració que és tècnicament possible construir un sistema de votació descentralitzada de baix cost (les comissions
+d'Algorand són de l'ordre de 0,1 cèntims per transacció~\cite{chen2017algorand}) sense renunciar a la verificabilitat
+pública.
+El projecte mostra una alternativa viable als sistemes comercials privatius emprats actualment per moltes entitats.
+
+\paragraph{A la comunitat acadèmica i de recerca en votació electrònica}.
+Un cas d'estudi documentat sobre la combinació Algorand + Ethereum + Schulze.
+Tot i no aportar primitives criptogràfiques noves, el projecte documenta amb rigor les restriccions reals de construir
+un sistema de votació amb \emph{blockchain} en un horitzó temporal acotat, una informació útil per a futurs equips que
+afrontin un projecte similar.
+
+\paragraph{A l'equip mateix}.
+Quatre estudiants amb una experiència formativa significativa sobre tecnologies emergents (\emph{blockchain},
+\emph{smart contracts}, criptografia aplicada), pràctiques d'enginyeria del \textit{software} (GitHub Projects,
+\aclp{ADR}, C4, \emph{Conventional Commits}) i treball en equip estructurat.
+Les competències adquirides són transferibles immediatament a contextos professionals.
+
+%-----------------------------------------------------------------------
+
+
+\section{Tancament i línies de treball futures}
+\label{sec:tancament}
+
+Si l'equip continués el projecte més enllà de l'assignatura, l'ordre lògic de prioritats seria el següent:
+
+\begin{enumerate}
+    \item Incorporar la capa de \textbf{privacitat criptogràfica} (xifratge homomòrfic ElGamal + ZK-SNARK Groth16) com
+    a primer pas indispensable abans de qualsevol desplegament real.
+    Aquesta és la barrera més clara que separa el sistema actual d'un sistema productiu.
+
+    \item Integrar la \textbf{cerimònia de \emph{trustees}} amb DKG i desxifrat distribuït, completant el model
+    d'amenaces de manera coherent amb l'arquitectura criptogràfica.
+
+    \item Integrar un \textbf{\acl{IdP}} extern per a l'autenticació dels votants i la derivació de claus determinista.
+
+    \item Sotmetre el sistema a una \textbf{auditoria de seguretat externa} dels dos \emph{smart contracts}.
+
+    \item Realitzar un \textbf{desplegament pilot} amb una entitat universitària real per a una elecció de baix risc
+    (per exemple, l'elecció dels delegats d'una assignatura) que serveixi de banc de proves abans d'eleccions amb
+    implicacions més grans.
+\end{enumerate}
+
+El sistema actual representa un punt de partida sòlid des del qual es pot construir sense haver de recomençar.
+Aquesta és, en última instància, la millor mètrica de l'èxit del projecte: no és el sistema definitiu, però és una base
+sobre la qual el sistema definitiu es pot construir amb confiança.

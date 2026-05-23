@@ -1,4 +1,4 @@
-# ADR 000 — Llenguatge per als _smart contracts_ d'Algorand
+# ADR 000 - Llenguatge per als _smart contracts_ d'Algorand
 
 **ID de la tasca**: E1-US1-T4
 **Data**: 2026-05-01
@@ -26,7 +26,7 @@ Els requisits que guien la decisió:
 
 ## Opcions analitzades
 
-### Opció A — TEAL
+### Opció A - TEAL
 
 TEAL és el llenguatge d'execució directa de l'AVM. És de baix nivell, basat en una pila (_stack-based_), semblant a un _bytecode_ assembler.
 
@@ -37,7 +37,7 @@ TEAL és el llenguatge d'execució directa de l'AVM. És de baix nivell, basat e
 - **Suport de la comunitat en declivi**: la documentació de TEAL brut és completa però la comunitat ha migrat progressivament cap a PyTEAL i algopy.
 - **Límit de mida del fitxer**: el _bytecode_ generat és el més compacte possible, però per als nostres contractes complexos continua sent significatiu.
 
-### Opció B — PyTEAL
+### Opció B - PyTEAL
 
 PyTEAL és una biblioteca Python (disponible via `pip`) que permet escriure _smart contracts_ d'Algorand en Python, compilant-los a TEAL en temps d'execució.
 
@@ -48,7 +48,7 @@ PyTEAL és una biblioteca Python (disponible via `pip`) que permet escriure _sma
 - **Sense integració directa amb AlgoKit**: les plantilles i _scaffolding_ generats per AlgoKit en les versions recents utilitzen algopy per defecte. Fer servir PyTEAL requereix configuració manual.
 - **Mida del fitxer generada**: comparable a TEAL optimitzat a mà en termes de _bytecode_, però amb una mica de _overhead_ de l'abstracció.
 
-### Opció C — algopy (Puya)
+### Opció C - algopy (Puya)
 
 algopy és el sistema de compilació modern d'Algorand. El compilador es diu **Puya** i el paquet Python per escriure _smart contracts_ és `algopy`. Algorand Foundation el manté activament i és el camí recomanat per AlgoKit 2.x.
 

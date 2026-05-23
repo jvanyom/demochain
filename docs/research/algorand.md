@@ -1,4 +1,4 @@
-# Algorand — Resum tècnic d'incorporació
+# Algorand - Resum tècnic d'incorporació
 > **Tasca:** E1-US1-T3 · **Font:** [dev.algorand.co](https://dev.algorand.co)  
 
 ---
@@ -9,8 +9,8 @@ Un smart contract és un programa desplegat a la blockchain que rep un **Applica
 
 Tot contracte té sempre dos programes:
 
-- **ApprovalProgram** — gestiona totes les crides (`NoOp`, `OptIn`, `CloseOut`, `Update`, `Delete`). Ha de retornar un valor no zero per aprovar.
-- **ClearStateProgram** — gestiona `ClearState`. **Sempre s'executa** encara que falli, i elimina l'estat local de l'account incondicionalment.
+- **ApprovalProgram** - gestiona totes les crides (`NoOp`, `OptIn`, `CloseOut`, `Update`, `Delete`). Ha de retornar un valor no zero per aprovar.
+- **ClearStateProgram** - gestiona `ClearState`. **Sempre s'executa** encara que falli, i elimina l'estat local de l'account incondicionalment.
 
 En Algorand Python, s'escriu estenent `ARC4Contract`. El compilador **PuyaPy** genera el routing i ambdós programes automàticament. Els mètodes públics s'anoten amb `@abimethod`; els interns amb `@subroutine`.
 
@@ -45,8 +45,8 @@ class Counter(ARC4Contract):
 
 Un **compte d'Algorand** és una entitat que pot mantenir saldos, signar transaccions i interactuar amb smart contracts. Es basa en un parell de claus criptogràfiques Ed25519:
 
-- **Clau privada** — s'ha de mantenir secreta; s'usa per signar transaccions.
-- **Clau pública / adreça** — cadena de 58 caràcters compartida públicament.
+- **Clau privada** - s'ha de mantenir secreta; s'usa per signar transaccions.
+- **Clau pública / adreça** - cadena de 58 caràcters compartida públicament.
 
 ### Tipus de comptes
 
@@ -120,8 +120,8 @@ class SaleKey(arc4.Struct, frozen=True):
     asset: arc4.UInt64
 ```
 
-- `frozen=True` — l'struct és immutable; no cal cridar `.copy()` en assignar-lo.
-- Sense `frozen` — el compilador força `.copy()` en cada nova referència per preservar la semàntica de l'AVM stack.
+- `frozen=True` - l'struct és immutable; no cal cridar `.copy()` en assignar-lo.
+- Sense `frozen` - el compilador força `.copy()` en cada nova referència per preservar la semàntica de l'AVM stack.
 - Els Structs no tenen propietat `.native`, però un `NamedTuple` sí que es pot usar en mètodes ABI i es codifica/descodifica automàticament.
 
 ### Codificació ARC-4

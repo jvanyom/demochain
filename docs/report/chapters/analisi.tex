@@ -1,0 +1,772 @@
+%!TeX root = ../report.tex
+
+
+\chapter{Anàlisi del Sistema}
+\label{ch:analisi-del-sistema}
+
+En aquest capítol es detalla l'anàlisi de requisits, restriccions i decisions de disseny que han guiat el
+desenvolupament del projecte \textbf{Demochain}.
+L'objectiu és oferir una visió comprensible de la infraestructura tant per a auditors externs com per a perfils tècnics
+que no hagin participat directament en el procés de programació.
+A continuació, es descriuen els actors del sistema, la recerca teòrica en criptografia i xarxes de consens en
+contraposició a la implementació real de l'\ac{MVP}\@, les especificacions funcionals i no funcionals, les restriccions
+imposades per l'entorn tecnològic i legal, i les decisions de disseny global de la plataforma.
+
+
+\section{Identificació de Parts Interessades (\textit{Stakeholders})}\label{sec:stakeholders}
+
+Per tal d'entendre l'abast i els objectius del sistema de votació, és imprescindible identificar quins són els actors
+clau que intervenen en el procés electoral i quin benefici directe o indirecte obtenen de la seva implantació El sistema
+s'ha concebut des d'una perspectiva modular on es contraposen els interessos dels administradors, electors, custodis i
+verificadors per aconseguir un equilibri de seguretat.
+
+\begin{enumerate}
+    \item \textbf{Votants / electors que formen part del cens}:
+    \begin{itemize}
+        \item \textbf{Descripció}: Membres actius de la institució que convoca la votació, com ara els estudiants i
+        professors en l'àmbit universitari.
+
+        \item \textbf{Benefici}: Disposar d'una plataforma digital accessible que els permet exercir el sufragi de
+        manera remota, evitant desplaçaments físics i esperes.
+        El sistema els assegura la total privacitat de les seves preferències electorals i els proporciona mecanismes
+        pràctics contra la coacció, com és el dret a modificar el vot emès mentre l'elecció estigui oberta.
+        A més, en emprar una xarxa permissionada a cost zero per transacció, no han d'adquirir criptomonedes ni pagar
+        taxes per votar.
+        Finalment, tenen la capacitat de verificar individualment que la seva papereta s'ha registrat de forma íntegra a
+        la xarxa d'Algorand mitjançant la interfície de consulta.
+    \end{itemize}
+
+    \item \textbf{Candidats i les diferents opcions de votació}:
+    \begin{itemize}
+        \item \textbf{Descripció}: Persones físiques que opten a un càrrec, llistes de partits o alternatives en un
+        referèndum o consulta normativa.
+
+        \item \textbf{Benefici}: Garantia que les regles del joc són immutables des de l'inici fins al final de la
+        votació, ja que les dades s'emmagatzemen a una cadena de blocs (\textit{blockchain}), eliminant el risc de
+        manipulació física d'urnes o pèrdua de paperetes.
+        Així mateix, es beneficien d'un recompte automàtic i immediat un cop tancat el procés electoral, reduint el cost
+        de campanya associat a la mobilització de delegats o interventors a les meses electorals tradicionals.
+    \end{itemize}
+
+    \item \textbf{Organitzadors (Comitè Electoral i Administradors)}:
+    \begin{itemize}
+        \item \textbf{Descripció}: Entitat o comitè electoral responsable de la gestió de les consultes, la qual cosa
+        inclou crear l'organització, gestionar el cens d'adreces autoritzades, definir les opcions de les propostes i
+        coordinar les dates d'inici i de tancament.
+
+        \item \textbf{Benefici}: Reducció dràstica en els costos de gestió que acompanyen qualsevol sufragi tradicional
+        (paperetes, urnes físiques, lloguer d'espais, dietes del personal de mesa, serveis de seguretat).
+        L'automatització d'aquest procés elimina l'error humà i la necessitat d'escrutinis manuals llargs, oferint
+        resultats transparents que reforcen la reputació democràtica de l'entitat.
+    \end{itemize}
+
+    \item \textbf{Custodis (\textit{Trustees})}:
+    \begin{itemize}
+        \item \textbf{Descripció}: Actors independents amb rols contraposats dins de la comunitat (com ara membres de la
+        junta de govern, representants dels estudiants o auditors externs) que reben un fragment de la clau de
+        desxifratge del recompte global.
+
+        \item \textbf{Benefici}: Control conjunt de l'escrutini final.
+        Cap entitat per si sola pot desxifrar els vots individuals ni calcular els resultats abans d'hora.
+        Gràcies a un esquema de llindar, poden participar de manera asíncrona per reconstruir el resultat, obtenint
+        proves matemàtiques que validen la seva honestedat i actuació davant els electors sense por de ser acusats de
+        manipulació.
+    \end{itemize}
+
+    \item \textbf{Auditors i observadors independents}:
+    \begin{itemize}
+        \item \textbf{Descripció}: Entitats externes, periodistes o observadors internacionals que vetllen per la
+        legalitat i legitimitat del sufragi.
+
+        \item \textbf{Benefici}: Accés directe i en temps real a tot l'historial de transaccions d'Algorand i al segell
+        d'Ethereum Sepolia sense necessitar permisos explícits ni demanar autorització als administradors.
+        Això els permet auditar de cap a fi la integritat del procés reexecutant l'algorisme de Schulze directament
+        sobre les caixes de dades públicament disponibles.
+    \end{itemize}
+
+    \item \textbf{Entitats Democràtiques i DAO (Adoptants B2B)}:
+    \begin{itemize}
+        \item \textbf{Descripció}: Sindicats, associacions, cooperatives o organitzacions descentralitzades que cerquen
+        una eina de govern electrònic segura.
+
+        \item \textbf{Benefici}: Reutilització d'aquesta tecnologia de codi obert per a organitzar els seus processos de
+        presa de decisions interns a cost zero de desenvolupament, adaptant el disseny modular a les seves estructures
+        de govern.
+    \end{itemize}
+
+    \item \textbf{Equip de desenvolupament i comunitat acadèmica}:
+    \begin{itemize}
+        \item \textbf{Descripció}: Investigadors i programadors que dissenyen la solució i avaluen la viabilitat de
+        noves primitives de xifratge o analitzen el comportament de l'algorisme de Schulze \textit{on-chain}.
+
+        \item \textbf{Benefici}: Disposen d'un cas pràctic i d'un repositori de codi modular escrit en Python i
+        Solidity.
+        Per a ells, aquest projecte ha constituït un gran entorn de formació pràctica, atès que no tenien pràcticament
+        cap coneixement previ sobre tecnologia \textit{blockchain} o criptografia abans de començar les catorze setmanes
+        de desenvolupament.
+    \end{itemize}
+\end{enumerate}
+
+
+\section{Recerca Criptogràfica i de Consens per a un Disseny Robust}
+\label{sec:recerca-criptografica}
+
+El disseny de qualsevol sistema de votació electrònica s'enfronta a un dilema fonamental: com garantir que només els
+electors autoritzats votin i que cadascú ho faci una sola vegada (integritat i autenticació), alhora que s'assegura que
+ningú, ni tan sols l'administrador del sistema, pugui vincular un vot amb la identitat de qui l'ha emès (privacitat),
+tot permetent que qualsevol ciutadà comprovi de forma independent que el recompte és correcte (auditabilitat pública).
+En els sistemes de votació tradicionals, aquest equilibri es confia a mesures físiques (urnes segellades, sobres opacs i
+meses electorals multipartidistes).
+Traslladar aquestes garanties al món digital sense dependre d'una autoritat central que podria ser corrupta requereix
+l'ús de primitives criptogràfiques avançades.
+
+Durant la fase inicial del projecte, vàrem dur a terme una recerca profunda sobre l'estat de l'art en protocols de
+votació electrònica segura.
+En aquesta recerca, el projecte de codi obert \textbf{DaVinci} (disponible a \url{https://davinci.vote/}) ens va servir
+de guia i referència per a estructurar i entendre com coordinar diferents tecnologies de consens i privacitat.
+A partir d'aquest referent, vàrem identificar els conceptes criptogràfics clau que haurien de formar part d'una
+arquitectura teòrica robusta:
+
+\begin{itemize}
+    \item \textbf{Proveïdor d'Identitat (IdP - Identity Provider)}: Representa l'entitat de confiança que gestiona el
+    \item cens real dels electors (per exemple, el sistema d'autenticació central d'una universitat).
+    En un disseny plenament descentralitzat, l'\ac{IdP} signa una credencial criptogràfica per a cada usuari registrat que
+    demostra el seu dret al sufragi, sense vincular-lo directament a una adreça de bloc pública (\textit{wallet}).
+
+    \item \textbf{Proves de Coneixement Zero (ZK-SNARK)}: Són proves criptogràfiques que permeten a un elector provar
+    davant el contracte intel·ligent que té una credencial vàlida signada per l'\ac{IdP} (i, per tant, forma part del
+    cens) sense revelar la seva identitat real ni revelar la signatura de l'\ac{IdP}\@.
+    A nivell conceptual, el proveïdor executa un circuit amb entrades privades (les seves credencials) i paràmetres
+    públics per a generar una prova compacta que qualsevol node pot verificar de forma instantània.
+    Per evitar el doble vot sense comprometre l'anonimat, es va considerar l'ús d'un \textit{nullifier} (anul·lador), un
+    identificador determinista derivat de la clau privada del votant i de la proposta.
+    El contracte intel·ligent rebutja transaccions amb anul·ladors ja utilitzats.
+    No obstant això, el tema del \textit{nullifier} no el vàrem acabar de concretar bé en la nostra recerca; dissenyar
+    una estructura robusta i segura per a aquesta primitiva és extremadament complex i no vàrem trobar un disseny
+    definitiu que s'adaptés de forma senzilla a la nostra infraestructura.
+
+    \item \textbf{Xifratge Homomòrfic}: És un tipus de xifratge que permet efectuar operacions matemàtiques directament
+    sobre dades xifrades (\textit{ciphertexts}) de manera que, en desxifrar el resultat, s'obté la suma o l'operació en
+    clar de les dades de partida.
+    En el context electoral, les preferències de cada votant es xifren en el dispositiu client abans de ser enviades.
+    La xarxa de blocs agrega de forma multiplicativa totes les paperetes xifrades directament \textit{on-chain},
+    generant un únic resultat xifrat de toda la votació.
+    Això assegura que les paperetes individuals mai es desxifren, protegint de forma absoluta el secret del sufragi.
+
+    \item \textbf{Custodis o Trustees}: Són entitats de confiança encarregades de la custòdia de la clau de desxifratge
+    global.
+    Per evitar un únic punt de fallada o que l'administrador del sistema pugui desxifrar els vots abans de temps,
+    s'empra un esquema de llindar.
+    Mitjançant un protocol de generació de claus distribuïdes (DKG), la clau privada de desxifratge es divideix en
+    fragments (\textit{shares}) repartits entre diversos custodis.
+    Per desxifrar el recompte homomòrfic acumulat un cop tancat el procés, es requereix que un nombre mínim o llindar de
+    custodis (com a manco la majoria absoluta) aporti la seva \textit{share} parcial.
+\end{itemize}
+
+\subsection{Desviació del Disseny i Limitacions del Prototip MVP}
+\label{subsec:desviacio-mvp}
+
+Malgrat haver definit aquest disseny teòric, l'equip va haver de fer front a una important limitació pràctica: la manca
+de coneixements previs profunds sobre criptografia avançada i la dificultat extrema que suposa implementar i auditar tot
+aquest flux de forma totalment segura.
+Dissenyar circuits de coneixement zero, coordinar la cerimònia de DKG entre custodis i desplegar operacions
+homomòrfiques a la màquina virtual de forma eficient no és gens trivial i requereix mesos de desenvolupament
+especialitzat.
+
+Per mor d'això, es va decidir orientar el desenvolupament del prototip \ac{MVP} cap a una arquitectura simplificada que
+fos viable dins els terminis del projecte.
+Aquesta desviació de disseny implica els següents canvis:
+
+\begin{enumerate}
+    \item \textbf{Vots en clar}: Les paperetes de preferències ordinals es registren i s'emmagatzemen directament en
+    clar a les \textit{boxes} d'Algorand, sense xifratge homomòrfic.
+    Qualsevol pot auditar els vots reals consultant la \textit{blockchain}.
+
+    \item \textbf{Cens identificat}: La gestió d'electors s'efectua a través d'una llista blanca d'adreces de carteres
+    físiques (\textit{wallets}) gestionada per l'organitzador, prescindint de les proves \ac{ZK-SNARK} i de
+    l'anul·lador.
+    Els usuaris s'identifiquen i signen els seus vots amb la seva pròpia clau pública d'Algorand.
+
+    \item \textbf{Càlcul fora de la cadena}: Ateses les limitacions de \textit{bytecode} d'Algorand, el recompte i
+    l'algorisme de Schulze es realitzen al navegador (\textit{client-side}) obtenint els vots directament de les
+    \textit{boxes} del contracte.
+    La cerimònia de desxifratge de custodis s'ha posposat completament com a treball futur.
+\end{enumerate}
+
+Aquesta arquitectura de l'\ac{MVP} permet disposar d'un sistema funcional que garanteix la immutabilitat física dels vots
+emesos a Algorand i l'ancoratge del resultat final a Ethereum Sepolia, al preu d'ajornar el secret criptogràfic del vot
+i l'anònim absolut de l'elector per a futures iteracions de producció de la plataforma.
+
+
+\section{Especificació Funcional}
+\label{sec:especificacio-funcional}
+
+El comportament del sistema es defineix a partir de les interaccions entre els diferents rols de la plataforma,
+detallant un flux de travail continu que guia tot el procés.
+
+\subsection{Cicle de Vida del Sufragi i Casos d'Ús}
+\label{subsec:casos-d-us}
+
+El cicle de vida d'una consulta electoral a la plataforma es defineix a partir de les interaccions dels diferents actors
+i del flux lògic del sistema, el qual es pot esquematitzar en els següents vuit casos d'ús principals:
+
+\begin{itemize}
+    \item \textbf{UC-1: Crear Organització}: Qualsevol usuari registrat que connecti la seva cartera de criptomonedes
+    (\textit{wallet}) pot registrar una nova organització a la xarxa d'Algorand proporcionant un nom i una descripció,
+    esdevenint automàticament l'organitzador i propietari del registre.
+
+    \item \textbf{UC-2: Gestionar Cens}: L'organitzador administra els electors autoritzats afegint o eliminant adreces
+    de \textit{wallet} de la llista blanca de l'entitat.
+    La interfície web gestiona aquesta càrrega en lots de com a màxim set adreces per transacció per evitar un consum
+    excessiu de memòria de la màquina virtual.
+
+    \item \textbf{UC-3: Crear Proposta}: Qualsevol membre registrat al cens de l'organització pot iniciar una consulta
+    detallant el títol, la descripció, la llista de candidats ordinals (que ha de ser com a mínim de dos), la data
+    d'inici i la data de finalització del sufragi.
+
+    \item \textbf{UC-4: Emetre Vot d'Aprovació}: Durant una fase preliminar, els electors aproven o rebutgen la
+    viabilitat de la proposta.
+    Aquest vot d'aprovació és immutable i irrevocable, i només si s'assoleix un quòrum de dues terceres parts ($2/3$) de
+    vots favorables abans de la data d'inici, la proposta passa a la fase electoral.
+
+    \item \textbf{UC-5: Emetre/Modificar Vot Preferencial}: Un cop s'arriba a la data d'inici i durant la finestra
+    activa, els votants ordenen els candidats per preferències mitjançant una interfície d'arrossegar i deixar anar
+    (\textit{drag \& drop}).
+    Es permet enviar noves paperetes per sobreescriure el registre anterior a les \textit{boxes} del contracte i així
+    evitar coaccions.
+
+    \item \textbf{UC-6: Recompte i Escrutini}: En tancar-se la votació, es realitza el recompte.
+    Conforme al disseny simplificat de l'\ac{MVP}, les paperetes es llegeixen directament de les \textit{boxes}
+    d'Algorand en clar i l'escrutini es resol mitjançant l'aplicació client que executa l'algorisme de Schulze.
+
+    \item \textbf{UC-7: Ancoratge postelectoral}: Un servei independent recopila les paperetes finals d'Algorand, les
+    ordena lexicogràficament per adreça, genera un \ac{JSON} canònic sense espais, calcula el \textit{hash}
+    \ac{SHA}-256 de 32 bytes i l'envia al contracte notari d'Ethereum Sepolia per certificar el recompte.
+
+    \item \textbf{UC-8: Auditabilitat i Verificació Pública}: Qualsevol ciutadà o observador extern pot consultar de
+    manera individual la seva papereta a Algorand i comprovar si el \textit{hash} del resultat global coincideix amb el
+    \textit{hash} d'ancoratge validat pel consens de les universitats a Ethereum Sepolia.
+\end{itemize}
+
+A continuació, es mostra el diagrama de flux que representa gràficament la interacció dels diferents rols amb cada cas
+d'ús:
+
+% TODO
+
+\subsection{Metodologia del Backlog i Històries d'Usuari}
+\label{subsec:user-stories}
+
+El disseny de la lògica funcional i dels rols descrits s'ha planificat mitjançant metodologies àgils utilitzant GitHub
+CLI, connectant de manera directa amb el repositori de codi.
+La jerarquia de treball s'ha estructurat en èpiques, històries d'usuari, \textit{spikes} de recerca, tasques
+específiques i gestió d'errors o \textit{bugs}, cosa que ha facilitat la distribució de feines durant les catorze
+setmanes de durada del projecte.
+
+A continuació es detallen les històries d'usuari clau que s'han emprat per a guiar el desenvolupament:
+
+\begin{itemize}
+    \item \textbf{US-1 (Gestió d'organitzacions i cens)}: Com a organitzador, vull poder crear una organització i
+    gestionar el cens d'electors mitjançant càrregues en lot o fitxers \ac{CSV}, per tal de preparar les votacions de
+    manera àgil i sense errors.
+
+    \item \textbf{US-2 (Autenticació i connexió)}: Com a elector, vull poder vincular la meva cartera Pera Wallet de
+    forma transparent des del navegador, per tal d'autenticar-me i signar les transaccions de votació de forma nativa i
+    senzilla.
+
+    \item \textbf{US-3 (Interfície de vot preferencial)}: Com a votant, vull disposar d'una interfície d'arrossegar i
+    deixar anar (\textit{drag \& drop}) per tal d'ordenar els candidats segons les meves preferències, fent que el meu
+    vot sigui més expressiu que en un sistema majoritari simple.
+
+    \item \textbf{US-4 (Protecció contra la coacció)}: Com a elector, vull poder efectuar nous enviaments que
+    sobreescriguin totalment la meva papereta anterior a les \textit{boxes} del contracte de manera opaca per a un
+    observador extern, per tal de protegir-me contra la coacció o la compravenda de vots.
+
+    \item \textbf{US-5 (Seguretat de la custòdia)}: Com a trustee o custodi, vull poder registrar-me en el sistema per a
+    custodiar el procés, entenent que en futures versions de la plataforma podré aportar proves de coneixement zero i
+    shares de desxifratge.
+
+    \item \textbf{US-6 (Auditabilitat de l'ancoratge)}: Com a auditor acadèmic, vull poder verificar directament a
+    Ethereum Sepolia si un resultat de votació té la certificació de consens del consorci d'universitats, per tal de
+    validar formalment la legitimitat del sufragi.
+\end{itemize}
+
+Els \textit{spikes} de recerca inicials es van utilitzar per estudiar la viabilitat de dissenyar un cens totalment
+anònim \textit{on-chain} i coordinar de forma eficient la cerimònia de desxifratge dels custodis abans de desglossar les
+tasques de desenvolupament i programar els diferents components de la plataforma.
+
+\subsection{Requisits de Producte}
+\label{subsec:requisits-producte}
+
+Els requisits de producte del sistema asseguren la consistència jurídica i tècnica del sufragi:
+
+\begin{itemize}
+    \item \textbf{RP-1 (Marge temporal de creació)}: La data d'inici d'una proposta ha d'estar, com a manco, a tres dies
+    de distància de la seva creació en el contracte intel·ligent.
+
+    \item \textbf{RP-2 (Finestra electoral mínima)}: La durada activa del procés de votació preferencial ha de tenir una
+    durada d'almenys vint-i-quatre hores per garantir la participació.
+
+    \item \textbf{RP-3 (Cens de dades atòmic)}: El registre del cens ha de validar que no s'introdueixen adreces
+    duplicades ni adreces nul·les (adreça zero) a la llista blanca de l'organització.
+
+    \item \textbf{RP-4 (Consistència de la papereta)}: El contracte intel·ligent d'Algorand ha de rebutjar de forma
+    estricta paperetes de preferències que no continguin exactament el mateix nombre d'elements que candidats té la
+    proposta.
+
+    \item \textbf{RP-5 (Estat terminal de l'urna)}: Un cop calculat el guanyador i tancat l'escrutini de la proposta,
+    l'elecció canvia al seu estat immutable terminal, tancant de forma completa qualsevol escriptura posterior.
+\end{itemize}
+
+
+\section{Especificació No Funcional i Paràmetres de Qualitat}
+\label{sec:especificacio-no-funcional}
+
+Els requisits no funcionals del sistema de votació estan orientats a garantir la seguretat, la disponibilitat i
+l'auditabilitat de les consultes, alhora que busquen optimitzar l'eficiència computacional.
+
+\subsection{Requisits No Funcionals}\label{subsec:requisits-no-funcionals}
+
+\begin{itemize}
+    \item \textbf{RNF-1 (Seguretat i secret del sufragi)}: Els vots individuals s'han de protegir per a mantenir-ne
+    l'anonimat i el secret de les paperetes a la xarxa d'Algorand mitjançant adreces de cartera pseudònimes.
+
+    \item \textbf{RNF-2 (Immutabilitat)}: Qualsevol transacció confirmada (vot emès, canvi de cens, creació
+    d'organització) esdevé completament inalterable gràcies al protocol de consens immediat d'Algorand, impedint
+    qualsevol modificació posterior.
+
+    \item \textbf{RNF-3 (Disponibilitat)}: L'urna digital ha de ser accessible de forma permanent i ininterrompuda
+    (24/7) durant tota la finestra de votació, independentment d'eventuals caigudes dels servidors de la institució
+    convocant.
+
+    \item \textbf{RNF-4 (Auditabilitat de cap a fi)}: Es fomenta l'auditabilitat \textit{end-to-end}, de manera que
+    qualsevol observador o elector pot descarregar i verificar de forma asíncrona que la seva papereta s'ha
+    comptabilitzat correctament i que el \textit{hash} coincideix amb el segell d'Ethereum Sepolia.
+
+    \item \textbf{RNF-5 (Eficiència Computacional i cost)}: El disseny de l'execució s'optimitza per evitar un consum
+    elevat d'operacions \textit{on-chain} a Algorand i redueix l'escriptura a Ethereum a una única transacció global per
+    elecció finalitzada per evitar uns costos de gas inacceptables.
+\end{itemize}
+
+\subsection{Paràmetres de Qualitat}
+\label{subsec:parametres-qualitat}
+
+Per mesurar la qualitat i la resiliència del sistema de seguretat distribuïda s'apliquen tres paràmetres clau:
+
+\begin{itemize}
+    \item \textbf{Llindar de Seguretat de Custòdia ($K$-de-$N$)}: Per poder desxifrar la matriu agregada final de
+    preferències sota l'esquema de seguretat de llindar del disseny teòric, cal la participació de com a mínim la
+    majoria absoluta dels custodis autoritzats, la qual cosa és causada per la relació:
+    \[ K = \left\lceil \frac{N + 1}{2} \right\rceil \]
+    Aquesta equació assegura que fa falta el consens de la majority absoluta dels custodis per desbloquejar els
+    resultats de la votació, evitant que una minoria o un únic administrador pugui comprometre el procés de forma
+    unilateral.
+
+    \item \textbf{Consens d'Ancoratge a Ethereum}: El contracte notari de Sepolia exigeix que el \textit{hash} enviat
+    del resultat final rebi el consens de dues terceres parts ($2/3$) dels nodes universitaris autoritzats abans de
+    marcar l'elecció com a oficialment ancorada.
+    El llindar $K_{notary}$ es congela mitjançant la fórmula:
+    \[ K_{notary} = \left\lceil \frac{2N + 2}{3} \right\rceil \]
+
+    \item \textbf{Temps de Confirmació}: Aprofitant les característiques tècniques de la xarxa permissionada d'Algorand,
+    qualsevol transacció de vot o d'aprovació s'ha de veure confirmada en un temps màxim de quatre segons, evitant
+    retards en l'escriptura de dades i sense el risc de patir reorganitzacions probabilístiques de blocs.
+\end{itemize}
+
+
+\section{Restriccions}
+\label{sec:restriccions}
+
+El disseny arquitectònic de Demochain ha hagut d'adaptar-se a una sèrie de limitacions imposades pel \textit{software} de les
+xarxes utilitzades, els reglaments legals de protecció de dades i el context d'aprenentatge de l'equip.
+
+\subsection{Restriccions Tecnològiques}
+\label{subsec:restriccions-tecnologiques}
+
+El disseny de la lògica \textit{on-chain} s'ha enfrontat a límits físics estrictes imposats per la Màquina Virtual
+d'Algorand (\ac{AVM}) i el protocol d'Ethereum.
+Inicialment, l'\ac{AVM} limita la mida màxima del \textit{bytecode} dels contractes intel·ligents a només 8KB de
+memòria.
+Aquesta severa restricció de mida impedeix codificar directament \textit{on-chain} algorismes complexos de cerca de
+camins ponderats en grafs de preferències, com ara l'algorisme de Floyd-Warshall que fa servir el mètode Schulze, el
+qual té una complexitat computacional de triple bucle de tipus $O(n^3)$.
+Per mor d'aquest límit de \textit{bytecode}, el sistema s'ha vist obligat a delegar la resolució del guanyador a
+l'aplicació client (fora de la cadena de blocs), de manera que el navegador llegeix les paperetes, calcula el mètode
+Schulze i les \textit{boxes} del contracte intel·ligent es limiten a persistir les dades de forma estructurada.
+
+En segon lloc, l'emmagatzematge en \textit{boxes} d'Algorand implica un cost anomenat Saldo Mínim Requerit (MBR) per
+byte per evitar la saturació del registre d'estat de la xarxa.
+Aquest cost en microAlgos que el mateix contracte ha de mantenir com a fons de reserva es calcula mitjançant la fórmula:
+\[ \text{MBR (microAlgos)} = 2500 + 400 \times (\text{len(clau)} + \text{mida\_box}) \]
+Com que cada organització, membre del cens, proposta i vot emès genera noves caixes de dades al contracte, cal gestionar
+l'MBR com a paràmetre crític per no deixar el compte del contracte sense saldos suficients.
+A més, hi ha una restricció que impedeix que una transacció faci referència a més de vuit caixes simultàniament, la qual
+cosa condiciona la manera en què el client ha d'enviar les paperetes a la xarxa.
+Finalment, el cost econòmic extremadament alt de fer crides a Ethereum L1 obliga a utilitzar la xarxa de proves Sepolia
+per a les universitats, i el protocol només envia un únic \textit{hash} de 32 bytes (\texttt{bytes32}) per cada elecció
+un cop s'ha completat tot l'escrutini.
+
+Sense segones capes o agregació de transaccions (\textit{rollups}), Algorand té un límit físic d'unes 6.000 transaccions
+per segon.
+És una xifra molt bona per a entitats mitjanes com universitats o empreses, però insuficient per a gestionar eleccions
+estatals simultànies on participen milions de ciutadans.
+
+\subsection{Restriccions Legals i de Privacitat}
+\label{subsec:restriccions-legals}
+
+En l'àmbit legal, el disseny s'enfronta directament a la normativa europea de protecció de dades (RGPD).
+Atès que la cadena de blocs és històricament immutable per disseny, és tècnicament impossible esborrar les dades un cop
+confirmades a la xarxa, fet que s'oposa al dret a l'oblit de la normativa legal.
+Per resoldre aquesta restricció, el sistema prohibeix de manera absoluta guardar \textit{on-chain} qualsevol tipus de
+dada personal identificable, com ara noms, correus o documents nacionals d'identitat.
+La identificació física del votant es realitza exclusivament al Proveïdor d'Identitat (\ac{IdP}) centralitzat de la
+institució convocant.
+
+D'altra banda, el secret del vot s'oposa de forma frontal a la total transparència d'una \textit{blockchain} on
+l'historial de transaccions de qualsevol adreça és pública per a tothom.
+Com s'ha explicat a la secció de recerca criptogràfica, la privacitat teòrica mitjançant \ac{ZK-SNARK} i xifratge
+homomòrfic ha hagut de ser simplificada en l'\ac{MVP} actual, on l'anonimat dels electors es recolza únicament en l'ús
+d'adreces de cartera genèriques i pseudònimes, esdevenint una limitació de seguretat assumida pel prototip.
+
+\subsection{Restriccions d'Aprenentatge i Terminis del Projecte}
+\label{subsec:restriccions-aprenentatge}
+
+La principal restricció que ha condicionat el disseny i el calendari del projecte ha estat la manca total d'experiència
+prèvia en tecnologia \textit{blockchain} i criptografia per part de l'equip de desenvolupament abans de començar les
+catorze setmanes de termini establertes:
+
+\begin{itemize}
+    \item Es va haver de dur a terme una intensa recerca inicial (\textit{spikes} de recerca) des de zero per copsar
+    conceptes de distribució de dades, signatura de transaccions, gestió de carteres i funcionament de les màquines
+    virtuals (\ac{AVM} i \ac{EVM}).
+
+    \item Aquest escenari d'aprenentatge intensiu va obligar a prendre decisions realistes.
+    Com s'ha detallat a la Secció~\ref{sec:recerca-criptografica}, el desenvolupament segur de circuits \ac{ZK-SNARK},
+    el model d'anul·lador i el protocol de desxifratge homomòrfic amb DKG de custodis requereix competències altament
+    especialitzades i un temps de programació inexistent en el calendari.
+    Per consegüent, per assegurar el lliurament d'un prototip funcional de cap a fi (\ac{MVP}), es va decidir ajornar la
+    implementació criptogràfica com a feina futura, centrant els esforços a estabilitzar els fluxos de cens, votació
+    preferencial i ancoratge inter-blockchain.
+\end{itemize}
+
+
+\section{Decisions de Disseny Global}
+\label{sec:decisions-disseny-global}
+
+A l'hora de conceptualitzar Demochain, s'han pres decisions clau sobre l'arquitectura global que prioritzen la
+transparència i la resistència a la manipulació per sobre de models centralitzats convencionals.
+La decisió d'utilitzar Algorand en lloc d'Ethereum o altres plataformes de primera capa es va basar en criteris
+econòmics i de facilitat de desenvolupament:
+
+\begin{enumerate}
+    \item \textbf{Comissions extremadament econòmiques}: Les comissions d'Algorand són de només 0,001 ALGO per
+    transacció, la qual cosa feia factible el projecte fins i tot amb xarxes públiques.
+
+    \item \textbf{Eliminació de barreres d'entrada gràcies a Python}: Poder programar els contractes intel·ligents
+    directament en Python natiu mitjançant el compilador Puyapy (\texttt{algopy}) va permetre a un equip que no coneixia
+    la \textit{blockchain} començar a desenvolupar des del primer dia, estalviant-se l'aprenentatge de llenguatges
+    complexos com Solidity o Rust.
+\end{enumerate}
+
+Durant el cicle de desenvolupament de Demochain, el model de xarxa ha patit una evolució molt interessant arran de la
+identificació de noves limitacions.
+Inicialment, es va plantejar un model on els mateixos telèfons mòbils dels electors actuessin com a nodes validators de
+la xarxa.
+Es pensava que mitjançant el mecanisme de VRF (Funció Aleatòria Verificable) d'Algorand es podria obligar cada votant a
+mantenir l'aplicació activa almenys dos minuts per poder votar, obligant-los a participar del consens de forma efímera.
+L'estudi tècnic posterior va demostrar que això era completament inviable a la pràctica per mor de la inestabilitat de
+les xarxes mòbils, el desgast de bateria dels terminals i els exigents requisits de bloqueig de fons (\textit{staking})
+que té el protocol de consens de la xarxa.
+
+Davant d'aquesta impossibilitat, es va dissenyar una infraestructura de xarxa privada permissionada Els nodes validators
+passaven a ser gestionats per un consorci d'entitats de confiança recíproca amb interessos contraposats (per exemple,
+les diferents universitats de la comunitat autònoma).
+Això permetia un control de participació i fixar les comissions de la xarxa a zero de manera nativa (\texttt{min\_fee =
+0}), eliminant la necessitat de finançar les carteres dels votants.
+
+Més endavant, es va intentar adaptar el \textit{software} per a funcionar directament sobre la xarxa pública d'Algorand
+(testnet/mainnet).
+Ens vàrem adonar que la xarxa pública oferia grans avantatges de \textit{liveness}, seguretat contra atacs de denegació
+de consens locals i una transparència absoluta per a auditors mundials.
+No obstant això, es va topar amb un obstacle: com que les comissions són obligatòries a la xarxa pública (malgrat que
+siguin negligibles), l'única forma d'evitar que el votant hagués d'adquirir criptomonedes era crear un servei
+centralitzat de patrocini (\textit{sponsor/relayer}) que cobrís el cost de les transaccions a través d'un grup atòmic.
+Això trencava la naturalesa descentralitzada de la votació (el patrocinador centralitzat podia censurar vots lliurement
+no signant-ne el patrocini).
+A més a més, l'equip ja tenia enllestit i testejat tot el mòdul d'ancoratge (\textit{anchoring}) a Ethereum Sepolia,
+dissenyat precisament per a compensar la menor resiliència de seguretat d'una xarxa privada.
+
+Finalment, es va decidir mantenir el disseny de xarxa privada permissionada controlada pel consorci d'universitats.
+Tanmateix, es va decidir conservar la integració amb \textbf{Pera Wallet} a la interfície client.
+Aquesta decisió de disseny manté viva la possibilitat de publicar l'aplicació en un futur a la mainnet pública
+d'Algorand, ja que el \textit{software} és plenament compatible amb carteres externes; només caldria implementar un
+mètode de distribució inicial de saldos o acceptar un relayer distribuït de comissions.
+
+
+\section{Mètode de Recompte}
+\label{sec:metode-recompte}
+
+Una de les eleccions clau en el disseny de Demochain és el mètode per avaluar les preferències ordinals i determinar-ne
+el guanyador de la consulta.
+
+\subsection{El Teorema d'Impossibilitat d'Arrow}
+\label{subsec:teorema-arrow}
+
+Dins de la teoria de l'elecció social, el \textbf{Teorema de la Impossibilitat d'Arrow} demostra matemàticament que cap
+sistema de votació ordinal pot complir simultàniament un conjunt de cinc criteris o condicions de justícia electoral
+quan hi ha tres o més candidats:
+
+\begin{enumerate}
+    \item \textbf{Domini no restringit (Universalitat)}: El sistema ha d'admetre qualsevol perfil o combinació possible
+    de preferències ordinals que els electors decideixin introduir.
+    Els votants tenen llibertat absoluta per a ordenar els candidats com desitgin.
+
+    \item \textbf{Absència de dictador (No dictadura)}: No hi ha d'haver cap elector que determini de forma unilateral
+    el resultat del sistema independentment de les preferències de la resta de votants.
+    El comportament col·lectiu ha de reflectir múltiples veus.
+
+    \item \textbf{Eficiència de Pareto (Unanimitat)}: Si absolutament tots els electors prefereixen de forma estricta el
+    candidat X per sobre del candidat Y, l'ordre col·lectiu del recompte ha de situar X abans que Y\@.
+
+    \item \textbf{Independència d'alternatives irrellevants (IIA)}: La posició de preferència relativa entre dos
+    candidats X i Y en el recompte final només ha de dependre de com els electors valorin X i Y entre ells, sense que
+    s'alteri per la presència, introducció o eliminació d'un tercer candidat Z\@.
+
+    \item \textbf{Monotonicitat}: Si un elector decideix modificar la seva papereta per a elevar la posició o el suport
+    a una candidatura concreta, la posició col·lectiva final d'aquesta candidatura no ha de decaure de cap de les
+    maneres (és a dir, donar més suport no ha de perjudicar mai el candidat).
+\end{enumerate}
+
+Aquest teorema demostra matemàticament que \textbf{no existeix un sistema electoral ordinal perfecte}, i que qualsevol
+decisió de disseny representa una tria de compromís (\textit{trade-off}) on s'ha de sacrificar qualque criteri de
+justícia teòrica per a obtenir viabilitat pràctica.
+
+\subsection{Comparativa dels Mètodes de Votació i el Criteri de Condorcet}
+\label{subsec:comparativa-metodes}
+
+El \textbf{criteri de Condorcet} és un principi clau en la teoria d'elecció social.
+Estipula que si un candidat és preferit de forma majoritària en tots els enfrontaments directes o per parelles (duels en
+un-contra-un) davant de cadascun dels altres candidats, aquest candidat s'anomena \textbf{guanyador de Condorcet}.
+En conseqüència, qualsevol mètode electoral que es defineixi com a just hauria de seleccionar aquest guanyador com a
+vencedor de l'elecció.
+
+Per justificar l'ús del \textbf{mètode Schulze}, vàrem fer una comparació detallada amb altres sistemes comuns:
+\begin{itemize}
+    \item \textbf{Sistema majoritari simple (vot únic)}: Molt inexpressiu.
+    L'elector només pot triar un candidat, perdent tota informació sobre les seves altres preferències.
+    Sovint força els votants al vot estratègic i no sol triar el guanyador de Condorcet.
+
+    \item \textbf{Mètode de Borda}: Tot i ser ordinal i senzill (es donen punts en funció de la posició), viola el
+    criteri de Condorcet.
+    A més, és extremadament vulnerable a atacs de manipulació de clons, on s'introdueixen candidats pràcticament
+    idèntics per a inflar artificialment la puntuació d'una opció i distorsionar el resultat.
+
+    \item \textbf{Vot Transferible o Desfilament Instantani (IRV)}: S'elimina el candidat amb manco vots de primera
+    preferència i es transfereixen els vots fins a trobar majoria.
+    El defecte clau és que no és monòton (viola el criteri de monotonicitat), el qual pot provocar que un candidat perdi
+    l'elecció de forma paradoxal pel simple fet d'obtenir més suport en primera preferència per part d'un grup
+    d'electors.
+    Tampoc compleix necessàriament amb el criteri de Condorcet.
+\end{itemize}
+
+Davant d'aquestes alternatives, s'ha seleccionat el \textbf{mètode Schulze}.
+Aquest algorisme realitza comparacions per parelles directes entre tots els candidats i construeix un graf de victòries
+orientades.
+Schulze és un mètode de Condorcet (sempre selecciona el guanyador de Condorcet si existeix) i compleix simultàniament
+amb la monotonicitat, la independència de clons i la simetria de reversió, convertint-se en el mètode més robust i
+equitatiu per al domini de Demochain.
+
+\subsection{Inconvenients del Mètode Schulze}
+\label{subsec:inconvenients-schulze}
+
+Tot i ser excel·lent des del punt de vista de la justícia matemàtica, vàrem identificar quatre inconvenients principals
+en emprar Schulze per a un sistema real:
+
+\begin{enumerate}
+    \item \textbf{Elevada complexitat computacional ($O(n^3)$)}: La determinació dels camins més forts en el graf de
+    preferències per a resoldre els cicles (paradoxa de Condorcet) es basa en l'algorisme de Floyd-Warshall.
+    El cost computacional creix de forma cúbica amb el nombre de candidats ($n$).
+    Per mor d'això, calcular el recompte directament dins d'un contracte d'Algorand és completament inviable a causa
+    dels límits de cost d'\textit{opcode} i temps d'execució de la màquina virtual, forçant a delegar el càlcul a
+    l'aplicació client.
+
+    \item \textbf{Baixa llegibilitat cognitiva per a la ciutadania}: La majority de votants està familiaritzada amb
+    recomptes senzills (sumar vots directes).
+    Entendre la lògica de camins de preferència més forts en un graf de duels Directed Acyclic Graph (DAG) i verificar
+    que els resultats són correctes sense dependre d'un ordinador és gairebé impossible per al públic general.
+    Això pot generar desconfiança o distanciament psicològic cap a la legitimitat de l'urna electrònica.
+
+    \item \textbf{Manca d'escalabilitat del missatge de vot}: Cada elector ha d'ordenar les seves preferències.
+    La quantitat d'informació necessària per a codificar el vot creix de forma quadràtica amb relació al nombre de
+    candidats.
+    Per a eleccions amb molts candidats, la \textit{payload} de la transacció i l'emmagatzematge en \textit{boxes} de la
+    \textit{blockchain} creixen de forma ineficient, augmentant l'MBR a Algorand.
+
+    \item \textbf{Complexitat en les regles de desempat}: Malgrat que l'algorisme està dissenyat per a definir clarament
+    els camins de victòria, en escenaris reals es poden produir empats on els valors dels camins més forts de dos
+    candidats siguin exactament idèntics.
+    Resoldre aquests empats de manera justa exigeix implementar protocols deterministes addicionals preestablerts (com
+    analitzar preferències de primer nivell o sortejos pseudoaleatoris basats en \textit{hash}es \textit{on-chain}),
+    augmentant la dificultat del codi.
+\end{enumerate}
+
+
+\section{Llenguatge Ubic (DDD)}
+\label{sec:llenguatge-ubic}
+
+Per tal de garantir que tot l'equip de programació, els custodis i els auditors utilitzin el mateix significat de les
+dades, s'ha adoptat una aproximació de \textbf{Domain-Driven Design (DDD)} definint un llenguatge comú per a tot el
+projecte.
+El domini de Demochain s'estructura a partir de la gènesi d'una \textbf{Organització}, la qual representa l'entitat
+jurídica o el col·lectiu registrat al sistema per un \textbf{Organitzador} que és l'administrador amb drets d'escriptura
+per gestionar les adreces del \textbf{Cens} d'aquella entitat.
+Cada membre autoritzat d'aquest cens rep el rol de \textbf{Votant} i té dret a participar en les consultes de les
+propostes.
+La \textbf{Proposta} constitueix la consulta electoral \textit{on-chain}, que s'inicia sota una \textbf{Fase
+d'Aprovació} on es requereix un quòrum de dues terceres parts favorables per transitar cap a la \textbf{Fase d'Elecció}
+activa, durant la qual s'admet l'enviament de paperetes.
+
+La manifestació del sufragi del votant s'anomena \textbf{Papereta}, la qual conté el missatge digital signat amb les
+seves preferències, ja sigui com un vot de si/no o com un \textit{array} d'índexs ordinals.
+En finalitzar el procés, es duu a terme el \textbf{Recompte}, que en el disseny teòric representa l'agregació
+homomòrfica multiplicativa \textit{on-chain} de les paperetes xifrades sota una clau de desxifratge de llindar
+controlada per diversos \textbf{Custodis o \textit{Trustees}}.
+Cada custodi aporta la seva \textbf{\textit{Share} de Desxifratge} de forma independent sota un esquema de
+\textbf{Consens \textit{K-of-N}}.
+Per prevenir el doble vot de manera anònima, es preveu l'ús d'un \textbf{Nullifier o Anul·lador} determinista.
+En l'\ac{MVP} simplificat actual, las paperetes es desen en clar i el recompte es calcula \textit{client-side},
+mantenint l'estructura terminològica com a model per a futures iteracions.
+Tot el cicle es tanca amb l'\textbf{Ancoratge}, que és l'acció determinista de publicar el \textit{hash} de resultats
+finals d'Algorand a la xarxa d'Ethereum Sepolia per certificar-ne la integritat a llarg termini.
+
+
+\section{Model de Dades}
+\label{sec:model-dades}
+
+El disseny de les dades del projecte s'ha estructurat de manera que encaixi amb les limitacions d'emmagatzematge
+transaccional d'ambdues xarxes.
+
+\subsection{Estructures d'Algorand (\texttt{ARC-4 Structs} en \texttt{algopy})}
+\label{subsec:estructs-algorand}
+
+Al contracte intel·ligent d'Algorand escrit en Python, s'utilitzen estructures de dades \ac{ARC}-4 que es codifiquen de
+forma compacta en l'estat de les \textit{boxes}.
+Les estructures estan definides a \texttt{contract.py}:
+
+L'estructura \texttt{Organization} s'encarrega d'emmagatzemar les metadades generals de cada col·lectiu registrat al
+sistema.
+Conté un identificador numèric de l'entitat, el nom textual de l'entitat, una breu descripció, l'adreça de
+\textit{wallet} del seu organitzador i el nombre total de membres que formen el cens.
+Aquestes estructures es classifiquen i es desen en un mapa de caixes de dades persistents associades a l'estat del
+contracte sota el prefix de clau d'organització:
+
+\begin{pyverbatim}
+    class Organization(arc4.Struct):
+    org\_id: arc4.UInt64
+    name: arc4.String
+    description: arc4.String
+    organizer: arc4.Address
+    member\_count: arc4.UInt32
+\end{pyverbatim}
+
+Per altra banda, l'estructura \texttt{Proposal} recull el cicle de vida de cada elecció.
+Emmagatzema l'identificador de l'organització a la qual pertany, el títol, la descripció del sufragi, un \textit{array}
+dinàmic de cadenes de text amb la llista de candidats o opcions, i les dates d'inici i de tancament de la finestra de
+votació representades en format UNIX:
+
+\begin{pyverbatim}
+    class Proposal(arc4.Struct):
+    org\_id: arc4.UInt64
+    title: arc4.String
+    description: arc4.String
+    options: arc4.DynamicArray[arc4.String]
+    starting\_date: arc4.UInt64
+    ending\_date: arc4.UInt64
+\end{pyverbatim}
+
+Per dur el registre dels sufragis d'aprovació i controlar la transició cap a la fase electoral s'empra l'estructura
+\texttt{ApprovalTally}, que conté el nombre total de vots emesos a favor de la proposta i el nombre acumulat d'electors
+participants en la fase d'aprovació.
+Finalment, es defineixen les estructures \texttt{BallotId} i \texttt{CensusId} per actuar com a claus compostes
+\textit{on-chain}, les quals s'encarreguen d'enllaçar de forma unívoca l'adreça del votant amb la proposta de votació
+preferencial o amb la llista del cens de l'organització:
+
+\begin{pyverbatim}
+    class ApprovalTally(arc4.Struct):
+    votes\_for: arc4.UInt32
+    total\_votes: arc4.UInt32
+
+    class BallotId(arc4.Struct):
+    sender: arc4.Address
+    proposal\_id: arc4.UInt64
+
+    class CensusId(arc4.Struct):
+    org\_id: arc4.UInt64
+    member: arc4.Address
+\end{pyverbatim}
+
+En l'\ac{MVP} desenvolupat, el cens s'emmagatzema com un \texttt{BoxMap} que fa \textit{mapping} de cadascun dels
+\texttt{CensusId} amb un valor booleà, i les paperetes preferencials en clar es desen directament com un \texttt{BoxMap}
+que enllaça cadascun dels \texttt{BallotId} amb un \textit{array} dinàmic d'enters sense signe
+(\texttt{arc4.DynamicArray[arc4.UInt8]}) que reflecteix el rànquing.
+
+\subsection{Estructures de Dades d'Ethereum (\texttt{NotaryContract.sol})}
+\label{subsec:estructs-ethereum}
+
+Al contracte intel·ligent escrit en Solidity d'Ethereum, s'emmagatzema l'estat del consorci electoral per a cada sufragi
+finalitzat mitjançant l'estructura \texttt{Election}.
+Aquesta estructura recull el llindar \texttt{thresholdK} necessari per segellar el resultat, un \textit{array} dinàmic
+amb les adreces públiques de les universitats certificadores del consorci, i mapes de correspondència per validar quins
+nodes estan autoritzats a firmar, quines submissions s'han registrat des de les seves adreces de Sepolia i l'acumulació
+de vots que té cada variant de \textit{hash}.
+L'estructura finalitza amb dos valors booleans que indiquen si l'elecció es troba actualment oberta a l'ancoratge o si
+ja ha assolit el quòrum i es troba oficialment ancorada a la xarxa:
+
+\begin{verbatim}
+struct Election {
+    uint256 thresholdK;
+    address[] authorizedNodes;
+    mapping(address => bool) isAuthorized;
+    mapping(address => bytes32) submissions;
+    mapping(bytes32 => uint256) \textit{hash}Count;
+    bool open;
+    bool anchored;
+}
+\end{verbatim}
+
+\subsection{Procés de Derivació del \textit{hash} Canònic}
+\label{subsec:derivacio-hash}
+
+El \textit{hash} que s'envia a Ethereum Sepolia representa el compromís d'integritat del resultat electoral.
+Per calcular-lo de manera idèntica a tots os nodes validadors s'aplica el següent procés determinista:
+
+\begin{enumerate}
+    \item S'escanegen totes les \textit{boxes} d'Algorand com a llista de paperetes amb prefix \texttt{eb\_} vinculades
+    a la proposta.
+
+    \item Es classifiquen les paperetes ordenant les adreces dels electors de forma lexicogràfica.
+    Aquest pas és vital, ja que l'ordre físic de rebuda de transaccions depèn de la latència de la xarxa i canviaria el
+    format en bytes de cada node.
+
+    \item Se serialitza la informació en una cadena de text tipus \ac{JSON} canònica (claus ordenades de la A a la Z,
+    sense cap espai en blanc, tabulacions o salts de línia):
+    \begin{verbatim}
+        {
+            "ballots": [
+                {
+                    "preference": [2, 0, 1],
+                    "voter":"ADDR_A"
+                },
+                {
+                    "preference": [0, 2, 1],
+                    "voter":"ADDR_B"
+                }
+            ],
+            "options": ["Opció A", "Opció B", "Opció C"],
+            "proposal_id": 1,
+            "title": "Rector 2026"
+        }
+    \end{verbatim}
+
+    \item Es calcula el \textit{hash} \ac{SHA}-256 d'aquesta representació en bytes, produint un valor únic hexadecimal
+    de 32 bytes (\texttt{bytes32}).
+\end{enumerate}

@@ -1,0 +1,450 @@
+%!TeX root=../Memory.tex
+
+
+\chapter{Desenvolupament}
+\label{ch:desenvolupament}
+
+Aquest capítol descriu com s'ha executat el projecte durant la seva fase de construcció.
+Mentre que el capítol~\ref{ch:planificacio} ha exposat la \emph{planificació} (cicle de vida, jerarquia del
+\emph{backlog}, \aclu{DoR} i \aclu{DoD}, política de versionat), aquí es relata el desenvolupament real: com s'ha
+organitzat l'equip dia a dia, com s'ha materialitzat la jerarquia del \emph{backlog} en \emph{issues} concretes, què ha
+entregat cada \emph{sprint}, quines versions intermèdies s'han generat, quins problemes s'han trobat i com s'han
+demostrat les funcionalitats.
+L'objectiu és deixar constància fidel de \emph{què} ha passat, no del \emph{que s'havia previst}.
+
+%-----------------------------------------------------------------------
+
+
+\section{Organització de l'equip}
+\label{sec:organitzacio-equip}
+
+L'equip està format per quatre estudiants del grau en Enginyeria Informàtica de la \ac{UIB}, sense experiència prèvia en
+\emph{blockchain} ni en criptografia aplicada (vegeu secció~\ref{sec:equip} del capítol~\ref{ch:introduccio}).
+Aquesta homogeneïtat de perfils ha facilitat la presa de decisions col·lectiva i la revisió creuada del codi, però ha
+obligat l'equip a adquirir des de zero el coneixement tècnic necessari (vegeu secció~\ref{sec:problemes}).
+
+\subsection{Rols i responsabilitats}
+\label{subsec:rols-i-responsabilitats}
+
+Cada membre de l'equip ha liderat una àrea funcional del producte durant tot el projecte, mantenint la mateixa
+responsabilitat des de la fase de recerca fins a l'entrega final.
+Aquesta estabilitat ha permès acumular coneixement profund sobre cada paquet de treball i evitar el cost de canvis
+freqüents de context.
+La taula~\ref{tab:rols-desenv} sintetitza els rols.
+
+\begin{table}[ht]
+    \centering
+    \small
+    \begin{tabular}{@{}p{3.3cm}p{4cm}p{5cm}@{}}
+        \toprule
+        \textbf{Membre}            & \textbf{Àrea principal}                       & \textbf{Responsabilitats concretes}                                                                                                                                                                            \\
+        \midrule
+        Jordi Vanyó Mestre         & Client web i integració Algorand              & Interfície React, integració amb \texttt{algosdk}, codificació i descodificació \ac{ARC}-4, lectura de \emph{boxes}, signatura de transaccions des del navegador.                                              \\
+        \addlinespace
+        Dylan Luigi Canning Garcia & Ancoratge i \emph{NotaryContract}             & Servei Python d'ancoratge (\texttt{network/anchoring/}), \emph{\textit{hash}} determinista (\ac{JSON} canònic + \ac{SHA}-256), submissió al contracte d'Ethereum, contracte \texttt{NotaryContract} a Sepolia. \\
+        \addlinespace
+        Antonio Contestí Coll      & Coordinació i documentació                    & Gestió del \emph{backlog} a GitHub Projects, seguiment de \emph{sprints}, coherència de la documentació tècnica, redacció de la memòria.                                                                       \\
+        \addlinespace
+        Marc Link Cladera          & \emph{Smart contract} Algorand i arquitectura & Disseny i implementació del contracte \texttt{Demochain} en \emph{algopy}, diagrames C4~\cite{brown2018c4}, redacció dels \acp{ADR}.                                                                           \\
+        \bottomrule
+    \end{tabular}
+    \caption[Rols i responsabilitats]{Distribució de rols i responsabilitats
+    durant el desenvolupament.
+    Cap rol ha estat exclusiu: totes les \acsp{PR} han passat per revisió creuada (vegeu secció~\ref{sec:versionat} del
+    capítol~\ref{ch:planificacio}).}
+    \label{tab:rols-desenv}
+\end{table}
+
+Aquesta distribució per àrees no ha estat estricta.
+La regla de protecció de \texttt{main} --que impedeix fer \emph{merge} de la mateixa \ac{PR}-- ha forçat que cada membre
+revisi codi de les altres àrees i, en conseqüència, hi adquireixi un coneixement funcional bàsic.
+Les decisions arquitectòniques rellevants s'han pres en reunions setmanals conjuntes, inicialment presencials i
+progressivament híbrides.
+
+\subsection{Dinàmica de treball}
+\label{subsec:dinamica-de-treball}
+
+L'equip ha funcionat amb una cadència setmanal estable.
+Cada setmana s'ha celebrat una reunió de coordinació amb tres punts fixos: revisió del que s'ha fet, identificació de
+bloqueigs i planificació de la setmana següent.
+A més, dins de cada \emph{sprint} s'ha celebrat una \emph{retrospectiva} curta per identificar millores de procés.
+Les decisions de caràcter tècnic s'han documentat als \acp{ADR} corresponents (\ac{ADR} 000 sobre \emph{algopy} i
+\ac{ADR} 001 sobre la plataforma \emph{blockchain}), de manera que la discussió no s'ha hagut de repetir.
+
+%-----------------------------------------------------------------------
+
+
+\section{Organització del backlog}
+\label{sec:backlog-desenv}
+
+El \emph{backlog} del projecte s'ha gestionat amb \textbf{GitHub Projects} sobre el repositori
+\texttt{demochain}~\cite{demochainrepo}, seguint l'estructura jeràrquica de cinc nivells descrita a la
+secció~\ref{subsec:jerarquia} del capítol~\ref{ch:planificacio}.
+Aquesta secció n'il·lustra l'aplicació real amb exemples concrets del repositori.
+
+\subsection{Materialització de la jerarquia}
+\label{subsec:materialitzacio-jerarquia}
+
+La cadena \textbf{èpica $\rightarrow$ història d'usuari / \emph{spike} $\rightarrow$ tasca} s'ha aplicat de manera
+consistent durant tot el projecte.
+La figura conceptual següent mostra un exemple complet extret del \emph{backlog}:
+
+\begin{itemize}
+    \item \textbf{Èpica E2 -- Propostes i aprovació} (\emph{issue} \#5).
+    Conjunt de funcionalitats per a la creació, validació i aprovació de propostes per quòrum de dos terços.
+    \begin{itemize}
+        \item \textbf{Història d'usuari E2-US1} -- \emph{Com a membre del cens vull crear una proposta dins de la meva
+        organització}.
+        Inclou els criteris d'acceptació en format \emph{Donat/Quan/Aleshores} sobre validacions de dates, opcions
+        mínimes i pertinença al cens.
+        \begin{itemize}
+            \item \textbf{Tasca E2-US1-T3} -- Implementació del mètode \texttt{create\_proposal} al contracte amb
+            validació de la finestra temporal mínima (3 dies abans de l'inici, 1 dia mínim de votació) i del nombre
+            d'opcions ($\geq 2$).
+        \end{itemize}
+    \end{itemize}
+
+    \item \textbf{\emph{Spike} E1-SP1} -- \emph{Quin llenguatge cal triar per al contracte d'Algorand: TEAL, PyTEAL o
+    algopy?} El resultat d'aquest \emph{spike} s'ha materialitzat al document \ac{ADR} 000
+    (\texttt{docs/decisions/000-smart-contract-language.md}).
+\end{itemize}
+
+A cada \emph{issue} se li ha assignat, a més del tipus (\texttt{type/epic}, \texttt{type/user-story},
+\texttt{type/spike}, \texttt{type/task}, \texttt{type/subtask}), una etiqueta d'àrea funcional:
+\texttt{area/smart-contract}, \texttt{area/\textit{front-end}}, \texttt{area/network}, \texttt{area/census},
+\texttt{area/wallet}, \texttt{area/test}, \texttt{area/research}, \texttt{area/docs} i \texttt{area/devops}.
+Aquesta combinació de tipus i àrea ha permès filtrar el \emph{backlog} segons diferents perspectives durant les reunions
+de planificació.
+
+\subsection{Volum i estat final del backlog}
+\label{subsec:volum-i-estat-final-del-backlog}
+
+A l'entrega final, el \emph{backlog} comprèn \textbf{nou èpiques} i més de \textbf{cent \emph{issues}} traçades, tal com
+es detalla a la taula~\ref{tab:epiques} del capítol~\ref{ch:planificacio}.
+La majoria de les èpiques estan tancades; només dues queden obertes explícitament:
+
+\begin{itemize}
+    \item \textbf{E5 -- Elegibilitat de votants amb \ac{ZK}} (\emph{issue} \#340), que depèn íntegrament de la capa
+    criptogràfica no implementada.
+
+    \item \textbf{E11 -- Setup del projecte i del repositori} (\emph{issue} \#402), oberta com a \emph{epic} contenidor
+    de tasques de manteniment continu del repositori.
+\end{itemize}
+
+Els tres últims \emph{sprints} es registren formalment com a \emph{milestones} a GitHub, amb les \emph{issues}
+corresponents assignades a cadascun.
+Una de les retrospectives ha identificat que els tres primers \emph{sprints} no es van classificar de manera estricta i
+caldria assignar-hi els \emph{issues} corresponents per a la traçabilitat completa.
+Aquesta tasca queda recollida com a punt pendent a l'\emph{epic} E11.
+
+%-----------------------------------------------------------------------
+
+
+\section{Resum de les iteracions de desenvolupament}
+\label{sec:iteracions}
+
+El desenvolupament s'ha estructurat en sis iteracions (\emph{sprints}) de dues setmanes.
+Aquesta secció en relata l'execució real, complementant la planificació exposada a la secció~\ref{sec:sprints} del
+capítol~\ref{ch:planificacio}.
+
+\subsection{Sprint 1 -- Recerca preliminar (febrer-març)}
+\label{subsec:sprint-1----recerca-preliminar-(febrer-marc)}
+
+Iteració íntegrament dedicada a la fase de recerca.
+L'equip ha estudiat el funcionament d'Algorand~\cite{chen2017algorand,algorandfoundation2024algokit}, les alternatives a
+Ethereum~\cite{buterin2014ethereum} i els mètodes de votació ordinal.
+S'ha aixecat un primer \emph{LocalNet} d'Algorand i s'ha provat el desplegament d'un contracte mínim per
+familiaritzar-se amb la cadena d'eines.
+\textbf{Entrega:} primera versió del repositori amb prova de concepte sobre LocalNet i tres documents de recerca
+(\texttt{docs/research/algorand.md}, \texttt{ethereum.md}, \texttt{voting-methods-comparison.md}).
+
+\subsection{Sprint 2 -- Decisions arquitectòniques (març)}
+\label{subsec:sprint-2----decisions-arquitectoniques-(marc)}
+
+S'han fixat les decisions tècniques clau del projecte: tria del llenguatge del contracte (\emph{algopy} amb compilador
+Puya~\cite{algorandfoundation2024puya}, formalitzada a l'\ac{ADR} 000) i tria de la plataforma \emph{blockchain}
+(Algorand permissionada amb ancoratge a Ethereum, formalitzada a l'\ac{ADR} 001).
+Paral·lelament, s'han redactat els primers diagrames C4~\cite{brown2018c4} i s'ha seleccionat el mètode de
+Schulze~\cite{schulze2011newmethod} com a algorisme de recompte, amb el corresponent document de recerca
+(\texttt{docs/research/schulze.md}).
+\textbf{Entrega:} primer esborrany del contracte \emph{algopy} amb les operacions bàsiques d'organització i diagrames C4
+a nivells 1 i 2.
+
+\subsection{Sprint 3 -- Primer prototip de votació (març -- 12 abril)}
+\label{subsec:sprint-3----primer-prototip-de-votacio-(marc----12-abril)}
+
+Implementació del primer prototip funcional.
+Al contracte d'Algorand s'hi ha afegit la lògica de propostes (creació, validació de dates i opcions) i una versió
+inicial de votació per pluralitat.
+Al client web s'ha construït el \emph{mockup} de les pantalles principals amb React i \emph{TailwindCSS}, i s'ha
+configurat el primer \texttt{docker-compose.yml} amb \texttt{algod}, indexer i client.
+\textbf{Entrega intermèdia} a la convocatòria del 12 d'abril.
+
+Aquest \emph{sprint} acaba amb la \emph{sessió d'estimació realista} en què l'equip pren la decisió de \textbf{reduir
+l'abast del \ac{MVP}} i deixar la criptografia avançada com a treball futur (vegeu secció~\ref{sec:problemes} i
+secció~\ref{sec:reduccio-abast} del capítol~\ref{ch:planificacio}).
+
+\subsection{Sprint 4 -- Schulze, resultats i integració (17--30 abril)}
+\label{subsec:sprint-4----schulze-resultats-i-integracio-(17--30-abril)}
+
+Aquest \emph{sprint} consolida la presència del repositori actual i incorpora la majoria del codi del client.
+S'implementa el mòdul de Schulze en TypeScript sobre la matriu de comparació per parelles (\emph{issues} \#132 i \#133)
+amb l'algorisme de Floyd-Warshall~\cite{floyd1962algorithm}, la pàgina de resultats amb guanyador i \emph{rànquing}
+(\#136), les matrius de comparació per parelles col·lapsables (\#139), la targeta \emph{«El meu vot»} al detall de la
+proposta (\#144) i el panell de verificació pública del vot (\#145).
+\textbf{Entrega:} versió integrada client + contracte capaç d'executar el cicle complet d'una elecció sobre LocalNet.
+
+\subsection{Sprint 5 -- Testing, refinament i robustesa (1--14 maig)}
+\label{subsec:sprint-5----testing-refinament-i-robustesa-(1--14-maig)}
+
+\emph{Sprint} orientat a la qualitat i estabilitat.
+S'incorporen cobertures de proves unitàries del domini de propostes (\#458), tests dels \emph{mappers} de consultes
+Algorand (\#457) i tests d'integració del \emph{governance client} contra LocalNet (\#456).
+Es corregeix el \emph{bug} d'accés a transaccions via Lora (\#463) i es refina la pantalla de votació amb edició d'hora
+i minuts mitjançant teclat (\#470).
+\textbf{Entrega:} cinc fitxers de test unitari al contracte (\texttt{voting-contract/tests/}:
+\texttt{approval\_unit\_test.py}, \texttt{cast\_election\_vote\_unit\_test.py}, \texttt{census\_unit\_test.py},
+\texttt{organization\_unit\_test.py}, \texttt{proposal\_unit\_test.py}) i tests al client.
+
+\subsection{Sprint 6 -- Documentació, demo i entrega (15--25 maig)}
+\label{subsec:sprint-6----documentacio-demo-i-entrega-(15--25-maig)}
+
+\emph{Sprint} final dedicat a redacció de la memòria, preparació de la presentació oral, retrospectiva i empaquetament.
+S'han generat els diagrames C4 a nivell 3 (un per contenidor) i els diagrames de seqüència Mermaid dels fluxos
+principals.
+\textbf{Entrega:} versió \texttt{v1.0.0} del producte i memòria final.
+
+%-----------------------------------------------------------------------
+
+
+\section{Versions generades i entregades}
+\label{sec:versions}
+
+A banda de la versió final del producte, durant tot el projecte s'han generat entregables intermedis amb cadència
+setmanal.
+Aquesta secció n'inventaria els més rellevants, distingint entre entregables de recerca, entregables d'enginyeria i la
+versió final del producte.
+
+\subsection{Recerca obtinguda setmanalment}
+\label{subsec:recerca-setmanal}
+
+Durant tot el projecte, l'equip ha mantingut una pràctica setmanal de documentar el coneixement adquirit.
+Aquesta pràctica ha estat especialment intensa durant la fase de recerca (\emph{sprints} 1 i 2), però s'ha mantingut tot
+al llarg del projecte cada vegada que ha sorgit un \emph{spike} de recerca.
+Els resultats es materialitzen en dos llocs del repositori:
+
+\begin{itemize}
+    \item \textbf{\texttt{docs/research/}}: documents tècnics amb les conclusions d'estudis comparatius.
+    A l'entrega final n'hi ha quatre:
+    \begin{itemize}
+        \item \texttt{algorand.md} -- Estudi en profunditat d'Algorand: model de consens, \ac{AVM}, \emph{boxes},
+        \ac{ARC}-4~\cite{algorandfoundation2023arc4} i \ac{ARC}-56~\cite{algorandfoundation2023arc56}.
+
+        \item \texttt{ethereum.md} -- Anàlisi d'Ethereum com a opció alternativa i com a destinació de l'ancoratge,
+        incloent-hi \ac{EIP}-1559~\cite{eip1559}.
+
+        \item \texttt{voting-methods-comparison.md} -- Comparativa de mètodes de votació ordinal (Borda, Condorcet, IRV,
+        Schulze) amb les propietats formals respectives.
+
+        \item \texttt{schulze.md} -- Estudi en detall del mètode de Schulze~\cite{schulze2011newmethod} i del seu càlcul
+        amb Floyd-Warshall~\cite{floyd1962algorithm}.
+    \end{itemize}
+
+    \item \textbf{\texttt{docs/decisions/}}: \aclp{ADR} amb les decisions arquitectòniques formals derivades dels
+    estudis anteriors:
+    \begin{itemize}
+        \item \ac{ADR} 000 -- Tria del llenguatge de \emph{smart contract} (\texttt{000-smart-contract-language.md}).
+
+        \item \ac{ADR} 001 -- Tria de la plataforma \emph{blockchain} (\texttt{001-blockchain-choice.md}).
+    \end{itemize}
+\end{itemize}
+
+Aquesta pràctica ha resultat especialment valuosa: cada document de recerca i cada \ac{ADR} ha servit per evitar que la
+mateixa discussió es repetís en \emph{sprints} posteriors i ha proporcionat justificació formal per a les decisions de
+disseny.
+
+\subsection{Versions intermèdies del producte}
+\label{subsec:versions-intermedies-del-producte}
+
+Pel que fa al producte de \textit{software}, s'han generat dues versions significatives intermèdies abans del lliurament final:
+
+\begin{itemize}
+    \item \textbf{Prototip Sprint 3} (12 d'abril): \emph{mockup} del client i contracte amb votació per pluralitat.
+    Entrega intermèdia formal a la convocatòria del 12 d'abril.
+
+    \item \textbf{Integració Sprint 4} (30 d'abril): primera versió capaç d'executar el cicle complet d'una elecció
+    (organització, proposta, aprovació, votació preferencial, recompte Schulze) sobre LocalNet.
+\end{itemize}
+
+\subsection{Versió final entregada}
+\label{subsec:versio-final-entregada}
+
+La versió final entregada és la \textbf{\texttt{v1.0.0}}, generada al final del Sprint 6.
+Comprèn:
+
+\begin{itemize}
+    \item \emph{Smart contract} d'Algorand \texttt{Demochain} en \emph{algopy} (\texttt{voting-contract/}).
+
+    \item \emph{Smart contract} d'Ethereum \texttt{NotaryContract} en Solidity (\texttt{network/ethereum/}).
+
+    \item Servei d'ancoratge en Python (\texttt{network/anchoring/}).
+
+    \item Client web React 19 + TypeScript (\texttt{client/}).
+
+    \item Infraestructura Docker Compose (\texttt{docker-compose.yml}, \texttt{conduit.yml}).
+
+    \item Documentació completa: \texttt{docs/} amb subdirectoris \texttt{research/}, \texttt{decisions/},
+    \texttt{diagrams/} i \texttt{memory/}.
+\end{itemize}
+
+%-----------------------------------------------------------------------
+
+
+\section{Problemes trobats i la seva resolució}
+\label{sec:problemes}
+
+Durant el desenvolupament s'han trobat diversos obstacles.
+Aquesta secció recull els dos més rellevants pel seu impacte sobre l'abast i sobre la planificació, ja que la majoria
+d'incidències tècniques puntuals queden documentades a les \emph{issues} de GitHub i als \emph{pull requests}
+corresponents.
+
+\subsection{Criptografia avançada fora de l'abast de l'MVP}
+\label{subsec:criptografia-fora}
+
+El problema de planificació més important del projecte ha estat la constatació que la \textbf{capa de criptografia
+avançada} prevista inicialment no era assolible dins l'horitzó temporal del \ac{TFG}.
+L'arquitectura inicial preveia:
+
+\begin{itemize}
+    \item Vots xifrats amb ElGamal exponencial homomòrfic.
+
+    \item Proves \acsp{zkSNARK} Groth16~\cite{cortier2019belenios,adida2008helios} per acreditar l'elegibilitat del
+    votant sense revelar-ne la identitat.
+
+    \item Cerimònia de generació distribuïda de claus (DKG) i desxifrat amb \emph{trustees} amb proves Chaum-Pedersen.
+
+    \item Integració amb un \ac{IdP} extern (Keycloak) per a l'autenticació prèvia del votant.
+\end{itemize}
+
+\paragraph{Detecció del problema.} La detecció es va produir al final
+del Sprint~3, en una sessió d'estimació realista en què es va quantificar el cost d'implementar cada primitiva.
+Les estimacions indicaven que sense un mes addicional de recerca específica per primitiva, l'equip no tenia les bases
+per construir-les amb les garanties necessàries (vegeu secció~\ref{sec:reduccio-abast} del
+capítol~\ref{ch:planificacio}).
+
+\paragraph{Resolució adoptada.} La decisió, presa en grup i
+documentada a les \emph{issues} corresponents, va ser:
+
+\begin{enumerate}
+    \item Reduir l'\ac{MVP} a votació \textbf{en clar} amb verificació pública via consulta directa a la cadena
+    Algorand i ancoratge \textit{K-of-N} a Ethereum.
+
+    \item Tancar les èpiques E3, E4 i E6 amb el subconjunt de funcionalitats efectivament implementades (votació
+    preferencial, recompte Schulze, connexió de \emph{wallet}) i deixar la resta d'\acsp{US} obertes com a treball
+    futur explícit.
+
+    \item Mantenir oberta l'èpica E5 sencera, ja que tota la seva funcionalitat depèn de la capa criptogràfica.
+\end{enumerate}
+
+\paragraph{Lliçó apresa.} Vista en retrospectiva, la decisió és
+coherent amb les recomanacions de la literatura: davant un objectiu ambiciós i un horitzó tancat, és preferible entregar
+un subconjunt funcional i sòlid que un superconjunt incomplet o inestable.
+La criptografia avançada queda identificada explícitament al capítol de conclusions com a línia de treball futura.
+
+\subsection{Falta de coneixement inicial}
+\label{subsec:falta-coneixement}
+
+Cap membre de l'equip tenia experiència prèvia en \emph{blockchain} ni en criptografia aplicada.
+Aquesta absència de base ha estat el segon problema rellevant del projecte: cap línia de codi del contracte podia
+escriure's abans d'entendre el model d'execució de l'\ac{AVM}, l'estructura de \emph{boxes} d'emmagatzematge, el sistema
+de tipus d'\emph{algopy} i les convencions \ac{ARC}-4~\cite{algorandfoundation2023arc4}.
+
+\paragraph{Resolució adoptada.} Es va adoptar una \textbf{fase de
+recerca i fonaments explícita} (febrer-abril de 2026), durant la qual no es va comprometre cap entrega de producte.
+La fase va consistir en:
+
+\begin{itemize}
+    \item Lectura sistemàtica de la documentació oficial d'Algorand, AlgoKit~\cite{algorandfoundation2024algokit} i
+    Puya~\cite{algorandfoundation2024puya}.
+
+    \item Redacció dels documents de recerca a \texttt{docs/research/} com a mecanisme de consolidació del coneixement.
+
+    \item Formalització de les decisions clau als \acp{ADR} 000 i 001, perquè el coneixement adquirit quedés codificat i
+    no s'hagués de tornar a discutir.
+
+    \item Provatura pràctica: aixecament d'un \emph{LocalNet} d'Algorand i desplegament d'un contracte mínim per
+    familiaritzar-se amb la cadena d'eines.
+\end{itemize}
+
+\paragraph{Resultat.} El cost d'oportunitat d'aquesta fase ha estat
+alt --un mes sense codi de producte entregat-- però en retrospectiva ha resultat la decisió més encertada del projecte:
+el contracte que es va escriure després estava lliure d'errors conceptuals que altrament haurien requerit reescriptures
+costoses.
+
+%-----------------------------------------------------------------------
+
+
+\section{Demostracions funcionals}
+\label{sec:demos}
+
+Cada \emph{sprint} ha culminat amb una demostració funcional interna de les funcionalitats incorporades.
+Aquesta secció en sintetitza l'evolució i descriu la demostració de la versió final.
+
+\subsection{Demostracions intermèdies}
+\label{subsec:demostracions-intermedies}
+
+\begin{itemize}
+    \item \textbf{Sprint 3 (12 abril).} Demostració del prototip de votació per pluralitat: creació d'organització,
+    creació de proposta, votació simple i visualització del resultat sobre el \emph{mockup} del client.
+
+    \item \textbf{Sprint 4 (30 abril).} Demostració del cicle complet sobre LocalNet: creació d'organització amb cens,
+    redacció d'una proposta, fase d'aprovació per quòrum, votació preferencial amb \emph{rànquing} arrossegable, càlcul
+    del guanyador amb Schulze i visualització de la matriu de comparació per parelles.
+
+    \item \textbf{Sprint 5 (14 maig).} Demostració de la robustesa: execució de tota la bateria de tests del contracte,
+    càrrega massiva de cens via \ac{CSV} amb trossejament automàtic en lots de set adreces, panell de verificació
+    pública del vot per a una adreça arbitrària, i correcció del \emph{bug} d'accés a transaccions via Lora.
+\end{itemize}
+
+\subsection{Demostració de la versió final}
+\label{subsec:demo-final}
+
+La demostració de la versió \texttt{v1.0.0} a l'entrega final cobreix el cicle complet d'una elecció sobre l'entorn
+local i és \textbf{reproduïble} per qualsevol persona amb el repositori i Docker.
+
+\paragraph{Preparació de l'entorn.} Una sola comanda aixeca tota la
+infraestructura: \texttt{docker compose up}.
+Això arrenca seqüencialment el node Algorand (\emph{lead} i \emph{follower}), el desplegament automàtic del contracte
+(que persisteix l'\texttt{APP\_ID} a \texttt{client/.env.local}), la base de dades PostgreSQL, Conduit,
+l'\emph{indexer} i el client web servit per Vite (vegeu secció~\ref{sec:cicle-vida} del capítol~\ref{ch:planificacio} i
+detalls a la secció corresponent de Disseny).
+
+\paragraph{Recorregut funcional.} La demostració recorre les pantalles
+principals del client (vegeu les figures de la secció de disseny):
+
+\begin{enumerate}
+    \item Connexió de cartera (Pera Wallet o Lute).
+
+    \item Creació d'una organització i càrrega de cens via \ac{CSV} (amb trossejament automàtic en lots de set adreces).
+
+    \item Redacció d'una proposta mitjançant l'assistent de cinc passos.
+
+    \item Vot d'aprovació binari per part dels membres del cens.
+
+    \item Vot d'elecció amb \emph{rànquing} arrossegable (component \texttt{@dnd-kit}, accessible amb ratolí i teclat).
+
+    \item Visualització dels resultats finals amb el mètode de Schulze, la matriu de comparació per parelles
+    col·lapsable i el panell de verificació pública del vot.
+\end{enumerate}
+
+\paragraph{Verificabilitat}.
+La demostració inclou la verificació externa del resultat: introduint una adreça arbitrària al panell de verificació,
+el client consulta directament la cadena i mostra el \emph{rànquing} emès per aquesta adreça, sense necessitat de cap
+permís.
+En paral·lel, el servei d'ancoratge publica el \emph{\textit{hash}} determinista de l'elecció tancada al contracte
+\texttt{NotaryContract} de Sepolia, fent visible el consens \textit{K-of-N} entre nodes universitaris.
+
+\paragraph{Temps total}.
+Sobre el \emph{LocalNet}, el cicle complet --des de \texttt{docker compose up} fins a la visualització dels resultats--
+es pot executar en menys de \textbf{cinc minuts}, fet que n'ha facilitat l'ús durant les demostracions de cada
+\emph{sprint} i la repetició davant un públic acadèmic a l'entrega final.

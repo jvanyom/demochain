@@ -67,8 +67,8 @@
         \parbox{0.85\textwidth}{
             \centering
             
-            Desenvolupament d’un sistema de votació electrònica descentralitzat,
-            segur, transparent i auditable, amb finalitat formativa per a l’aprenentatge
+            Desenvolupament d'un sistema de votació electrònica descentralitzat,
+            segur, transparent i auditable, amb finalitat formativa per a l'aprenentatge
             de la tecnologia \textit{blockchain} i els contractes intel·ligents.
         }
     \end{center}
@@ -102,21 +102,21 @@
 
 \section{Introducció}
 
-En la primera entrega del projecte es va definir l'abast inicial d’un sistema de votació descentralitzat basat en tecnologia blockchain. L’objectiu principal del projecte és dissenyar una plataforma que permeti gestionar processos electorals digitals de manera segura, transparent i verificable mitjançant l’ús de contractes intel·ligents desplegats sobre una xarxa blockchain.
+En la primera entrega del projecte es va definir l'abast inicial d'un sistema de votació descentralitzat basat en tecnologia blockchain. L'objectiu principal del projecte és dissenyar una plataforma que permeti gestionar processos electorals digitals de manera segura, transparent i verificable mitjançant l'ús de contractes intel·ligents desplegats sobre una xarxa blockchain.
 
-Aquest tipus de sistemes permeten garantir propietats fonamentals en qualsevol procés electoral, com ara la integritat dels vots, la traçabilitat de les operacions i la impossibilitat de modificar els resultats una vegada registrats a la cadena de blocs. Gràcies a aquestes característiques, la tecnologia blockchain s’ha convertit en una alternativa interessant per al desenvolupament de sistemes de votació electrònica descentralitzats.
+Aquest tipus de sistemes permeten garantir propietats fonamentals en qualsevol procés electoral, com ara la integritat dels vots, la traçabilitat de les operacions i la impossibilitat de modificar els resultats una vegada registrats a la cadena de blocs. Gràcies a aquestes característiques, la tecnologia blockchain s'ha convertit en una alternativa interessant per al desenvolupament de sistemes de votació electrònica descentralitzats.
 
 En la primera fase del projecte es va proposar una arquitectura inicial del sistema que explorava diferents mecanismes de descentralització. En aquest plantejament inicial es contemplava la possibilitat que els dispositius dels usuaris participessin activament en la infraestructura de la xarxa, assumint determinades funcions dins del sistema.
 
-No obstant això, durant el procés de disseny arquitectònic i d’anàlisi tècnica realitzat en aquesta segona fase del projecte s’han identificat diverses limitacions en el plantejament inicial que feien necessari revisar l’abast definit en la primera entrega.
+No obstant això, durant el procés de disseny arquitectònic i d'anàlisi tècnica realitzat en aquesta segona fase del projecte s'han identificat diverses limitacions en el plantejament inicial que feien necessari revisar l'abast definit en la primera entrega.
 
-Aquestes limitacions estan relacionades principalment amb la viabilitat tècnica d’algunes decisions arquitectòniques inicials, especialment en relació amb la utilització de dispositius dels usuaris com a part de la infraestructura de la xarxa blockchain. A més, també s’ha considerat la necessitat d’ajustar el projecte a la durada real de l’assignatura i als objectius acadèmics del treball.
+Aquestes limitacions estan relacionades principalment amb la viabilitat tècnica d'algunes decisions arquitectòniques inicials, especialment en relació amb la utilització de dispositius dels usuaris com a part de la infraestructura de la xarxa blockchain. A més, també s'ha considerat la necessitat d'ajustar el projecte a la durada real de l'assignatura i als objectius acadèmics del treball.
 
-Per aquest motiu, en aquesta segona entrega s’ha realitzat una revisió detallada de l’abast del projecte amb l’objectiu de redefinir alguns aspectes de la solució proposada i adaptar-la a un model arquitectònic més realista i coherent amb el funcionament habitual de les aplicacions descentralitzades basades en blockchain.
+Per aquest motiu, en aquesta segona entrega s'ha realitzat una revisió detallada de l'abast del projecte amb l'objectiu de redefinir alguns aspectes de la solució proposada i adaptar-la a un model arquitectònic més realista i coherent amb el funcionament habitual de les aplicacions descentralitzades basades en blockchain.
 
-Com a resultat d’aquesta revisió, s’han introduït diversos canvis en el model inicial del sistema, especialment pel que fa a la infraestructura de nodes de la xarxa i a la manera en què els usuaris interactuen amb la plataforma.
+Com a resultat d'aquesta revisió, s'han introduït diversos canvis en el model inicial del sistema, especialment pel que fa a la infraestructura de nodes de la xarxa i a la manera en què els usuaris interactuen amb la plataforma.
 
-Aquest document descriu de manera detallada el procés de revisió de l’abast del projecte, les limitacions detectades en el plantejament inicial i la definició del nou abast del sistema proposat.
+Aquest document descriu de manera detallada el procés de revisió de l'abast del projecte, les limitacions detectades en el plantejament inicial i la definició del nou abast del sistema proposat.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % ABAST DEFINIT EN LA PRIMERA ENTREGA
@@ -124,11 +124,11 @@ Aquest document descriu de manera detallada el procés de revisió de l’abast 
 
 \section{Abast definit en la primera entrega}
 
-En la primera fase del projecte es va definir un abast inicial per al desenvolupament d’un sistema de votació descentralitzat basat en tecnologia blockchain. L’objectiu principal d’aquest sistema era permetre la creació i gestió de processos electorals digitals garantint propietats fonamentals com la transparència, la integritat dels resultats i la verificabilitat de les operacions.
+En la primera fase del projecte es va definir un abast inicial per al desenvolupament d'un sistema de votació descentralitzat basat en tecnologia blockchain. L'objectiu principal d'aquest sistema era permetre la creació i gestió de processos electorals digitals garantint propietats fonamentals com la transparència, la integritat dels resultats i la verificabilitat de les operacions.
 
-El sistema proposat es basava en la utilització de contractes intel·ligents desplegats sobre la xarxa blockchain d’Algorand, els quals s’encarregaven de gestionar la informació relativa als processos electorals, registrar els vots emesos pels participants i calcular els resultats finals de manera automàtica i immutable.
+El sistema proposat es basava en la utilització de contractes intel·ligents desplegats sobre la xarxa blockchain d'Algorand, els quals s'encarregaven de gestionar la informació relativa als processos electorals, registrar els vots emesos pels participants i calcular els resultats finals de manera automàtica i immutable.
 
-Aquest plantejament inicial pretenia explorar les possibilitats que ofereixen les arquitectures descentralitzades per a la implementació de sistemes de votació digitals, evitant la necessitat d’una entitat central que actuï com a autoritat de confiança.
+Aquest plantejament inicial pretenia explorar les possibilitats que ofereixen les arquitectures descentralitzades per a la implementació de sistemes de votació digitals, evitant la necessitat d'una entitat central que actuï com a autoritat de confiança.
 
 \subsection{Objectius inicials del sistema}
 
@@ -137,32 +137,32 @@ Els principals objectius definits en la primera entrega del projecte eren els se
 \begin{itemize}
 \item Desenvolupar una plataforma que permetés la creació de processos electorals digitals.
 \item Permetre als usuaris emetre vots de manera segura mitjançant transaccions registrades a la blockchain.
-\item Garantir la integritat dels resultats mitjançant l’ús de contractes intel·ligents.
+\item Garantir la integritat dels resultats mitjançant l'ús de contractes intel·ligents.
 \item Assegurar la traçabilitat i verificabilitat de totes les operacions realitzades durant el procés electoral.
 \item Explorar mecanismes de descentralització en la infraestructura del sistema.
 \end{itemize}
 
-Aquests objectius van servir com a punt de partida per al disseny inicial de l’arquitectura del sistema.
+Aquests objectius van servir com a punt de partida per al disseny inicial de l'arquitectura del sistema.
 
 \subsection{Arquitectura inicial del sistema}
 
 En el plantejament inicial del projecte es va proposar una arquitectura distribuïda en què els usuaris interactuaven amb el sistema mitjançant una aplicació client que permetia consultar eleccions, emetre vots i consultar resultats.
 
-Les transaccions generades per aquesta aplicació client eren enviades a la xarxa blockchain d’Algorand, on els contractes intel·ligents s’encarregaven de validar-les i registrar-les de manera permanent a la cadena de blocs.
+Les transaccions generades per aquesta aplicació client eren enviades a la xarxa blockchain d'Algorand, on els contractes intel·ligents s'encarregaven de validar-les i registrar-les de manera permanent a la cadena de blocs.
 
-D’aquesta manera, el sistema utilitzava la blockchain com a infraestructura principal per garantir la seguretat, la integritat i la immutabilitat de la informació electoral.
+D'aquesta manera, el sistema utilitzava la blockchain com a infraestructura principal per garantir la seguretat, la integritat i la immutabilitat de la informació electoral.
 
-\subsection{Model inicial d’infraestructura de nodes}
+\subsection{Model inicial d'infraestructura de nodes}
 
-En la primera definició de l’abast també es va considerar la possibilitat que els dispositius dels usuaris poguessin participar activament en la infraestructura del sistema.
+En la primera definició de l'abast també es va considerar la possibilitat que els dispositius dels usuaris poguessin participar activament en la infraestructura del sistema.
 
-Aquest plantejament explorava la idea que els dispositius dels usuaris, especialment dispositius mòbils, poguessin actuar com a elements participants dins de l’ecosistema de la xarxa, contribuint a la distribució de determinades funcionalitats del sistema, com podia ser la validació de vots seguint la funció aleatòria verificable (VRF).
+Aquest plantejament explorava la idea que els dispositius dels usuaris, especialment dispositius mòbils, poguessin actuar com a elements participants dins de l'ecosistema de la xarxa, contribuint a la distribució de determinades funcionalitats del sistema, com podia ser la validació de vots seguint la funció aleatòria verificable (VRF).
 
-Aquest model buscava augmentar el grau de descentralització del sistema i reduir la dependència d’infraestructures centralitzades.
+Aquest model buscava augmentar el grau de descentralització del sistema i reduir la dependència d'infraestructures centralitzades.
 
-No obstant això, aquest plantejament inicial es va definir de manera conceptual i requeria una anàlisi tècnica més detallada per determinar la seva viabilitat real dins de l’arquitectura del sistema.
+No obstant això, aquest plantejament inicial es va definir de manera conceptual i requeria una anàlisi tècnica més detallada per determinar la seva viabilitat real dins de l'arquitectura del sistema.
 
-En la fase posterior d’anàlisi arquitectònic es va estudiar amb més profunditat aquest model d’infraestructura i es van identificar diverses limitacions tècniques que feien necessari revisar aquest enfocament inicial.
+En la fase posterior d'anàlisi arquitectònic es va estudiar amb més profunditat aquest model d'infraestructura i es van identificar diverses limitacions tècniques que feien necessari revisar aquest enfocament inicial.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % LIMITACIONS DETECTADES EN L'ABAST INICIAL
@@ -172,9 +172,9 @@ En la fase posterior d’anàlisi arquitectònic es va estudiar amb més profund
 
 Durant el procés de disseny arquitectònic i anàlisi tècnica realitzat en aquesta segona fase del projecte es va dur a terme una revisió detallada del model inicial proposat en la primera entrega.
 
-Aquest procés d’anàlisi tenia com a objectiu validar la viabilitat tècnica de les decisions arquitectòniques adoptades inicialment i identificar possibles riscos associats al desenvolupament del sistema.
+Aquest procés d'anàlisi tenia com a objectiu validar la viabilitat tècnica de les decisions arquitectòniques adoptades inicialment i identificar possibles riscos associats al desenvolupament del sistema.
 
-Com a resultat d’aquesta revisió es van detectar diverses limitacions en el plantejament inicial del projecte, especialment en relació amb el model d’infraestructura de nodes basat parcialment en dispositius dels usuaris.
+Com a resultat d'aquesta revisió es van detectar diverses limitacions en el plantejament inicial del projecte, especialment en relació amb el model d'infraestructura de nodes basat parcialment en dispositius dels usuaris.
 
 Les principals limitacions identificades es descriuen a continuació.
 
@@ -186,7 +186,7 @@ Entre aquestes limitacions es poden destacar:
 
 \begin{itemize}
 \item Capacitat de processament limitada en comparació amb servidors o infraestructures dedicades.
-\item Restriccions en l’ús de recursos del sistema operatiu, especialment pel que fa a l'execució de processos en segon pla.
+\item Restriccions en l'ús de recursos del sistema operatiu, especialment pel que fa a l'execució de processos en segon pla.
 \item Limitacions relacionades amb el consum energètic i la durada de la bateria.
 \item Restriccions d'emmagatzematge per mantenir informació persistent.
 \end{itemize}
@@ -253,17 +253,17 @@ Per aquest motiu es va considerar convenient simplificar determinats aspectes de
 
 \section{Revisió de l'abast del projecte}
 
-A partir de les limitacions detectades en el plantejament inicial del sistema es va decidir dur a terme una revisió de l’abast del projecte amb l’objectiu de redefinir determinats aspectes de l’arquitectura i adaptar-los a un model més realista i viable des del punt de vista tècnic.
+A partir de les limitacions detectades en el plantejament inicial del sistema es va decidir dur a terme una revisió de l'abast del projecte amb l'objectiu de redefinir determinats aspectes de l'arquitectura i adaptar-los a un model més realista i viable des del punt de vista tècnic.
 
 Aquesta revisió no implica un canvi en els objectius principals del sistema, sinó una modificació en la manera com s'implementa la infraestructura necessària per assolir aquests objectius.
 
-En particular, la revisió de l’abast s’ha centrat principalment en la redefinició del model d’infraestructura de nodes i en la simplificació de la interacció dels usuaris amb el sistema.
+En particular, la revisió de l'abast s'ha centrat principalment en la redefinició del model d'infraestructura de nodes i en la simplificació de la interacció dels usuaris amb el sistema.
 
 \subsection{Eliminació del model de nodes basat en dispositius mòbils}
 
-Una de les principals modificacions introduïdes en el projecte ha estat l’eliminació del model d’infraestructura que considerava la participació de dispositius dels usuaris com a part de la xarxa.
+Una de les principals modificacions introduïdes en el projecte ha estat l'eliminació del model d'infraestructura que considerava la participació de dispositius dels usuaris com a part de la xarxa.
 
-Tal com s’ha explicat en la secció anterior, els dispositius mòbils presenten diverses limitacions tècniques que dificulten la seva utilització com a nodes dins d’una xarxa blockchain.
+Tal com s'ha explicat en la secció anterior, els dispositius mòbils presenten diverses limitacions tècniques que dificulten la seva utilització com a nodes dins d'una xarxa blockchain.
 
 Per aquest motiu es va decidir descartar aquest model i adoptar una arquitectura basada en infraestructures més estables i adequades per executar nodes complets.
 
@@ -282,7 +282,7 @@ Aquest model presenta diversos avantatges:
 \item Simplificació de l'arquitectura del sistema.
 \end{itemize}
 
-D’aquesta manera, els nodes institucionals s’encarreguen de gestionar la interacció amb la xarxa blockchain i de propagar les transaccions generades pels usuaris.
+D'aquesta manera, els nodes institucionals s'encarreguen de gestionar la interacció amb la xarxa blockchain i de propagar les transaccions generades pels usuaris.
 
 \subsection{Aplicació client per a la interacció dels usuaris}
 
@@ -298,7 +298,7 @@ Aquesta aplicació permet als usuaris realitzar les principals operacions del si
 \item i consultar els resultats dels processos electorals.
 \end{itemize}
 
-La funció principal d’aquesta aplicació és generar les transaccions que posteriorment s’enviaran a la xarxa blockchain.
+La funció principal d'aquesta aplicació és generar les transaccions que posteriorment s'enviaran a la xarxa blockchain.
 
 Aquest model correspon al que habitualment es coneix com a \textit{thin client}, ja que la major part de la lògica del sistema es troba fora del client.
 
@@ -306,7 +306,7 @@ Aquest model correspon al que habitualment es coneix com a \textit{thin client},
 
 Per garantir la seguretat i autenticitat de les operacions, les transaccions generades pels usuaris han de ser signades criptogràficament abans de ser enviades a la xarxa.
 
-En aquest projecte es planteja la utilització d’una cartera digital externa, Pera Wallet, que permet a l’usuari signar les transaccions de manera segura.
+En aquest projecte es planteja la utilització d'una cartera digital externa, Pera Wallet, que permet a l'usuari signar les transaccions de manera segura.
 
 Aquesta signatura garanteix que cada vot està associat a una identitat criptogràfica única i que no pot ser modificat després de ser emès i acceptat per la xarxa.
 
@@ -314,7 +314,7 @@ Aquesta signatura garanteix que cada vot està associat a una identitat criptogr
 
 En el model revisat del sistema, la lògica principal del procés electoral es gestiona mitjançant contractes intel·ligents desplegats a la xarxa blockchain privada d'Algorand.
 
-Aquests contractes intel·ligents s’encarreguen de:
+Aquests contractes intel·ligents s'encarreguen de:
 
 \begin{itemize}
 \item emmagatzemar la informació dels vots (tant per eleccions com per propostes d'eleccions), eleccions (passades, actives i properes) i propostes d'eleccions,
@@ -324,18 +324,18 @@ Aquests contractes intel·ligents s’encarreguen de:
 \item i generar eleccions automàticament quan les propostes compleixen un cert llindar de vots.
 \end{itemize}
 
-El fet d’utilitzar contractes intel·ligents permet garantir que les regles del sistema s’apliquen de manera automàtica i transparent. Una vegada el contracte intel·ligent s'ha publicat aquest no pot ser modificat, únicament es modifica l'estat intern mitjançant les accions habilitades. Aquestes es realitzen quan reaccionen a les transaccions que es reben.
+El fet d'utilitzar contractes intel·ligents permet garantir que les regles del sistema s'apliquen de manera automàtica i transparent. Una vegada el contracte intel·ligent s'ha publicat aquest no pot ser modificat, únicament es modifica l'estat intern mitjançant les accions habilitades. Aquestes es realitzen quan reaccionen a les transaccions que es reben.
 
 \subsection{Publicació dels resultats mitjançant mecanismes d'anchoring}
 
-Com a mecanisme addicional de verificació i integritat, el sistema incorpora un servei d’anchoring que permet publicar una prova criptogràfica dels resultats finals del procés electoral en una segona blockchain pública i fiable.
+Com a mecanisme addicional de verificació i integritat, el sistema incorpora un servei d'anchoring que permet publicar una prova criptogràfica dels resultats finals del procés electoral en una segona blockchain pública i fiable.
 
-Totes les entitats que executin un node complet (\textit{full node}) també hauran d'executar un component que s'encarrega de revisar quan una elecció ha acabat. En el moment que acaba l'elecció es calcula el hash del seu node i s'envia aquest hash a un contracte intel·ligent de Ethereum.
+Totes les entitats que executin un node complet (\textit{full node}) també hauran d'executar un component que s'encarrega de revisar quan una elecció ha acabat. En el moment que acaba l'elecció es calcula el \textit{hash} del seu node i s'envia aquest \textit{hash} a un contracte intel·ligent de Ethereum.
 
 El contracte intel·ligent d'Ethereum es un component molt senzill, creat per nosaltres, el qual s'encarrega de :
 \begin{itemize}
-    \item Mantenir una llista de les adreces de les quals pot rebre missatges amb el contingut del hash. Això inclou afegir i eliminar adreces d'aquest registre.
-    \item Rebre transaccions de les adreces dels nodes autoritzats, i si se supera un llindar de transaccions que coincideixen en quant al hash, es publica aquest a la xarxa Ethereum.
+    \item Mantenir una llista de les adreces de les quals pot rebre missatges amb el contingut del \textit{hash}. Això inclou afegir i eliminar adreces d'aquest registre.
+    \item Rebre transaccions de les adreces dels nodes autoritzats, i si se supera un llindar de transaccions que coincideixen en quant al \textit{hash}, es publica aquest a la xarxa Ethereum.
 \end{itemize}
 
 

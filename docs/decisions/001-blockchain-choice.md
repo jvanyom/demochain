@@ -1,4 +1,4 @@
-# ADR 001 — Elecció de la plataforma _blockchain_
+# ADR 001 - Elecció de la plataforma _blockchain_
 
 **ID de l'_spike_**: E1-SP1
 **Data**: 2026-05-01
@@ -30,7 +30,7 @@ Les plataformes candidates analitzades:
 
 ## Opcions analitzades
 
-### Opció A — Algorand
+### Opció A - Algorand
 
 Algorand és una _blockchain_ de capa 1 que utilitza el protocol de consens _Pure Proof-of-Stake_ (PPoS). Els seus trets diferencials:
 
@@ -42,7 +42,7 @@ Algorand és una _blockchain_ de capa 1 que utilitza el protocol de consens _Pur
 - **Capacitat de ~6.000 tr/s** a la xarxa pública; suficient per a eleccions d'escala mitjana.
 - **AlgoKit**: conjunt d'eines oficial d'Algorand Foundation que permet muntar un entorn de desenvolupament local (_LocalNet_) en minuts i genera _scaffolding_ de projectes amb tests integrats.
 
-### Opció B — Ethereum L1
+### Opció B - Ethereum L1
 
 Ethereum és la _blockchain_ de _smart contracts_ més madura i amb l'ecosistema més gran.
 
@@ -51,7 +51,7 @@ Ethereum és la _blockchain_ de _smart contracts_ més madura i amb l'ecosistema
 - **Ecosistema**: molt madur. Solidity és el llenguatge més documentat. Hi ha biblioteques específiques per a sistemes de votació (OpenZeppelin, etc.).
 - **Primitives ZK**: Ethereum EIP-196/197 suporten la corba BN254 i verificació de Groth16. El suport tècnic existeix, però el cost en _gas_ de la verificació és prohibitiu a L1.
 
-### Opció C — Ethereum L2
+### Opció C - Ethereum L2
 
 Les solucions de capa 2 (Arbitrum, Optimism, zkSync, Polygon zkEVM) executen transaccions fora de la cadena principal i periòdicament publiquen proves o _batches_ a Ethereum L1.
 
@@ -61,7 +61,7 @@ Les solucions de capa 2 (Arbitrum, Optimism, zkSync, Polygon zkEVM) executen tra
 - **Complexitat afegida**: un equip petit que ha d'aprendre l'ecosistema Ethereum, _Solidity_, i a més les particularitats d'una L2 específica, acumula molta superfície d'aprenentatge per a un MVP de 3 mesos.
 - **_Bridging_ i liquiditat**: les eines per finançar comptes de votants a una L2 específica afegeixen fricció operativa.
 
-### Opció D — Polkadot
+### Opció D - Polkadot
 
 Polkadot és un ecosistema de _relay chain_ amb _parachains_ especialitzades.
 
@@ -71,7 +71,7 @@ Polkadot és un ecosistema de _relay chain_ amb _parachains_ especialitzades.
 - **Finalitat de bloc**: comparable a Ethereum (~12-60 segons per a finalitat definitiva al _relay chain_).
 - **Suport per a zk-SNARKs**: inexistent de manera nativa. Caldria implementar-lo al nivell de la _parachain_, cosa que escapa clarament de l'abast d'un MVP.
 
-### Opció E — Solana
+### Opció E - Solana
 
 Solana és una _blockchain_ L1 de molt alt rendiment.
 
