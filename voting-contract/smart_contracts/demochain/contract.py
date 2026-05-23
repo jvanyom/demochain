@@ -1,7 +1,7 @@
-from algopy import ARC4Contract, Global, arc4, BoxMap, Txn, urange, op, UInt64
+from algopy import ARC4Contract, BoxMap, Global, Txn, UInt64, arc4, op, urange
 from algopy.arc4 import abimethod
 
-# Max addresses per batch call: 8 box slots − 1 reserved for `organizations`
+# Max addresses per batch call: 8 box slots - 1 reserved for `organizations`
 MAX_CENSUS_BATCH = 7
 
 MIN_START_ADVANCE = 3 * 24 * 60 * 60  # 3 dies en segons
@@ -72,11 +72,7 @@ class Demochain(ARC4Contract):
         self.org_id += 1
 
         self.organizations[self.org_id] = Organization(
-            arc4.UInt64(self.org_id),
-            name,
-            description,
-            arc4.Address(Txn.sender),
-            arc4.UInt32(1)
+            arc4.UInt64(self.org_id), name, description, arc4.Address(Txn.sender), arc4.UInt32(1)
         )
 
         self.organization_names[name] = arc4.Bool(True)
@@ -169,8 +165,7 @@ class Demochain(ARC4Contract):
         proposal = self.proposals[proposal_id.as_uint64()].copy()
         self._assert_in_census(proposal.org_id)
 
-        start_date = proposal.starting_date.as_uint64()
-        # assert Global.latest_timestamp + MIN_START_ADVANCE < start_date, "proposal.ended"
+        # assert Global.latest_timestamp + MIN_START_ADVANCE < proposal.starting_date.as_uint64(), "proposal.ended"
 
         ballot_id = BallotId(arc4.Address(Txn.sender), proposal_id)
         assert ballot_id not in self.approval_ballots, "proposal.already-voted"
@@ -246,13 +241,13 @@ class Demochain(ARC4Contract):
         assert CensusId(org_id, arc4.Address(Txn.sender)) in self.census, "org.census.unauthorized"
 
     def _is_blank(self, s: arc4.String) -> bool:
-      b = s.native.bytes
+        b = s.native.bytes
 
-      if b.length == 0:
+        if b.length == 0:
+            return True
+
+        for i in urange(b.length):
+            if op.getbyte(b, i) != 32:
+                return False
+
         return True
-
-      for i in urange(b.length):
-        if op.getbyte(b, i) != 32:
-          return False
-
-      return True

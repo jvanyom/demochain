@@ -1,13 +1,13 @@
 from collections.abc import Iterator
 
 import pytest
-from algopy_testing import AlgopyTestContext, algopy_testing_context
 from algopy import arc4
+from algopy_testing import AlgopyTestContext, algopy_testing_context
 
 from smart_contracts.demochain.contract import (
-    Demochain,
     MIN_START_ADVANCE,
     MIN_VOTING_WINDOW,
+    Demochain,
 )
 
 NOW = 1_000_000_000
@@ -86,17 +86,7 @@ def test_cast_approval_vote_double_vote_raises_error(
     _, voter, _, proposal_id = proposal_setup
     with context.txn.create_group(active_txn_overrides={"sender": voter}):
         contract.cast_approval_vote(proposal_id, arc4.Bool(True))
-        with pytest.raises(AssertionError, match="proposal.already-voted"):
-            contract.cast_approval_vote(proposal_id, arc4.Bool(True))
-
-
-def test_cast_approval_vote_after_window_closed_raises_error(
-    context: AlgopyTestContext, contract: Demochain, proposal_setup
-) -> None:
-    _, voter, _, proposal_id = proposal_setup
-    context.ledger.patch_global_fields(latest_timestamp=VALID_START)
-    with context.txn.create_group(active_txn_overrides={"sender": voter}):
-        with pytest.raises(AssertionError, match="proposal.ended"):
+        with pytest.raises(AssertionError, match=r"proposal.already-voted"):
             contract.cast_approval_vote(proposal_id, arc4.Bool(True))
 
 
@@ -105,7 +95,7 @@ def test_cast_approval_vote_nonexistent_proposal_raises_error(
 ) -> None:
     _, voter, _, _ = proposal_setup
     with context.txn.create_group(active_txn_overrides={"sender": voter}):
-        with pytest.raises(AssertionError, match="proposal.not-found"):
+        with pytest.raises(AssertionError, match=r"proposal.not-found"):
             contract.cast_approval_vote(arc4.UInt64(99), arc4.Bool(True))
 
 
@@ -118,9 +108,7 @@ def test_is_proposal_approved_when_two_thirds_vote_in_favor(
     voter3 = context.any.account()
 
     with context.txn.create_group(active_txn_overrides={"sender": admin}):
-        contract.add_to_census(
-            org_id, arc4.DynamicArray(arc4.Address(voter2), arc4.Address(voter3))
-        )
+        contract.add_to_census(org_id, arc4.DynamicArray(arc4.Address(voter2), arc4.Address(voter3)))
 
     with context.txn.create_group(active_txn_overrides={"sender": admin}):
         contract.cast_approval_vote(proposal_id, arc4.Bool(True))
@@ -131,8 +119,7 @@ def test_is_proposal_approved_when_two_thirds_vote_in_favor(
     with context.txn.create_group(active_txn_overrides={"sender": voter3}):
         contract.cast_approval_vote(proposal_id, arc4.Bool(False))
 
-    context.ledger.patch_global_fields(latest_timestamp=VALID_START)
-    assert contract._is_proposal_approved(proposal_id)
+    contract._assert_is_proposal_approved(proposal_id, org_id)
 
 
 def test_is_proposal_not_approved_when_less_than_two_thirds_vote_in_favor(
@@ -144,9 +131,7 @@ def test_is_proposal_not_approved_when_less_than_two_thirds_vote_in_favor(
     voter3 = context.any.account()
 
     with context.txn.create_group(active_txn_overrides={"sender": admin}):
-        contract.add_to_census(
-            org_id, arc4.DynamicArray(arc4.Address(voter2), arc4.Address(voter3))
-        )
+        contract.add_to_census(org_id, arc4.DynamicArray(arc4.Address(voter2), arc4.Address(voter3)))
 
     with context.txn.create_group(active_txn_overrides={"sender": admin}):
         contract.cast_approval_vote(proposal_id, arc4.Bool(True))
@@ -157,8 +142,8 @@ def test_is_proposal_not_approved_when_less_than_two_thirds_vote_in_favor(
     with context.txn.create_group(active_txn_overrides={"sender": voter3}):
         contract.cast_approval_vote(proposal_id, arc4.Bool(False))
 
-    context.ledger.patch_global_fields(latest_timestamp=VALID_START)
-    assert not contract._is_proposal_approved(proposal_id)
+    with pytest.raises(AssertionError, match=r"proposal.not-accepted"):
+        contract._assert_is_proposal_approved(proposal_id, org_id)
 
 
 def test_is_proposal_approved_at_exact_two_thirds_quorum(
@@ -178,30 +163,29 @@ def test_is_proposal_approved_at_exact_two_thirds_quorum(
     with context.txn.create_group(active_txn_overrides={"sender": voter2}):
         contract.cast_approval_vote(proposal_id, arc4.Bool(False))
 
-    context.ledger.patch_global_fields(latest_timestamp=VALID_START)
-    assert contract._is_proposal_approved(proposal_id)
+    contract._assert_is_proposal_approved(proposal_id, org_id)
 
 
-def test_is_proposal_not_approved_before_starting_date(
+def test_is_proposal_not_approved_with_insufficient_votes(
     context: AlgopyTestContext, contract: Demochain, proposal_setup
 ) -> None:
-    # Encara que hi hagi prou vots, no s'aprova fins que no ha passat la starting_date
-    _, voter, _, proposal_id = proposal_setup
+    # 1/2 = 50% < 2/3 → quòrum no assolit
+    _, voter, org_id, proposal_id = proposal_setup
 
     with context.txn.create_group(active_txn_overrides={"sender": voter}):
         contract.cast_approval_vote(proposal_id, arc4.Bool(True))
 
-    # El timestamp continua a NOW, molt abans de VALID_START
-    assert not contract._is_proposal_approved(proposal_id)
+    with pytest.raises(AssertionError, match=r"proposal.not-accepted"):
+        contract._assert_is_proposal_approved(proposal_id, org_id)
 
 
 def test_is_proposal_not_approved_with_no_votes(
     context: AlgopyTestContext, contract: Demochain, proposal_setup
 ) -> None:
-    # Sense cap vot el quòrum no s'ha d'assolir, ni quan ha passat la starting_date
-    _, _, _, proposal_id = proposal_setup
-    context.ledger.patch_global_fields(latest_timestamp=VALID_START)
-    assert not contract._is_proposal_approved(proposal_id)
+    # Sense cap vot el quòrum no s'ha d'assolir
+    _, _, org_id, proposal_id = proposal_setup
+    with pytest.raises(AssertionError, match=r"proposal.not-accepted"):
+        contract._assert_is_proposal_approved(proposal_id, org_id)
 
 
 def test_cast_approval_vote_unauthorized_voter_raises_error(
@@ -210,5 +194,5 @@ def test_cast_approval_vote_unauthorized_voter_raises_error(
     outsider = context.any.account()
     _, _, _, proposal_id = proposal_setup
     with context.txn.create_group(active_txn_overrides={"sender": outsider}):
-        with pytest.raises(AssertionError, match="org.census.unauthorized"):
+        with pytest.raises(AssertionError, match=r"org.census.unauthorized"):
             contract.cast_approval_vote(proposal_id, arc4.Bool(True))

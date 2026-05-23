@@ -1,10 +1,10 @@
 from collections.abc import Iterator
 
 import pytest
-from algopy_testing import AlgopyTestContext, algopy_testing_context
 from algopy import arc4
+from algopy_testing import AlgopyTestContext, algopy_testing_context
 
-from smart_contracts.demochain.contract import Demochain, MAX_CENSUS_BATCH
+from smart_contracts.demochain.contract import MAX_CENSUS_BATCH, Demochain
 
 
 @pytest.fixture()
@@ -21,9 +21,7 @@ def contract(context: AlgopyTestContext) -> Demochain:
 # --- Criteris d'acceptació ---
 
 
-def test_add_to_census_stores_addresses_in_box(
-    context: AlgopyTestContext, contract: Demochain
-) -> None:
+def test_add_to_census_stores_addresses_in_box(context: AlgopyTestContext, contract: Demochain) -> None:
     admin = context.any.account()
     member = context.any.account()
 
@@ -35,9 +33,7 @@ def test_add_to_census_stores_addresses_in_box(
     assert key in contract.census
 
 
-def test_add_to_census_non_admin_raises_unauthorized(
-    context: AlgopyTestContext, contract: Demochain
-) -> None:
+def test_add_to_census_non_admin_raises_unauthorized(context: AlgopyTestContext, contract: Demochain) -> None:
     admin = context.any.account()
     intruder = context.any.account()
     member = context.any.account()
@@ -46,13 +42,11 @@ def test_add_to_census_non_admin_raises_unauthorized(
         org_id = contract.create_organization(arc4.String("Org"), arc4.String("Description"))
 
     with context.txn.create_group(active_txn_overrides={"sender": intruder}):
-        with pytest.raises(AssertionError, match="org.unauthorized"):
+        with pytest.raises(AssertionError, match=r"org.unauthorized"):
             contract.add_to_census(org_id, arc4.DynamicArray(arc4.Address(member)))
 
 
-def test_add_to_census_duplicate_address_raises_error(
-    context: AlgopyTestContext, contract: Demochain
-) -> None:
+def test_add_to_census_duplicate_address_raises_error(context: AlgopyTestContext, contract: Demochain) -> None:
     admin = context.any.account()
     member = context.any.account()
     addresses = arc4.DynamicArray(arc4.Address(member))
@@ -61,26 +55,22 @@ def test_add_to_census_duplicate_address_raises_error(
         org_id = contract.create_organization(arc4.String("Org"), arc4.String("Description"))
         contract.add_to_census(org_id, addresses)
 
-        with pytest.raises(AssertionError, match="org.census.duplicated-address"):
+        with pytest.raises(AssertionError, match=r"org.census.duplicated-address"):
             contract.add_to_census(org_id, addresses)
 
 
-def test_add_to_census_zero_address_raises_invalid(
-    context: AlgopyTestContext, contract: Demochain
-) -> None:
+def test_add_to_census_zero_address_raises_invalid(context: AlgopyTestContext, contract: Demochain) -> None:
     admin = context.any.account()
     zero_address = arc4.Address(b"\x00" * 32)
 
     with context.txn.create_group(active_txn_overrides={"sender": admin}):
         org_id = contract.create_organization(arc4.String("Org"), arc4.String("Description"))
 
-        with pytest.raises(AssertionError, match="org.census.invalid-address"):
+        with pytest.raises(AssertionError, match=r"org.census.invalid-address"):
             contract.add_to_census(org_id, arc4.DynamicArray(zero_address))
 
 
-def test_remove_from_census_removes_address_from_box(
-    context: AlgopyTestContext, contract: Demochain
-) -> None:
+def test_remove_from_census_removes_address_from_box(context: AlgopyTestContext, contract: Demochain) -> None:
     admin = context.any.account()
     member = context.any.account()
     addresses = arc4.DynamicArray(arc4.Address(member))
@@ -94,9 +84,7 @@ def test_remove_from_census_removes_address_from_box(
     assert key not in contract.census
 
 
-def test_remove_from_census_non_admin_raises_unauthorized(
-    context: AlgopyTestContext, contract: Demochain
-) -> None:
+def test_remove_from_census_non_admin_raises_unauthorized(context: AlgopyTestContext, contract: Demochain) -> None:
     admin = context.any.account()
     intruder = context.any.account()
     member = context.any.account()
@@ -107,40 +95,32 @@ def test_remove_from_census_non_admin_raises_unauthorized(
         contract.add_to_census(org_id, addresses)
 
     with context.txn.create_group(active_txn_overrides={"sender": intruder}):
-        with pytest.raises(AssertionError, match="org.unauthorized"):
+        with pytest.raises(AssertionError, match=r"org.unauthorized"):
             contract.remove_from_census(org_id, addresses)
 
 
-def test_remove_from_census_non_registered_raises_error(
-    context: AlgopyTestContext, contract: Demochain
-) -> None:
+def test_remove_from_census_non_registered_raises_error(context: AlgopyTestContext, contract: Demochain) -> None:
     admin = context.any.account()
     non_member = context.any.account()
 
     with context.txn.create_group(active_txn_overrides={"sender": admin}):
         org_id = contract.create_organization(arc4.String("Org"), arc4.String("Description"))
 
-        with pytest.raises(AssertionError, match="org.census.non-registered-address"):
-            contract.remove_from_census(
-                org_id, arc4.DynamicArray(arc4.Address(non_member))
-            )
+        with pytest.raises(AssertionError, match=r"org.census.non-registered-address"):
+            contract.remove_from_census(org_id, arc4.DynamicArray(arc4.Address(non_member)))
 
 
-def test_remove_from_census_organizer_cannot_be_removed(
-    context: AlgopyTestContext, contract: Demochain
-) -> None:
+def test_remove_from_census_organizer_cannot_be_removed(context: AlgopyTestContext, contract: Demochain) -> None:
     admin = context.any.account()
 
     with context.txn.create_group(active_txn_overrides={"sender": admin}):
         org_id = contract.create_organization(arc4.String("Org"), arc4.String("Description"))
 
-        with pytest.raises(AssertionError, match="org.census.cannot-remove-organizer"):
+        with pytest.raises(AssertionError, match=r"org.census.cannot-remove-organizer"):
             contract.remove_from_census(org_id, arc4.DynamicArray(arc4.Address(admin)))
 
 
-def test_is_in_census_returns_true_for_member(
-    context: AlgopyTestContext, contract: Demochain
-) -> None:
+def test_is_in_census_returns_true_for_member(context: AlgopyTestContext, contract: Demochain) -> None:
     admin = context.any.account()
     member = context.any.account()
 
@@ -151,9 +131,7 @@ def test_is_in_census_returns_true_for_member(
     assert contract.is_in_census(org_id, arc4.Address(member)) == arc4.Bool(True)
 
 
-def test_is_in_census_returns_false_for_non_member(
-    context: AlgopyTestContext, contract: Demochain
-) -> None:
+def test_is_in_census_returns_false_for_non_member(context: AlgopyTestContext, contract: Demochain) -> None:
     admin = context.any.account()
     non_member = context.any.account()
 
@@ -163,42 +141,32 @@ def test_is_in_census_returns_false_for_non_member(
     assert contract.is_in_census(org_id, arc4.Address(non_member)) == arc4.Bool(False)
 
 
-def test_add_to_census_exceeding_batch_limit_raises_error(
-    context: AlgopyTestContext, contract: Demochain
-) -> None:
+def test_add_to_census_exceeding_batch_limit_raises_error(context: AlgopyTestContext, contract: Demochain) -> None:
     admin = context.any.account()
-    addresses = arc4.DynamicArray(
-        *[arc4.Address(context.any.account()) for _ in range(MAX_CENSUS_BATCH + 1)]
-    )
+    addresses = arc4.DynamicArray(*[arc4.Address(context.any.account()) for _ in range(MAX_CENSUS_BATCH + 1)])
 
     with context.txn.create_group(active_txn_overrides={"sender": admin}):
         org_id = contract.create_organization(arc4.String("Org"), arc4.String("Description"))
 
-        with pytest.raises(AssertionError, match="org.census.too-many-addresses"):
+        with pytest.raises(AssertionError, match=r"org.census.too-many-addresses"):
             contract.add_to_census(org_id, addresses)
 
 
-def test_remove_from_census_exceeding_batch_limit_raises_error(
-    context: AlgopyTestContext, contract: Demochain
-) -> None:
+def test_remove_from_census_exceeding_batch_limit_raises_error(context: AlgopyTestContext, contract: Demochain) -> None:
     admin = context.any.account()
     members = [context.any.account() for _ in range(MAX_CENSUS_BATCH)]
     addresses = arc4.DynamicArray(*[arc4.Address(m) for m in members])
-    too_many = arc4.DynamicArray(
-        *[arc4.Address(m) for m in members], arc4.Address(context.any.account())
-    )
+    too_many = arc4.DynamicArray(*[arc4.Address(m) for m in members], arc4.Address(context.any.account()))
 
     with context.txn.create_group(active_txn_overrides={"sender": admin}):
         org_id = contract.create_organization(arc4.String("Org"), arc4.String("Description"))
         contract.add_to_census(org_id, addresses)
 
-        with pytest.raises(AssertionError, match="org.census.too-many-addresses"):
+        with pytest.raises(AssertionError, match=r"org.census.too-many-addresses"):
             contract.remove_from_census(org_id, too_many)
 
 
-def test_add_to_census_increments_member_count(
-    context: AlgopyTestContext, contract: Demochain
-) -> None:
+def test_add_to_census_increments_member_count(context: AlgopyTestContext, contract: Demochain) -> None:
     admin = context.any.account()
     member1 = context.any.account()
     member2 = context.any.account()
@@ -209,16 +177,12 @@ def test_add_to_census_increments_member_count(
     assert contract.organizations[org_id].member_count == arc4.UInt32(1)
 
     with context.txn.create_group(active_txn_overrides={"sender": admin}):
-        contract.add_to_census(
-            org_id, arc4.DynamicArray(arc4.Address(member1), arc4.Address(member2))
-        )
+        contract.add_to_census(org_id, arc4.DynamicArray(arc4.Address(member1), arc4.Address(member2)))
 
     assert contract.organizations[org_id].member_count == arc4.UInt32(3)
 
 
-def test_remove_from_census_decrements_member_count(
-    context: AlgopyTestContext, contract: Demochain
-) -> None:
+def test_remove_from_census_decrements_member_count(context: AlgopyTestContext, contract: Demochain) -> None:
     admin = context.any.account()
     member = context.any.account()
 

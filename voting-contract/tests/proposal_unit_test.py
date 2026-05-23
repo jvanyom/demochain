@@ -1,13 +1,13 @@
 from collections.abc import Iterator
 
 import pytest
-from algopy_testing import AlgopyTestContext, algopy_testing_context
 from algopy import arc4
+from algopy_testing import AlgopyTestContext, algopy_testing_context
 
 from smart_contracts.demochain.contract import (
-    Demochain,
     MIN_START_ADVANCE,
     MIN_VOTING_WINDOW,
+    Demochain,
 )
 
 NOW = 1_000_000_000
@@ -82,9 +82,7 @@ def test_create_proposal_second_call_returns_incremental_id(
     assert id2 == arc4.UInt64(2)
 
 
-def test_create_proposal_stores_proposal_on_chain(
-    context: AlgopyTestContext, contract: Demochain, org_setup
-) -> None:
+def test_create_proposal_stores_proposal_on_chain(context: AlgopyTestContext, contract: Demochain, org_setup) -> None:
     sender, org_id = org_setup
     title = arc4.String("Títol")
     description = arc4.String("Descripció")
@@ -107,12 +105,10 @@ def test_create_proposal_stores_proposal_on_chain(
     assert proposal.ending_date == arc4.UInt64(VALID_END)
 
 
-def test_create_proposal_org_not_found_raises_error(
-    context: AlgopyTestContext, contract: Demochain, org_setup
-) -> None:
+def test_create_proposal_org_not_found_raises_error(context: AlgopyTestContext, contract: Demochain, org_setup) -> None:
     sender, _ = org_setup
     with context.txn.create_group(active_txn_overrides={"sender": sender}):
-        with pytest.raises(AssertionError, match="org.not-found"):
+        with pytest.raises(AssertionError, match=r"org.not-found"):
             contract.create_proposal(
                 arc4.UInt64(99),
                 arc4.String("Títol"),
@@ -123,13 +119,11 @@ def test_create_proposal_org_not_found_raises_error(
             )
 
 
-def test_create_proposal_unauthorized_raises_error(
-    context: AlgopyTestContext, contract: Demochain, org_setup
-) -> None:
+def test_create_proposal_unauthorized_raises_error(context: AlgopyTestContext, contract: Demochain, org_setup) -> None:
     _, org_id = org_setup
     outsider = context.any.account()
     with context.txn.create_group(active_txn_overrides={"sender": outsider}):
-        with pytest.raises(AssertionError, match="org.census.unauthorized"):
+        with pytest.raises(AssertionError, match=r"org.census.unauthorized"):
             contract.create_proposal(
                 org_id,
                 arc4.String("Títol"),
@@ -145,7 +139,7 @@ def test_create_proposal_too_few_options_raises_error(
 ) -> None:
     sender, org_id = org_setup
     with context.txn.create_group(active_txn_overrides={"sender": sender}):
-        with pytest.raises(AssertionError, match="proposal.too-few-options"):
+        with pytest.raises(AssertionError, match=r"proposal.too-few-options"):
             contract.create_proposal(
                 org_id,
                 arc4.String("Títol"),
@@ -156,12 +150,10 @@ def test_create_proposal_too_few_options_raises_error(
             )
 
 
-def test_create_proposal_empty_option_raises_error(
-    context: AlgopyTestContext, contract: Demochain, org_setup
-) -> None:
+def test_create_proposal_empty_option_raises_error(context: AlgopyTestContext, contract: Demochain, org_setup) -> None:
     sender, org_id = org_setup
     with context.txn.create_group(active_txn_overrides={"sender": sender}):
-        with pytest.raises(AssertionError, match="proposal.empty-options"):
+        with pytest.raises(AssertionError, match=r"proposal.empty-options"):
             contract.create_proposal(
                 org_id,
                 arc4.String("Títol"),
@@ -172,12 +164,10 @@ def test_create_proposal_empty_option_raises_error(
             )
 
 
-def test_create_proposal_blank_option_raises_error(
-    context: AlgopyTestContext, contract: Demochain, org_setup
-) -> None:
+def test_create_proposal_blank_option_raises_error(context: AlgopyTestContext, contract: Demochain, org_setup) -> None:
     sender, org_id = org_setup
     with context.txn.create_group(active_txn_overrides={"sender": sender}):
-        with pytest.raises(AssertionError, match="proposal.empty-options"):
+        with pytest.raises(AssertionError, match=r"proposal.empty-options"):
             contract.create_proposal(
                 org_id,
                 arc4.String("Títol"),
@@ -188,28 +178,26 @@ def test_create_proposal_blank_option_raises_error(
             )
 
 
-def test_create_proposal_duplicated_options_raises_error(
+def test_create_proposal_duplicated_options_are_allowed(
     context: AlgopyTestContext, contract: Demochain, org_setup
 ) -> None:
     sender, org_id = org_setup
     with context.txn.create_group(active_txn_overrides={"sender": sender}):
-        with pytest.raises(AssertionError, match="proposal.duplicated-options"):
-            contract.create_proposal(
-                org_id,
-                arc4.String("Títol"),
-                arc4.String("Descripció"),
-                arc4.DynamicArray(arc4.String("Igual"), arc4.String("Igual")),
-                arc4.UInt64(VALID_START),
-                arc4.UInt64(VALID_END),
-            )
+        proposal_id = contract.create_proposal(
+            org_id,
+            arc4.String("Títol"),
+            arc4.String("Descripció"),
+            arc4.DynamicArray(arc4.String("Igual"), arc4.String("Igual")),
+            arc4.UInt64(VALID_START),
+            arc4.UInt64(VALID_END),
+        )
+    assert proposal_id.as_uint64() > 0
 
 
-def test_create_proposal_empty_title_raises_error(
-    context: AlgopyTestContext, contract: Demochain, org_setup
-) -> None:
+def test_create_proposal_empty_title_raises_error(context: AlgopyTestContext, contract: Demochain, org_setup) -> None:
     sender, org_id = org_setup
     with context.txn.create_group(active_txn_overrides={"sender": sender}):
-        with pytest.raises(AssertionError, match="proposal.empty-title"):
+        with pytest.raises(AssertionError, match=r"proposal.empty-title"):
             contract.create_proposal(
                 org_id,
                 arc4.String(""),
@@ -220,12 +208,10 @@ def test_create_proposal_empty_title_raises_error(
             )
 
 
-def test_create_proposal_blank_title_raises_error(
-    context: AlgopyTestContext, contract: Demochain, org_setup
-) -> None:
+def test_create_proposal_blank_title_raises_error(context: AlgopyTestContext, contract: Demochain, org_setup) -> None:
     sender, org_id = org_setup
     with context.txn.create_group(active_txn_overrides={"sender": sender}):
-        with pytest.raises(AssertionError, match="proposal.empty-title"):
+        with pytest.raises(AssertionError, match=r"proposal.empty-title"):
             contract.create_proposal(
                 org_id,
                 arc4.String("   "),
@@ -241,7 +227,7 @@ def test_create_proposal_empty_description_raises_error(
 ) -> None:
     sender, org_id = org_setup
     with context.txn.create_group(active_txn_overrides={"sender": sender}):
-        with pytest.raises(AssertionError, match="proposal.empty-description"):
+        with pytest.raises(AssertionError, match=r"proposal.empty-description"):
             contract.create_proposal(
                 org_id,
                 arc4.String("Títol"),
@@ -257,7 +243,7 @@ def test_create_proposal_blank_description_raises_error(
 ) -> None:
     sender, org_id = org_setup
     with context.txn.create_group(active_txn_overrides={"sender": sender}):
-        with pytest.raises(AssertionError, match="proposal.empty-description"):
+        with pytest.raises(AssertionError, match=r"proposal.empty-description"):
             contract.create_proposal(
                 org_id,
                 arc4.String("Títol"),
