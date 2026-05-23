@@ -7,9 +7,7 @@ logger = logging.getLogger(__name__)
 
 
 def deploy() -> None:
-    from smart_contracts.artifacts.demochain.Demochain_client import (
-        DemochainFactory
-    )
+    from smart_contracts.artifacts.demochain.Demochain_client import DemochainFactory
 
     algorand = algokit_utils.AlgorandClient.from_environment()
     if os.getenv("DEPLOYER_MNEMONIC"):
