@@ -1,373 +1,373 @@
 {
-  "brand": "Demochain",
-  "nav": {
-    "home": "Home",
-    "proposals": "Proposals",
-    "new-proposal": "New proposal",
-    "how-it-works": "How it works"
-  },
-  "common": {
-    "title": "Title",
-    "search": "Search",
-    "cancel": "Cancel",
-    "confirm": "Confirm",
-    "approve": "Approve",
-    "reject": "Reject",
-    "back": "Back",
-    "previous": "Previous",
-    "next": "Next",
-    "waiting": "Waiting...",
-    "retry": "Retry",
-    "description": "Description",
-    "census": "Census",
-    "addresses": "Addresses",
-    "active_one": "Active",
-    "active_other": "Active",
-    "no-matches": "No matches",
-    "connect": "Connect",
-    "disconnect": "Disconnect",
-    "step": "Step {{current}} of {{total}}",
-    "completeness": "{{current}} of {{total}}",
-    "proposals": "Proposals",
-    "org": "Organization",
-    "basics": "Basics",
-    "dates": "Dates",
-    "options": "Options",
-    "review": "Review",
-    "summary": "Summary",
-    "member": "Member",
-    "members": "Members",
-    "organizer": "Organizer",
-    "hide": "Hide",
-    "add": "Add",
-    "remove": "Remove",
-    "replace-all": "Replace all",
-    "progress": "Processing {{done}} / {{total}}",
-    "start-date": "Start date",
-    "end-date": "End Date",
-    "copied": "Copied!",
-    "copy": "Copy",
-    "position": "Position {{n}}",
-    "live": "Live"
-  },
-  "theme": {
-    "toggle": "Toggle theme",
-    "light": "Light",
-    "dark": "Dark"
-  },
-  "language": {
-    "label": "Language",
-    "en": "English",
-    "es": "Spanish",
-    "ca": "Catalan"
-  },
-  "landing": {
-    "hero": {
-      "eyebrow": "Ranked-choice voting for everyone",
-      "title1": "Rank.",
-      "title2": "Decide.",
-      "title3": "Verify.",
-      "subtitle": "Propose elections, rank your choices, and trust the outcome. An open platform where the community decides what matters — and how it's measured.",
-      "cta-primary": "Explore proposals",
-      "cta-secondary": "How it works",
-      "counter": "voices cast today"
-    },
-    "how": {
-      "title": "Three steps, one clear outcome",
-      "steps": [
-        {
-          "title": "Propose",
-          "text": "Anyone can propose an election — a title, dates, and the options voters will rank."
-        },
-        {
-          "title": "Approve",
-          "text": "The community votes to approve it. Reach two thirds and it goes live on the dates you set."
-        },
-        {
-          "title": "Rank & decide",
-          "text": "Voters drag options into their order of preference. The winner reflects what the majority actually wants."
-        }
-      ]
-    },
-    "features": {
-      "title": "Built around voters, not vendors",
-      "items": [
-        {
-          "title": "Preferential voting",
-          "text": "Rank as many options as you like. No wasted votes, no spoiler effect."
-        },
-        {
-          "title": "Community gated",
-          "text": "Proposals only become elections with two-thirds community approval — no single admin decides."
-        },
-        {
-          "title": "Open results",
-          "text": "Every ranking is public. See the winner, the runners-up, and how close the race actually was."
-        },
-        {
-          "title": "Independently verifiable",
-          "text": "Each ballot gets a receipt anyone can check — anchored on Algorand so the tally cannot be rewritten."
-        },
-        {
-          "title": "Multi-lingual",
-          "text": "Vote in English, Spanish, or Catalan. Your voice, your language."
-        },
-        {
-          "title": "Accessible by design",
-          "text": "Keyboard-friendly ranking, dark mode, reduced-motion support."
-        }
-      ]
-    },
-    "cta": {
-      "title": "Ready to let people decide?",
-      "text": "Draft a proposal in minutes. The community takes it from there.",
-      "button": "Start a proposal"
-    },
-    "footer": {
-      "tagline": "Democratic tools, openly built.",
-      "rights": "All rights reserved."
-    }
-  },
-  "org": {
-    "title": "Organizations",
-    "subtitle": "Governance bodies you belong to, or that you manage.",
-    "my-organizations": "My organizations",
-    "my-organizations-empty": "You are not a member of any organization yet.",
-    "other-organizations": "Other organizations",
-    "other-organizations-hint": "Visible to everyone - voting requires membership.",
-    "valid-addresses": "{{count}} valid addresses",
-    "census-hint": "Add the initial members of this organization. You can modify the census later.",
-    "submit": "Create organization",
-    "new": "Create organization",
-    "empty": "No organizations yet.",
-    "members": "{{count}} members",
-    "not-found": "Organization not found.",
-    "not-member": "You are not a member of this organization",
-    "not-member-short": "Non-member",
-    "show-all-members": "See all {{count}} members",
-    "proposals": {
-      "empty": "No proposals yet.",
-      "search-placeholder": "Search by title…"
-    },
-    "census": {
-      "manage": "Manage census",
-      "manage-hint": "Modify the members of \"{{name}}\".",
-      "empty": "There are no members yet.",
-      "empty-search": "No address matches the search.",
-      "search-placeholder": "Search an address…",
-      "match-of": "{{shown}} of {{total}}",
-      "added": "{{count}} addresses added",
-      "add": "Add {{count}} addresses",
-      "removed": "{{count}} addresses removed",
-      "replaced": "Census replaced with {{count}} addresses",
-      "replace": "Replace with {{count}} addresses",
-      "remove-hint": "Select addresses to remove from the census.",
-      "selected-count_one": "{{count}} selected",
-      "selected-count_other": "{{count}} selected",
-      "remove-selected": "Remove {{count}} selected"
-    },
-    "dev-addresses": {
-      "load": "Load dev addresses",
-      "hint": "Load the addresses declared to dev-accounts.json"
-    },
-    "fields": {
-      "name": "Organization name",
-      "name-placeholder": "Neighbourhood Assembly",
-      "description-placeholder": "What does this organization govern?",
-      "addresses-placeholder": "Paste addresses, one per line"
-    },
-    "steps": {
-      "basics": "Basics",
-      "census": "Census",
-      "review": "Review"
-    },
-    "csv": {
-      "upload": "Upload CSV",
-      "hint": "First column = address, header row skipped automatically.",
-      "skipped-rows": "invalid rows skipped"
-    },
-    "confirmed": {
-      "title": "Organization created!",
-      "text": "\"{{name}}\" has been registered.",
-      "cta": "View organizations"
-    },
-    "replace-confirm": {
-      "title": "Replace the entire census?",
-      "text": "This will replace {{current}} current members of \"{{name}}\" with {{next}} new addresses. This action cannot be undone."
-    }
-  },
-  "proposal": {
-    "subtitle": "Browse elections proposed by the community.",
-    "new": {
-      "title": "Start a new proposal",
-      "short-title": "New proposal",
-      "submit": "Publish proposal",
-      "org": {
-        "hint": "Select the organization this proposal will belong to.",
-        "empty": "You are not a member of any organization.",
-        "browse": "Browse organizations"
-      },
-      "fields": {
-        "title": "Proposal title",
-        "title-placeholder": "e.g. Community grant recipient 2026",
-        "description": "Description",
-        "description-placeholder": "Describe what voters will be deciding…",
-        "start": "Voting starts",
-        "start-placeholder": "Select starting",
-        "end": "Voting ends",
-        "end-placeholder": "Select ending",
-        "option": "Option {{n}}",
-        "option-placeholder": "Describe an option",
-        "add-option": "Add option",
-        "remove-option": "Remove"
-      },
-      "confirmed": {
-        "title": "Proposal published!",
-        "cta": "See the proposal"
-      }
-    },
-    "approval": {
-      "cta": "Vote to approve",
-      "label": "Community approval",
-      "threshold": "2/3 needed",
-      "reached": "The threshold has been reached!"
-    },
-    "filters": {
-      "status": "Status",
-      "active": "Active",
-      "all": "All",
-      "pending": "Pending approval",
-      "approved": "Approved",
-      "voting": "Voting open",
-      "closed": "Closed",
-      "no-match": "No proposal matches the filter."
-    },
-    "status": {
-      "pending": "Pending approval",
-      "rejected": "Rejected",
-      "approved": "Approved",
-      "voting": "Voting open",
-      "closed": "Closed"
-    },
-    "card": {
-      "options": "{{count}} option",
-      "options_other": "{{count}} options",
-      "runs": "Runs {{start}} → {{end}}"
-    },
-    "not-found": "Proposal not found.",
-    "options": "Options to rank",
-    "waiting-to-start": "Voting opens soon"
-  },
-  "vote": {
-    "title": "Rank your preferences",
-    "subtitle": "Drag options into your order of preference. Your first choice goes on top.",
-    "already-voted": "You've already voted in this election",
-    "already-voted-hint": "Each address can only vote once. Your ballot has been recorded on-chain.",
-    "keyboard-hint": "Tip: use Tab to focus an option, then Space + arrow keys to move it.",
-    "submit": "Submit your vote",
-    "cta": "Cast your ranked vote",
-    "confirmed": "Vote confirmed",
-    "ranking": "Your ranking",
-    "results": {
-      "title": "Results",
-      "cta": "See results",
-      "voters": "{{count}} voter",
-      "voters_other": "{{count}} voters",
-      "voters-label": "voters so far",
-      "in-progress": "Election in progress",
-      "in-progress-hint": "Results will be available once the election closes. Ranked ballots are stored on-chain."
-    },
-    "opens-on": "The election window opens on {{date}}. Come back then to cast your vote.",
-    "closed-notice": "This election has concluded."
-  },
-  "results": {
-    "verify": {
-      "title": "Verify your vote",
-      "text": "Enter a voter's Algorand address to independently verify that a ballot was cast and counted.",
-      "placeholder": "Voter's Algorand address",
-      "button": "Verify",
-      "success": "This ballot was recorded and counted.",
-      "ranked": "Preference order",
-      "not-voted": "No ballot was found for this address in this election."
-    },
-    "no-votes": "No votes were cast in this election.",
-    "winner": "Winner",
-    "first-choice-votes": "First-choice votes",
-    "first-choice-short": "times as 1st choice",
-    "ranking": "Full ranking",
-    "schulze-note": "Winner determined by the Schulze method: the option that wins the most head-to-head matchups.",
-    "pairwise-wins": "{{wins}}/{{total}} head-to-head wins",
-    "pairwise-section": "Head-to-head matchups",
-    "pairwise-explanation": "Each matchup shows how many voters preferred each option when compared directly. The option with more preferences wins the matchup.",
-    "pairwise-legend-tie": "Tie",
-    "pairwise-matchup-win": "{{name}} wins",
-    "first-choice-secondary": "First choice: {{count}} votes",
-    "stat-duels": "{{wins}}/{{total}} matchups",
-    "stat-first-choice": "{{count}} 1st choice",
-    "stat-total-prefs": "{{count}} total prefs",
-    "tie-title": "Tie",
-    "tie-description": "No option won a direct majority over all others. Every option faced balanced competition in head-to-head matchups.",
-    "tie-suggestion": "Consider creating a new proposal to vote again with more options or candidates.",
-    "tie-new-proposal": "Create new proposal",
-    "all-options": "All options"
-  },
-  "wallet": {
-    "txid": "Transaction ID",
-    "connect": "Connect the wallet to continue",
-    "connect-notice": "Connect your wallet to see which proposals you can vote on.",
-    "choose": "Choose wallet",
-    "switch": "Switch account",
-    "address-filter-placeholder": "Filter by address…",
-    "waiting-signature": "Waiting signature…",
-    "view-on-lora": "View on Lora",
-    "close-receipt": "Close receipt"
-  },
-  "errors": {
-    "unknown": "Unknown error",
-    "network": "Network error. Please try again.",
-    "contract": "Unknown error originating from the blockchain",
-    "proposal": {
-      "empty-title": "Title cannot be empty",
-      "empty-description": "Description cannot be empty",
-      "starting-too-soon": "Start date must be at least 3 days in the future",
-      "small-voting-window": "Voting window must last at least 1 day",
-      "too-few-options": "At least 2 options are required",
-      "empty-options": "No option can be empty",
-      "empty-option": "No option can be empty",
-      "duplicated-options": "There are duplicate options",
-      "duplicated-option": "There are duplicate options",
-      "already-voted": "You have already voted on this proposal",
-      "not-approved": "The proposal has not been approved",
-      "not-accepted": "The proposal has not been accepted",
-      "not-found": "Proposal not found"
-    },
-    "org": {
-      "required": "An organization ID must be specified",
-      "empty-name": "Name cannot be empty",
-      "empty-description": "Description cannot be empty",
-      "invalid-address": "One or more addresses are invalid",
-      "already-exists": "An organization with this name already exists",
-      "not-found": "Organization not found",
-      "not-in-census": "You are not a member of this organization",
-      "unauthorized": "You do not have permission to perform this action",
-      "census": {
-        "too-many-addresses": "Too many addresses for a single batch",
-        "invalid-address": "One or more addresses are invalid",
-        "duplicated-address": "Address is already in the census",
-        "cannot-remove-organizer": "The organizer cannot be removed from the census",
-        "non-registered-address": "Address is not in the census",
-        "unauthorized": "You are not a member of this organization",
-        "empty": "The census is empty"
-      }
-    },
-    "election": {
-      "already-voted": "You have already voted in this election",
-      "missing-options": "The preference order is incorrect",
-      "not-started": "Voting has not started yet",
-      "ended": "The voting period has ended"
-    },
-    "wallet": {
-      "rejected": "You cancelled the signature"
-    }
-  }
+	"brand": "Demochain",
+	"nav": {
+		"home": "Home",
+		"proposals": "Proposals",
+		"new-proposal": "New proposal",
+		"how-it-works": "How it works"
+	},
+	"common": {
+		"title": "Title",
+		"search": "Search",
+		"cancel": "Cancel",
+		"confirm": "Confirm",
+		"approve": "Approve",
+		"reject": "Reject",
+		"back": "Back",
+		"previous": "Previous",
+		"next": "Next",
+		"waiting": "Waiting...",
+		"retry": "Retry",
+		"description": "Description",
+		"census": "Census",
+		"addresses": "Addresses",
+		"active_one": "Active",
+		"active_other": "Active",
+		"no-matches": "No matches",
+		"connect": "Connect",
+		"disconnect": "Disconnect",
+		"step": "Step {{current}} of {{total}}",
+		"completeness": "{{current}} of {{total}}",
+		"proposals": "Proposals",
+		"org": "Organization",
+		"basics": "Basics",
+		"dates": "Dates",
+		"options": "Options",
+		"review": "Review",
+		"summary": "Summary",
+		"member": "Member",
+		"members": "Members",
+		"organizer": "Organizer",
+		"hide": "Hide",
+		"add": "Add",
+		"remove": "Remove",
+		"replace-all": "Replace all",
+		"progress": "Processing {{done}} / {{total}}",
+		"start-date": "Start date",
+		"end-date": "End Date",
+		"copied": "Copied!",
+		"copy": "Copy",
+		"position": "Position {{position}}",
+		"live": "Live"
+	},
+	"theme": {
+		"toggle": "Toggle theme",
+		"light": "Light",
+		"dark": "Dark"
+	},
+	"language": {
+		"label": "Language",
+		"en": "English",
+		"es": "Español",
+		"ca": "Català"
+	},
+	"landing": {
+		"hero": {
+			"eyebrow": "Ranked-choice voting for everyone",
+			"title1": "Rank.",
+			"title2": "Decide.",
+			"title3": "Verify.",
+			"subtitle": "Propose elections, rank your choices, and trust the outcome. An open platform where the community decides what matters - and how it's measured.",
+			"cta-primary": "Explore proposals",
+			"cta-secondary": "How it works",
+			"counter": "voices cast today"
+		},
+		"how": {
+			"title": "Three steps, one clear outcome",
+			"steps": [
+				{
+					"title": "Propose",
+					"text": "Anyone can propose an election - a title, dates, and the options voters will rank."
+				},
+				{
+					"title": "Approve",
+					"text": "The community votes to approve it. Reach two thirds and it goes live on the dates you set."
+				},
+				{
+					"title": "Rank & decide",
+					"text": "Voters drag options into their order of preference. The winner reflects what the majority actually wants."
+				}
+			]
+		},
+		"features": {
+			"title": "Built around voters, not vendors",
+			"items": [
+				{
+					"title": "Preferential voting",
+					"text": "Rank as many options as you like. No wasted votes, no spoiler effect."
+				},
+				{
+					"title": "Community gated",
+					"text": "Proposals only become elections with two-thirds community approval - no single admin decides."
+				},
+				{
+					"title": "Open results",
+					"text": "Every ranking is public. See the winner, the runners-up, and how close the race actually was."
+				},
+				{
+					"title": "Independently verifiable",
+					"text": "Each ballot gets a receipt anyone can check - anchored on Algorand so the tally cannot be rewritten."
+				},
+				{
+					"title": "Multi-lingual",
+					"text": "Vote in English, Spanish, or Catalan. Your voice, your language."
+				},
+				{
+					"title": "Accessible by design",
+					"text": "Keyboard-friendly ranking, dark mode, reduced-motion support."
+				}
+			]
+		},
+		"cta": {
+			"title": "Ready to let people decide?",
+			"text": "Draft a proposal in minutes. The community takes it from there.",
+			"button": "Start a proposal"
+		},
+		"footer": {
+			"tagline": "Democratic tools, openly built.",
+			"rights": "All rights reserved."
+		}
+	},
+	"org": {
+		"title": "Organizations",
+		"subtitle": "Governance bodies you belong to, or that you manage.",
+		"my-organizations": "My organizations",
+		"my-organizations-empty": "You are not a member of any organization yet.",
+		"other-organizations": "Other organizations",
+		"other-organizations-hint": "Visible to everyone - voting requires membership.",
+		"valid-addresses": "{{count}} valid addresses",
+		"census-hint": "Add the initial members of this organization. You can modify the census later.",
+		"submit": "Create organization",
+		"new": "Create organization",
+		"empty": "No organizations yet.",
+		"members": "{{count}} members",
+		"not-found": "Organization not found.",
+		"not-member": "You are not a member of this organization",
+		"not-member-short": "Non-member",
+		"show-all-members": "See all {{count}} members",
+		"proposals": {
+			"empty": "No proposals yet.",
+			"search-placeholder": "Search by title…"
+		},
+		"census": {
+			"manage": "Manage census",
+			"manage-hint": "Modify the members of \"{{name}}\".",
+			"empty": "There are no members yet.",
+			"empty-search": "No address matches the search.",
+			"search-placeholder": "Search an address…",
+			"match-of": "{{shown}} of {{total}}",
+			"added": "{{count}} addresses added",
+			"add": "Add {{count}} addresses",
+			"removed": "{{count}} addresses removed",
+			"replaced": "Census replaced with {{count}} addresses",
+			"replace": "Replace with {{count}} addresses",
+			"remove-hint": "Select addresses to remove from the census.",
+			"selected-count_one": "{{count}} selected",
+			"selected-count_other": "{{count}} selected",
+			"remove-selected": "Remove {{count}} selected"
+		},
+		"dev-addresses": {
+			"load": "Load dev addresses",
+			"hint": "Load the addresses declared to dev-accounts.json"
+		},
+		"fields": {
+			"name": "Organization name",
+			"name-placeholder": "Neighbourhood Assembly",
+			"description-placeholder": "What does this organization govern?",
+			"addresses-placeholder": "Paste addresses, one per line"
+		},
+		"steps": {
+			"basics": "Basics",
+			"census": "Census",
+			"review": "Review"
+		},
+		"csv": {
+			"upload": "Upload CSV",
+			"hint": "First column = address, header row skipped automatically.",
+			"skipped-rows": "invalid rows skipped"
+		},
+		"confirmed": {
+			"title": "Organization created!",
+			"text": "\"{{name}}\" has been registered.",
+			"cta": "View organizations"
+		},
+		"replace-confirm": {
+			"title": "Replace the entire census?",
+			"text": "This will replace {{current}} current members of \"{{name}}\" with {{next}} new addresses. This action cannot be undone."
+		}
+	},
+	"proposal": {
+		"subtitle": "Browse elections proposed by the community.",
+		"new": {
+			"title": "Start a new proposal",
+			"short-title": "New proposal",
+			"submit": "Publish proposal",
+			"org": {
+				"hint": "Select the organization this proposal will belong to.",
+				"empty": "You are not a member of any organization.",
+				"browse": "Browse organizations"
+			},
+			"fields": {
+				"title": "Proposal title",
+				"title-placeholder": "e.g. Community grant recipient 2026",
+				"description": "Description",
+				"description-placeholder": "Describe what voters will be deciding…",
+				"start": "Voting starts",
+				"start-placeholder": "Select starting",
+				"end": "Voting ends",
+				"end-placeholder": "Select ending",
+				"option": "Option {{n}}",
+				"option-placeholder": "Describe an option",
+				"add-option": "Add option",
+				"remove-option": "Remove"
+			},
+			"confirmed": {
+				"title": "Proposal published!",
+				"cta": "See the proposal"
+			}
+		},
+		"approval": {
+			"cta": "Vote to approve",
+			"label": "Community approval",
+			"threshold": "2/3 needed",
+			"reached": "The threshold has been reached!"
+		},
+		"filters": {
+			"status": "Status",
+			"active": "Active",
+			"all": "All",
+			"pending": "Pending approval",
+			"approved": "Approved",
+			"voting": "Voting open",
+			"closed": "Closed",
+			"no-match": "No proposal matches the filter."
+		},
+		"status": {
+			"pending": "Pending approval",
+			"rejected": "Rejected",
+			"approved": "Approved",
+			"voting": "Voting open",
+			"closed": "Closed"
+		},
+		"card": {
+			"options": "{{count}} option",
+			"options_other": "{{count}} options",
+			"runs": "Runs {{start}} → {{end}}"
+		},
+		"not-found": "Proposal not found.",
+		"options": "Options to rank",
+		"waiting-to-start": "Voting opens soon"
+	},
+	"vote": {
+		"title": "Rank your preferences",
+		"subtitle": "Drag options into your order of preference. Your first choice goes on top.",
+		"already-voted": "You've already voted in this election",
+		"already-voted-hint": "Each address can only vote once. Your ballot has been recorded on-chain.",
+		"keyboard-hint": "Tip: use Tab to focus an option, then Space + arrow keys to move it.",
+		"submit": "Submit your vote",
+		"cta": "Cast your ranked vote",
+		"confirmed": "Vote confirmed",
+		"ranking": "Your ranking",
+		"results": {
+			"title": "Results",
+			"cta": "See results",
+			"voters": "{{count}} voter",
+			"voters_other": "{{count}} voters",
+			"voters-label": "voters so far",
+			"in-progress": "Election in progress",
+			"in-progress-hint": "Results will be available once the election closes. Ranked ballots are stored on-chain."
+		},
+		"opens-on": "The election window opens on {{date}}. Come back then to cast your vote.",
+		"closed-notice": "This election has concluded."
+	},
+	"results": {
+		"verify": {
+			"title": "Verify your vote",
+			"text": "Enter a voter's Algorand address to independently verify that a ballot was cast and counted.",
+			"placeholder": "Voter's Algorand address",
+			"button": "Verify",
+			"success": "This ballot was recorded and counted.",
+			"ranked": "Preference order",
+			"not-voted": "No ballot was found for this address in this election."
+		},
+		"no-votes": "No votes were cast in this election.",
+		"winner": "Winner",
+		"first-choice-votes": "First-choice votes",
+		"first-choice-short": "times as 1st choice",
+		"ranking": "Full ranking",
+		"schulze-note": "Winner determined by the Schulze method: the option that wins the most head-to-head matchups.",
+		"pairwise-wins": "{{wins}}/{{total}} head-to-head wins",
+		"pairwise-section": "Head-to-head matchups",
+		"pairwise-explanation": "Each matchup shows how many voters preferred each option when compared directly. The option with more preferences wins the matchup.",
+		"pairwise-legend-tie": "Tie",
+		"pairwise-matchup-win": "{{name}} wins",
+		"first-choice-secondary": "First choice: {{count}} votes",
+		"stat-duels": "{{wins}}/{{total}} matchups",
+		"stat-first-choice": "{{count}} 1st choice",
+		"stat-total-prefs": "{{count}} total prefs",
+		"tie-title": "Tie",
+		"tie-description": "No option won a direct majority over all others. Every option faced balanced competition in head-to-head matchups.",
+		"tie-suggestion": "Consider creating a new proposal to vote again with more options or candidates.",
+		"tie-new-proposal": "Create new proposal",
+		"all-options": "All options"
+	},
+	"wallet": {
+		"txid": "Transaction ID",
+		"connect": "Connect the wallet to continue",
+		"connect-notice": "Connect your wallet to see which proposals you can vote on.",
+		"choose": "Choose wallet",
+		"switch": "Switch account",
+		"address-filter-placeholder": "Filter by address…",
+		"waiting-signature": "Waiting signature…",
+		"view-on-lora": "View on Lora",
+		"close-receipt": "Close receipt"
+	},
+	"errors": {
+		"unknown": "Unknown error",
+		"network": "Network error. Please try again.",
+		"contract": "Unknown error originating from the blockchain",
+		"proposal": {
+			"empty-title": "Title cannot be empty",
+			"empty-description": "Description cannot be empty",
+			"starting-too-soon": "Start date must be at least 3 days in the future",
+			"small-voting-window": "Voting window must last at least 1 day",
+			"too-few-options": "At least 2 options are required",
+			"empty-options": "No option can be empty",
+			"empty-option": "No option can be empty",
+			"duplicated-options": "There are duplicate options",
+			"duplicated-option": "There are duplicate options",
+			"already-voted": "You have already voted on this proposal",
+			"not-approved": "The proposal has not been approved",
+			"not-accepted": "The proposal has not been accepted",
+			"not-found": "Proposal not found"
+		},
+		"org": {
+			"required": "An organization ID must be specified",
+			"empty-name": "Name cannot be empty",
+			"empty-description": "Description cannot be empty",
+			"invalid-address": "One or more addresses are invalid",
+			"already-exists": "An organization with this name already exists",
+			"not-found": "Organization not found",
+			"not-in-census": "You are not a member of this organization",
+			"unauthorized": "You do not have permission to perform this action",
+			"census": {
+				"too-many-addresses": "Too many addresses for a single batch",
+				"invalid-address": "One or more addresses are invalid",
+				"duplicated-address": "Address is already in the census",
+				"cannot-remove-organizer": "The organizer cannot be removed from the census",
+				"non-registered-address": "Address is not in the census",
+				"unauthorized": "You are not a member of this organization",
+				"empty": "The census is empty"
+			}
+		},
+		"election": {
+			"already-voted": "You have already voted in this election",
+			"missing-options": "The preference order is incorrect",
+			"not-started": "Voting has not started yet",
+			"ended": "The voting period has ended"
+		},
+		"wallet": {
+			"rejected": "You cancelled the signature"
+		}
+	}
 }

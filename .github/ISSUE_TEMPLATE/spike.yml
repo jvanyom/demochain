@@ -8,7 +8,7 @@ body:
   - type: markdown
     attributes:
       value: |
-        Un spike és una investigació limitada en el temps. El lliurable és un document escrit (normalment un ADR sota `/docs/decisions/`) — **no** codi d'implementació. Si el spike supera el temps assignat, atura't i tria la millor opció disponible.
+        Un spike és una investigació limitada en el temps. El lliurable és un document escrit (normalment un ADR sota `/docs/decisions/`) - **no** codi d'implementació. Si el spike supera el temps assignat, atura't i tria la millor opció disponible.
 
   - type: input
     id: spike-id

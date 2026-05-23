@@ -1,11 +1,11 @@
-export * from './address';
+export * from './address'
 
-export * from './organization';
-export * from './organizationDraft';
+export * from './organization'
+export * from './organization-draft'
 
-export * from './proposal';
-export * from './proposalState';
-export * from './proposalDraft';
-export * from './proposalFilter';
+export * from './proposal'
+export * from './proposal-state'
+export * from './proposal-draft'
+export * from './proposal-filter'
 
-export * from './electionResults';
+export * from './election-results'

@@ -1,15 +1,16 @@
-import type { ReactNode } from 'react';
-import { HowItWorks } from './HowItWorks';
-import { FeatureGrid } from './FeatureGrid';
-import { CTASection } from './CTASection';
+import type { JSX, ReactNode } from 'react'
 
-export function LandingShell({ hero }: { hero: ReactNode }) {
-  return (
-    <>
-      {hero}
-      <HowItWorks />
-      <FeatureGrid />
-      <CTASection />
-    </>
-  );
+import { CTASection } from './CTASection'
+import { FeatureGrid } from './FeatureGrid'
+import { HowItWorks } from './HowItWorks'
+
+export function LandingShell({ hero }: { hero: ReactNode }): JSX.Element {
+	return (
+		<>
+			{hero}
+			<HowItWorks />
+			<FeatureGrid />
+			<CTASection />
+		</>
+	)
 }

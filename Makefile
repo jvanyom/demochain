@@ -12,15 +12,15 @@ fmt: fmt-contract fmt-client
 	@echo "✅ Formatat completat"
 
 lint-contract:
-	ruff check contract/ scripts/
-	ruff format --check contract/ scripts/
+	ruff check voting-contract/
+	ruff format --check voting-contract/
 
 fmt-contract:
-	ruff check --fix contract/ scripts/
-	ruff format contract/ scripts/
+	ruff check --fix voting-contract/
+	ruff format voting-contract/
 
 lint-client:
-	@if [ -d "client" ]; then cd client && bun x biome ci --no-errors-on-unmatched; else echo "⚠️  client/ no trobat"; fi
+	@if [ -d "client" ]; then cd client && bunx oxlint --no-error-on-unmatched-pattern . && bunx oxfmt --check .; else echo "⚠️  client/ no trobat"; fi
 
 fmt-client:
-	@if [ -d "client" ]; then cd client && bun x biome check --write --no-errors-on-unmatched; else echo "⚠️  client/ no trobat"; fi
+	@if [ -d "client" ]; then cd client && bunx oxfmt .; else echo "⚠️  client/ no trobat"; fi

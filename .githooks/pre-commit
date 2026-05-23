@@ -1,16 +1,16 @@
 #!/bin/bash
 
-# Runs ruff on staged Python files (contract/, scripts/)
-# Runs Biome on staged TS/JS files (client/)
+# Runs ruff on staged Python files (voting-contract/)
+# Runs oxlint + oxfmt on staged TS/JS files (client/)
 
 failed=0
 
-# --- Python (contract/ and scripts/) ---
+# --- Python (voting-contract/) ---
 staged_py=$(git diff --cached --name-only --diff-filter=ACM | grep '\.py$')
 
 if [[ -n "$staged_py" ]]; then
   if ! command -v ruff &>/dev/null; then
-    echo "⚠️  ruff no trobat — saltant la comprovació de Python."
+    echo "⚠️  ruff no trobat - saltant la comprovació de Python."
     echo "   Instal·la'l amb: pip install ruff"
   else
     echo "🔍 Comprovant Python amb ruff..."
@@ -30,19 +30,18 @@ staged_ts=$(git diff --cached --name-only --diff-filter=ACM | grep -E '\.(ts|tsx
 
 if [[ -n "$staged_ts" ]]; then
   if [[ ! -d "client" ]]; then
-    echo "⚠️  Directori client/ no trobat — saltant la comprovació de TypeScript."
-  elif ! (cd client && bun x biome --version &>/dev/null 2>&1); then
-    echo "⚠️  Biome no trobat — saltant la comprovació de TypeScript."
-    echo "   Instal·la'l amb: cd client && bun add --dev @biomejs/biome"
+    echo "⚠️  Directori client/ no trobat - saltant la comprovació de TypeScript."
+  elif ! (cd client && bunx oxlint --version &>/dev/null 2>&1); then
+    echo "⚠️  oxlint no trobat - saltant la comprovació de TypeScript."
+    echo "   Instal·la'l amb: cd client && bun install"
   else
-    echo "🔍 Comprovant TypeScript amb Biome..."
-    # Biome needs paths relative to client/
+    echo "🔍 Comprovant TypeScript amb oxlint + oxfmt..."
     ts_files_rel=$(echo "$staged_ts" | sed 's|^client/||' | grep -v '^scripts/')
     if [[ -n "$ts_files_rel" ]]; then
-      (cd client && echo "$ts_files_rel" | xargs bun x biome check --write --no-errors-on-unmatched 2>/dev/null)
+      (cd client && echo "$ts_files_rel" | xargs bunx oxfmt 2>/dev/null)
       echo "$staged_ts" | xargs git add
-      if ! (cd client && echo "$ts_files_rel" | xargs bun x biome check --no-errors-on-unmatched --quiet 2>/dev/null); then
-        echo "❌ Biome ha trobat errors que no s'han pogut corregir automàticament."
+      if ! (cd client && echo "$ts_files_rel" | xargs bunx oxlint --quiet 2>/dev/null); then
+        echo "❌ oxlint ha trobat errors que no s'han pogut corregir automàticament."
         echo "   Executa 'make fmt-client' per veure els detalls."
         failed=1
       fi
