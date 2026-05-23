@@ -1,14 +1,14 @@
 from collections.abc import Iterator
 
 import pytest
-from algopy_testing import AlgopyTestContext, algopy_testing_context
 from algopy import arc4
+from algopy_testing import AlgopyTestContext, algopy_testing_context
 
 from smart_contracts.demochain.contract import (
-    Demochain,
-    BallotId,
     MIN_START_ADVANCE,
     MIN_VOTING_WINDOW,
+    BallotId,
+    Demochain,
 )
 
 NOW = 1_000_000_000
@@ -50,8 +50,10 @@ def approved_setup(context: AlgopyTestContext, contract: Demochain):
             arc4.UInt64(VALID_END),
         )
 
-    # admin vota a favor: 1/1 = 100% >= 2/3 → quòrum assolit
+    # admin i voter voten a favor: 2/2 = 100% >= 2/3 → quòrum assolit
     with context.txn.create_group(active_txn_overrides={"sender": admin}):
+        contract.cast_approval_vote(proposal_id, arc4.Bool(True))
+    with context.txn.create_group(active_txn_overrides={"sender": voter}):
         contract.cast_approval_vote(proposal_id, arc4.Bool(True))
 
     return admin, voter, org_id, proposal_id
@@ -68,9 +70,7 @@ def election_setup(context: AlgopyTestContext, approved_setup):
 # --- Tests dels criteris d'acceptació ---
 
 
-def test_cast_election_vote_saves_ballot(
-    context: AlgopyTestContext, contract: Demochain, election_setup
-) -> None:
+def test_cast_election_vote_saves_ballot(context: AlgopyTestContext, contract: Demochain, election_setup) -> None:
     _, voter, _, proposal_id = election_setup
     ballot = arc4.DynamicArray(arc4.UInt8(0), arc4.UInt8(1), arc4.UInt8(2))
 
@@ -94,7 +94,7 @@ def test_cast_election_vote_revote_raises_error(
     with context.txn.create_group(active_txn_overrides={"sender": voter}):
         contract.cast_election_vote(proposal_id, first_ballot)
     with context.txn.create_group(active_txn_overrides={"sender": voter}):
-        with pytest.raises(AssertionError, match="election.already-voted"):
+        with pytest.raises(AssertionError, match=r"election.already-voted"):
             contract.cast_election_vote(proposal_id, second_ballot)
 
 
@@ -104,7 +104,7 @@ def test_cast_election_vote_nonexistent_proposal_raises_error(
     _, voter, _, _ = election_setup
     ballot = arc4.DynamicArray(arc4.UInt8(0), arc4.UInt8(1), arc4.UInt8(2))
     with context.txn.create_group(active_txn_overrides={"sender": voter}):
-        with pytest.raises(AssertionError, match="proposal.not-found"):
+        with pytest.raises(AssertionError, match=r"proposal.not-found"):
             contract.cast_election_vote(arc4.UInt64(99), ballot)
 
 
@@ -115,7 +115,7 @@ def test_cast_election_vote_before_window_raises_error(
     _, voter, _, proposal_id = approved_setup
     ballot = arc4.DynamicArray(arc4.UInt8(0), arc4.UInt8(1), arc4.UInt8(2))
     with context.txn.create_group(active_txn_overrides={"sender": voter}):
-        with pytest.raises(AssertionError, match="election.not-started"):
+        with pytest.raises(AssertionError, match=r"election.not-started"):
             contract.cast_election_vote(proposal_id, ballot)
 
 
@@ -126,13 +126,11 @@ def test_cast_election_vote_after_window_raises_error(
     context.ledger.patch_global_fields(latest_timestamp=VALID_END + 1)
     ballot = arc4.DynamicArray(arc4.UInt8(0), arc4.UInt8(1), arc4.UInt8(2))
     with context.txn.create_group(active_txn_overrides={"sender": voter}):
-        with pytest.raises(AssertionError, match="election.ended"):
+        with pytest.raises(AssertionError, match=r"election.ended"):
             contract.cast_election_vote(proposal_id, ballot)
 
 
-def test_cast_election_vote_proposal_not_approved_raises_error(
-    context: AlgopyTestContext, contract: Demochain
-) -> None:
+def test_cast_election_vote_proposal_not_approved_raises_error(context: AlgopyTestContext, contract: Demochain) -> None:
     # 1 a favor, 1 en contra → 50% < 75% → quòrum no assolit
     admin = context.any.account()
     voter1 = context.any.account()
@@ -141,9 +139,7 @@ def test_cast_election_vote_proposal_not_approved_raises_error(
     with context.txn.create_group(active_txn_overrides={"sender": admin}):
         org_id = contract.create_organization(arc4.String("Org"), arc4.String("Desc"))
     with context.txn.create_group(active_txn_overrides={"sender": admin}):
-        contract.add_to_census(
-            org_id, arc4.DynamicArray(arc4.Address(voter1), arc4.Address(voter2))
-        )
+        contract.add_to_census(org_id, arc4.DynamicArray(arc4.Address(voter1), arc4.Address(voter2)))
     with context.txn.create_group(active_txn_overrides={"sender": admin}):
         proposal_id = contract.create_proposal(
             org_id,
@@ -161,7 +157,7 @@ def test_cast_election_vote_proposal_not_approved_raises_error(
     context.ledger.patch_global_fields(latest_timestamp=VALID_START + 1)
     ballot = arc4.DynamicArray(arc4.UInt8(0), arc4.UInt8(1), arc4.UInt8(2))
     with context.txn.create_group(active_txn_overrides={"sender": voter1}):
-        with pytest.raises(AssertionError, match="proposal.not-approved"):
+        with pytest.raises(AssertionError, match=r"proposal.not-accepted"):
             contract.cast_election_vote(proposal_id, ballot)
 
 
@@ -172,7 +168,7 @@ def test_cast_election_vote_unauthorized_voter_raises_error(
     _, _, _, proposal_id = election_setup
     ballot = arc4.DynamicArray(arc4.UInt8(0), arc4.UInt8(1), arc4.UInt8(2))
     with context.txn.create_group(active_txn_overrides={"sender": outsider}):
-        with pytest.raises(AssertionError, match="org.census.unauthorized"):
+        with pytest.raises(AssertionError, match=r"org.census.unauthorized"):
             contract.cast_election_vote(proposal_id, ballot)
 
 
@@ -180,11 +176,9 @@ def test_cast_election_vote_wrong_number_of_options_raises_error(
     context: AlgopyTestContext, contract: Demochain, election_setup
 ) -> None:
     _, voter, _, proposal_id = election_setup
-    short_ballot = arc4.DynamicArray(
-        arc4.UInt8(0), arc4.UInt8(1)
-    )  # 2 opcions en comptes de 3
+    short_ballot = arc4.DynamicArray(arc4.UInt8(0), arc4.UInt8(1))  # 2 opcions en comptes de 3
     with context.txn.create_group(active_txn_overrides={"sender": voter}):
-        with pytest.raises(AssertionError, match="election.missing-options"):
+        with pytest.raises(AssertionError, match=r"election.missing-options"):
             contract.cast_election_vote(proposal_id, short_ballot)
 
 
@@ -192,11 +186,9 @@ def test_cast_election_vote_duplicate_option_raises_error(
     context: AlgopyTestContext, contract: Demochain, election_setup
 ) -> None:
     _, voter, _, proposal_id = election_setup
-    dup_ballot = arc4.DynamicArray(
-        arc4.UInt8(0), arc4.UInt8(1), arc4.UInt8(1)
-    )  # índex 1 repetit
+    dup_ballot = arc4.DynamicArray(arc4.UInt8(0), arc4.UInt8(1), arc4.UInt8(1))  # índex 1 repetit
     with context.txn.create_group(active_txn_overrides={"sender": voter}):
-        with pytest.raises(AssertionError, match="election.missing-options"):
+        with pytest.raises(AssertionError, match=r"election.missing-options"):
             contract.cast_election_vote(proposal_id, dup_ballot)
 
 
@@ -204,9 +196,7 @@ def test_cast_election_vote_out_of_range_option_raises_error(
     context: AlgopyTestContext, contract: Demochain, election_setup
 ) -> None:
     _, voter, _, proposal_id = election_setup
-    oob_ballot = arc4.DynamicArray(
-        arc4.UInt8(0), arc4.UInt8(1), arc4.UInt8(3)
-    )  # índex 3 fora de rang (N=3)
+    oob_ballot = arc4.DynamicArray(arc4.UInt8(0), arc4.UInt8(1), arc4.UInt8(3))  # índex 3 fora de rang (N=3)
     with context.txn.create_group(active_txn_overrides={"sender": voter}):
-        with pytest.raises(AssertionError, match="election.missing-options"):
+        with pytest.raises(AssertionError, match=r"election.missing-options"):
             contract.cast_election_vote(proposal_id, oob_ballot)

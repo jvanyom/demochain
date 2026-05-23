@@ -1,13 +1,14 @@
-import algokit_utils
 import logging
 import os
 
+import algokit_utils
+
 logger = logging.getLogger(__name__)
+
 
 def deploy() -> None:
     from smart_contracts.artifacts.demochain.Demochain_client import (
-        DemochainFactory,
-        DemochainClient,
+        DemochainFactory
     )
 
     algorand = algokit_utils.AlgorandClient.from_environment()
@@ -16,11 +17,9 @@ def deploy() -> None:
     else:
         deployer = algorand.account.localnet_dispenser()
 
-    factory = algorand.client.get_typed_app_factory(
-        DemochainFactory, default_sender=deployer.address
-    )
+    factory = algorand.client.get_typed_app_factory(DemochainFactory, default_sender=deployer.address)
 
-    app_client, create_result = factory.send.create.bare()
+    app_client, _create_result = factory.send.create.bare()
 
     if True:
         algorand.send.payment(
@@ -31,6 +30,4 @@ def deploy() -> None:
             )
         )
 
-    logger.info(
-        f"Deployed {app_client.app_name} with app_id={app_client.app_id} at {app_client.app_address}"
-    )
+    logger.info(f"Deployed {app_client.app_name} with app_id={app_client.app_id} at {app_client.app_address}")
