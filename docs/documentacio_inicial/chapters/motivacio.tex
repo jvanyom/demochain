@@ -1,0 +1,18 @@
+\section{Motivació i problema a resoldre}
+
+Actualment, els sistemes de votació tradicionals tenen un problema de fons evident: \textbf{ens obliguen a confiar cegament en una autoritat central}. 
+Aquesta dependència d'una única entitat actua com a punt únic de fallada i, alhora, genera dubtes raonables sobre la transparència, la seguretat i la integritat de tot el procés electoral. 
+Ens trobam davant de sistemes on hi ha un risc real de manipulació dels resultats o corrupció interna, on \textbf{els errors humans durant el recompte són freqüents}, i on \textbf{resulta pràcticament impossible que un ciutadà o una entitat externa auditi el procés de manera independent}.
+
+D'altra banda, la simple digitalització d'aquest procés mitjançant aplicacions web o servidors convencionals està lluny de solucionar el problema de fons. De fet, el que fa és traslladar-lo a un altre escenari. 
+Les solucions digitals centralitzades obrin la porta a nous \textbf{riscos de ciberseguretat}, com ara vulnerabilitats del codi, atacs informàtics o caigudes de servidors. 
+A això cal sumar-hi la \textbf{desconfiança generalitzada de la població a l'hora de fer tràmits tan crítics per internet} i les \textbf{dificultats d'ús per a persones amb menys habilitats digitals}, la qual cosa suposa una barrera d'entrada important.
+
+Davant d'aquest context, la nostra motivació principal és dissenyar i desenvolupar una alternativa real que elimini la necessitat de confiança cega: \textbf{un sistema de votació electrònica completament descentralitzat basat en tecnologia \hyperlink{def:blockchain}{\textit{blockchain}}}. 
+\textbf{Volem crear un entorn on el problema de la confiança es resolgui directament pel propi disseny de l'arquitectura i del codi}. 
+Aquest sistema ha de ser capaç de garantir una transparència verificable, permetent que qualsevol persona pugui comprovar el bon funcionament de la xarxa sense comprometre l'\hyperlink{def:anonimat}{anonimat} real del votant ni les dades sensibles \cite{su16114387} \cite{nakamoto} \cite{vladucu2023} \cite{berenjestanaki2024}.
+
+La naturalesa de la \hyperlink{def:blockchain}{\textit{blockchain}} ens permet assegurar la integritat criptogràfica del sistema. Una vegada s'emet un vot, la xarxa el protegeix matemàticament i fa que sigui impossible de modificar o eliminar. 
+A més, el disseny mateix de la xarxa evita l'existència de vots dobles i proporciona una \hyperlink{def:auditabilitat}{auditabilitat} independent, ja que podem \hyperlink{def:verificabilitat}{verificar} els resultats de forma totalment lliure i precisa sense haver de demanar permís a cap autoritat.
+
+Finalment, més enllà de la utilitat i l'impacte d'aquesta solució tecnològica a la societat, aquest projecte neix d'una motivació acadèmica. Volem aprofitar aquest projecte per adquirir coneixements pràctics reals sobre el funcionament intern de la tecnologia \hyperlink{def:blockchain}{\textit{blockchain}}, aprendre a programar contractes intel·ligents (\hyperlink{def:smartcontract}{\textit{smart contracts}}) \cite{buterin} i entendre com es dissenyen i es despleguen \hyperlink{def:dapp}{aplicacions descentralitzades} segures.

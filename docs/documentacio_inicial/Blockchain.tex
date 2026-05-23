@@ -1,0 +1,131 @@
+\documentclass[12pt,a4paper]{article}
+
+% -- Codificació i llenguatge
+\usepackage[catalan]{babel}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+
+% -- Layout
+\usepackage{geometry}
+\usepackage[defaultlines=3,all]{nowidow}
+\usepackage{setspace}
+\usepackage{titlesec}
+
+% -- Tipografia i símbols
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+% -- Grafics
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{pgfgantt}
+
+% -- Formatat i taules
+\usepackage{adjustbox}
+\usepackage{array}
+\usepackage{booktabs}
+\usepackage{enumitem}
+\usepackage{float}
+\usepackage{longtable}
+\usepackage{pdflscape}
+\usepackage{tabularx}
+\usepackage{xcolor}
+
+\usepackage[hidelinks]{hyperref}
+
+\geometry{margin=2.5cm}
+\setstretch{1.2}
+\raggedbottom
+
+\begin{document}
+
+\begin{titlepage}
+    \centering
+    % -- LOGOTIPO O IMAGEN (OPCIONAL) --
+    % Descomenta las siguientes líneas y reemplaza 'ruta/a/tu/logo.png' por la ruta de tu imagen.
+    % \vspace*{1cm}
+    % \includegraphics[width=0.4\textwidth]{ruta/a/tu/logo.png} 
+    % \vspace{1.5cm}
+    % -----------------------------------
+
+    % -- TÍTULO DEL PROYECTO --
+    % Uso de \textsf para una fuente sans-serif, más moderna para títulos.
+    {\huge\textbf{Sistema de Votació Electrónica \\ basat en \textit{Blockchain}}\par}
+    
+    % -- LÍNEA DIVISORIA (OPCIONAL) --
+    % \vspace{0.5cm}
+    % \hrulefill
+    % \vspace{0.5cm}
+    % --------------------------------
+
+    \vspace{2.5cm} % Espacio aumentado para separar del título
+
+    % -- OBJETIVO DEL PROYECTO --
+    \begin{center}
+        \textbf{\large Objectiu del projecte}\\[0.5cm]
+        % Usamos \parbox para limitar el ancho del texto y que se vea más centrado y limpio.
+        \parbox{0.85\textwidth}{
+            \centering
+            Desenvolupament d’un sistema de votació electrònica descentralitzat,
+            segur, transparent i auditable, amb finalitat formativa per a l’aprenentatge
+            de la tecnologia \textit{blockchain} i els contractes intel·ligents.
+        }
+    \end{center}
+
+    \vspace{3cm} % Espacio aumentado para separar del objetivo
+
+    % -- EQUIPO DE DESARROLLO --
+    \textbf{\large Equip de desenvolupament}\\[0.8cm]
+    % Aumentamos el tamaño de la fuente para los nombres.
+    {\large
+        Jordi Vanyó \\
+        Dylan Luigi \\
+        Toni Contestí \\
+        Marc Link
+    }
+    
+    \vfill % Empuja la fecha hacia la parte inferior de la página
+
+    % -- FECHA --
+    % Aumentamos el tamaño y la ponemos en negrita.
+    {\large \textbf{Maig 2026}}
+    \vspace*{1cm} % Un pequeño margen inferior
+
+\end{titlepage}
+
+\tableofcontents
+\newpage
+
+\input{chapters/motivacio}
+
+\input{chapters/objectius}
+
+\input{chapters/abast}
+
+\input{chapters/interessats}
+
+\input{chapters/equip}
+
+\input{chapters/planificacio}
+
+\input{chapters/estimacio-cost}
+
+\input{chapters/disseny}
+
+\input{chapters/manera-de-fer-feina}
+
+\input{chapters/us_ia}
+
+\appendix
+
+
+\input{chapters/contribucions}
+
+\input{chapters/glossari}
+
+
+
+\bibliographystyle{abbrv}
+\bibliography{chapters/references}
+
+\end{document}

@@ -1,0 +1,290 @@
+\documentclass[12pt,a4paper]{article}
+
+% --------------------------------------------------
+% PAQUETES
+% --------------------------------------------------
+\usepackage[spanish,catalan]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{setspace}
+\usepackage{titlesec}
+\usepackage{longtable}
+\usepackage{enumitem}
+\usepackage{amssymb}
+
+\geometry{margin=2.5cm}
+\setstretch{1.2}
+
+% --------------------------------------------------
+% DATOS DEL DOCUMENTO
+% --------------------------------------------------
+\title{Sistema de votació electrònica basat en \textit{blockchain}}
+\author{Equip del projecte}
+\date{Curs 2025--2026}
+
+\begin{document}
+
+% --------------------------------------------------
+% PORTADA
+% --------------------------------------------------
+\begin{titlepage}
+    \centering
+    
+    % Logo (opcional)
+    % \includegraphics[width=0.35\textwidth]{logo_universitat.png}\par\vspace{1cm}
+
+    {\scshape\LARGE Universitat de les Illes Balears (UIB)\par}
+    \vspace{0.5cm}
+    {\scshape\Large Laboratori de Projectes de Software\par}
+    \vspace{2cm}
+
+    {\huge\bfseries Sistema de votació electrònica basat en \textit{blockchain}\par}
+    \vspace{0.5cm}
+    {\Large Document de definició inicial del projecte\par}
+    
+    \vspace{2cm}
+
+    \textbf{Objectiu del projecte:}\\
+    Desenvolupament d’un sistema de votació electrònica descentralitzat,
+    segur, transparent i auditable, amb finalitat formativa per a l’aprenentatge
+    de la tecnologia \textit{blockchain} i els contractes intel·ligents.
+    
+    \vfill
+
+    \textbf{Equip de desenvolupament}\par
+    \vspace{0.3cm}
+    \begin{tabular}{l}
+        Marc Link \\
+        Jordi Vanyó \\
+        Dylan Luigi Canning \\
+        Toni Contestí \\
+    \end{tabular}
+
+    \vspace{1.5cm}
+
+    \textbf{Assignatura:} Laboratori de Projectes de Software\\
+    \textbf{Professor:} Raimon Jaume Massanet Vila
+
+    \vspace{1cm}
+
+    \textbf{Data de lliurament:} \\ Maig 2026
+
+    \vfill
+
+    \textit{Curs acadèmic 2025–2026}
+
+\end{titlepage}
+
+
+\tableofcontents
+\newpage
+
+% =========================================================================
+% 1. MOTIVACIÓ, PROBLEMA A RESOLDRE I STAKEHOLDERS
+% =========================================================================
+\section{Motivació, problema a resoldre i \textit{stakeholders}}
+
+Els sistemes democràtics de votació centralitzada presenten mancances estructurals relacionades amb la dependència d'una autoritat central , el risc de manipulació de resultats, i la manca de transparència. D'altra banda, els sistemes digitals actuals pateixen problemes de desconfiança generalitzada i vulnerabilitats crítiques. 
+
+Aquest projecte neix de la necessitat real de proveir institucions, universitats i corporacions d'un mecanisme de votació que sigui inalterable i 100\% auditable de forma independent. El benefici principal és la transformació d'un model basat en la confiança cega en un model matemàticament verificable (trustless) mitjançant contractes intel·ligents.
+
+\subsection{Usuaris interessats (\textit{Stakeholders})}
+A continuació s'identifiquen i classifiquen els \textit{stakeholders} clau, detallant-ne les necessitats i l'impacte esperat del projecte:
+
+\begin{itemize}[leftmargin=*]
+    \item \textbf{Votants (Prioritat Alta)}:
+    \begin{itemize}
+        \item \textit{Necessitats / Interès:} Garantir el seu dret a vot amb anonimat real  i sense complexitats tècniques.
+        \item \textit{Benefici (Qualitatiu/Quantitatiu):} Eliminació total del risc de coacció i reducció a zero del temps de desplaçament físic per emetre el vot.
+    \end{itemize}
+
+    \item \textbf{Organitzadors d'eleccions (Prioritat Alta)}:
+    \begin{itemize}
+        \item \textit{Necessitats / Interès:} Gestionar el cens de forma segura, evitar el doble vot  i obtenir resultats immediats.
+        \item \textit{Benefici (Qualitatiu/Quantitatiu):} Estalvi en costos de personal i logístics i reducció del temps de recompte d'hores a segons.
+    \end{itemize}
+
+    \item \textbf{Auditors Independents (Prioritat Mitjana)}:
+    \begin{itemize}
+        \item \textit{Necessitats / Interès:} Disposar d'eines que permetin validar la integritat del procés electoral sense intermediaris.
+        \item \textit{Benefici (Qualitatiu/Quantitatiu):} Capacitat de verificar matemàticament el 100\% dels vots gràcies a la immutabilitat del registre \textit{blockchain}.
+    \end{itemize}
+
+    \item \textbf{Candidats (Prioritat Mitjana)}:
+    \begin{itemize}
+        \item \textit{Necessitats / Interès:} Tenir garanties d'un procés just, inalterable i amb igualtat de condicions.
+        \item \textit{Benefici (Qualitatiu/Quantitatiu):} Augment de la legitimitat percebuda dels resultats, evitant disputes post-electorals prolongades.
+    \end{itemize}
+\end{itemize}
+
+% =========================================================================
+% 2. ABAST INICIAL DEL PROJECTE
+% =========================================================================
+\section{Abast inicial del projecte}
+
+L'abast del projecte està acotat al desenvolupament d'un Producte Mínim Viable (MVP) per a un entorn controlat. Hi ha una correspondència directa entre les necessitats dels perfils d'usuari i les funcionalitats ofertes, dissenyades de manera realista segons el temps i recursos de l'assignatura.
+
+\subsection{Funcionalitats incloses i valor aportat}
+\begin{enumerate}
+    \item \textbf{Sistema d'Autenticació i Gestió del Cens (per a Organitzadors i Votants):} Consisteix en el registre d'usuaris i emissió de tokens de vot únics. \textit{Valor aportat:} Permet a l'organitzador blindar el cens contra vots il·legítims i garanteix al votant que ningú podrà suplantar la seva identitat digital.
+    \item \textbf{Emissió del vot via Smart Contract (per a Votants):} El registre immutable dels vots a la \textit{blockchain}. \textit{Valor aportat:} Soluciona directament el problema de la manipulació dels resultats , separant la identitat del votant de la seva elecció  per assegurar-ne l'anonimat.
+    \item \textbf{Recompte automàtic i interfície pública (per a Candidats i Auditors):} Visualització de resultats en temps real. \textit{Valor aportat:} Elimina el marge d'error humà en el recompte  i ofereix a candidats i auditors transparència absoluta de forma immediata.
+\end{enumerate}
+
+\subsection{Límits i exclusions del projecte (Fora d'abast)}
+Per assegurar l'alineació amb els terminis acadèmics, s'exclouen expressament per a aquesta primera fase:
+\begin{itemize}
+    \item La integració amb sistemes d'identitat digital governamental (ex. Cl@ve o DNIe).
+    \item El desplegament a la xarxa principal d'Ethereum o qualsevol \textit{blockchain} pública (s'utilitzarà una testnet o xarxa local com Ganache)[cite: 30, 43].
+    \item Sistemes avançats de mitigació d'atacs de denegació de servei (DDoS) a escala comercial.
+\end{itemize}
+
+% =========================================================================
+% 3. MEMBRES DE L'EQUIP I ROLS
+% =========================================================================
+\section{Membres de l'equip i rols}
+
+L'equip de treball està format per quatre membres. S'ha establert una distribució de rols basada en l'experiència, les competències tècniques i la disponibilitat estratègica.
+
+\begin{itemize}[leftmargin=*]
+    \item \textbf{Marc Link} 
+    \begin{itemize}
+        \item \textit{Rols:} Coordinador del projecte (60\%) i Analista Funcional (40\%).
+        \item \textit{Competències i justificació:} Destaca per la seva capacitat organitzativa i visió global de sistemes. L'assignació dual li permet gestionar la documentació i, alhora, traduir els requisits del sistema de votació en històries d'usuari viables.
+        \item \textit{Implicació en aquesta entrega (A1):} Redacció metodològica, justificació de l'estimació de costos i planificació del cronograma inicial.
+    \end{itemize}
+
+    \item \textbf{Jordi Vanyó} 
+    \begin{itemize}
+        \item \textit{Rols:} Desenvolupador \textit{blockchain} (100\%).
+        \item \textit{Competències i justificació:} Posseeix forts coneixements de criptografia asimètrica i interès especial per Solidity. La seva dedicació exclusiva es justifica per l'alta complexitat inherent al disseny de contractes intel·ligents segurs que evitin vulnerabilitats i garanteixin l'anonimat.
+        \item \textit{Implicació en aquesta entrega (A1):} Definició tècnica de l'arquitectura descentralitzada, identificació de riscos \textit{blockchain}  i selecció del \textit{stack} Web3 (Hardhat, Ganache).
+    \end{itemize}
+
+    \item \textbf{Dylan Luigi Canning} 
+    \begin{itemize}
+        \item \textit{Rols:} Desenvolupador Backend (70\%) i Especialista de Ciberseguretat (30\%).
+        \item \textit{Competències i justificació:} Experiència en creació d'API REST (Node.js)  i protocols d'autenticació (JWT). La dedicació en ciberseguretat és vital per gestionar de manera robusta el \textit{hashing} de credencials de vot.
+        \item \textit{Implicació en aquesta entrega (A1):} Investigació tecnològica per a la gestió segura de bases de dades fora de la cadena (PostgreSQL/SQLite)  i definició del model de dades d'usuaris.
+    \end{itemize}
+
+    \item \textbf{Toni Contestí} 
+    \begin{itemize}
+        \item \textit{Rols:} Desenvolupador Frontend (80\%) i Responsable de QA / Proves (20\%).
+        \item \textit{Competències i justificació:} Gran domini de React i Tailwind CSS. És idoni per traduir l'arquitectura del sistema en una interfície moderna i accessible. L'assignació de QA garanteix que el codi final compleixi els criteris d'acceptació abans del seu desplegament.
+        \item \textit{Implicació en aquesta entrega (A1):} Estructuració del document, maquetació LaTeX, glossari de termes i anàlisi d'usabilitat per a l'emissió del vot web.
+    \end{itemize}
+\end{itemize}
+
+% =========================================================================
+% 4. PLANIFICACIÓ INICIAL DEL PROJECTE (PER SETMANES)
+% =========================================================================
+\section{Planificació inicial del projecte}
+
+La planificació s'estructura en 14 setmanes, integrant explícitament la data límit d'entrega del 25 de maig[cite: 35, 96]. S'ha aplicat una estratègia de paral·lelització de tasques per optimitzar el temps i s'ha identificat el camí crític per evitar colls d'ampolla estructurals.
+
+\begin{longtable}{|p{2cm}|p{3.5cm}|p{7cm}|p{2.5cm}|}
+\hline
+\textbf{Setmanes} & \textbf{Fase} & \textbf{Descripció i Tasques Clau} & \textbf{Dependències} \\ \hline
+\endfirsthead
+\hline
+\textbf{Setmanes} & \textbf{Fase} & \textbf{Descripció i Tasques Clau} & \textbf{Dependències} \\ \hline
+\endhead
+\hline
+\endfoot
+\hline
+\endlastfoot
+
+\textbf{1 -- 2} (Mitjans feb.) & \textbf{Iniciació i Requisits} & Definició de l'abast i viabilitat tècnica. Estudi de l'estat de l'art (Solidity, Ethereum). Preparació document A1. & Cap. \\ \hline
+
+\textbf{3 -- 4} & \textbf{Disseny del Sistema} & Disseny de l'arquitectura Backend-\textit{blockchain}. Creació de \textit{wireframes} UI. & Requisits tancats. \\ \hline
+
+\textbf{5 -- 8} & \textbf{Desenvolupament Core (Camí Crític)} & \textit{[Paral·lelització massiva]:}\newline \textbf{Rol BC:} Codificació d'Smart Contracts (gestió vot/cens).\newline \textbf{Rol Backend:} Desenvolupament API, emissió tokens i integració JWT. & Disseny finalitzat. \\ \hline
+
+\textbf{9 -- 11} & \textbf{Front-End i Connexió Web3} & \textbf{Rol Front:} Creació d'interfície interactiva (React). \textbf{Rols BC/Back:} Connexió mitjançant Ethers.js i proves de crides als contractes intel·ligents. & API i Contracts operatius. \\ \hline
+
+\textbf{12 -- 13} (Fins mig maig) & \textbf{Integració i Proves (QA)} & Desplegament a Ganache (Testnet local). Validació de l'anonimat i execució de proves unitàries. Correcció de \textit{bugs} i colls d'ampolla. & Integració tancada. \\ \hline
+
+\textbf{14} (Fins al 25 de maig) & \textbf{Tancament i Entrega} & \textbf{Data límit: 25 de maig}. Elaboració de documentació tècnica, memòria, i gravació de l'evidència pràctica (Demo). & Proves superades. \\ \hline
+\end{longtable}
+
+\textit{Nota sobre el camí crític:} La lògica del Smart Contract requereix l'aprovació completa a la Setmana 8. Qualsevol retard en aquesta fase endarreriria el desenvolupament del Frontend Web3. Per mitigar-ho, s'utilitzaran \textit{mocks} de dades perquè el Frontend avanci mentre el contracte assoleix la fase de producció.
+
+% =========================================================================
+% 5. ESTIMACIÓ DEL COST DEL PROJECTE
+% =========================================================================
+\section{Estimació del cost del projecte}
+
+L'estimació de costos personals és rigorosa, madura i totalment alineada amb la planificació. S'ha realitzat aplicant una metodologia ascendent (\textit{Bottom-up / Work Breakdown Structure - WBS}) recolzada en referències històriques de projectes acadèmics previs de naturalesa distribuïda.
+
+\subsection{Paràmetres d'estimació}
+Per obtenir valors homogenis i realistes, s'han definit els següents paràmetres:
+\begin{itemize}
+    \item \textbf{Dedicació setmanal mitjana:} 4,5 hores per membre del projecte de forma autònoma.
+    \item \textbf{Temps no productiu (Gestió i Coordinació):} S'aplica un factor compensatori del +10\% a cada fase per assumir la sobrecàrrega de reunions i sincronització d'equip.
+    \item \textbf{Buffer de risc per complexitat:} Atès que la tecnologia \textit{blockchain} té una elevada corba d'aprenentatge, les tasques d'Smart Contracts s'han multiplicat per un factor de complexitat tècnica d'1.2 (un +20\% de marge).
+\end{itemize}
+
+\subsection{Distribució de l'esforç estimat (Hores$\cdot$persona)}
+\begin{center}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{|l|c|c|c|c||c|}
+\hline
+\textbf{Categoria / Fase WBS} & \textbf{Coor.} & \textbf{BC Dev} & \textbf{Back Dev} & \textbf{Front Dev} & \textbf{Total (h)} \\ \hline
+1. Gestió, requeriments i disseny & 12 & 6 & 6 & 8 & \textbf{32} \\ \hline
+2. Smart Contracts (inc. buffer risc) & 0 & 42 & 0 & 0 & \textbf{42} \\ \hline
+3. Desenvolupament Backend (API) & 0 & 0 & 36 & 0 & \textbf{36} \\ \hline
+4. Desenvolupament Frontend (UI/Web3) & 0 & 0 & 4 & 34 & \textbf{38} \\ \hline
+5. Integració de sistemes & 6 & 6 & 8 & 6 & \textbf{26} \\ \hline
+6. Control de qualitat (QA) i testing & 0 & 4 & 4 & 14 & \textbf{22} \\ \hline
+7. Documentació i demo (Entrega 25 maig)& 15 & 5 & 5 & 5 & \textbf{30} \\ \hline
+\hline
+\textbf{Subtotal tasques netes} & \textbf{33} & \textbf{63} & \textbf{63} & \textbf{67} & \textbf{226} \\ \hline
+\textbf{Temps no productiu/Sinc. (+10\%)} & 4 & 6 & 6 & 7 & \textbf{23} \\ \hline
+\hline
+\textbf{TOTAL GENERAL APROXIMAT} & \textbf{37} & \textbf{69} & \textbf{69} & \textbf{74} & \textbf{249 h} \\ \hline
+\end{tabular}
+\end{center}
+
+\vspace{0.3cm}
+\textbf{Anàlisi de l'estimació:} El cost total projectat ascendeix a \textbf{249 hores} de treball per a l'equip (uns \textasciitilde 62,2 hores de mitjana per persona al llarg de 14 setmanes). L'estimació manté l'equilibri de dedicació i contempla marges suficients (risc \textit{blockchain} + gestió)  per garantir un lliurament puntual dins del termini del curs acadèmic.
+
+\section{Referències}
+
+\begin{thebibliography}{9}
+
+\bibitem{nakamoto}
+Satoshi Nakamoto,
+\textit{Bitcoin: A Peer-to-Peer Electronic Cash System},
+2008.
+
+\bibitem{buterin}
+Vitalik Buterin,
+\textit{Ethereum White Paper},
+2014.
+
+\bibitem{hardhat}
+Hardhat Documentation.  
+Disponible a: \texttt{https://hardhat.org}
+
+\bibitem{openzeppelin}
+OpenZeppelin Documentation.  
+Disponible a: \texttt{https://openzeppelin.com}
+
+\bibitem{evoting}
+Ben Adida,
+\textit{Helios: Web-based Open-Audit Voting},
+USENIX Security Symposium, 2008.
+
+\bibitem{zkp}
+Jens Groth,
+\textit{Short Non-interactive Zero-Knowledge Proofs},
+2010.
+
+\end{thebibliography}
+
+
+\end{document}

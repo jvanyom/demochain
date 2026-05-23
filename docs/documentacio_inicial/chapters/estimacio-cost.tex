@@ -1,0 +1,148 @@
+% %------------------------------------------------
+% \section{Metodologia d’estimació de l’esforç}
+% %------------------------------------------------
+
+% L’estimació de l’esforç del projecte s’ha realitzat mitjançant un enfocament sistemàtic i replicable, amb l’objectiu d’obtenir una previsió realista i coherent amb l’abast funcional, la planificació temporal i la complexitat tècnica del sistema.
+
+% S’adopta un enfocament combinat basat en bones pràctiques de gestió de projectes:
+
+% \begin{itemize}
+% \item \textbf{Descomposició WBS (Work Breakdown Structure) amb enfocament bottom-up:} el projecte es divideix en paquets de treball (entregables), s’estimen les hores per paquet i l’agregació proporciona l’esforç total.
+% \item \textbf{Estimació PERT en tasques d’alta incertesa:} aplicada als smart contracts i a la integració tècnica per reflectir aprenentatge, risc i variabilitat.
+% \item \textbf{Reserva de contingència:} destinada a cobrir riscos identificats durant l’anàlisi tècnica.
+% \item \textbf{Reserva de gestió:} destinada a imprevistos no identificats durant la planificació.
+% \end{itemize}
+
+% \subsection{Estimació PERT}
+
+% Per als paquets amb major incertesa s’utilitza el mètode PERT, que considera tres escenaris:
+
+% \begin{itemize}
+% \item O (Optimista)
+% \item M (Més probable)
+% \item P (Pessimista)
+% \end{itemize}
+
+% L’estimació ponderada es calcula mitjançant:
+
+% \[
+% E = \frac{O + 4M + P}{6}
+% \]
+
+% Aquest mètode permet reflectir el risc tècnic associat a tecnologies noves com els smart contracts i la seva integració.
+
+% \begingroup
+% \begin{table}[H]
+% \centering
+% \footnotesize
+% \begin{tabular}{|p{4cm}|c|c|c|c|}
+% \hline
+% \textbf{Paquet de treball} & \textbf{O} & \textbf{M} & \textbf{P} & \textbf{Estimació PERT (h)} \\
+% \hline
+% Smart contract (lògica de vot) & 24 & 36 & 60 & 38 \\
+% \hline
+% Integració blockchain–backend & 16 & 24 & 40 & 25 \\
+% \hline
+% Connexió wallet i validació & 10 & 16 & 28 & 17 \\
+% \hline
+% \end{tabular}
+% \caption{Estimació PERT en paquets d’alta incertesa}
+% \end{table}
+% \endgroup
+
+% \subsection{Esforç base del projecte}
+
+% El projecte parteix d’una estimació base de \textbf{245 hores-persona}, que inclou:
+
+% \begin{itemize}
+% \item investigació i aprenentatge tecnològic,
+% \item disseny d’arquitectura,
+% \item desenvolupament de smart contracts,
+% \item desenvolupament back-end,
+% \item desenvolupament front-end,
+% \item integració del sistema,
+% \item proves i validació,
+% \item documentació i presentació.
+% \end{itemize}
+
+% Aquesta estimació constitueix la base per a la planificació del treball i la distribució de càrrega entre rols.
+
+% \subsection{Distribució d’esforç per rol}
+
+
+% \begin{table}[H]
+% \footnotesize
+% \centering
+% \begin{tabular}{|l|c|c|p{7cm}|}
+% \hline
+% \textbf{Rol} & \textbf{Hores} & \textbf{\%} & \textbf{Justificació} \\
+% \hline
+% Project Manager & 47 & 19\% & Planificació, coordinació, coherència documental i tancament del projecte. \\
+% \hline
+% Desenvolupador Back-end + Blockchain & 107 & 44\% & Desenvolupament del nucli tècnic: smart contracts, API i integració. \\
+% \hline
+% Desenvolupador Front-end & 48 & 20\% & Desenvolupament de la interfície d’usuari i integració web3. \\
+% \hline
+% Qualitat i Validació (QA) & 43 & 18\% & Proves, control de qualitat, evidències i suport a la integració. \\
+% \hline
+% \textbf{Total} & \textbf{245} & \textbf{100\%} & \\
+% \hline
+% \end{tabular}
+% \caption{Distribució estimada de l’esforç per rol}
+% \end{table}
+
+% \subsection{Reserves d’esforç}
+
+% Per millorar la robustesa de la planificació s’incorporen reserves:
+
+% \begin{itemize}
+% \item \textbf{Contingència (10\%):} cobreix riscos identificats com la corba d’aprenentatge, dificultats d’integració o ajustos de seguretat.
+% \item \textbf{Reserva de gestió (5\%):} cobreix imprevistos no identificats durant la planificació.
+% \end{itemize}
+
+% \[
+% Esforç\ total\ previst = 245h + 10\% + 5\% \approx 282h
+% \]
+
+% Aquest marge incrementa la fiabilitat de la planificació sense comprometre el calendari.
+
+% \section{Riscos i limitacions}
+
+% La identificació i gestió de riscos constitueix un element essencial en la planificació del projecte, ja que permet anticipar possibles dificultats i establir estratègies per reduir-ne l’impacte.
+
+% \subsection*{Riscos tècnics}
+% \begin{itemize}
+%     \item complexitat en el desenvolupament dels \textit{smart contracts},
+%     \item gestió segura de claus criptogràfiques i credencials,
+%     \item necessitat de garantir simultàniament anonimat i verificabilitat del vot.
+% \end{itemize}
+
+% \subsection*{Riscos de projecte}
+% \begin{itemize}
+%     \item corba d’aprenentatge associada a la tecnologia blockchain,
+%     \item dificultats derivades de la integració de tecnologies noves.
+% \end{itemize}
+
+% \subsection*{Estratègies de mitigació}
+% \begin{itemize}
+%     \item desenvolupament incremental per validar components crítics de forma progressiva,
+%     \item ús d’eines i frameworks consolidats per reduir incertesa tècnica,
+%     \item proves contínues per detectar errors en fases primerenques.
+% \end{itemize}
+
+
+% \section{Resultats esperats}
+
+% En finalitzar el projecte s’espera disposar d’un prototip funcional que demostri la viabilitat d’un sistema de votació electrònica basat en blockchain.
+
+% Concretament, s’espera obtenir:
+
+% \begin{itemize}
+%     \item un sistema funcional de votació blockchain,
+%     \item una demostració pràctica operativa del procés de votació,
+%     \item \textit{smart contracts} funcionals i verificables,
+%     \item documentació tècnica completa del sistema desenvolupat,
+%     \item coneixement pràctic sobre blockchain i contractes intel·ligents.
+% \end{itemize}
+
+% Aquests resultats permetran validar tant els objectius tècnics com els objectius formatius del projecte.

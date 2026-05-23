@@ -1,0 +1,34 @@
+\section{Manera de fer feina}
+Aquest projecte es desenvoluparà mitjançant unes eines i seguint uns patrons determinats, per tal que a l'hora d'integrar el codi i treballar conjuntament no hi hagi col·lisions entre les diferents maneres de fer feina de cada membre de l'equip. Per tant, en aquesta secció es descriurà la metodologia de treball d'aquest projecte.
+
+\subsection{Entorn de desenvolupament}
+Aquest projecte s'adhereix estrictament a l'ús d'eines de codi obert i plataformes gratuïtes per a desenvolupadors. L'entorn de desenvolupament principal es compon de:
+
+\begin{itemize}
+    \item S'utilitza \textbf{Docker} com a eina central de desenvolupament per empaquetar l'aplicació. Això permet que qualsevol desenvolupador pugui desplegar el projecte de manera idèntica, iniciant la xarxa simulada d'Algorand via AlgorKit i l'aplicació web sense problemes de configuració entre diferents sistemes operatius o versions de programari.
+    \item S'empra \textbf{Visual Studio Code} com a IDE principal per a la programació de la interfície web i la gestió global del projecte. Per altra banda, per a la lògica \textit{backend} i la programació dels \textit{Smart Contracts} en Python, s'empra \textbf{PyCharm}, aprofitant el seu entorn enfocat específicament a aquest llenguatge.
+\end{itemize}
+
+\subsection{Sistema de control de versions}
+Tot el codi font es gestiona de manera centralitzada mitjançant el \href{https://github.com/linkcla/sistema-votacio-blockchain}{repositori GitHub} del projecte . L'estratègia de desenvolupament que seguim és el \textbf{Trunk Based Development}:
+
+\begin{itemize}
+    \item Una branca principal (\textbf{main}) on s'integren les tasques finalitzades. Aquesta branca sempre està disponible per ser desplegada.
+    \item Branques secundàries de funcionalitat (extretes de la branca \textit{main}) on es desenvoluparan noves característiques o es resoldran errors.
+\end{itemize}
+
+Cal tenir en compte que la integració del codi des de les branques de funcionalitat cap a la branca \textit{main} es farà exclusivament a través de \textit{Pull Requests}. Aquestes hauran de ser revisades i validades pels companys per garantir que la implementació sigui correcta. A més, per mantenir un registre estructurat dels avenços, es crearan \textit{release tags} per marcar les versions estables de l'aplicació.
+
+\subsection{Convencions i bones pràctiques}
+
+L'èxit del treball en equip i la mantenibilitat del codi es fonamenten en el compliment d'aquestes normes:
+
+\begin{itemize}
+    \item No es poden retenir en local durant dies els avenços que es van fent a l'aplicació per tal de prevenir conflictes a l'hora d'integrar.
+    \item Cada \textit{commit} ha de ser específic i centrat en una única funcionalitat implementada o corregida per tal de poder revisar els avenços de la millor manera possible.
+    \item Tota \textit{Pull Request (PR)} requereix l'aprovació d'almenys un altre membre de l'equip que no estigui esbiaixat amb el desenvolupament que s'ha fet. Això actua com a primer filtre de qualitat.
+    \item Abans de fer una \textit{PR} de la branca de funcionalitat a la branca \textit{main}, s'haurà d'integrar la branca \textit{main} a la de funcionalitat per provar que el sistema funcioni correctament amb la darrera versió ubicada a la branca \textit{main}. Si no s'ha realitzat aquest procés, serà motiu per rebutjar la \textit{PR}.
+    \item S'ha de mantenir actualitzat el fitxer \textit{README.md} amb les instruccions exactes de desplegament (instruccions de Docker i AlgorKit) perquè qualsevol desenvolupador o el professor puguin testejar el sistema de forma autònoma.
+    \item El codi ha de respectar una estructura de directoris modular (p. ex., /contracts, /frontend) i les funcions principals han de comptar amb comentaris descriptius.
+    \item L'apartat dels contractes intel·ligents ha de superar un conjunt de proves unitàries automatitzades amb una cobertura mínima del 80\% abans de permetre'n el desplegament a la branca principal.
+\end{itemize}

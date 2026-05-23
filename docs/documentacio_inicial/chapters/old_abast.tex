@@ -1,0 +1,371 @@
+\section{Abast del projecte}
+
+\subsection{Requisits funcionals}
+
+L'abast d'aquest projecte comprèn el disseny i desenvolupament d'un prototip funcional d'un sistema de votació electrònica descentralitzada utilitzant \hyperlink{def:blockchain}{\textit{blockchain}}.
+
+\subsubsection{Connexió de la cartera digital i verificació del cens:}
+
+Garanteix que només puguin votar les persones prèviament autoritzades al cens, eliminant la necessitat d'un servidor centralitzat i mantenint l'\hyperlink{def:anonimat}{anonimat}, ja que s'utilitzen \hyperlink{def:adreca}{adreces} criptogràfiques en lloc de dades personals.
+
+En lloc d'un inici de sessió tradicional, l'aplicació web permetrà al votant autenticar-se connectant la seva cartera digital.
+Un cop connectada, l'aplicació consultarà directament el \hyperlink{def:smartcontract}{contracte intel·ligent} (\textit{smart contract}) per verificar si l'\hyperlink{def:adreca}{adreça} pública de l'usuari està registrada a la llista d'admesos (cens electoral) i comprovarà que no ha emès ja el seu vot.
+
+Elimina la dependència d’una autoritat central per a la verificació d’identitat. 
+El votant obté una garantia matemàtica que el seu accés és legítim, mentre que l'organitzador delega la lògica de control al \hyperlink{def:smartcontract}{contracte intel·ligent}, reduint la gestió manual i el risc d’errors humans.
+
+\paragraph{Criteris d'acceptació:}
+\begin{enumerate}[label=\roman*.]
+    \item El votant ha de poder connectar la seva \textit{wallet} a la interfície web de forma senzilla.
+    \item El \textit{smart contract} ha de validar en temps real si l'adreça connectada pertany al cens autoritzat.
+    \item Si l'usuari no està al cens o ja ha votat prèviament, la interfície ha de bloquejar l'accés a la papereta de vot i mostrar un missatge d'error clar.
+\end{enumerate}
+
+\subsubsection{Emissió i registre del vot (\textit{Smart Contract}):}
+Permet a l'usuari seleccionar una opció i registrar el seu vot de manera inalterable a la \hyperlink{def:blockchain}{cadena de blocs} \cite{nakamoto}.
+
+Garanteix que el vot no pugui ser modificat ni eliminat un cop emès. 
+A més, proporciona al votant una experiència d'ús clara, accessible i amb retroalimentació visual immediata. La prevenció del doble vot es garanteix per disseny a nivell de \hyperlink{def:smartcontract}{contracte intel·ligent}, eliminant qualsevol possibilitat de manipulació per part d'intermediaris.
+
+\paragraph{Criteris d'acceptació:}
+\begin{enumerate}[label=\roman*.]
+    \item El votant ha de poder connectar la seva \hyperlink{def:wallet}{\textit{wallet}} a la interfície web de forma senzilla.
+    \item El \hyperlink{def:smartcontract}{\textit{smart contract}} ha de validar en temps real si l'\hyperlink{def:adreca}{adreça} connectada pertany al cens autoritzat.
+    \item Si l'usuari no està al cens o ja ha votat prèviament, la interfície ha de bloquejar l'accés a la papereta de vot i mostrar un missatge d'error clar.
+\end{enumerate}
+
+\subsubsection{Gestió autònoma del cicle de vida electoral:}
+Mòdul lògic integrat al contracte intel·ligent que controla l'inici i el final de les eleccions de manera automatitzada i pre-programada, preveient mecanismes descentralitzats per a eleccions anticipades.
+
+En situacions normals, el contracte intel·ligent utilitzarà les marques de temps de la xarxa per habilitar o inhabilitar la recepció de vots de forma inalterable. 
+No obstant això, per modelar el concepte real d'"eleccions anticipades" sense dependre d'un administrador central, s'implementarà un \hyperlink{def:consensus}{mecanisme de consens} (com una cartera multisignatura o una votació ciutadana prèvia) que permeti avançar la data d'inici. 
+Això garanteix matemàticament que l'elecció no pot ser manipulada unilateralment per cap entitat, però manté la flexibilitat davant de crisis institucionals.
+
+
+\paragraph{Criteris d'acceptació:}
+\begin{enumerate}[label=\roman*.]
+    \item El contracte ha de rebutjar qualsevol vot enviat abans de la marca de temps d'inici estipulada.
+    \item El contracte ha de rebutjar automàticament qualsevol vot un cop superada la marca de temps de finalització.
+    \item Cap usuari (ni tan sols el creador del contracte) ha de tenir permisos per alterar les dates d'inici i finalització un cop el contracte estigui desplegat a la xarxa.
+    \item Les dates només es podran modificar (avançar) si es compleix una condició de consens prèviament programada.
+\end{enumerate}
+
+\paragraph{Alternatives d'implementació:}
+\begin{itemize}
+    \item \textbf{Cartera multisignatura institucional:} \\ Es programarà el contracte perquè la funció d'avançar la data només es pugui executar si rep la signatura criptogràfica d'una majoria qualificada (ex: 3 de 5) d'un grup d'adreces predefinides que representin un "Comitè Electoral" o el "Parlament". Aquest model simula la dissolució d'una cambra de representants per consens.
+    \item \textbf{Iniciativa popular democràtica:} \\ S'habilitarà una funció pública al contracte intel·ligent on qualsevol membre del cens pugui emetre una petició d'avançament electoral. Si el contracte registra que un percentatge superior al 50\% del cens ha signat aquesta petició, la data d'inici de les eleccions s'actualitzarà automàticament.
+    \item \textbf{Nou contracte intel·ligent:} \\ En lloc d'intentar modificar les dates d'un contracte ja desplegat, s'utilitzarà un "Contracte Mare". Si s'han de fer eleccions anticipades, aquest contracte principal desplegarà un contracte fill completament nou amb les noves dates, i la interfície web apuntarà automàticament cap al nou sistema, abandonant l'anterior.
+    \item \textbf{Oracles descentralitzats:} \\ Ús d'una xarxa d'oracles (com Chainlink) que llegeix dades oficials del món real (per exemple, la publicació d'un decret de dissolució al BOE o equivalent). Si l'oracle verifica la publicació, el \hyperlink{def:smartcontract}{contracte intel·ligent} ajusta les dates automàticament sense intervenció humana directa a la \hyperlink{def:blockchain}{\textit{blockchain}}.
+\end{itemize}
+
+\subsubsection{Recompte automàtic i escrutini públic:}
+Unificació del procés d'emmagatzematge i recompte de vots directament a la \textit{blockchain}, permetent la lectura transparent dels resultats.
+
+Els vots processats s'emmagatzemen com a transaccions immutables. El contracte actualitza l'estat del recompte de manera autònoma i transparent per a cada vot vàlid. 
+S'elimina la necessitat d'una junta electoral per comptar paperetes, oferint als auditors la capacitat de verificar la integritat dels resultats directament sobre la cadena de blocs sense demanar permís.
+
+\paragraph{Criteris d'acceptació:}
+\begin{enumerate}[label=\roman*.]
+    \item L'estat del recompte s'ha d'actualitzar automàticament via contracte intel·ligent per a cada vot vàlid rebut i no pot ser modificat manualment.
+    \item La interfície web ha de consultar i mostrar els resultats directament des de la xarxa \textit{blockchain}, sense bases de dades intermèdies.
+    \item Per garantir que l'escrutini no influeixi en la intenció de vot, els resultats acumulats només seran accessibles (o desencriptats) un cop el contracte intel·ligent marqui l'elecció com a "Tancada".
+\end{enumerate}
+
+\subsubsection{Verificabilitat individual del votant:}
+Capacitat del sistema per permetre a l'elector comprovar de manera independent que el seu vot ha estat processat i inclòs en el recompte final.
+
+En els sistemes tradicionals, un cop el vot entra a l'urna, el votant perd la traçabilitat del seu vot. 
+Amb aquest requisit, el votant podrà utilitzar el \textit{hash} de la seva transacció o la seva \textit{wallet} per consultar a la \textit{blockchain} que el seu vot específic forma part de l'escrutini total, sense que això permeti a tercers saber què ha votat (evitant així la coacció o compravenda de vots).
+
+\paragraph{Criteris d'acceptació:}
+\begin{enumerate}[label=\roman*.]
+    \item Després d'emetre el vot, la interfície ha de proporcionar a l'usuari un identificador únic de transacció.
+    \item L'usuari ha de poder consultar aquest identificador a la plataforma o a un explorador de blocs independent per verificar l'estat d'èxit de la transacció.
+    \item El sistema no ha de vincular públicament l'adreça del votant amb l'opció seleccionada, preservant el secret del sufragi.
+\end{enumerate}
+
+\subsubsection{Inscripció autònoma de candidats:}
+Mòdul integrat al contracte intel·ligent que permet a qualsevol membre elegible postular-se com a candidat de manera descentralitzada i sense la intervenció d'un comitè electoral central.
+
+Abans que s'obri el període de votació, el sistema habilita una finestra de temps específica ("Fase d'Inscripció"). 
+Durant aquest període, qualsevol usuari pot enviar una transacció al contracte intel·ligent per registrar la seva candidatura. 
+Un cop el temps s'esgota, la llista de candidats queda bloquejada de forma immutable i es genera la papereta de vot.
+
+Això elimina completament el biaix o la censura prèvia per part d'una autoritat centralitzada a l'hora de decidir qui pot rebre vots. Democratitza l'accés a la candidatura i delega les regles de presentació al codi auditable del contracte.
+
+\paragraph{Criteris d'acceptació:}
+\begin{enumerate}[label=\roman*.]
+    \item El contracte intel·ligent ha de permetre el registre de nous candidats només si la data actual es troba dins de la "Fase d'Inscripció".
+    \item La interfície web ha de disposar d'un formulari senzill on un usuari pugui introduir el seu nom o proposta i signar-ho amb la seva \textit{wallet} per registrar-se.
+    \item El sistema ha de limitar el registre a una única candidatura per adreça (\textit{wallet}) per evitar l'\textit{spam}.
+    \item Un cop superada la data límit d'inscripció, el contracte ha de rebutjar automàticament qualsevol nova sol·licitud i fixar la llista definitiva de candidats.
+\end{enumerate}
+
+\paragraph{Alternatives d'implementació:}
+Ja que un model d'inscripció totalment obert és susceptible a atacs de \textit{spam} (creació de candidats falsos o bots), haurem de definir quina solució s'implementarà en el prototip final per actuar com a filtre d'entrada. Les primeres propostes que tenim són les següents:
+
+\begin{itemize}
+    \item \textbf{Model de depòsit econòmic (\textit{staking} o fiança digital):} \\ Exigir al candidat el bloqueig d'un dipòsit que es destrueix si no assoleix un percentatge mínim de vots. Els nous candidats podrien finançar aquest dipòsit recollint avals previs dels votants del cens.
+    \item \textbf{Model d'avals ciutadans (recollida de firmes):} \\ Un nou partit haurà d'aconseguir que un nombre predefinit d'adreces (\textit{wallets}) registrades al cens l'avalin dins el contracte intel·ligent durant la fase d'inscripció. Només si s'assoleix el llindar d'avals, la llista s'incorporarà a la papereta.
+    \item \textbf{Model d'impugnació:} \\ Permetre la inscripció completament lliure, però habilitar un sub-període on la comunitat (el cens) pot obrir votacions ràpides per expulsar i vetar candidats considerats invàlids o que incompleixin les regles comunitàries abans de l'elecció principal.
+    \item \textbf{Model híbrid de reputació històrica:} \\ Dissenyat per equilibrar l'entrada de nous partits i el manteniment dels antics. Els partits ja consolidats podran utilitzar "\textit{Tokens} de reputació" guanyats segons l'històric de vots de processos anteriors (registrats de forma immutable al \textit{blockchain}) com a aval automàtic. Els partits nous sense aquesta reputació prèvia hauran de recórrer al model d'avals ciutadans o al dipòsit econòmic inicial.
+    \item \textbf{Model de massa social mínima:} \\ El contracte de les eleccions llegirà directament quantes \textit{wallets} posseeixen el token d'afiliació d'aquella DAO concreta. Si se supera una militància mínima estipulada, el partit queda registrat automàticament.
+    \item \textbf{Límits estrictes per codi:} \\ Establir una restricció tècnica senzilla dins del contracte on només s'accepti un nombre màxim absolut de candidats (per exemple, els primers 15 en registrar-se).
+\end{itemize}
+
+\subsubsection{Immutabilitat post-electoral (\textit{state anchoring})}
+
+Per garantir que el recompte no es pugui manipular una vegada tancades les urnes, el sistema implementa un mecanisme d'ancoratge. 
+En finalitzar l'horari de votació estipulat, el sistema bloqueja l'entrada de nous vots i genera un \textit{hash} criptogràfic únic (SHA-256) que representa l'estat final i inalterable de la xarxa sobirana. 
+Aquest \textit{hash} es publica automàticament a una xarxa \textit{blockchain} pública global, creant un segell de temps històric incorruptible.
+
+\paragraph{Criteris d'acceptació:}
+\begin{enumerate}[label=\roman*.]
+    \item El contracte d'Algorand ha de tancar l'admissió de transaccions exactament a l'hora programada.
+    \item El sistema ha de calcular de manera determinista un \textit{hash} SHA-256 que agrupi el resultat global de l'escrutini.
+    \item S'ha d'executar una transacció que escrigui aquest \textit{hash} a la xarxa pública d'Ethereum (Mainnet o Testnet) i se n'ha de proporcionar l'identificador per a futures auditories.
+\end{enumerate}
+
+\subsection{Requisits no funcionals}
+
+Els requisits no funcionals defineixen les qualitats i restriccions del sistema que no estan associades a cap funcionalitat concreta, però que en condicionen el disseny, la implementació i l'acceptació final.
+En el context d'un sistema de votació electrònica descentralitzat, aquests requisits són especialment rellevants perquè afecten directament la confiança, la seguretat i la usabilitat del sistema per a tots els perfils d'usuari identificats.
+
+\subsubsection{Desplegament en entorn simulat d'Algorand \textit{(AlgorKit)}}
+
+El sistema es desplega sobre una xarxa local simulada basada en el protocol d'Algorand, emprant l'eina oficial AlgorKit.
+Això garanteix un entorn de desenvolupament i proves controlat, reproduïble i sense els costos associats a xarxes públiques, alhora que simula amb precisió el comportament matemàtic del consens VRF (Funció Aleatòria Verificable).
+El contracte intel·ligent és desplegable amb una única comanda mitjançant la interfície de línia de comandes (CLI) d'AlgorKit.
+
+L'ús d'una xarxa local simulada d'Algorand és una decisió de disseny deliberada per a l'àmbit acadèmic del projecte. 
+Permet iterar ràpidament sobre el codi sense emprar doblers reals per pagar les comissions de transacció, i assegura que l'entorn de proves reprodueixi exactament l'arquitectura de la xarxa sobirana proposada.
+
+\paragraph{Criteris d'acceptació:}
+\begin{enumerate}[label=\roman*.]
+    \item S'ha de poder iniciar l'entorn local i la xarxa \textit{blockchain} simulada amb una única comanda a través d'AlgorKit.
+    \item El procés de desplegament i execució de transaccions no ha de generar costos econòmics reals.
+    \item Qualsevol membre de l'equip ha de poder replicar l'entorn exacte clonant el repositori sense necessitat de configuracions manuals complexes.
+\end{enumerate}
+
+\subsubsection{Implementació de contractes intel·ligents segurs i natius}
+
+Els contractes intel·ligents s'implementen en Python emprant les llibreries oficials de l'ecosistema d'Algorand (com Puya o PyTeal).
+Això abaixa la barrera d'entrada per als auditors, ja que Python és un llenguatge d'ús molt més comú que opcions com Solidity.
+
+En un sistema electoral, la confiança en el codi és tan important com la correcció mateixa. 
+La transparència i les proves automatitzades són la base tècnica que permet a la comunitat verificar que el sistema fa exactament allò que promet, sense necessitat de donar accés privilegiat a cap auditor extern.
+
+\paragraph{Criteris d'acceptació:}
+\begin{enumerate}[label=\roman*.]
+    \item Tot el codi font relacionat amb la lògica de vots i cens ha d'estar escrit en Python compatible amb la màquina virtual d'Algorand (AVM).
+    \item El codi ha de superar un conjunt de proves unitàries automatitzades amb una cobertura mínima del 80\% abans de permetre'n el desplegament.
+    \item El codi font dels contractes ha d'estar disponible públicament al repositori del projecte per permetre'n l'auditoria independent.
+\end{enumerate}
+
+\subsubsection{Rendiment, temps de resposta i retenció cívica}
+
+Aquest requisit combina la necessitat d'oferir una bona experiència d'usuari (temps de càrrega ràpids) amb la seguretat estructural de la xarxa (forçar la disponibilitat del dispositiu). 
+Limitar l'abandonament ràpid de l'aplicació és l'única manera de sostenir una xarxa sobirana basada en mòbils sense fondre la bateria dels usuaris ni dependre completament dels servidors (nodes llavor) dels partits. 
+Aquest temps d'espera previ a la votació es planteja com un "cost cívic" assumible i imprescindible per al funcionament del consens.
+
+\paragraph{Criteris d'acceptació:}
+\begin{enumerate}[label=\roman*.]
+    \item La interfície web ha de carregar els elements principals en menys de 5 segons sota una connexió estàndard.
+    \item El sistema ha d'imposar un temps d'espera obligatori (cua cívica) d'entre 1 i 2 minuts després de verificar el cens i abans d'habilitar el botó final de votació.
+    \item Durant aquest temps d'espera, l'aplicació ha de sol·licitar el bloqueig de suspensió per mantenir la pantalla encesa i permetre que el dispositiu participi en la xarxa.
+\end{enumerate}
+
+\subsubsection{Compatibilitat i accessibilitat}
+
+La interfície web ha de ser completament operativa als navegadors moderns principals sense requerir cap instal·lació de programari addicional, més enllà d'una cartera digital compatible amb l'ecosistema Algorand. 
+El disseny s'ha d'adaptar correctament tant a pantalles d'escriptori com a dispositius mòbils.
+
+Pera Wallet s'estableix com l'estàndard principal per a la interacció. Permet una connexió neta amb les aplicacions web (via protocols com WalletConnect) i evita que l'usuari hagi de gestionar directament certificats o claus criptogràfiques complexes.
+
+\paragraph{Criteris d'acceptació:}
+\begin{enumerate}[label=\roman*.]
+    \item La interfície web s'ha de visualitzar i operar correctament en resolucions de mòbil, tauleta i escriptori.
+    \item El sistema s'ha de poder connectar amb èxit mitjançant carteres digitals d'Algorand (p. ex., Pera Wallet).
+    \item No s'ha d'exigir a l'usuari instal·lar aplicacions natives al sistema operatiu, operant íntegrament des del navegador web.
+\end{enumerate}
+
+\subsubsection{Seguretat de les comunicacions i de les credencials}
+
+Totes les comunicacions entre la interfície d'usuari (\textit{front-end}) i els nodes de la xarxa \textit{blockchain} o serveis d'autenticació auxiliars han d'anar xifrades via HTTPS i WSS.
+
+La gestió incorrecta de claus privades és el vector d'atac més comú en aplicacions descentralitzades (\textit{dApps}). 
+Delegar completament la signatura a la cartera de l'usuari elimina aquest risc des del disseny inicial i segueix el principi de mínim privilegi: cap element de la infraestructura externa té accés mai a les credencials criptogràfiques dels votants.
+
+\paragraph{Criteris d'acceptació:}
+\begin{enumerate}[label=\roman*.]
+    \item Totes les peticions de xarxa cap a l'exterior s'han de fer a través de protocols segurs (HTTPS/WSS).
+    \item El sistema no ha de demanar, transmetre ni emmagatzemar la clau privada de l'usuari en cap base de dades ni variable d'estat.
+    \item L'acció de signar el vot s'ha de delegar exclusivament i aïlladament al programari de la cartera digital (Pera Wallet).
+\end{enumerate}
+
+\subsubsection{Mantenibilitat i documentació tècnica}
+
+El codi font ha d'estar estructurat de manera modular amb una separació clara entre els components principals del sistema (contractes en Python, interfície web i configuració d'AlgorKit), cadascun dins el seu propi directori al repositori.
+La naturalesa formativa d'aquest projecte fa que la mantenibilitat sigui tan important com la funcionalitat. Un prototip ben documentat té un valor acadèmic superior i facilita que, en el futur, altres investigadors puguin agafar el relleu.
+
+\paragraph{Criteris d'acceptació:}
+\begin{enumerate}[label=\roman*.]
+    \item El codi ha de respectar una estructura de directoris modular (p. ex., \texttt{/contracts}, \texttt{/frontend}).
+    \item Les funcions i mètodes principals han de comptar amb comentaris descriptius (documentació \textit{inline}).
+    \item El repositori ha de contenir un fitxer \texttt{README.md} actualitzat amb les passes exactes per instal·lar dependències i executar el projecte des de zero.
+\end{enumerate}
+
+\subsection{Requisits de projecte}
+
+Els requisits del projecte defineixen les condicions, restriccions i criteris d'èxit associats a la gestió, execució i organització de l'equip, independentment del producte de programari resultant. 
+
+\subsubsection{Compliment del calendari i fites de lliurament}
+
+El projecte s'executa dins un marc temporal estricte de 14 setmanes, iniciant-se el 23 de febrer del 2026 i finalitzant a la data de l'entrega final el 25 de maig del 2026. 
+Per garantir un avanç adequat, el desenvolupament es divideix en sis fases iteratives (fites o \textit{milestones}), que culminen amb la presentació i l'entrega del producte de votació i la seva documentació.
+
+\paragraph{Criteris d'acceptació:}
+\begin{enumerate}[label=\roman*.]
+    \item El lliurament final del prototip funcional i la memòria s'ha de fer efectiu com a mínim una setmana abans de la data límit establerta per la universitat.
+    \item Les fites de les fases intermèdies admeten un marge de desviació intern de $\pm$5 dies per garantir marge de maniobra sense comprometre la data final.
+\end{enumerate}
+
+\subsubsection{Gestió de l'esforç i dedicació de l'equip}
+
+Com que es tracta d'un projecte acadèmic, el "pressupost" es mesura en hores-persona en lloc de doblers. 
+El desenvolupament del projecte no pot sobrepassar de manera desmesurada l'estimació inicial de 245 hores totals, distribuïdes equitativament amb un objectiu d'unes 61 hores per membre de l'equip (assumint 4 integrants). 
+La gestió del temps ha de ser compatible amb les altres càrregues acadèmiques o laborals de l'equip.
+
+\paragraph{Criteris d'acceptació:}
+\begin{enumerate}[label=\roman*.]
+    \item L'esforç total invertit i documentat per l'equip s'ha de mantenir dins de l'estimació establerta, amb un marge màxim d'error del $\pm$20\%.
+    \item Cap membre de l'equip pot assumir més del 35\% ni menys del 15\% de la càrrega total d'hores per garantir un treball col·laboratiu real.
+\end{enumerate}
+
+\subsubsection{Adopció d'eines i entorns de desenvolupament sense cost}
+
+Per a la viabilitat financera de l'equip, el projecte es desenvolupa exclusivament emprant eines de codi obert i plataformes gratuïtes per a desenvolupadors. 
+Tot el desplegament de la xarxa \textit{blockchain} es fa en un entorn local simulat (AlgorKit) o en xarxes de prova públiques on la criptomoneda no té valor (Algorand Testnet).
+
+\paragraph{Criteris d'acceptació:}
+\begin{enumerate}[label=\roman*.]
+    \item El projecte no pot incórrer en cap despesa econòmica real (0 EUR).
+    \item No s'han d'emprar llicències de pagament tancades ni s'han de pagar comissions de xarxa (\textit{gas fees}) amb doblers reals en cap de les fases de desenvolupament, proves o avaluació.
+\end{enumerate}
+
+\subsubsection{Metodologia àgil i control de versions}
+
+L'execució del projecte aplica una metodologia iterativa inspirada en \textit{Agile}. 
+Aquesta pràctica és obligatòria per facilitar l'aprenentatge progressiu de la tecnologia \textit{blockchain} i l'adaptació contínua als canvis. 
+Tota l'evolució del codi queda registrada centralitzadament per facilitar el treball asíncron.
+
+\paragraph{Criteris d'acceptació:}
+\begin{enumerate}[label=\roman*.]
+    \item S'ha d'emprar un sistema de control de versions basat en Git (repositori a GitHub/GitLab).
+    \item El treball s'ha d'estructurar en branques independents (\textit{branches}) per a cada nova funcionalitat, que s'han d'integrar mitjançant \textit{Pull Requests} revisades per algun altre membre de l'equip.
+    \item L'historial de \textit{commits} ha de demostrar una integració contínua, permetent tornar enrere fàcilment si es detecten errors crítics en el disseny dels contractes intel·ligents.
+\end{enumerate}
+
+\subsubsection{Pla de comunicació i seguiment intern}
+Un equip descentralitzat o asíncron necessita rutines clares per no perdre el rumb. 
+El projecte exigeix una comunicació fluida i el registre de l'estat de les tasques de manera transparent per a tots els integrants.
+
+\paragraph{Criteris d'acceptació:}
+\begin{enumerate}[label=\roman*.]
+    \item L'equip ha de fer, com a mínim, una reunió de sincronització setmanal per revisar el progrés de l'iteració (bloquejos, tasques fetes i properes passes).
+    \item S'ha d'emprar un tauler Kanban digital (com Trello, Jira o GitHub Projects) on quedi reflectit l'estat en temps real de les tasques (Pendent, En curs, Revisió, Finalitzat).
+\end{enumerate}
+
+\subsubsection{Mitigació de riscs tecnològics (Corba d'aprenentatge)}
+
+Donada l'alta complexitat tècnica d'implementar xarxes sobiranes i contractes intel·ligents, el projecte assumeix un risc elevat en la corba d'aprenentatge. 
+Per tant, l'organització del projecte requereix la inclusió de fases de recerca prèvia dins la planificació.
+
+\paragraph{Criteris d'acceptació:}
+\begin{enumerate}[label=\roman*.]
+    \item El calendari de les primeres setmanes ha d'incloure tasques específicament dedicades a la recerca, lectura de documentació tècnica (e.g., Algorand, Python AVM) i realització de tutorials.
+    \item S'ha de preveure un pla de contingència tècnica en cas de bloqueig sever (per exemple, si un mòdul avançat no és viable, s'ha de poder simplificar i documentar com a treball futur).
+\end{enumerate}
+
+\subsubsection{Gestió dels lliuraments acadèmics}
+
+El resultat del projecte no és només el codi font, sinó el conjunt de productes que permeten l'avaluació de la feina feta davant un tribunal acadèmic.
+
+\paragraph{Criteris d'acceptació:}
+\begin{enumerate}[label=\roman*.]
+    \item Es lliurarà el codi font completament funcional juntament amb instruccions de desplegament per al professorat.
+    \item S'entregarà una memòria escrita que inclogui el disseny teòric, l'arquitectura del sistema i la justificació de les decisions preses.
+    \item S'elaborarà una presentació de suport (diapositives) per a la defensa final del projecte que demostri visualment el flux de l'aplicació.
+\end{enumerate}
+
+\subsection{Lliuraments}
+
+Els lliuraments del projecte constitueixen els artefactes verificables que es produiran al llarg del desenvolupament i que permeten avaluar el progrés i la qualitat del treball realitzat en cada fase.
+
+\subsubsection{Lliuraments de gestió}
+\begin{itemize}
+    \item \textbf{Pla de direcció del projecte:} \\ Document inicial que defineix l'abast, el calendari (diagrama de Gantt), l'estimació de l'esforç i els riscos identificats abans de començar la fase de desenvolupament.
+    
+    \item \textbf{Registre de seguiment (Actes i \textit{Kanban}):} \\ Exportació o enllaç al tauler de tasques utilitzat per l'equip (p. ex., Trello o GitHub Projects) que demostra la metodologia àgil emprada i el repartiment equitatiu de la feina durant les 14 setmanes.
+\end{itemize}
+
+\subsubsection{Lliuraments de \textit{software}}
+\begin{itemize}
+    \item \textbf{Codi font del prototip:} \\ El repositori complet amb el codi del sistema. Això inclou els contractes intel·ligents programats en Python (per a la xarxa Algorand) i la interfície web (\textit{front-end}) desenvolupada en React/Next.js.
+    \item \textbf{Manual de desplegament i configuració (\texttt{README.md}):} \\ Un document tècnic, inclòs dins el repositori, que detalla passa a passa com instal·lar les dependències, com arrancar l'entorn local d'AlgorKit i com connectar la cartera digital (Pera Wallet) per fer proves.
+    \item \textbf{Bateria de proves automatitzades:} \\ Conjunt de tests unitaris i d'integració que acompanyen el codi per demostrar que els contractes intel·ligents són segurs i funcionen com s'espera.
+\end{itemize}
+
+\subsubsection{Lliuraments acadèmics}
+\begin{itemize}
+    \item \textbf{Memòria tècnica final:} \\ Document acadèmic principal que descriu el sistema desenvolupat, les decisions de disseny adoptades, els resultats obtinguts i les conclusions del projecte. Inclou les seccions de motivació, abast, arquitectura, implementació, proves i línies futures.
+    
+    \item \textbf{Presentació final:} \\ Material de suport per a la defensa oral del projecte davant del tribunal avaluador. Sintetitza els aspectes tècnics i de gestió més rellevants del sistema i demostra el funcionament operatiu del prototip.
+\end{itemize}
+
+\subsection{Exclusions}
+
+Les exclusions següents delimiten de manera explícita i formal allò que el projecte no contempla en la seva primera fase. 
+Cadascuna d'elles respon a criteris justificats de viabilitat temporal, complexitat tècnica o abast acadèmic del prototip, i la seva inclusió futura podria constituir una línia d'evolució natural del sistema.
+
+\begin{itemize}
+    \item \textbf{Mecanisme d'emissió i distribució de la identitat digital (claus privades):} \\
+    El projecte no aborda com les persones físiques obtenen la seva clau privada o \textit{wallet} de manera inicial. El procés de validació física d'un ciutadà (comprovar que està viu, que té la nacionalitat o que està empadronat) requereix inherentment una autoritat central (com el Ministeri de l'Interior o la Policia). Per a l'abast d'aquest sistema, s'assumeix que l'elector ja posseeix una cartera digital vàlida i que el seu identificador públic ja ha estat bolcat al cens, deixant el sistema d'alta institucional fora del prototip.
+    
+    \item \textbf{Integració amb bases de dades governamentals reals:} \\
+    No es desenvolupa cap connexió ni API amb el padró municipal real, ni amb el cens electoral de l'Estat. El sistema empra un cens simulat (una "llista blanca" d'adreces de prova) per demostrar la funcionalitat de validació i la cua cívica sense comprometre dades personals reals.
+
+    \item \textbf{Infraestructura física i suport presencial (barrera tecnològica):} \\ El projecte es limita exclusivament al desenvolupament de programari. No es dissenya ni es desenvolupa cap mena de maquinari específic, quiosc de votació física o sistema d'assistència presencial per donar suport a persones amb menys competències digitals, diversitat funcional o afectades per l'exclusió tecnològica. S'assumeix que l'elector té l'autonomia suficient per interactuar amb una aplicació web estàndard des del seu propi dispositiu.
+    
+    \item \textbf{Desenvolupament d'una cartera digital (\hyperlink{def:wallet}{\textit{wallet}}) pròpia:} \\
+    El projecte exclou la programació d'una aplicació mòbil nativa per a la gestió de \hyperlink{def:claus}{claus}. En comptes de reinventar la roda i per motius de seguretat, s'empren carteres digitals d'ús públic i codi obert ja existents a l'ecosistema d'Algorand (com Pera Wallet o Defly) per executar la signatura de les \hyperlink{def:transaccio}{transaccions} \cite{metamask}.
+    
+    \item \textbf{Criptografia \hyperlink{def:zkp}{ZKP} (Proves de Coneixement Zero) completa:} \\
+    Tot i que l'arquitectura teòrica ideal per garantir un anonimat absolut empra \hyperlink{def:zkp}{ZKP} per desvincular l'\hyperlink{def:adreca}{adreça} del votant del seu vot, programar aquests circuits matemàtics requereix un temps de desenvolupament que excedeix les 14 setmanes del projecte. Per al prototip, s'empra un sistema d'ofuscament simplificat o pseudonimització d'adreces, deixant la integració \hyperlink{def:zkp}{ZKP} com a futura línia d'investigació \cite{groth2010} \cite{ethereum_zkp}.
+    
+    \item \textbf{Resistència a atacs informàtics d'alta complexitat:} \\
+    El prototip mitiga d'atac bàsics (com el doble vot o el control de l'estat), però no garanteix resistència davant atacs sofisticats a nivell de xarxa, com ara atacs de denegació de servei distribuïts (DDoS) massius contra els nodes llavor o manipulacions complexes del \textit{mempool}. El sistema es dissenya per demostrar la viabilitat del concepte de VRF i cua cívica en un entorn acadèmic controlat, no per producció baixa una alta adversarialitat.
+\end{itemize}
+
+\subsection{Suposicions}
+
+Les suposicions del projecte recullen les condicions que es donen per certes en el
+moment de la planificació i que, si no es complissin, podrien afectar l'abast, el
+calendari o els resultats esperats. 
+La seva identificació explícita és una pràctica
+essencial de gestió de projectes, ja que permet anticipar riscos derivats d'hipòtesis
+no verificades.
+
+\begin{itemize}
+    \item \textbf{Disponibilitat i capacitat del maquinari de l'usuari:} \\
+    El disseny de la "cua cívica" i l'ús del dispositiu com a node efímer assumeix que els votants disposen de telèfons intel·ligents (\textit{smartphones}) moderns. Aquests dispositius han de ser capaços d'executar aplicacions web estàndard, interactuar amb carteres digitals (com Pera Wallet) i suportar el bloqueig de suspensió de pantalla durant 1 o 2 minuts sense que el sistema operatiu interrompi el procés.
+    
+    \item \textbf{Connectivitat estable a Internet:} \\
+    Es dona per fet que els ciutadans tenen accés a una connexió a Internet raonablement estable durant els minuts que dura el procés d'autenticació, votació i validació (espera). Talls de connexió severs invalidarien la participació del mòbil en el sorteig matemàtic (VRF) de la xarxa sobirana.
+    
+    \item \textbf{Estabilitat de l'ecosistema i de les eines de codi obert:} \\
+    S'assumeix que tot l'entorn de desenvolupament seleccionat (AlgorKit, Pera Wallet, l'arquitectura de nodes i les llibreries de Python per a contractes intel·ligents) manté el seu suport tècnic, l'estabilitat de les API i la seva llicència gratuïta durant les 14 setmanes que dura el projecte.
+    
+    \item \textbf{Accessibilitat a les xarxes de proves (\textit{Testnets}):} \\
+    Per poder complir amb el requisit funcional de l'ancoratge final de resultats (\textit{state anchoring}) sense cap cost econòmic, se suposa que les xarxes de proves públiques (\hyperlink{def:testnet}{Testnet} d'Ethereum \cite{sepolia}) estan operatives el dia de la demostració. A més, s'assumeix que l'equip pot obtenir criptomonedes de prova de franc mitjançant \textit{faucets} públiques per poder finançar la transacció del \textit{hash}.
+\end{itemize}
