@@ -1,11 +1,22 @@
-node_modules
+# Outputs
 dist
-.claude
-.obsidian
-.idea
-.agents
-.algokit
+out
 artifacts
+.algokit
+
+# IA
+.antigravitycli
+.agents
+.claude
+
+# IDEs
+.obsidian
+.DS_Store
+.idea
+
+# Dependències
+node_modules
+.venv
 
 # Entorns locals
 .env.local
@@ -16,7 +27,6 @@ __pycache__/
 *.pyc
 *.pyo
 .pytest_cache/
-.venv/
 .coverage
 htmlcov/
 

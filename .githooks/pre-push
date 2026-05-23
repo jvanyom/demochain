@@ -1,15 +1,15 @@
 #!/bin/bash
 
-# Final gate before pushing: lint contract/ (ruff) and client/ (Biome)
+# Final gate before pushing: lint voting-contract/ (ruff) and client/ (oxlint + oxfmt)
 
 failed=0
 
-# --- Python (contract/ and scripts/) ---
-py_files=$(git ls-files 'contract/*.py' 'scripts/*.py')
+# --- Python (voting-contract/) ---
+py_files=$(git ls-files 'voting-contract/*.py' 'voting-contract/**/*.py')
 
 if [[ -n "$py_files" ]]; then
   if ! command -v ruff &>/dev/null; then
-    echo "⚠️  ruff no trobat — saltant la comprovació de Python."
+    echo "⚠️  ruff no trobat - saltant la comprovació de Python."
   else
     echo "🔍 Comprovació final de Python (ruff)..."
     if ! echo "$py_files" | xargs ruff check --quiet; then
@@ -26,12 +26,12 @@ fi
 if [[ -d "client" ]]; then
   ts_files=$(git ls-files 'client/*.ts' 'client/*.tsx' 'client/**/*.ts' 'client/**/*.tsx')
   if [[ -n "$ts_files" ]]; then
-    if ! (cd client && bun x biome --version &>/dev/null 2>&1); then
-      echo "⚠️  Biome no trobat — saltant la comprovació de TypeScript."
+    if ! (cd client && bunx oxlint --version &>/dev/null 2>&1); then
+      echo "⚠️  oxlint no trobat - saltant la comprovació de TypeScript."
     else
-      echo "🔍 Comprovació final de TypeScript (Biome)..."
-      if ! (cd client && bun x biome ci --quiet 2>/dev/null); then
-        echo "❌ Biome ha trobat errors. Executa 'make fmt-client' i torna a fer push."
+      echo "🔍 Comprovació final de TypeScript (oxlint + oxfmt)..."
+      if ! (cd client && bun run check 2>/dev/null); then
+        echo "❌ oxlint/oxfmt ha trobat errors. Executa 'make fmt-client' i torna a fer push."
         failed=1
       fi
     fi

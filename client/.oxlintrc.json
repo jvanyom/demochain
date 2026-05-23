@@ -1,0 +1,233 @@
+{
+	"$schema": "./node_modules/oxlint/configuration_schema.json",
+	"plugins": ["react", "typescript", "jsx-a11y"],
+	"env": {
+		"browser": true,
+		"builtin": true,
+		"shared-node-browser": false,
+		"serviceworker": false,
+		"webextensions": false,
+		"audioworklet": false,
+		"greasemonkey": false,
+		"prototypejs": false,
+		"applescript": false,
+		"protractor": false,
+		"phantomjs": false,
+		"embertest": false,
+		"commonjs": false,
+		"atomtest": false,
+		"jasmine": false,
+		"nashorn": false,
+		"shelljs": false,
+		"vitest": false,
+		"jquery": false,
+		"meteor": false,
+		"svelte": false,
+		"worker": false,
+		"mocha": false,
+		"mongo": false,
+		"qunit": false,
+		"astro": false,
+		"node": false,
+		"jest": false,
+		"amd": false,
+		"vue": false
+	},
+	"options": {
+		"reportUnusedDisableDirectives": "warn",
+		"denyWarnings": false,
+		"typeAware": true,
+		"typeCheck": true
+	},
+	"categories": {
+		"correctness": "error",
+		"suspicious": "warn",
+		"style": "warn",
+		"perf": "warn"
+	},
+	"overrides": [
+		{
+			"files": ["**/*.test.ts", "**/*.test.tsx"],
+			"rules": {
+				"typescript/explicit-function-return-type": "off",
+				"no-unused-vars": "off",
+				"no-console": "off"
+			}
+		},
+		{
+			"files": ["**/*dev*"],
+			"rules": {
+				"no-console": "off"
+			}
+		}
+	],
+	"rules": {
+		"jsx-a11y/aria-activedescendant-has-tabindex": "warn",
+		"jsx-a11y/click-events-have-key-events": "warn",
+		"jsx-a11y/control-has-associated-label": [
+			"warn",
+			{
+				"ignoreElements": ["canvas"]
+			}
+		],
+		"jsx-a11y/aria-unsupported-elements": "warn",
+		"jsx-a11y/anchor-ambiguous-text": "warn",
+		"jsx-a11y/anchor-has-content": "warn",
+		"jsx-a11y/autocomplete-valid": "warn",
+		"jsx-a11y/anchor-is-valid": "warn",
+		"jsx-a11y/aria-proptypes": "warn",
+		"jsx-a11y/aria-props": "warn",
+		"jsx-a11y/aria-role": "warn",
+		"jsx-a11y/alt-text": "warn",
+
+		"typescript/consistent-generic-constructors": "error",
+		"typescript/consistent-indexed-object-style": "error",
+		"typescript/explicit-module-boundary-types": "error",
+		"typescript/explicit-function-return-type": "error",
+		"typescript/explicit-member-accessibility": "error",
+		"typescript/consistent-type-definitions": "error",
+		"typescript/consistent-type-assertions": "error",
+		"typescript/consistent-type-exports": "error",
+		"typescript/no-unsafe-function-type": "error",
+		"typescript/ban-tslint-comment": "error",
+		"typescript/no-explicit-any": "error",
+		"typescript/await-thenable": "error",
+		"typescript/dot-notation": "error",
+		"typescript/array-type": "error",
+		"typescript/consistent-type-imports": [
+			"error",
+			{
+				"disallowTypeAnnotations": true,
+				"fixStyle": "separate-type-imports",
+				"prefer": "type-imports"
+			}
+		],
+		"typescript/ban-ts-comment": [
+			"error",
+			{
+				"ts-nocheck": { "descriptionFormat": "^: TS\\d+ because .+$" },
+				"ts-expect-error": "allow-with-description",
+				"minimumDescriptionLength": 10,
+				"ts-ignore": true,
+				"ts-check": false
+			}
+		],
+
+		"promise/catch-or-return": "error",
+		"promise/always-return": "error",
+		"promise/avoid-new": "error",
+
+		"oxc/bad-array-method-on-arguments": "error",
+		"oxc/bad-object-literal-comparison": "error",
+		"oxc/bad-comparison-sequence": "error",
+		"oxc/bad-char-at-comparison": "error",
+		"oxc/branches-sharing-code": "warn",
+		"oxc/bad-bitwise-operator": "warn",
+		"oxc/bad-replace-all-arg": "error",
+		"oxc/double-comparisons": "error",
+		"oxc/const-comparisons": "error",
+		"oxc/bad-min-max-func": "error",
+		"oxc/approx-constant": "error",
+		"oxc/erasing-op": "error",
+
+		"react/checked-requires-onchange-or-readonly": "error",
+		"react/prefer-function-component": "error",
+		"react/react-in-jsx-scope": "allow",
+		"react/button-has-type": "error",
+		"react/exhaustive-deps": "error",
+		"react/display-name": "allow",
+		"react/jsx-max-depth": [
+			"error",
+			{
+				"max": 7
+			}
+		],
+		"react/jsx-curly-brace-presence": [
+			"warn",
+			{
+				"children": "never",
+				"propElementValues": "always",
+				"props": "never"
+			}
+		],
+
+		"jsdoc/check-property-names": "error",
+		"jsdoc/check-tag-names": "error",
+		"jsdoc/check-access": "error",
+		"jsdoc/empty-tags": "error",
+
+		"unicorn/consistent-template-literal-escape": "allow",
+		"unicorn/prefer-native-coercion-functions": "error",
+		"unicorn/consistent-existence-index-check": "error",
+		"unicorn/consistent-empty-array-spread": "error",
+		"unicorn/consistent-function-scoping": "error",
+		"unicorn/custom-error-definition": "error",
+		"unicorn/consistent-date-clone": "error",
+		"unicorn/explicit-length-check": "error",
+		"unicorn/empty-brace-spaces": "error",
+		"unicorn/consistent-assert": "error",
+		"unicorn/catch-error-name": "error",
+		"unicorn/error-message": "error",
+		"unicorn/escape-case": "error",
+
+		"import/consistent-type-specifier-style": ["error", "prefer-top-level"],
+		"import/extensions": ["error", "never"],
+		"import/exports-last": "error",
+		"import/default": "error",
+		"import/export": "error",
+
+		"arrow-body-style": ["error", "as-needed"],
+		"prefer-arrow-callback": "error",
+		"func-style": [
+			"error",
+			"declaration",
+			{
+				"allowArrowFunctions": true
+			}
+		],
+		"array-callback-return": "error",
+		"capitalized-comments": "allow",
+		"eslint/no-loop-func": "error",
+		"default-param-last": "error",
+		"constructor-super": "error",
+		"default-case-last": "error",
+		"no-magic-numbers": "allow",
+		"block-scoped-var": "error",
+		"curly": ["error", "multi"],
+		"no-func-assign": "error",
+		"sort-imports": "allow",
+		"default-case": "allow",
+		"no-continue": "allow",
+		"no-new-func": "error",
+		"complexity": "error",
+		"no-ternary": "allow",
+		"sort-keys": "allow",
+		"no-console": "warn",
+		"eqeqeq": "error",
+		"no-duplicate-imports": [
+			"error",
+			{
+				"allowSeparateTypeImports": true
+			}
+		],
+		"max-statements": [
+			"warn",
+			{
+				"ignoreTopLevelFunctions": true,
+				"max": 60
+			}
+		],
+		"max-params": [
+			"error",
+			{
+				"max": 10
+			}
+		],
+		"id-length": [
+			"error",
+			{
+				"exceptions": ["a", "b", "x", "y", "z", "i", "j", "k", "t"]
+			}
+		]
+	}
+}

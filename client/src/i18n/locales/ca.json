@@ -1,373 +1,373 @@
 {
-  "brand": "Demochain",
-  "nav": {
-    "home": "Inici",
-    "proposals": "Propostes",
-    "new-proposal": "Nova proposta",
-    "how-it-works": "Com funciona"
-  },
-  "common": {
-    "title": "Títol",
-    "search": "Cerca",
-    "cancel": "Cancel·la",
-    "confirm": "Confirma",
-    "approve": "Aprovar",
-    "reject": "Rebutjar",
-    "back": "Enrere",
-    "previous": "Anterior",
-    "next": "Següent",
-    "waiting": "Esperant...",
-    "retry": "Reintentar",
-    "description": "Descripció",
-    "census": "Cens",
-    "addresses": "Adreces",
-    "active_one": "Activa",
-    "active_other": "Actives",
-    "no-matches": "Cap coincidència",
-    "connect": "Connectar",
-    "disconnect": "Desconnectar",
-    "step": "Pas {{current}} de {{total}}",
-    "completeness": "{{current}} de {{total}}",
-    "proposals": "Propostes",
-    "org": "Organització",
-    "basics": "Bàsics",
-    "dates": "Dates",
-    "options": "Opcions",
-    "review": "Revisió",
-    "summary": "Resum",
-    "member": "Membre",
-    "members": "Membres",
-    "organizer": "Organitzador",
-    "hide": "Amagar",
-    "add": "Afegir",
-    "remove": "Eliminar",
-    "replace-all": "Substituir tot",
-    "progress": "Processant {{done}} / {{total}}",
-    "start-date": "Data d'inici",
-    "end-date": "Data de fi",
-    "copied": "Copiat!",
-    "copy": "Copia",
-    "position": "Posició {{n}}",
-    "live": "En directe"
-  },
-  "theme": {
-    "toggle": "Canvia el tema",
-    "light": "Clar",
-    "dark": "Fosc"
-  },
-  "language": {
-    "label": "Idioma",
-    "en": "Anglès",
-    "es": "Castellà",
-    "ca": "Català"
-  },
-  "landing": {
-    "hero": {
-      "eyebrow": "Vot preferencial per a tothom",
-      "title1": "Ordena.",
-      "title2": "Decideix.",
-      "title3": "Verifica.",
-      "subtitle": "Proposa eleccions, ordena les teves preferències i confia en el resultat. Una plataforma oberta on la comunitat decideix què importa — i com es mesura.",
-      "cta-primary": "Explora propostes",
-      "cta-secondary": "Com funciona",
-      "counter": "veus emeses avui"
-    },
-    "how": {
-      "title": "Tres passos, un resultat clar",
-      "steps": [
-        {
-          "title": "Proposa",
-          "text": "Qualsevol persona pot proposar una elecció — un títol, dates i les opcions que els votants ordenaran."
-        },
-        {
-          "title": "Aprova",
-          "text": "La comunitat vota per aprovar-la. Si arriba als dos terços, s'obre en les dates fixades."
-        },
-        {
-          "title": "Ordena i decideix",
-          "text": "Els votants arrosseguen les opcions en el seu ordre de preferència. La guanyadora reflecteix el que realment vol la majoria."
-        }
-      ]
-    },
-    "features": {
-      "title": "Fet per a votants, no per a proveïdors",
-      "items": [
-        {
-          "title": "Vot preferencial",
-          "text": "Ordena tantes opcions com vulguis. Sense vots perduts ni efecte spoiler."
-        },
-        {
-          "title": "Aprovació comunitària",
-          "text": "Les propostes només esdevenen eleccions amb dos terços de suport — cap administrador decideix sol."
-        },
-        {
-          "title": "Resultats oberts",
-          "text": "Cada classificació és pública. Veus el guanyador, els segons i com d'ajustada va ser la cursa."
-        },
-        {
-          "title": "Verificable de manera independent",
-          "text": "Cada papereta rep un rebut que qualsevol pot comprovar — ancorat a Algorand perquè el recompte no es pugui reescriure."
-        },
-        {
-          "title": "Multilingüe",
-          "text": "Vota en anglès, castellà o català. La teva veu, la teva llengua."
-        },
-        {
-          "title": "Accessible de mena",
-          "text": "Classificació amb teclat, mode fosc i suport de moviment reduït."
-        }
-      ]
-    },
-    "cta": {
-      "title": "A punt per deixar decidir la gent?",
-      "text": "Redacta una proposta en minuts. La comunitat s'encarrega de la resta.",
-      "button": "Crea una proposta"
-    },
-    "footer": {
-      "tagline": "Eines democràtiques, construïdes obertament.",
-      "rights": "Tots els drets reservats."
-    }
-  },
-  "org": {
-    "title": "Organitzacions",
-    "subtitle": "Organismes de govern als quals pertanys o que gestiones.",
-    "my-organizations": "Les meves organitzacions",
-    "my-organizations-empty": "Encara no ets membre de cap organització.",
-    "other-organizations": "Altres organitzacions",
-    "other-organizations-hint": "Visible per tothom - votar requereix ser al cens.",
-    "valid-addresses": "{{count}} adreces vàlides",
-    "census-hint": "Afegeix els membres inicials d'aquesta organització. Podràs modificar el cens més endavant.",
-    "submit": "Crea l'organització",
-    "new": "Crea una organització",
-    "empty": "Encara no hi ha organitzacions.",
-    "members": "{{count}} membres",
-    "not-found": "Organització no trobada.",
-    "not-member": "No ets membre d'aquesta organització",
-    "not-member-short": "No membre",
-    "show-all-members": "Veure tots els {{count}} membres",
-    "proposals": {
-      "empty": "Encara no hi ha propostes.",
-      "search-placeholder": "Cerca per títol…"
-    },
-    "census": {
-      "manage": "Gestiona el cens",
-      "manage-hint": "Modifica els membres de «{{name}}».",
-      "empty": "Encara no hi ha membres.",
-      "empty-search": "Cap adreça coincideix amb la cerca.",
-      "search-placeholder": "Cerca una adreça…",
-      "match-of": "{{shown}} de {{total}}",
-      "added": "{{count}} adreces afegides",
-      "add": "Afegeix {{count}} adreces",
-      "removed": "{{count}} adreces eliminades",
-      "replaced": "Cens substituït per {{count}} adreces",
-      "replace": "Substitueix per {{count}} adreces",
-      "remove-hint": "Selecciona les adreces que vols eliminar del cens.",
-      "selected-count_one": "{{count}} seleccionada",
-      "selected-count_other": "{{count}} seleccionades",
-      "remove-selected": "Elimina {{count}} seleccionades"
-    },
-    "dev-addresses": {
-      "load": "Carrega adreces dev",
-      "hint": "Carrega les adreces declarades a dev-accounts.json"
-    },
-    "fields": {
-      "name": "Nom de l'organització",
-      "name-placeholder": "Assemblea Veïnal",
-      "description-placeholder": "Què governa aquesta organització?",
-      "addresses-placeholder": "Enganxar adreces, una per línia"
-    },
-    "steps": {
-      "basics": "Bàsics",
-      "census": "Cens",
-      "review": "Revisió"
-    },
-    "csv": {
-      "upload": "Puja un CSV",
-      "hint": "Primera columna = adreça, fila de capçalera botada automàticament.",
-      "skipped-rows": "files invàlides botades"
-    },
-    "confirmed": {
-      "title": "Organització creada!",
-      "text": "\"{{name}}\" ha estat registrada.",
-      "cta": "Veure les organitzacions"
-    },
-    "replace-confirm": {
-      "title": "Substituir tot el cens?",
-      "text": "Això substituirà els {{current}} membres actuals de \"{{name}}\" per {{next}} noves adreces. Aquesta acció no es pot desfer."
-    }
-  },
-  "proposal": {
-    "subtitle": "Explora les eleccions proposades per la comunitat.",
-    "new": {
-      "title": "Crea una nova proposta",
-      "short-title": "Nova proposta",
-      "submit": "Publica la proposta",
-      "org": {
-        "hint": "Selecciona l'organització a la qual pertanyerà aquesta proposta.",
-        "empty": "No ets membre de cap organització.",
-        "browse": "Explora les organitzacions"
-      },
-      "fields": {
-        "title": "Títol de la proposta",
-        "title-placeholder": "p. ex. Beca comunitària 2026",
-        "description": "Descripció",
-        "description-placeholder": "Descriu què decidiran els votants…",
-        "start": "La votació comença",
-        "start-placeholder": "Selecciona inici",
-        "end": "La votació acaba",
-        "end-placeholder": "Selecciona fi",
-        "option": "Opció {{n}}",
-        "option-placeholder": "Descriu una opció",
-        "add-option": "Afegeix opció",
-        "remove-option": "Elimina"
-      },
-      "confirmed": {
-        "title": "Proposta publicada!",
-        "cta": "Veure la proposta"
-      }
-    },
-    "approval": {
-      "cta": "Votar per aprovar",
-      "label": "Aprovació de la comunitat",
-      "threshold": "fan falta 2/3",
-      "reached": "S'ha assolit el llindar!"
-    },
-    "filters": {
-      "status": "Estat",
-      "active": "Actives",
-      "all": "Totes",
-      "pending": "Pendent d'aprovació",
-      "approved": "Aprovada",
-      "voting": "Votació oberta",
-      "closed": "Tancada",
-      "no-match": "Cap proposta coincideix amb el filtre."
-    },
-    "status": {
-      "pending": "Pendent d'aprovació",
-      "rejected": "Rebutjada",
-      "approved": "Aprovada",
-      "voting": "Votació oberta",
-      "closed": "Tancada"
-    },
-    "card": {
-      "options": "{{count}} opció",
-      "options_other": "{{count}} opcions",
-      "runs": "Del {{start}} al {{end}}"
-    },
-    "not-found": "Proposta no trobada.",
-    "options": "Opcions per ordenar",
-    "waiting-to-start": "La votació obre aviat"
-  },
-  "vote": {
-    "title": "Ordena les teves preferències",
-    "subtitle": "Arrossega les opcions en el teu ordre de preferència. La primera tria va a dalt.",
-    "already-voted": "Ja has votat en aquesta elecció",
-    "already-voted-hint": "Cada adreça només pot votar una vegada. El teu vot ha quedat registrat a la cadena.",
-    "keyboard-hint": "Consell: prem Tab per enfocar una opció, després Espai + fletxes per moure-la.",
-    "submit": "Envia el teu vot",
-    "cta": "Emet el teu vot preferencial",
-    "confirmed": "Vot confirmat",
-    "ranking": "La teva classificació",
-    "results": {
-      "title": "Resultats",
-      "cta": "Mira els resultats",
-      "voters": "{{count}} votant",
-      "voters_other": "{{count}} votants",
-      "voters-label": "votants fins ara",
-      "in-progress": "Elecció en curs",
-      "in-progress-hint": "Els resultats estaran disponibles quan tanqui l'elecció. Els vots estan emmagatzemats a la cadena."
-    },
-    "opens-on": "La finestra de votació s'obre el {{date}}. Torna llavors per emetre el teu vot.",
-    "closed-notice": "Aquesta elecció ha finalitzat."
-  },
-  "results": {
-    "verify": {
-      "title": "Verifica el teu vot",
-      "text": "Introdueix l'adreça Algorand d'un votant per verificar de manera independent que la seva papereta ha estat registrada i comptada.",
-      "placeholder": "Adreça Algorand del votant",
-      "button": "Verifica",
-      "success": "Aquesta papereta ha estat registrada i comptada.",
-      "ranked": "Ordre de preferència",
-      "not-voted": "No s'ha trobat cap papereta per a aquesta adreça en aquesta elecció."
-    },
-    "no-votes": "No es va emetre cap vot en aquesta elecció.",
-    "winner": "Guanyadora",
-    "first-choice-votes": "Vots de primera opció",
-    "first-choice-short": "vegades com 1a opció",
-    "ranking": "Classificació completa",
-    "schulze-note": "El guanyador es determina pel mètode Schulze: l'opció que guanya més comparatives directes.",
-    "pairwise-wins": "{{wins}}/{{total}} comparatives guanyades",
-    "pairwise-section": "Duels directes",
-    "pairwise-explanation": "Cada duel mostra quants votants van preferir cadascuna de les dues opcions quan es comparen directament. L'opció amb més preferències guanya el duel.",
-    "pairwise-legend-tie": "Empat",
-    "pairwise-matchup-win": "{{name}} guanya",
-    "first-choice-secondary": "Primera opció: {{count}} vots",
-    "stat-duels": "{{wins}}/{{total}} duels",
-    "stat-first-choice": "{{count}} 1a opció",
-    "stat-total-prefs": "{{count}} pref. totals",
-    "tie-title": "Empat",
-    "tie-description": "Cap opció ha obtingut victòries directes sobre les altres. Totes les opcions s'han enfrontat de manera equilibrada en les comparatives cara a cara.",
-    "tie-suggestion": "Considera crear una nova proposta per tornar a votar amb més opcions o candidats.",
-    "tie-new-proposal": "Crear nova proposta",
-    "all-options": "Totes les opcions"
-  },
-  "wallet": {
-    "txid": "ID de transacció",
-    "connect": "Connecta el wallet per continuar",
-    "connect-notice": "Connecta la cartera per veure a quines propostes pots votar.",
-    "choose": "Estria wallet",
-    "switch": "Canviar de compte",
-    "address-filter-placeholder": "Filtrar per adreça…",
-    "waiting-signature": "Esperant signatura…",
-    "view-on-lora": "Veure-ho a Lora",
-    "close-receipt": "Tancar rebut"
-  },
-  "errors": {
-    "unknown": "Error desconegut",
-    "network": "Error de xarxa. Torna-ho a intentar.",
-    "contract": "Error desconegut provinent de la cadena de blocs",
-    "proposal": {
-      "empty-title": "El títol no pot estar buit",
-      "empty-description": "La descripció no pot estar buida",
-      "starting-too-soon": "La data d'inici ha de ser almenys 3 dies en el futur",
-      "small-voting-window": "La finestra de votació ha de durar almenys 1 dia",
-      "too-few-options": "Cal afegir almenys 2 opcions",
-      "empty-options": "Cap opció pot estar buida",
-      "empty-option": "Cap opció pot estar buida",
-      "duplicated-options": "Hi ha opcions duplicades",
-      "duplicated-option": "Hi ha opcions duplicades",
-      "already-voted": "Ja has votat en aquesta proposta",
-      "not-approved": "La proposta no ha estat aprovada",
-      "not-accepted": "La proposta no ha estat acceptada",
-      "not-found": "La proposta no s'ha trobat"
-    },
-    "org": {
-      "required": "S'ha d'especificar l'ID d'una organització",
-      "empty-name": "El nom no pot estar buit",
-      "empty-description": "La descripció no pot estar buida",
-      "invalid-address": "Una o més adreces no són vàlides",
-      "already-exists": "Ja existeix una organització amb aquest nom",
-      "not-found": "L'organització no s'ha trobat",
-      "not-in-census": "No ets membre d'aquesta organització",
-      "unauthorized": "No tens permís per a realitzar aquesta acció",
-      "census": {
-        "too-many-addresses": "Massa adreces per a un sol lot",
-        "invalid-address": "Una o més adreces no són vàlides",
-        "duplicated-address": "L'adreça ja és al cens",
-        "cannot-remove-organizer": "No es pot eliminar l'organitzador del cens",
-        "non-registered-address": "L'adreça no és al cens",
-        "unauthorized": "No ets membre d'aquesta organització",
-        "empty": "El cens és buit"
-      }
-    },
-    "election": {
-      "already-voted": "Ja has votat en aquesta elecció",
-      "missing-options": "L'ordre de preferències és incorrecte",
-      "not-started": "La votació encara no ha començat",
-      "ended": "El període de votació ha acabat"
-    },
-    "wallet": {
-      "rejected": "Has cancel·lat la signatura"
-    }
-  }
+	"brand": "Demochain",
+	"nav": {
+		"home": "Inici",
+		"proposals": "Propostes",
+		"new-proposal": "Nova proposta",
+		"how-it-works": "Com funciona"
+	},
+	"common": {
+		"title": "Títol",
+		"search": "Cerca",
+		"cancel": "Cancel·la",
+		"confirm": "Confirma",
+		"approve": "Aprovar",
+		"reject": "Rebutjar",
+		"back": "Enrere",
+		"previous": "Anterior",
+		"next": "Següent",
+		"waiting": "Esperant...",
+		"retry": "Reintentar",
+		"description": "Descripció",
+		"census": "Cens",
+		"addresses": "Adreces",
+		"active_one": "Activa",
+		"active_other": "Actives",
+		"no-matches": "Cap coincidència",
+		"connect": "Connectar",
+		"disconnect": "Desconnectar",
+		"step": "Pas {{current}} de {{total}}",
+		"completeness": "{{current}} de {{total}}",
+		"proposals": "Propostes",
+		"org": "Organització",
+		"basics": "Bàsics",
+		"dates": "Dates",
+		"options": "Opcions",
+		"review": "Revisió",
+		"summary": "Resum",
+		"member": "Membre",
+		"members": "Membres",
+		"organizer": "Organitzador",
+		"hide": "Amagar",
+		"add": "Afegir",
+		"remove": "Eliminar",
+		"replace-all": "Substituir tot",
+		"progress": "Processant {{done}} / {{total}}",
+		"start-date": "Data d'inici",
+		"end-date": "Data de fi",
+		"copied": "Copiat!",
+		"copy": "Copia",
+		"position": "Posició {{position}}",
+		"live": "En directe"
+	},
+	"theme": {
+		"toggle": "Canvia el tema",
+		"light": "Clar",
+		"dark": "Fosc"
+	},
+	"language": {
+		"label": "Idioma",
+		"en": "English",
+		"es": "Español",
+		"ca": "Català"
+	},
+	"landing": {
+		"hero": {
+			"eyebrow": "Vot preferencial per a tothom",
+			"title1": "Ordena.",
+			"title2": "Decideix.",
+			"title3": "Verifica.",
+			"subtitle": "Proposa eleccions, ordena les teves preferències i confia en el resultat. Una plataforma oberta on la comunitat decideix què importa - i com es mesura.",
+			"cta-primary": "Explora propostes",
+			"cta-secondary": "Com funciona",
+			"counter": "veus emeses avui"
+		},
+		"how": {
+			"title": "Tres passos, un resultat clar",
+			"steps": [
+				{
+					"title": "Proposa",
+					"text": "Qualsevol persona pot proposar una elecció - un títol, dates i les opcions que els votants ordenaran."
+				},
+				{
+					"title": "Aprova",
+					"text": "La comunitat vota per aprovar-la. Si arriba als dos terços, s'obre en les dates fixades."
+				},
+				{
+					"title": "Ordena i decideix",
+					"text": "Els votants arrosseguen les opcions en el seu ordre de preferència. La guanyadora reflecteix el que realment vol la majoria."
+				}
+			]
+		},
+		"features": {
+			"title": "Fet per a votants, no per a proveïdors",
+			"items": [
+				{
+					"title": "Vot preferencial",
+					"text": "Ordena tantes opcions com vulguis. Sense vots perduts ni efecte spoiler."
+				},
+				{
+					"title": "Aprovació comunitària",
+					"text": "Les propostes només esdevenen eleccions amb dos terços de suport - cap administrador decideix sol."
+				},
+				{
+					"title": "Resultats oberts",
+					"text": "Cada classificació és pública. Veus el guanyador, els segons i com d'ajustada va ser la cursa."
+				},
+				{
+					"title": "Verificable de manera independent",
+					"text": "Cada papereta rep un rebut que qualsevol pot comprovar - ancorat a Algorand perquè el recompte no es pugui reescriure."
+				},
+				{
+					"title": "Multilingüe",
+					"text": "Vota en anglès, castellà o català. La teva veu, la teva llengua."
+				},
+				{
+					"title": "Accessible de mena",
+					"text": "Classificació amb teclat, mode fosc i suport de moviment reduït."
+				}
+			]
+		},
+		"cta": {
+			"title": "A punt per deixar decidir la gent?",
+			"text": "Redacta una proposta en minuts. La comunitat s'encarrega de la resta.",
+			"button": "Crea una proposta"
+		},
+		"footer": {
+			"tagline": "Eines democràtiques, construïdes obertament.",
+			"rights": "Tots els drets reservats."
+		}
+	},
+	"org": {
+		"title": "Organitzacions",
+		"subtitle": "Organismes de govern als quals pertanys o que gestiones.",
+		"my-organizations": "Les meves organitzacions",
+		"my-organizations-empty": "Encara no ets membre de cap organització.",
+		"other-organizations": "Altres organitzacions",
+		"other-organizations-hint": "Visible per tothom - votar requereix ser al cens.",
+		"valid-addresses": "{{count}} adreces vàlides",
+		"census-hint": "Afegeix els membres inicials d'aquesta organització. Podràs modificar el cens més endavant.",
+		"submit": "Crea l'organització",
+		"new": "Crea una organització",
+		"empty": "Encara no hi ha organitzacions.",
+		"members": "{{count}} membres",
+		"not-found": "Organització no trobada.",
+		"not-member": "No ets membre d'aquesta organització",
+		"not-member-short": "No membre",
+		"show-all-members": "Veure tots els {{count}} membres",
+		"proposals": {
+			"empty": "Encara no hi ha propostes.",
+			"search-placeholder": "Cerca per títol…"
+		},
+		"census": {
+			"manage": "Gestiona el cens",
+			"manage-hint": "Modifica els membres de «{{name}}».",
+			"empty": "Encara no hi ha membres.",
+			"empty-search": "Cap adreça coincideix amb la cerca.",
+			"search-placeholder": "Cerca una adreça…",
+			"match-of": "{{shown}} de {{total}}",
+			"added": "{{count}} adreces afegides",
+			"add": "Afegeix {{count}} adreces",
+			"removed": "{{count}} adreces eliminades",
+			"replaced": "Cens substituït per {{count}} adreces",
+			"replace": "Substitueix per {{count}} adreces",
+			"remove-hint": "Selecciona les adreces que vols eliminar del cens.",
+			"selected-count_one": "{{count}} seleccionada",
+			"selected-count_other": "{{count}} seleccionades",
+			"remove-selected": "Elimina {{count}} seleccionades"
+		},
+		"dev-addresses": {
+			"load": "Carrega adreces dev",
+			"hint": "Carrega les adreces declarades a dev-accounts.json"
+		},
+		"fields": {
+			"name": "Nom de l'organització",
+			"name-placeholder": "Assemblea Veïnal",
+			"description-placeholder": "Què governa aquesta organització?",
+			"addresses-placeholder": "Enganxar adreces, una per línia"
+		},
+		"steps": {
+			"basics": "Bàsics",
+			"census": "Cens",
+			"review": "Revisió"
+		},
+		"csv": {
+			"upload": "Puja un CSV",
+			"hint": "Primera columna = adreça, fila de capçalera botada automàticament.",
+			"skipped-rows": "files invàlides botades"
+		},
+		"confirmed": {
+			"title": "Organització creada!",
+			"text": "\"{{name}}\" ha estat registrada.",
+			"cta": "Veure les organitzacions"
+		},
+		"replace-confirm": {
+			"title": "Substituir tot el cens?",
+			"text": "Això substituirà els {{current}} membres actuals de \"{{name}}\" per {{next}} noves adreces. Aquesta acció no es pot desfer."
+		}
+	},
+	"proposal": {
+		"subtitle": "Explora les eleccions proposades per la comunitat.",
+		"new": {
+			"title": "Crea una nova proposta",
+			"short-title": "Nova proposta",
+			"submit": "Publica la proposta",
+			"org": {
+				"hint": "Selecciona l'organització a la qual pertanyerà aquesta proposta.",
+				"empty": "No ets membre de cap organització.",
+				"browse": "Explora les organitzacions"
+			},
+			"fields": {
+				"title": "Títol de la proposta",
+				"title-placeholder": "p. ex. Beca comunitària 2026",
+				"description": "Descripció",
+				"description-placeholder": "Descriu què decidiran els votants…",
+				"start": "La votació comença",
+				"start-placeholder": "Selecciona inici",
+				"end": "La votació acaba",
+				"end-placeholder": "Selecciona fi",
+				"option": "Opció {{n}}",
+				"option-placeholder": "Descriu una opció",
+				"add-option": "Afegeix opció",
+				"remove-option": "Elimina"
+			},
+			"confirmed": {
+				"title": "Proposta publicada!",
+				"cta": "Veure la proposta"
+			}
+		},
+		"approval": {
+			"cta": "Votar per aprovar",
+			"label": "Aprovació de la comunitat",
+			"threshold": "fan falta 2/3",
+			"reached": "S'ha assolit el llindar!"
+		},
+		"filters": {
+			"status": "Estat",
+			"active": "Actives",
+			"all": "Totes",
+			"pending": "Pendent d'aprovació",
+			"approved": "Aprovada",
+			"voting": "Votació oberta",
+			"closed": "Tancada",
+			"no-match": "Cap proposta coincideix amb el filtre."
+		},
+		"status": {
+			"pending": "Pendent d'aprovació",
+			"rejected": "Rebutjada",
+			"approved": "Aprovada",
+			"voting": "Votació oberta",
+			"closed": "Tancada"
+		},
+		"card": {
+			"options": "{{count}} opció",
+			"options_other": "{{count}} opcions",
+			"runs": "Del {{start}} al {{end}}"
+		},
+		"not-found": "Proposta no trobada.",
+		"options": "Opcions per ordenar",
+		"waiting-to-start": "La votació obre aviat"
+	},
+	"vote": {
+		"title": "Ordena les teves preferències",
+		"subtitle": "Arrossega les opcions en el teu ordre de preferència. La primera tria va a dalt.",
+		"already-voted": "Ja has votat en aquesta elecció",
+		"already-voted-hint": "Cada adreça només pot votar una vegada. El teu vot ha quedat registrat a la cadena.",
+		"keyboard-hint": "Consell: prem Tab per enfocar una opció, després Espai + fletxes per moure-la.",
+		"submit": "Envia el teu vot",
+		"cta": "Emet el teu vot preferencial",
+		"confirmed": "Vot confirmat",
+		"ranking": "La teva classificació",
+		"results": {
+			"title": "Resultats",
+			"cta": "Mira els resultats",
+			"voters": "{{count}} votant",
+			"voters_other": "{{count}} votants",
+			"voters-label": "votants fins ara",
+			"in-progress": "Elecció en curs",
+			"in-progress-hint": "Els resultats estaran disponibles quan tanqui l'elecció. Els vots estan emmagatzemats a la cadena."
+		},
+		"opens-on": "La finestra de votació s'obre el {{date}}. Torna llavors per emetre el teu vot.",
+		"closed-notice": "Aquesta elecció ha finalitzat."
+	},
+	"results": {
+		"verify": {
+			"title": "Verifica el teu vot",
+			"text": "Introdueix l'adreça Algorand d'un votant per verificar de manera independent que la seva papereta ha estat registrada i comptada.",
+			"placeholder": "Adreça Algorand del votant",
+			"button": "Verifica",
+			"success": "Aquesta papereta ha estat registrada i comptada.",
+			"ranked": "Ordre de preferència",
+			"not-voted": "No s'ha trobat cap papereta per a aquesta adreça en aquesta elecció."
+		},
+		"no-votes": "No es va emetre cap vot en aquesta elecció.",
+		"winner": "Guanyadora",
+		"first-choice-votes": "Vots de primera opció",
+		"first-choice-short": "vegades com 1a opció",
+		"ranking": "Classificació completa",
+		"schulze-note": "El guanyador es determina pel mètode Schulze: l'opció que guanya més comparatives directes.",
+		"pairwise-wins": "{{wins}}/{{total}} comparatives guanyades",
+		"pairwise-section": "Duels directes",
+		"pairwise-explanation": "Cada duel mostra quants votants van preferir cadascuna de les dues opcions quan es comparen directament. L'opció amb més preferències guanya el duel.",
+		"pairwise-legend-tie": "Empat",
+		"pairwise-matchup-win": "{{name}} guanya",
+		"first-choice-secondary": "Primera opció: {{count}} vots",
+		"stat-duels": "{{wins}}/{{total}} duels",
+		"stat-first-choice": "{{count}} 1a opció",
+		"stat-total-prefs": "{{count}} pref. totals",
+		"tie-title": "Empat",
+		"tie-description": "Cap opció ha obtingut victòries directes sobre les altres. Totes les opcions s'han enfrontat de manera equilibrada en les comparatives cara a cara.",
+		"tie-suggestion": "Considera crear una nova proposta per tornar a votar amb més opcions o candidats.",
+		"tie-new-proposal": "Crear nova proposta",
+		"all-options": "Totes les opcions"
+	},
+	"wallet": {
+		"txid": "ID de transacció",
+		"connect": "Connecta el wallet per continuar",
+		"connect-notice": "Connecta la cartera per veure a quines propostes pots votar.",
+		"choose": "Estria wallet",
+		"switch": "Canviar de compte",
+		"address-filter-placeholder": "Filtrar per adreça…",
+		"waiting-signature": "Esperant signatura…",
+		"view-on-lora": "Veure-ho a Lora",
+		"close-receipt": "Tancar rebut"
+	},
+	"errors": {
+		"unknown": "Error desconegut",
+		"network": "Error de xarxa. Torna-ho a intentar.",
+		"contract": "Error desconegut provinent de la cadena de blocs",
+		"proposal": {
+			"empty-title": "El títol no pot estar buit",
+			"empty-description": "La descripció no pot estar buida",
+			"starting-too-soon": "La data d'inici ha de ser almenys 3 dies en el futur",
+			"small-voting-window": "La finestra de votació ha de durar almenys 1 dia",
+			"too-few-options": "Cal afegir almenys 2 opcions",
+			"empty-options": "Cap opció pot estar buida",
+			"empty-option": "Cap opció pot estar buida",
+			"duplicated-options": "Hi ha opcions duplicades",
+			"duplicated-option": "Hi ha opcions duplicades",
+			"already-voted": "Ja has votat en aquesta proposta",
+			"not-approved": "La proposta no ha estat aprovada",
+			"not-accepted": "La proposta no ha estat acceptada",
+			"not-found": "La proposta no s'ha trobat"
+		},
+		"org": {
+			"required": "S'ha d'especificar l'ID d'una organització",
+			"empty-name": "El nom no pot estar buit",
+			"empty-description": "La descripció no pot estar buida",
+			"invalid-address": "Una o més adreces no són vàlides",
+			"already-exists": "Ja existeix una organització amb aquest nom",
+			"not-found": "L'organització no s'ha trobat",
+			"not-in-census": "No ets membre d'aquesta organització",
+			"unauthorized": "No tens permís per a realitzar aquesta acció",
+			"census": {
+				"too-many-addresses": "Massa adreces per a un sol lot",
+				"invalid-address": "Una o més adreces no són vàlides",
+				"duplicated-address": "L'adreça ja és al cens",
+				"cannot-remove-organizer": "No es pot eliminar l'organitzador del cens",
+				"non-registered-address": "L'adreça no és al cens",
+				"unauthorized": "No ets membre d'aquesta organització",
+				"empty": "El cens és buit"
+			}
+		},
+		"election": {
+			"already-voted": "Ja has votat en aquesta elecció",
+			"missing-options": "L'ordre de preferències és incorrecte",
+			"not-started": "La votació encara no ha començat",
+			"ended": "El període de votació ha acabat"
+		},
+		"wallet": {
+			"rejected": "Has cancel·lat la signatura"
+		}
+	}
 }

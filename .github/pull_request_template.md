@@ -4,12 +4,12 @@
 
 ## Tipus de canvi
 
-- [ ] `feat` — Nova funcionalitat
-- [ ] `fix` — Correcció d'error
-- [ ] `docs` — Documentació
-- [ ] `refactor` — Refactorització (no canvia funcionalitat)
-- [ ] `test` — Tests
-- [ ] `chore` — Manteniment, deps, CI
+- [ ] `feat` - Nova funcionalitat
+- [ ] `fix` - Correcció d'error
+- [ ] `docs` - Documentació
+- [ ] `refactor` - Refactorització (no canvia funcionalitat)
+- [ ] `test` - Tests
+- [ ] `chore` - Manteniment, deps, CI
 
 ## Issues relacionades
 

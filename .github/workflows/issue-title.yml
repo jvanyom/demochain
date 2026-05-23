@@ -2,7 +2,7 @@ name: Issue title check
 
 on:
   issues:
-    types: [opened, edited]
+    types: [ opened, edited ]
 
 jobs:
   check-title:

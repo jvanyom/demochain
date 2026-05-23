@@ -27,9 +27,8 @@ bun install
 
 ```
 demochain/
-├── client/              # Frontend React + TypeScript (Bun, Biome)
-├── contract/            # Smart contract Algorand + Python (PyUP, ruff)
-├── scripts/             # Utilitats Python (ruff)
+├── client/              # Frontend React + TypeScript (Bun, oxlint, oxfmt)
+├── voting-contract/     # Smart contract Algorand + Python (ruff)
 └── .githooks/           # Git hooks (commit-msg, pre-commit, pre-push)
 ```
 
@@ -51,7 +50,7 @@ Exemples:
 
 **Tipus permesos:** `feat`, `fix`, `docs`, `style`, `refactor`, `test`, `chore`, `ci`, `build`, `perf`, `revert`
 
-Els hooks locals t'ajudaràn — si un commit no segueix el format, els hooks el rebutjaran amb un missatge explicatiu.
+Els hooks locals t'ajudaràn - si un commit no segueix el format, els hooks el rebutjaran amb un missatge explicatiu.
 
 ### Python (contract/ i scripts/)
 
@@ -69,17 +68,20 @@ Configuració: `pyproject.toml` (100 chars de línia, Python 3.11)
 
 ### TypeScript (client/)
 
-Es valida automàticament amb **Biome**:
+Es valida automàticament amb **oxlint** (linter) i **oxfmt** (formatter):
 
 ```bash
-# Comprovar sense cambiar
+# Comprovar sense canviar
 make lint-client
 
-# Auto-arreglar i formatejar
+# Auto-formatejar
 make fmt-client
+
+# Comprovar lint + format (mode CI)
+cd client && bun run check
 ```
 
-Configuració: `client/biome.json` (100 chars de línia, cometes dobles, trailing commas `es5`)
+Configuració: `client/.oxlintrc.json` (oxlint) i `client/.oxfmtrc.json` (oxfmt, 100 chars de línia, cometes dobles, trailing commas `es5`)
 
 ## Fluxe de treball
 
@@ -102,11 +104,11 @@ Configuració: `client/biome.json` (100 chars de línia, cometes dobles, trailin
 
 Utilitza una de les plantilles disponibles:
 
-- **[EPIC]** — Conjunt de treball (múltiples sprints)
-- **[US]** — Història d'usuari
-- **[TASK]** — Tasca individual (≤1 dia)
-- **[SUBTASK]** — Sub-tasca dins d'una tasca
-- **[SPIKE]** — Investigació limitada en temps
+- **[EPIC]** - Conjunt de treball (múltiples sprints)
+- **[US]** - Història d'usuari
+- **[TASK]** - Tasca individual (≤1 dia)
+- **[SUBTASK]** - Sub-tasca dins d'una tasca
+- **[SPIKE]** - Investigació limitada en temps
 
 Els títols han de seguir el patró `[TYPE] descripció`.
 
@@ -126,10 +128,10 @@ git config core.hooksPath
 pip install ruff
 ```
 
-### Biome no está instal·lat (client/)
+### oxlint/oxfmt no están instal·lats (client/)
 ```bash
 cd client
-bun add --dev @biomejs/biome
+bun install
 ```
 
 ### Error "git config core.hooksPath" en WSL/Windows
