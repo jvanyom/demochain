@@ -1,4 +1,4 @@
-# Mètode Schulze — Exemple treballat i justificació
+# Mètode Schulze - Exemple treballat i justificació
 
 **ID de la tasca**: E1-US3-T3
 **Data**: 2026-05-01
@@ -47,16 +47,16 @@ Cada cel·la _d_[X,Y] compta quants votants prefereixen X per sobre de Y.
 
 |       | A  | B  | C  | D  | E  |
 |------:|:--:|:--:|:--:|:--:|:--:|
-| **A** |  — | 20 | 26 | 30 | 22 |
-| **B** | 25 |  — | 16 | 33 | 18 |
-| **C** | 19 | 29 |  — | 17 | 24 |
-| **D** | 15 | 12 | 28 |  — | 14 |
-| **E** | 23 | 27 | 21 | 31 |  — |
+| **A** |  - | 20 | 26 | 30 | 22 |
+| **B** | 25 |  - | 16 | 33 | 18 |
+| **C** | 19 | 29 |  - | 17 | 24 |
+| **D** | 15 | 12 | 28 |  - | 14 |
+| **E** | 23 | 27 | 21 | 31 |  - |
 
 > Interpretació: 20 votants prefereixen A per sobre de B, però 25 prefereixen B per sobre d'A. Per tant, B guanya A en comparació directa amb marge 25 − 20 = 5.
 
 No hi ha guanyador de _Condorcet_ pur perquè es produeix el cicle:
-**B > A > E > B** (B > A amb 25, A > E amb 22 però E > B amb 27... — el cicle es resol amb la matriu de camins).
+**B > A > E > B** (B > A amb 25, A > E amb 22 però E > B amb 27... - el cicle es resol amb la matriu de camins).
 
 ### 2.3. Matriu de camins més forts (_p_[X,Y])
 
@@ -73,15 +73,15 @@ Després de l'algoritme de Floyd-Warshall:
 
 |       | A  | B  | C  | D  | E  |
 |------:|:--:|:--:|:--:|:--:|:--:|
-| **A** |  — | 28 | 28 | 30 | 24 |
-| **B** | 25 |  — | 28 | 33 | 24 |
-| **C** | 25 | 29 |  — | 29 | 24 |
-| **D** | 25 | 28 | 28 |  — | 24 |
-| **E** | 25 | 28 | 28 | 31 |  — |
+| **A** |  - | 28 | 28 | 30 | 24 |
+| **B** | 25 |  - | 28 | 33 | 24 |
+| **C** | 25 | 29 |  - | 29 | 24 |
+| **D** | 25 | 28 | 28 |  - | 24 |
+| **E** | 25 | 28 | 28 | 31 |  - |
 
 Anotacions dels passos clau:
 
-- **p[A,B] = 28**: el camí directe A→B val 20 (feble). Però A→C→B val min(26, 29) = 26, i A→C→E→B val min(26, 24, 27) = 24... El camí A→D... no supera cap d'aquests. Finalment, el camí A→C→B→E→D→... no afegeix res. El millor és el camí A→D (30) → ... espera: d[A,D]=30 > d[D,A]=15, per tant A bat D. Aleshores p[A,B] s'actualitza considerant tots els intermediaris; el valor final 28 reflecteix que el millor camí de A a B passa per C com a intermediari amb força 28 = min(d[A,C]=26... ) — els detalls complets de l'algoritme s'executen iterativament per tots els intermediaris {A,B,C,D,E}.
+- **p[A,B] = 28**: el camí directe A→B val 20 (feble). Però A→C→B val min(26, 29) = 26, i A→C→E→B val min(26, 24, 27) = 24... El camí A→D... no supera cap d'aquests. Finalment, el camí A→C→B→E→D→... no afegeix res. El millor és el camí A→D (30) → ... espera: d[A,D]=30 > d[D,A]=15, per tant A bat D. Aleshores p[A,B] s'actualitza considerant tots els intermediaris; el valor final 28 reflecteix que el millor camí de A a B passa per C com a intermediari amb força 28 = min(d[A,C]=26... ) - els detalls complets de l'algoritme s'executen iterativament per tots els intermediaris {A,B,C,D,E}.
 
 - **p[E,D] = 31**: E bata D directament amb 31 vots, que és el màxim de la taula. Qualsevol camí indirecte no pot superar 31, ja que el mínim del camí no pot ser major.
 

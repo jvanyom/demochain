@@ -58,7 +58,7 @@
 
 % Per incloure expressions matemàtiques en
 % el document és recomanable usar els paquets
-%\usepackage{amsmath,mathtools} 
+\usepackage{amsmath,mathtools,amstext}
 
 % Per incloure fragments de codi hi ha diferents
 % paquets disponibles. Triau el que vos sigui 
@@ -96,12 +96,13 @@
 
 % Evita que los flotantes (figuras, tablas) salten de sección o subsección.
 \usepackage[section]{placeins}
-\makeatletter
-\AtBeginDocument{%
-  \let\oldsubsection\subsection
-  \renewcommand{\subsection}{\FloatBarrier\oldsubsection}%
-}
-\makeatother
+\usepackage{etoolbox}
+\pretocmd{\subsection}{\FloatBarrier}{}{}
+
+% Evita viudes i orfes (línies soles al final/inici de pàgina)
+\widowpenalty=10000
+\clubpenalty=10000
+
 
 % Permite cortar URLs largas en más puntos para evitar que se salgan del margen.
 \usepackage{xurl}
@@ -113,7 +114,10 @@
 % figures, bibliografia, fórmules, índex, ...
 % tant sols assenyalant-los amb el ratolí. 
 %\usepackage[backref, colorlinks=true, all colors=black]{hyperref}
-\usepackage[backref, colorlinks=true]{hyperref}
+\usepackage[backref, colorlinks=true, hypertexnames=false]{hyperref}
+\usepackage{pythontex}
+\usepackage{booktabs}
+\usepackage{textcomp}
 
 % Si voleu que els enllaços apareguin en colors diferents,
 % eliminau l'opció "all colors=black". 
@@ -139,7 +143,7 @@
 % Aquí podeu posar el títol de la vostra memòria
 \title{DEMOCHAIN}
 
-\author{\parbox[t]{150mm}{%
+\author{\parbox[t]{150mm}{
   Jordi Vanyó Mestre \\
   Dylan Luigi Canning Garcia \\
   Antonio Contestí Coll \\
@@ -173,11 +177,10 @@
 
 % Recordau haver indicat, títol, autor i tutor
 % i no toqueu les línies següents.
-\portada
-\frontmatter
+    \portada \frontmatter
 
 % A continuació el Sumari
-\cleartorecto \tableofcontents
+    \cleartorecto \tableofcontents
 
 % Si voleu que apareguin una llista de figures
 % i taules, activau les línies corresponents
@@ -188,15 +191,15 @@
 % convindrà fer-ne una llista. Podeu veure com
 % crear-la consultant el fitxer 'Acronims.tex',
 % que és el que s'inclou aquí.
-\include{Acronimos}
+    \include{chapters/acronims}
 % Si no usau acrònims, comentau la línia anterior
 
 % En l'arxiu Resum.tex es posarà el resum
 % del treball.
-\include{Resum}
+    \include{chapters/resum}
 
 % No toqueu la línia següent 
-\mainmatter\pagestyle{ruled}
+    \mainmatter\pagestyle{ruled}
 
 %%%%%% COS DEL TREBALL %%%%%%%%%%%%
 
@@ -209,13 +212,14 @@
 % que ens permetrà processar sols aquella part
 % del document que ens interessi.
 
-\include{capitols/Introduccio}
-\include{capitols/EstatDelArt}
-\include{capitols/Planificacio}
-\include{capitols/Disseny}
-\include{capitols/Desenvolupament}
-\include{capitols/Conclusions}
-\include{capitols/Us_ia}
+    \include{chapters/introduccio}
+    \include{chapters/estat-de-l-art}
+    \include{chapters/planificacio}
+    \include{chapters/analisi}
+    \include{chapters/disseny}
+    \include{chapters/desenvolupament}
+    \include{chapters/conclusions}
+    \include{chapters/us-ia}
 
 %%%%%%% Fi cos del treball %%%%%%%%%%%
 
@@ -230,14 +234,14 @@
 %%%%%%% Fi apèndix 
 
 % No toqueu la línia següent 
-\backmatter
+    \backmatter
 
 % La comanda següent defineix l'estil bibliogràfic
-\bibliographystyle{IEEEtran}
+    \bibliographystyle{IEEEtran}
 
 % La comanda següent defineix el fitxer que
 % conté les referències bibliogràfiques.
 % En aquest cas és el fitxer Bibliografia.bib
-\bibliography{Bibliografia} 
+    \bibliography{chapters/bibliografia}
 
 \end{document}

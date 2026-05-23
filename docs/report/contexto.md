@@ -147,10 +147,10 @@ El contrato acumula los envíos de cada nodo y, cuando un número suficiente de 
 hash, registra el resultado como anclado de forma permanente e inmutable.
 
 
-## 7. Smart contract NotaryContract (Ethereum — Sepolia)
+## 7. Smart contract NotaryContract (Ethereum - Sepolia)
 
 El `NotaryContract` es el componente que garantiza la integridad del sistema en Ethereum. Implementa
-un mecanismo de consenso **K-de-N** entre los nodos universitarios:
+un mecanismo de consenso **K-of-N** entre los nodos universitarios:
 
 - El administrador del contrato gestiona una lista blanca de direcciones Ethereum, una por cada nodo
   universitario participante. El umbral K se calcula automáticamente como el techo de 2/3 del total

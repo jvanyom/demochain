@@ -70,7 +70,7 @@
     \textbf{Equip de desenvolupament}\par
     \vspace{0.3cm}
     \begin{tabular}{ll}
-        Marc Link     & Coordinador del projecte / Frontend \\
+        Marc Link     & Coordinador del projecte / \textit{front-end} \\
         Jordi Vanyó   & Desenvolupador Blockchain / Smart Contracts \\
         Dylan Luigi Canning & Desenvolupador Backend / Seguretat \\
         Toni Contestí & Assegurament de qualitat / Documentació \\
@@ -217,7 +217,7 @@ L'abast del prototip cobreix un conjunt de funcionalitats nuclears que es relaci
     \addlinespace
     Verificació pública & Consulta oberta del registre de vots i resultats & Auditors, Votants & Transparència i auditabilitat \\
     \addlinespace
-    Interfície web & Frontend React per a l'emissió de vot i visualització & Votants, Organitzadors & Accessibilitat i usabilitat \\
+    Interfície web & \textit{front-end} React per a l'emissió de vot i visualització & Votants, Organitzadors & Accessibilitat i usabilitat \\
     \addlinespace
     Panell d'administració & Configuració d'eleccions, gestió de censos & Organitzadors & Control del procés electoral \\
     \bottomrule
@@ -246,7 +246,7 @@ Aquestes limitacions no representen deficiències del disseny sinó fronteres de
 
 El sistema s'estructura en tres capes lògiques independents que es comuniquen via interfícies ben definides, seguint els principis d'arquitectura hexagonal (\textit{ports and adapters}):
 
-\subsection{Frontend web}
+\subsection{\textit{front-end} web}
 
 Implementat en React amb Tailwind CSS. S'integra amb la blockchain via la biblioteca \texttt{ethers.js}, que permet signar transaccions directament des del navegador sense exposar la clau privada al servidor. Funcions principals:
 
@@ -263,9 +263,9 @@ Implementat en Python amb FastAPI. Actua com a capa d'autenticació i emissió d
 
 \begin{itemize}
     \item Autenticació de votants autoritzats (credencials + JWT)
-    \item Generació i registre de tokens de vot d'un sol ús (hash + nullificador)
+    \item Generació i registre de tokens de vot d'un sol ús (\textit{hash} + nullificador)
     \item Verificació de pertinença al cens electoral
-    \item API REST per comunicar frontend i blockchain
+    \item API REST per comunicar \textit{front-end} i blockchain
 \end{itemize}
 
 L'emissió d'un token de vot segueix el patró \textit{commit-reveal}: el backend genera un parell $(\textit{commitment}, \textit{nullifier})$ on el \textit{commitment} = $H(\textit{nullifier} \| \textit{secret})$ amb $H$ = Keccak-256. Quan el votant emet el vot, proporciona el \textit{nullifier} al \textit{smart contract}, que verifica que el \textit{commitment} corresponent existeix i que no ha estat usat anteriorment. Això desvincula la identitat del votant del vot sense requerir un servidor de confiança.
@@ -294,7 +294,7 @@ Ganache simula una xarxa Ethereum completa en local amb comptes pre-carregats d'
 
 El principal repte dels sistemes d'e-voting és aconseguir anonimat i verificabilitat de forma simultània: el votant ha de poder comprovar que el seu vot és vàlid sense que ningú pugui saber per qui ha votat \cite{berenjestanaki2024}. La tensió entre privacitat i verificabilitat és un problema obert en la literatura \cite{pvpbc2023}.
 
-Al nostre prototip, la separació identitat-vot s'implementa via la tècnica del \textit{commit-reveal} descrita a la secció anterior. Quan el votant fa clic a "votar", el frontend envia la transacció amb el \textit{nullifier} directament a la blockchain; el backend només ha participat en la fase de registre. En el moment de l'emissió del vot, el backend \textbf{no} coneix ni el \textit{nullifier} ni l'opció de vot.
+Al nostre prototip, la separació identitat-vot s'implementa via la tècnica del \textit{commit-reveal} descrita a la secció anterior. Quan el votant fa clic a "votar", el \textit{front-end} envia la transacció amb el \textit{nullifier} directament a la blockchain; el backend només ha participat en la fase de registre. En el moment de l'emissió del vot, el backend \textbf{no} coneix ni el \textit{nullifier} ni l'opció de vot.
 
 La limitació d'aquest esquema és que el backend sí que pot saber \textit{quan} un votant ha votat (per l'hora de la transacció), però no \textit{per qui}. Per a un entorn universitari intern, aquest nivell d'anonimat és suficient.
 
@@ -343,12 +343,12 @@ Qualsevol observador pot verificar el recompte consultant directament la blockch
 \begin{itemize}
     \item \textbf{Python 3.12} + \textbf{FastAPI}: API REST asíncrona d'alt rendiment amb validació automàtica via Pydantic.
     \item \textbf{JWT (JSON Web Tokens)}: autenticació \textit{stateless} amb expiració configurable.
-    \item \textbf{bcrypt}: \textit{hashing} segur de contrasenyes amb \textit{salt} automàtic.
+    \item \textbf{bcrypt}: \textit{\textit{hash}ing} segur de contrasenyes amb \textit{salt} automàtic.
     \item \textbf{SQLite} (prototip) / \textbf{PostgreSQL} (producció): persistència per a cens de votants i tokens.
     \item \textbf{python-web3}: comunicació programàtica amb la blockchain des del backend (per a operacions d'administrador).
 \end{itemize}
 
-\subsection{Frontend}
+\subsection{\textit{front-end}}
 
 \begin{itemize}
     \item \textbf{React} (v18) + \textbf{TypeScript}: componentització tipada de la interfície.
@@ -376,7 +376,7 @@ L'equip el formen 4 membres amb perfils complementaris. Cada membre assumeix un 
     \toprule
     \textbf{Membre} & \textbf{Rol principal} & \textbf{Competències rellevants} & \textbf{Contribució a A1} & \textbf{Dedicació estimada} \\
     \midrule
-    Marc Link & Coordinador + Frontend & React, gestió àgil, comunicació & Estructura del document, planificació, seccions de motivació i presentació & 30\% \\
+    Marc Link & Coordinador + \textit{front-end} & React, gestió àgil, comunicació & Estructura del document, planificació, seccions de motivació i presentació & 30\% \\
     \addlinespace
     Jordi Vanyó & Blockchain / Smart Contracts & Solidity, Ethereum, criptografia bàsica & Seccions tècniques de blockchain, arquitectura, tecnologies & 25\% \\
     \addlinespace
@@ -390,7 +390,7 @@ L'equip el formen 4 membres amb perfils complementaris. Cada membre assumeix un 
 
 \subsubsection{Justificació dels rols}
 
-\textbf{Marc Link} assumeix la coordinació perquè té experiència prèvia en gestió de projectes col·laboratius i coneix les eines de comunicació i documentació. La seva doble funció (coordinació + frontend) és viable perquè el frontend és la component menys crítica en termes de seguretat i pot ser desenvolupada en paral·lel amb les altres capes.
+\textbf{Marc Link} assumeix la coordinació perquè té experiència prèvia en gestió de projectes col·laboratius i coneix les eines de comunicació i documentació. La seva doble funció (coordinació + \textit{front-end}) és viable perquè el \textit{front-end} és la component menys crítica en termes de seguretat i pot ser desenvolupada en paral·lel amb les altres capes.
 
 \textbf{Jordi Vanyó} lidera la component blockchain perquè ha cursat prèviament matèries de sistemes distribuïts i ha realitzat projectes personals amb contractes Solidity. La seva dedicació es concentra a les fases 1--3 (disseny i implementació del \textit{smart contract}).
 
@@ -420,7 +420,7 @@ L'estimació s'ha realitzat combinant dues tècniques complementàries:
 \begin{itemize}
     \item \textbf{Corba d'aprenentatge:} blockchain és una tecnologia nova per a tots els membres. S'ha afegit un 30\% d'hores addicionals a les fases 1 i 2 per absorció de conceptes.
     \item \textbf{Temps no productiu:} s'estima un 15\% de les hores total com a temps no productiu (reunions, resolució de conflictes, configuració d'entorns).
-    \item \textbf{Risc tècnic:} la integració frontend-blockchain via \texttt{ethers.js} és identificada com a tasca de risc alt (dependències externes, canvis d'API). El PERT pessimista per a aquesta tasca és el doble del cas optimista.
+    \item \textbf{Risc tècnic:} la integració \textit{front-end}-blockchain via \texttt{ethers.js} és identificada com a tasca de risc alt (dependències externes, canvis d'API). El PERT pessimista per a aquesta tasca és el doble del cas optimista.
 \end{itemize}
 
 \subsection{WBS i estimació PERT per fase}
@@ -429,40 +429,40 @@ L'estimació s'ha realitzat combinant dues tècniques complementàries:
     \toprule
     \textbf{Tasca / Paquet de treball} & \textbf{O (h)} & \textbf{M (h)} & \textbf{P (h)} & \textbf{E (h)} \\
     \midrule
-    \multicolumn{5}{l}{\textbf{Fase 1 — Investigació i disseny}} \\
+    \multicolumn{5}{l}{\textbf{Fase 1 - Investigació i disseny}} \\
     Estudi de blockchain i Ethereum  & 8  & 12 & 20 & 12.7 \\
     Estudi de Solidity i OpenZeppelin & 6  & 10 & 16 & 10.3 \\
     Anàlisi de sistemes d'e-voting existents & 4  & 6  & 10 & 6.3 \\
     Disseny d'arquitectura del sistema & 4  & 8  & 14 & 8.3 \\
     \textit{Subtotal Fase 1} & \textit{22} & \textit{36} & \textit{60} & \textit{37.7} \\
     \addlinespace
-    \multicolumn{5}{l}{\textbf{Fase 2 — Desenvolupament \textit{smart contract}}} \\
+    \multicolumn{5}{l}{\textbf{Fase 2 - Desenvolupament \textit{smart contract}}} \\
     Disseny i implementació del contracte (lògica) & 8 & 14 & 22 & 14.3 \\
     Implementació mecanisme commit-reveal & 4 & 8  & 14 & 8.3 \\
     Proves unitàries amb Hardhat (Mocha/Chai) & 4 & 8  & 14 & 8.3 \\
     Auditoria estàtica (Slither) + correccions & 2 & 4  & 8  & 4.3 \\
     \textit{Subtotal Fase 2} & \textit{18} & \textit{34} & \textit{58} & \textit{35.3} \\
     \addlinespace
-    \multicolumn{5}{l}{\textbf{Fase 3 — Backend i autenticació}} \\
+    \multicolumn{5}{l}{\textbf{Fase 3 - Backend i autenticació}} \\
     Disseny i implementació de l'API REST (FastAPI) & 6 & 10 & 16 & 10.3 \\
     Sistema d'autenticació (JWT + bcrypt) & 4 & 6  & 10 & 6.3 \\
     Generació i gestió de tokens de vot & 4 & 8  & 14 & 8.3 \\
     Integració backend-blockchain (python-web3) & 4 & 8  & 16 & 8.7 \\
     \textit{Subtotal Fase 3} & \textit{18} & \textit{32} & \textit{56} & \textit{33.7} \\
     \addlinespace
-    \multicolumn{5}{l}{\textbf{Fase 4 — Frontend i UX}} \\
+    \multicolumn{5}{l}{\textbf{Fase 4 - \textit{front-end} i UX}} \\
     Implementació de la interfície de votació (React) & 6 & 10 & 18 & 10.7 \\
-    Integració frontend-blockchain (ethers.js) & 4 & 8  & 16 & 8.7 \\
+    Integració \textit{front-end}-blockchain (ethers.js) & 4 & 8  & 16 & 8.7 \\
     Visualització de resultats i panell admin & 4 & 6  & 10 & 6.3 \\
     \textit{Subtotal Fase 4} & \textit{14} & \textit{24} & \textit{44} & \textit{25.7} \\
     \addlinespace
-    \multicolumn{5}{l}{\textbf{Fase 5 — Integració i proves}} \\
+    \multicolumn{5}{l}{\textbf{Fase 5 - Integració i proves}} \\
     Proves d'integració end-to-end & 4 & 8  & 14 & 8.3 \\
     Proves de seguretat (atacs de doble vot, etc.) & 2 & 4  & 8  & 4.3 \\
     Correcció d'errors i estabilització & 4 & 8  & 16 & 8.7 \\
     \textit{Subtotal Fase 5} & \textit{10} & \textit{20} & \textit{38} & \textit{21.3} \\
     \addlinespace
-    \multicolumn{5}{l}{\textbf{Fase 6 — Documentació i presentació}} \\
+    \multicolumn{5}{l}{\textbf{Fase 6 - Documentació i presentació}} \\
     Memòria tècnica i documentació de codi & 6 & 10 & 16 & 10.3 \\
     Preparació de la demo & 2 & 4  & 8  & 4.3 \\
     Presentació final & 2 & 4  & 8  & 4.3 \\
@@ -491,12 +491,12 @@ Període: 17 de febrer -- 23 de maig de 2026 (14 setmanes). La data de lliuramen
 Les dependències entre components determinen el camí crític del projecte:
 
 \begin{enumerate}
-    \item El \textbf{smart contract} (Fase 2) és un prerequisit de la integració backend-blockchain i de la integració frontend-blockchain.
+    \item El \textbf{smart contract} (Fase 2) és un prerequisit de la integració backend-blockchain i de la integració \textit{front-end}-blockchain.
     \item L'\textbf{API d'autenticació} (Fase 3) és un prerequisit del flux complet de votació.
-    \item La integració \textbf{frontend-blockchain} (Fase 4) és el darrer component del camí crític.
+    \item La integració \textbf{\textit{front-end}-blockchain} (Fase 4) és el darrer component del camí crític.
 \end{enumerate}
 
-El camí crític és: \textit{Fase 1 → Smart Contract → Integració → Frontend}. Qualsevol retard en el \textit{smart contract} afecta directament la data de lliurament.
+El camí crític és: \textit{Fase 1 → Smart Contract → Integració → \textit{front-end}}. Qualsevol retard en el \textit{smart contract} afecta directament la data de lliurament.
 
 \subsection{Estratègies de paral·lelització}
 
@@ -504,7 +504,7 @@ Per minimitzar la durada total del projecte s'han identificat les activitats que
 
 \begin{itemize}
     \item Durant la \textbf{Fase 2} (smart contract), el backend pot dissenyar i implementar l'API d'autenticació i la gestió de JWT independentment de la blockchain.
-    \item Durant la \textbf{Fase 3} (backend), el frontend pot implementar les pantalles estàtiques i la lògica de navegació sense connexió real a la blockchain (\textit{mocking}).
+    \item Durant la \textbf{Fase 3} (backend), el \textit{front-end} pot implementar les pantalles estàtiques i la lògica de navegació sense connexió real a la blockchain (\textit{mocking}).
     \item La documentació tècnica es redacta incrementalment durant tot el projecte, no només a la Fase 6.
 \end{itemize}
 
@@ -521,7 +521,7 @@ Per minimitzar la durada total del projecte s'han identificat les activitats que
 6      & Revisió \& integració & Auditoria Slither & Impl. tokens de vot & Documentació blockchain \\
 7--8   & Suport Backend & Ajustos contracte & Impl. API completa & Proves manuals backend \\
 9      & Integració parcial & Suport backend-web3 & Integració web3 & Documentació backend \\
-10--11 & Impl. frontend React & Suport frontend & Endpoints pendents & Proves end-to-end \\
+10--11 & Impl. \textit{front-end} React & Suport \textit{front-end} & Endpoints pendents & Proves end-to-end \\
 12     & Integració completa & Proves de seguretat & Proves de seguretat & Informe de proves \\
 13     & Estabilització, demo & Correccions finals & Correccions finals & Memòria tècnica \\
 14     & Preparació presentació & Suport demo & Suport demo & \textbf{Lliurament 25/05} \\
@@ -541,7 +541,7 @@ Per minimitzar la durada total del projecte s'han identificat les activitats que
 
 \subsection{Gestió de colls d'ampolla}
 
-El principal risc de col·l d'ampolla és el \textit{smart contract}: si la seva implementació s'allarga més de la Fase 2 prevista, el backend i el frontend no podran integrar-se amb els paràmetres definitius. La mitigació és doble: (1) definir una interfície mínima viable del contracte a la setmana 3, i (2) usar \textit{mocking} al backend i frontend fins que el contracte real estigui llest.
+El principal risc de col·l d'ampolla és el \textit{smart contract}: si la seva implementació s'allarga més de la Fase 2 prevista, el backend i el \textit{front-end} no podran integrar-se amb els paràmetres definitius. La mitigació és doble: (1) definir una interfície mínima viable del contracte a la setmana 3, i (2) usar \textit{mocking} al backend i \textit{front-end} fins que el contracte real estigui llest.
 
 % =========================================================
 \section{Riscos i limitacions}
@@ -555,7 +555,7 @@ El principal risc de col·l d'ampolla és el \textit{smart contract}: si la seva
     \addlinespace
     Corba d'aprenentatge de blockchain & Alta & Mitjà & Estudi dedicat setmanes 1-2; documentació oficial Hardhat/Ethereum; suport del company amb experiència prèvia \\
     \addlinespace
-    Fallades d'integració frontend-blockchain & Mitjana & Alt & Ús de \textit{mocking} fins a disposar del contracte final; proves d'integració automatitzades \\
+    Fallades d'integració \textit{front-end}-blockchain & Mitjana & Alt & Ús de \textit{mocking} fins a disposar del contracte final; proves d'integració automatitzades \\
     \addlinespace
     Problemes de gas i costos de transacció & Baixa & Baix & Entorn Ganache local sense cost real; optimització de gas com a objectiu secundari \\
     \addlinespace
@@ -614,7 +614,7 @@ L'esquema MACI permet que un votant canviï el seu vot fins al tancament de la v
 
 \textbf{ZK-SNARK (\textit{Zero-Knowledge Succinct Non-interactive ARgument of Knowledge}):} prova criptogràfica que permet demostrar el coneixement d'una informació sense revelar-la, usada per garantir anonimat i verificabilitat simultàniament en sistemes d'e-voting.
 
-\textbf{Commit-reveal:} esquema de dos passos on primer s'envia un hash del vot (\textit{commitment}) i posteriorment el valor original (\textit{reveal}), evitant que el contingut sigui conegut abans de tancar la votació.
+\textbf{Commit-reveal:} esquema de dos passos on primer s'envia un \textit{hash} del vot (\textit{commitment}) i posteriorment el valor original (\textit{reveal}), evitant que el contingut sigui conegut abans de tancar la votació.
 
 \textbf{Nullifier:} valor secret d'un sol ús que permet al \textit{smart contract} verificar l'elegibilitat del votant sense conèixer la seva identitat.
 
@@ -641,7 +641,7 @@ L'esquema MACI permet que un votant canviï el seu vot fins al tancament de la v
 
 L'abast d'aquest projecte comprèn el disseny i desenvolupament d'un prototip funcional d'un sistema de votació electrònica descentralitzat sobre blockchain. Cada funcionalitat ha estat definida en correspondència directa amb els perfils d'usuari identificats i amb els objectius del projecte, de manera que es pugui justificar el seu valor i la seva contribució concreta al sistema.
 
-\subsubsection*{RF1 — Connexió de cartera digital i verificació del cens}
+\subsubsection*{RF1 - Connexió de cartera digital i verificació del cens}
 
 Garanteix que només puguin votar les persones prèviament autoritzades al cens, eliminant la necessitat d'un servidor centralitzat i mantenint l'anonimat, ja que s'utilitzen adreces criptogràfiques en lloc de dades personals.
 
@@ -658,7 +658,7 @@ En lloc d'un inici de sessió tradicional, l'aplicació web permetrà al votant 
     \item Si l'usuari no està al cens o ja ha votat prèviament, la interfície ha de bloquejar l'accés a la papereta de vot i mostrar un missatge d'error clar.
 \end{enumerate}
 
-\subsubsection*{RF2 — Emissió de credencials i garantia d'anonimat}
+\subsubsection*{RF2 - Emissió de credencials i garantia d'anonimat}
 
 Un cop l'usuari s'ha autenticat correctament, el \textit{back-end} genera i emet una credencial de vot o \textit{token} d'un sol ús. Aquest mecanisme és essencial per separar la identitat real del votant del vot emès, garantint l'anonimat criptogràfic total.
 
@@ -672,7 +672,7 @@ Un cop l'usuari s'ha autenticat correctament, el \textit{back-end} genera i emet
     \item El sistema només pot emetre un únic \textit{token} vàlid per a cada usuari autenticat correctament.
 \end{enumerate}
 
-\subsubsection*{RF3 — Interfície web d'emissió i prevenció de doble vot}
+\subsubsection*{RF3 - Interfície web d'emissió i prevenció de doble vot}
 
 L'aplicació proporciona una interfície web intuïtiva on el votant pot seleccionar la seva opció i enviar el seu vot. L'\textit{smart contract} avaluarà el \textit{token}: si és vàlid registrarà el vot; si el \textit{token} ja ha estat utilitzat prèviament, la transacció serà rebutjada, garantint la impossibilitat de doble vot.
 
@@ -687,7 +687,7 @@ L'aplicació proporciona una interfície web intuïtiva on el votant pot selecci
     \item El sistema ha de donar un \textit{feedback} visual a l'usuari indicant si el seu vot s'ha processat correctament o si ha fallat.
 \end{enumerate}
 
-\subsubsection*{RF4 — Registre immutable i recompte automàtic de vots}
+\subsubsection*{RF4 - Registre immutable i recompte automàtic de vots}
 
 Els vots processats per l'\textit{smart contract} s'emmagatzemen directament a la blockchain privada, garantint un registre immutable mitjançant l'ús de funcions de \textit{hash} criptogràfic. L'\textit{smart contract} actualitza el recompte de manera automàtica i atomica per cada vot vàlid rebut.
 
@@ -701,7 +701,7 @@ Els vots processats per l'\textit{smart contract} s'emmagatzemen directament a l
     \item L'estat del recompte s'ha d'actualitzar automàticament via \textit{smart contract} per cada vot vàlid rebut.
 \end{enumerate}
 
-\subsubsection*{RF5 — Verificació i consulta pública dels resultats}
+\subsubsection*{RF5 - Verificació i consulta pública dels resultats}
 
 La web del sistema compta amb un apartat de consulta pública on qualsevol usuari, candidat o auditor independent pot visualitzar els resultats de l'elecció i verificar la integritat del procés sense dependre de la publicació d'una autoritat central.
 
@@ -716,7 +716,7 @@ La web del sistema compta amb un apartat de consulta pública on qualsevol usuar
     \item Els auditors han de poder revisar els \textit{logs} de les transaccions a la blockchain per verificar matemàticament el recompte total.
 \end{enumerate}
 
-\subsubsection*{RF6 — Tauler d'administració per a organitzadors}
+\subsubsection*{RF6 - Tauler d'administració per a organitzadors}
 
 L'organitzador disposarà d'una interfície d'administració que li permetrà configurar una votació (títol, opcions, cens de votants autoritzats i finestra temporal), desplegar el contracte intel·ligent corresponent i consultar l'estat de la votació en temps real.
 
@@ -781,7 +781,7 @@ Les sis funcionalitats principals formen un sistema complet i coherent: l'autent
 
 El sistema estarà format per quatre components principals que treballen de manera integrada:
 
-\subsubsection*{Front-End web}
+\subsubsection*{\textit{front-end} web}
 Proporciona la interfície d'usuari per a votants, organitzadors i auditors. Permet l'emissió del vot, la visualització de resultats i la gestió de la votació. Implementat amb tecnologies web estàndard (HTML5, CSS3, JavaScript) i integrat amb la blockchain mitjançant la llibreria \texttt{ethers.js}.
 
 \subsubsection*{Back-End}

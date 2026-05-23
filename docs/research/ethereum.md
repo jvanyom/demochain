@@ -1,4 +1,4 @@
-# Ethereum — Fonaments i rol en el projecte
+# Ethereum - Fonaments i rol en el projecte
 
 **ID de la tasca**: E1-US2-T3
 **Data**: 2026-05-01

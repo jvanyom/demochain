@@ -12,9 +12,9 @@ El diagrama de context identifica els actors i sistemes externs que interactuen 
  
 \begin{enumerate}[label=\roman*.]
     \item \textbf{Votant}: persona física que emet el seu vot o proposa una elecció a través de la interfície web. Constitueix l'actor principal del sistema i l'únic que genera transaccions de votació.
-    \item \textbf{Pera Wallet}: sistema de programari extern que gestiona les claus privades del votant. El sistema mai accedeix directament a aquestes claus; tota signatura criptogràfica es delega exclusivament a la cartera digital mitjançant el protocol WalletConnect.
-    \item \textbf{Full Node Algorand}: servidor hostatjat per la universitat (o per les entitats institucionals participants) que rep les transaccions de l'aplicació i les propaga per la xarxa blockchain. La comunicació entre l'aplicació i el node es realitza via TCP/IP. En el diagrama de context, el node es representa com un sistema extern al programari del sistema de votació, ja que la seva implementació correspon al protocol natiu d'Algorand (Go) i no al codi desenvolupat per l'equip del projecte.
-    \item \textbf{Xarxa Ethereum}: emprada exclusivament com a notari públic. Un cop tancada l'elecció, el servei d'anchoring calcula el hash SHA-256 de l'estat final de l'escrutini i l'envia a un contracte intel·ligent propi desplegat a Ethereum (Sepolia Testnet) que implementa un mecanisme de consens amb llindar, garantint un ancoratge immutable i auditable de manera independent.
+    \item \textbf{Pera Wallet}: sistema de \textit{software} extern que gestiona les claus privades del votant. El sistema mai accedeix directament a aquestes claus; tota signatura criptogràfica es delega exclusivament a la cartera digital mitjançant el protocol WalletConnect.
+    \item \textbf{Full Node Algorand}: servidor hostatjat per la universitat (o per les entitats institucionals participants) que rep les transaccions de l'aplicació i les propaga per la xarxa blockchain. La comunicació entre l'aplicació i el node es realitza via TCP/IP. En el diagrama de context, el node es representa com un sistema extern al \textit{software} del sistema de votació, ja que la seva implementació correspon al protocol natiu d'Algorand (Go) i no al codi desenvolupat per l'equip del projecte.
+    \item \textbf{Xarxa Ethereum}: emprada exclusivament com a notari públic. Un cop tancada l'elecció, el servei d'anchoring calcula el \textit{hash} SHA-256 de l'estat final de l'escrutini i l'envia a un contracte intel·ligent propi desplegat a Ethereum (Sepolia Testnet) que implementa un mecanisme de consens amb llindar, garantint un ancoratge immutable i auditable de manera independent.
 \end{enumerate}
  
 Les comunicacions entre actors segueixen protocols estàndard: la interfície web es connecta al node Algorand via HTTPS/REST, la signatura dels vots es gestiona mitjançant WalletConnect, i l'ancoratge a Ethereum s'executa via JSON-RPC (Web3).
@@ -30,7 +30,7 @@ Les comunicacions entre actors segueixen protocols estàndard: la interfície we
  
 El sistema es descompon en cinc contenidors principals, cadascun amb una responsabilitat ben delimitada i un acoblament mínim amb la resta:
  
-\subsubsection{Aplicació web \textit{(Front-end})}
+\subsubsection{Aplicació web \textit{(\textit{front-end}})}
  
 Aplicació d'una sola pàgina (\textit{Single-Page Application}) que el votant descarrega des d'un repositori oficial i executa localment. Desenvolupada amb React i empaquetada amb Vite, és responsable de renderitzar la interfície d'usuari, mostrar les eleccions actives, empaquetar el vot en format de transacció Algorand (ApplicationCall) i enviar-lo al node. L'aplicació no emmagatzema cap dada sensible i opera com un client lleuger (\textit{thin client}) que delega tota la lògica de negoci al contracte intel·ligent.
  
@@ -59,9 +59,9 @@ L'estat del contracte s'emmagatzema emprant dos mecanismes natius d'Algorand: \t
  
 \subsubsection{Servei d'Anchoring}
  
-Component automatitzat que cada entitat que opera un node complet (\textit{full node}) ha d'executar. Aquest servei llegeix l'estat de les votacions des del node d'Algorand via l'AlgoSDK REST API i, quan una elecció finalitza, genera el hash SHA-256 de l'estat de la blockchain corresponent a l'escrutini. Seguidament, envia aquest hash signat a un contracte intel·ligent propi desplegat a la xarxa pública d'Ethereum (Sepolia Testnet) mitjançant JSON-RPC.
+Component automatitzat que cada entitat que opera un node complet (\textit{full node}) ha d'executar. Aquest servei llegeix l'estat de les votacions des del node d'Algorand via l'AlgoSDK REST API i, quan una elecció finalitza, genera el \textit{hash} SHA-256 de l'estat de la blockchain corresponent a l'escrutini. Seguidament, envia aquest \textit{hash} signat a un contracte intel·ligent propi desplegat a la xarxa pública d'Ethereum (Sepolia Testnet) mitjançant JSON-RPC.
 
-El contracte d'Ethereum (escrit en Solidity) actua com una ``cort suprema'' descentralitzada: manté una llista blanca d'adreces de wallet universitàries autoritzades i implementa una lògica de consens amb llindar (\textit{K-de-N}). Només quan K universitats independents acorden un hash d'estat idèntic, el contracte ancora el resultat final de l'elecció al registre d'Ethereum, evitant així el frau per punt únic de fallada.
+El contracte d'Ethereum (escrit en Solidity) actua com una ``cort suprema'' descentralitzada: manté una llista blanca d'adreces de wallet universitàries autoritzades i implementa una lògica de consens amb llindar (\textit{\textit{K-of-N}}). Només quan K universitats independents acorden un \textit{hash} d'estat idèntic, el contracte ancora el resultat final de l'elecció al registre d'Ethereum, evitant així el frau per punt únic de fallada.
 
 \subsubsection{Pera Wallet (sistema extern)}
  
@@ -134,9 +134,9 @@ El contracte intel·ligent es descompon internament en sis mòduls lògics. La i
 El servei d'anchoring es descompon en dos components que operen conjuntament per materialitzar l'ancoratge distribuït dels resultats:
 
 \begin{enumerate}[label=\roman*.]
-    \item \textbf{Gestor d'ancoratge} (\textit{Python}): mòdul encarregat de revisar l'estat de les votacions consultant el node d'Algorand via l'AlgoSDK REST API. Quan una votació finalitza, aquest component genera el hash SHA-256 de l'estat de la blockchain corresponent a l'escrutini i l'envia, signat criptogràficament (ECDSA), al contracte d'Ethereum mitjançant JSON-RPC.
+    \item \textbf{Gestor d'ancoratge} (\textit{Python}): mòdul encarregat de revisar l'estat de les votacions consultant el node d'Algorand via l'AlgoSDK REST API. Quan una votació finalitza, aquest component genera el \textit{hash} SHA-256 de l'estat de la blockchain corresponent a l'escrutini i l'envia, signat criptogràficament (ECDSA), al contracte d'Ethereum mitjançant JSON-RPC.
 
-    \item \textbf{Ethereum Notary Contract} (\textit{Solidity}): contracte intel·ligent desplegat a la xarxa Ethereum (Sepolia Testnet), dissenyat i implementat pel propi equip del projecte. Actua com una ``cort suprema'' descentralitzada que manté una \textit{whitelist} d'adreces de wallet universitàries autoritzades i implementa una lògica de consens amb llindar (\textit{K-de-N}). Agrega els hashes d'estat provinents dels nodes universitaris i només ancora el resultat final de l'elecció al registre d'Ethereum quan K universitats independents acorden un hash d'estat idèntic, evitant així el frau per punt únic de fallada. Les funcionalitats del contracte inclouen: mantenir la llista d'adreces autoritzades (afegir i eliminar), rebre transaccions dels nodes autoritzats i, si se supera el llindar de coincidència, publicar el hash a la xarxa.
+    \item \textbf{Ethereum Notary Contract} (\textit{Solidity}): contracte intel·ligent desplegat a la xarxa Ethereum (Sepolia Testnet), dissenyat i implementat pel propi equip del projecte. Actua com una ``cort suprema'' descentralitzada que manté una \textit{whitelist} d'adreces de wallet universitàries autoritzades i implementa una lògica de consens amb llindar (\textit{\textit{K-of-N}}). Agrega els \textit{hash}es d'estat provinents dels nodes universitaris i només ancora el resultat final de l'elecció al registre d'Ethereum quan K universitats independents acorden un \textit{hash} d'estat idèntic, evitant així el frau per punt únic de fallada. Les funcionalitats del contracte inclouen: mantenir la llista d'adreces autoritzades (afegir i eliminar), rebre transaccions dels nodes autoritzats i, si se supera el llindar de coincidència, publicar el \textit{hash} a la xarxa.
 \end{enumerate}
 
 \begin{figure}[H]
@@ -148,7 +148,7 @@ El servei d'anchoring es descompon en dos components que operen conjuntament per
 
 
 % ===========================================================================
-%   SECCIÓ 9 — TECNOLOGIES I SOFTWARE DE TERCERS
+%   SECCIÓ 9 - TECNOLOGIES I SOFTWARE DE TERCERS
 % ===========================================================================
 \section{Tecnologies i software de tercers}
  
@@ -176,9 +176,9 @@ AlgorKit proporciona comptes prefabricats amb saldos de prova, un indexer local 
 
 \subsubsection{Solidity (contracte d'Ethereum)}
 
-Solidity és el llenguatge de programació emprat per escriure el contracte intel·ligent d'ancoratge desplegat a la xarxa Ethereum (Sepolia Testnet). Aquest contracte, denominat \textit{Ethereum Notary Contract}, implementa la lògica de consens amb llindar K-de-N que agrega els hashes enviats pels nodes universitaris. S'ha seleccionat Solidity per ser el llenguatge estàndard i més madur de l'ecosistema Ethereum, amb àmplia documentació i suport d'eines de desenvolupament com Hardhat o Remix.
+Solidity és el llenguatge de programació emprat per escriure el contracte intel·ligent d'ancoratge desplegat a la xarxa Ethereum (Sepolia Testnet). Aquest contracte, denominat \textit{Ethereum Notary Contract}, implementa la lògica de consens amb llindar \textit{K-of-N} que agrega els \textit{hash}es enviats pels nodes universitaris. S'ha seleccionat Solidity per ser el llenguatge estàndard i més madur de l'ecosistema Ethereum, amb àmplia documentació i suport d'eines de desenvolupament com Hardhat o Remix.
  
-\subsection{Capa de front-end} 
+\subsection{Capa de \textit{front-end}}
  
 \subsubsection{React}
  
@@ -202,17 +202,17 @@ WalletConnect és el protocol de comunicació estàndard entre aplicacions web (
  
 \subsubsection{Ethereum (Sepolia Testnet)}
  
-La xarxa pública d'Ethereum s'empra exclusivament com a notari públic extern. El servei d'anchoring de cada node institucional envia el hash SHA-256 dels resultats finals al contracte d'Ethereum Notary desplegat a la Sepolia Testnet, que aplica la lògica de consens amb llindar abans de publicar el resultat. La selecció de Sepolia en lloc d'altres testnets (Goerli, ja obsoleta) segueix la recomanació oficial de la Fundació Ethereum per a aplicacions de prova.
+La xarxa pública d'Ethereum s'empra exclusivament com a notari públic extern. El servei d'anchoring de cada node institucional envia el \textit{hash} SHA-256 dels resultats finals al contracte d'Ethereum Notary desplegat a la Sepolia Testnet, que aplica la lògica de consens amb llindar abans de publicar el resultat. La selecció de Sepolia en lloc d'altres testnets (Goerli, ja obsoleta) segueix la recomanació oficial de la Fundació Ethereum per a aplicacions de prova.
  
 \subsubsection{Web3.py}
  
-Llibreria de Python que proporciona la interfície de comunicació amb la xarxa Ethereum mitjançant el protocol JSON-RPC. S'empra dins el gestor d'ancoratge per construir i enviar la transacció que conté el hash de l'escrutini al contracte Notary. La seva compatibilitat nativa amb Sepolia i la seva àmplia documentació la fan la solució més directa per a l'escriptura de dades a Ethereum des d'un script Python.
+Llibreria de Python que proporciona la interfície de comunicació amb la xarxa Ethereum mitjançant el protocol JSON-RPC. S'empra dins el gestor d'ancoratge per construir i enviar la transacció que conté el \textit{hash} de l'escrutini al contracte Notary. La seva compatibilitat nativa amb Sepolia i la seva àmplia documentació la fan la solució més directa per a l'escriptura de dades a Ethereum des d'un script Python.
  
 \subsection{Capa d'infraestructura i desplegament}
  
 \subsubsection{Docker}
  
-Docker és l'eina central de contenidorització del projecte. Permet empaquetar tots els serveis del sistema (node Algorand, servidor front-end, servei d'anchoring) en contenidors independents i reproduïbles. Cada component es defineix en un \texttt{Dockerfile} propi i l'orquestració del conjunt es gestiona amb \texttt{docker-compose}, garantint que qualsevol desenvolupador o avaluador pugui desplegar el sistema complet amb una única comanda.
+Docker és l'eina central de contenidorització del projecte. Permet empaquetar tots els serveis del sistema (node Algorand, servidor \textit{front-end}, servei d'anchoring) en contenidors independents i reproduïbles. Cada component es defineix en un \texttt{Dockerfile} propi i l'orquestració del conjunt es gestiona amb \texttt{docker-compose}, garantint que qualsevol desenvolupador o avaluador pugui desplegar el sistema complet amb una única comanda.
  
 \subsubsection{Git i GitHub}
  
@@ -234,13 +234,13 @@ PyTeal / TEAL & Blockchain & Escriptura i compilació dels contractes intel·lig
 ARC-4 (ABI) & Blockchain & Estàndard d'interfície per a les crides al contracte \\
 AlgorKit & Blockchain & Entorn local simulat i CLI de desplegament \\
 Solidity & Blockchain & Escriptura del contracte d'anchoring a Ethereum \\
-React & Front-end & Interfície d'usuari de l'aplicació de votació \\
-Vite 8 & Front-end & Eina de construcció i servidor de desenvolupament \\
-react-i18next & Front-end & Internacionalització en anglès, espanyol i català \\
-algosdk (JS) & Front-end & Construcció de transaccions Algorand des del navegador \\
-WalletConnect SDK & Front-end & Protocol de comunicació segura amb Pera Wallet \\
+React & \textit{front-end} & Interfície d'usuari de l'aplicació de votació \\
+Vite 8 & \textit{front-end} & Eina de construcció i servidor de desenvolupament \\
+react-i18next & \textit{front-end} & Internacionalització en anglès, espanyol i català \\
+algosdk (JS) & \textit{front-end} & Construcció de transaccions Algorand des del navegador \\
+WalletConnect SDK & \textit{front-end} & Protocol de comunicació segura amb Pera Wallet \\
 Pera Wallet & Externa & Custòdia de claus privades i signatura de transaccions \\
-Ethereum (Sepolia) & Anchoring & Notari públic per a l'ancoratge del hash dels resultats \\
+Ethereum (Sepolia) & Anchoring & Notari públic per a l'ancoratge del \textit{hash} dels resultats \\
 Web3.py & Anchoring & Interfície Python per a la interacció amb Ethereum \\
 Docker & Infraestructura & Contenidorització i reproducibilitat de l'entorn \\
 Git / GitHub & Infraestructura & Control de versions i col·laboració \\
@@ -252,7 +252,7 @@ Git / GitHub & Infraestructura & Control de versions i col·laboració \\
  
  
 % ===========================================================================
-%   SECCIÓ 10 — DECISIONS TÈCNIQUES (PATRONS DE DISSENY)
+%   SECCIÓ 10 - DECISIONS TÈCNIQUES (PATRONS DE DISSENY)
 % ===========================================================================
 \section{Decisions tècniques (patrons de disseny)}
  
@@ -292,11 +292,11 @@ Les decisions tècniques del projecte no responen a criteris arbitraris, sinó a
  
 \subsection{Thin Client: delegació completa de lògica al contracte}
  
-\textbf{Problema}: si l'aplicació web conté lògica de validació duplicada (per exemple, comprovar el cens o verificar dates), existeix un risc de discrepància entre el comportament del front-end i el del contracte, a més de crear un vector d'atac si un usuari maliciós modifica el codi client.
+\textbf{Problema}: si l'aplicació web conté lògica de validació duplicada (per exemple, comprovar el cens o verificar dates), existeix un risc de discrepància entre el comportament del \textit{front-end} i el del contracte, a més de crear un vector d'atac si un usuari maliciós modifica el codi client.
  
-\textbf{Solució}: l'aplicació web opera com un \textit{Thin Client} que no implementa cap regla de negoci. Tota la validació (cens, doble vot, finestra temporal, increment de comptadors) resideix exclusivament al contracte intel·ligent. El front-end es limita a construir transaccions, sol·licitar signatures i mostrar resultats.
+\textbf{Solució}: l'aplicació web opera com un \textit{Thin Client} que no implementa cap regla de negoci. Tota la validació (cens, doble vot, finestra temporal, increment de comptadors) resideix exclusivament al contracte intel·ligent. El \textit{front-end} es limita a construir transaccions, sol·licitar signatures i mostrar resultats.
  
-\textbf{Justificació}: en un sistema on la confiança es resol per disseny, el codi executable de referència ha de ser únic i residir a la blockchain. Si la validació del cens estigués al front-end, un atacant podria modificar el JavaScript i intentar emetre transaccions invàlides. Amb el model \textit{Thin Client}, qualsevol transacció que no compleixi les regles del contracte serà rebutjada per la xarxa independentment del que faci l'aplicació client.
+\textbf{Justificació}: en un sistema on la confiança es resol per disseny, el codi executable de referència ha de ser únic i residir a la blockchain. Si la validació del cens estigués al \textit{front-end}, un atacant podria modificar el JavaScript i intentar emetre transaccions invàlides. Amb el model \textit{Thin Client}, qualsevol transacció que no compleixi les regles del contracte serà rebutjada per la xarxa independentment del que faci l'aplicació client.
  
 \subsection{Signatura delegada i principi de mínim privilegi}
  
@@ -304,15 +304,15 @@ Les decisions tècniques del projecte no responen a criteris arbitraris, sinó a
  
 \textbf{Solució}: s'aplica el principi de mínim privilegi delegant completament la signatura a Pera Wallet mitjançant WalletConnect. L'aplicació web construeix la transacció (no signada), l'envia a la cartera, i rep de tornada la transacció signada per propagar-la al node. En cap moment la clau privada abandona el dispositiu mòbil del votant.
  
-\textbf{Justificació}: la gestió incorrecta de claus privades és el vector d'atac més comú en aplicacions descentralitzades. Delegar la signatura a una cartera especialitzada elimina de soca-rel la possibilitat que un servidor compromès o un error al front-end exposi les credencials del votant. A més, aquest model és transparent per a l'usuari: l'acció de signar un vot es percep com una confirmació al mòbil, similar a la validació biomètrica d'una aplicació bancària.
+\textbf{Justificació}: la gestió incorrecta de claus privades és el vector d'atac més comú en aplicacions descentralitzades. Delegar la signatura a una cartera especialitzada elimina de soca-rel la possibilitat que un servidor compromès o un error al \textit{front-end} exposi les credencials del votant. A més, aquest model és transparent per a l'usuari: l'acció de signar un vot es percep com una confirmació al mòbil, similar a la validació biomètrica d'una aplicació bancària.
  
-\subsection{Ancoratge distribuït amb consens K-de-N (Cross-chain Anchoring)}
+\subsection{Ancoratge distribuït amb consens \textit{K-of-N} (Cross-chain Anchoring)}
  
-\textbf{Problema}: en el plantejament inicial, un únic servei centralitzat era l'encarregat de llegir l'estat d'Algorand i escriure'l a Ethereum. Això introduïa un punt únic de fallada: si el servei estava compromès o produïa un hash incorrecte, l'ancoratge no oferia cap garantia real. Cal un mecanisme que proporcioni un segell de temps independent, verificable i resistent a la manipulació per part d'una única entitat.
+\textbf{Problema}: en el plantejament inicial, un únic servei centralitzat era l'encarregat de llegir l'estat d'Algorand i escriure'l a Ethereum. Això introduïa un punt únic de fallada: si el servei estava compromès o produïa un \textit{hash} incorrecte, l'ancoratge no oferia cap garantia real. Cal un mecanisme que proporcioni un segell de temps independent, verificable i resistent a la manipulació per part d'una única entitat.
  
-\textbf{Solució}: cada entitat que opera un node complet calcula independentment el hash SHA-256 de l'estat final de l'escrutini i l'envia a un contracte intel·ligent desplegat a Ethereum (Sepolia Testnet). Aquest contracte, escrit en Solidity i dissenyat pel propi equip, implementa una lògica de consens amb llindar: manté una llista blanca d'adreces autoritzades (les wallet universitàries) i només ancora el hash com a resultat oficial quan K de N nodes independents han enviat el mateix valor.
+\textbf{Solució}: cada entitat que opera un node complet calcula independentment el \textit{hash} SHA-256 de l'estat final de l'escrutini i l'envia a un contracte intel·ligent desplegat a Ethereum (Sepolia Testnet). Aquest contracte, escrit en Solidity i dissenyat pel propi equip, implementa una lògica de consens amb llindar: manté una llista blanca d'adreces autoritzades (les wallet universitàries) i només ancora el \textit{hash} com a resultat oficial quan K de N nodes independents han enviat el mateix valor.
  
-\textbf{Justificació}: el model K-de-N elimina el punt únic de fallada de l'ancoratge i alinea el servei amb el principi de descentralització que fonamenta tot el sistema. Ethereum, com a xarxa pública amb milers de nodes independents, actua com a notari públic extern. Si un atacant comprometés un node universitari i enviés un hash fals, aquest no coincidiria amb els hashes de la resta de nodes i el contracte d'Ethereum no l'ancoraria. Per manipular l'ancoratge caldria comprometre K nodes simultàniament, cosa criptogràficament inviable en la pràctica.
+\textbf{Justificació}: el model \textit{K-of-N} elimina el punt únic de fallada de l'ancoratge i alinea el servei amb el principi de descentralització que fonamenta tot el sistema. Ethereum, com a xarxa pública amb milers de nodes independents, actua com a notari públic extern. Si un atacant comprometés un node universitari i enviés un \textit{hash} fals, aquest no coincidiria amb els \textit{hash}es de la resta de nodes i el contracte d'Ethereum no l'ancoraria. Per manipular l'ancoratge caldria comprometre K nodes simultàniament, cosa criptogràficament inviable en la pràctica.
  
 \subsection{Resum de decisions tècniques}
  
@@ -331,7 +331,7 @@ Separació Box/Local State & Strategy (Storage) & RF 3.1.2 (doble vot), RF 3.1.4
 Operacions atòmiques & Atomic Transaction & RF 3.1.4 (integritat recompte) \\
 Thin Client & Client-Server & RNF 3.2.5 (seguretat) \\
 Signatura delegada & Mínim privilegi & RNF 3.2.5 (credencials) \\
-Ancoratge K-de-N & Cross-chain Consensus & RF 3.1.5 (immutabilitat) \\
+Ancoratge \textit{K-of-N} & Cross-chain Consensus & RF 3.1.5 (immutabilitat) \\
 \bottomrule
 \end{tabularx}
 \caption{Traçabilitat entre decisions tècniques i requisits del sistema}
@@ -340,7 +340,7 @@ Ancoratge K-de-N & Cross-chain Consensus & RF 3.1.5 (immutabilitat) \\
  
  
 % ===========================================================================
-%   SECCIÓ 11 — ESTRATÈGIA DE DESPLEGAMENT
+%   SECCIÓ 11 - ESTRATÈGIA DE DESPLEGAMENT
 % ===========================================================================
 \section{Estratègia de desplegament}
  
@@ -355,9 +355,9 @@ El procés de posada en marxa segueix una seqüència determinista:
 \begin{enumerate}[label=\roman*.]
     \item \textbf{Inicialització de la xarxa}: s'executa \texttt{algokit localnet start}, que aixeca un parell de nodes Algorand complet, un indexer i un KMD (\textit{Key Management Daemon}) dins contenidors Docker. Aquesta comanda crea automàticament comptes de prova amb saldos suficients per a les transaccions.
     \item \textbf{Desplegament del contracte d'Algorand}: es compila el codi PyTeal a TEAL i es desplega el contracte intel·ligent de votació a la xarxa local mitjançant la CLI d'AlgorKit (\texttt{algokit deploy}). El procés retorna l'identificador (App ID) del contracte desplegat.
-    \item \textbf{Desplegament del contracte d'Ethereum}: es desplega l'Ethereum Notary Contract a la Sepolia Testnet (o a una xarxa Ethereum local per a proves), configurant la llista d'adreces autoritzades i el llindar K-de-N.
+    \item \textbf{Desplegament del contracte d'Ethereum}: es desplega l'Ethereum Notary Contract a la Sepolia Testnet (o a una xarxa Ethereum local per a proves), configurant la llista d'adreces autoritzades i el llindar \textit{K-of-N}.
     \item \textbf{Configuració del cens}: un script de Python pobla el contracte amb una llista blanca d'adreces de prova que simulen el cens electoral autoritzat.
-    \item \textbf{Arrancada del front-end}: l'aplicació React s'inicia amb \texttt{npm run dev} (o dins un contenidor Docker propi basat en Bun: \texttt{docker-compose up frontend}) i es configura perquè apunti al node local d'Algorand i a l'App ID del contracte desplegat. El servidor de desenvolupament Vite exposa el port 5173.
+    \item \textbf{Arrancada del \textit{front-end}}: l'aplicació React s'inicia amb \texttt{npm run dev} (o dins un contenidor Docker propi basat en Bun: \texttt{docker-compose up \textit{front-end}}) i es configura perquè apunti al node local d'Algorand i a l'App ID del contracte desplegat. El servidor de desenvolupament Vite exposa el port 5173.
 
 \end{enumerate}
  
@@ -369,8 +369,8 @@ L'estructura de contenidors prevista és la següent:
  
 \begin{enumerate}[label=\roman*.]
     \item \textbf{Contenidor AlgorKit}: nodes Algorand + indexer + KMD. Gestionat per AlgorKit.
-    \item \textbf{Contenidor Front-end}: imatge basada en \texttt{oven/bun:1} que instal·la les dependències amb Bun i arranca el servidor de desenvolupament Vite al port 5173. El volum Docker munta el codi font local, permetent la recàrrega en calent (\textit{hot reload}) durant el desenvolupament.
-    \item \textbf{Contenidor Anchoring}: servei Python que monitoritza les votacions i executa l'ancoratge a Ethereum un cop es tanca una elecció. Es connecta al node local per llegir l'estat i al contracte d'Ethereum Notary per enviar el hash signat.
+    \item \textbf{Contenidor \textit{front-end}}: imatge basada en \texttt{oven/bun:1} que instal·la les dependències amb Bun i arranca el servidor de desenvolupament Vite al port 5173. El volum Docker munta el codi font local, permetent la recàrrega en calent (\textit{hot reload}) durant el desenvolupament.
+    \item \textbf{Contenidor Anchoring}: servei Python que monitoritza les votacions i executa l'ancoratge a Ethereum un cop es tanca una elecció. Es connecta al node local per llegir l'estat i al contracte d'Ethereum Notary per enviar el \textit{hash} signat.
 \end{enumerate}
 
  
@@ -380,18 +380,18 @@ L'ús de \texttt{docker-compose} permet aixecar tot l'entorn amb una única coma
  
 % Per a la demostració final davant el tribunal acadèmic, el sistema podrà operar opcionalment connectat a la Testnet pública d'Algorand en lloc de la xarxa local simulada. Aquesta configuració permet demostrar el comportament del sistema en un entorn més realista, amb múltiples nodes distribuïts geogràficament i latències de xarxa reals.
  
-% El canvi de xarxa local a Testnet requereix únicament la modificació de dues variables de configuració: l'URL del node Algorand (de \texttt{localhost} a \texttt{testnet-api.algonode.cloud}) i les credencials del compte desplegador (substituint el compte local pel de Testnet, finançat via faucet). La resta del sistema (front-end, contracte, servei d'anchoring) funciona de manera idèntica gràcies a l'abstracció proporcionada per l'Algorand SDK.
+% El canvi de xarxa local a Testnet requereix únicament la modificació de dues variables de configuració: l'URL del node Algorand (de \texttt{localhost} a \texttt{testnet-api.algonode.cloud}) i les credencials del compte desplegador (substituint el compte local pel de Testnet, finançat via faucet). La resta del sistema (\textit{front-end}, contracte, servei d'anchoring) funciona de manera idèntica gràcies a l'abstracció proporcionada per l'Algorand SDK.
  
 \subsection{Pla de proves previ al desplegament}
  
 Abans de considerar el sistema desplegable (tant en entorn local com en Testnet), s'ha de superar una bateria de proves organitzada en tres nivells:
  
 \begin{enumerate}[label=\roman*.]
-    \item \textbf{Proves unitàries dels contractes}: escrites en Python emprant el framework de testing d'AlgorKit per al contracte d'Algorand, i en JavaScript/Solidity emprant Hardhat per al contracte d'Ethereum Notary. Verifiquen la lògica individual de cada mòdul (votació, propostes, verificació, generació d'eleccions, llindar K-de-N). El requisit mínim és una cobertura del 80\% (secció 3.2.2).
+    \item \textbf{Proves unitàries dels contractes}: escrites en Python emprant el framework de testing d'AlgorKit per al contracte d'Algorand, i en JavaScript/Solidity emprant Hardhat per al contracte d'Ethereum Notary. Verifiquen la lògica individual de cada mòdul (votació, propostes, verificació, generació d'eleccions, llindar \textit{K-of-N}). El requisit mínim és una cobertura del 80\% (secció 3.2.2).
  
-    \item \textbf{Proves d'integració}: validen la comunicació correcta entre els contenidors (front-end $\rightarrow$ node $\rightarrow$ contracte, contracte $\rightarrow$ anchoring $\rightarrow$ Ethereum Notary). Inclouen escenaris complets com: votant que emet un vot, votant que intenta votar dues vegades (ha de ser rebutjat), consulta de resultats amb l'elecció oberta (ha de retornar error), i ancoratge amb llindar insuficient de nodes (no ha de publicar el hash).
+    \item \textbf{Proves d'integració}: validen la comunicació correcta entre els contenidors (\textit{front-end} $\rightarrow$ node $\rightarrow$ contracte, contracte $\rightarrow$ anchoring $\rightarrow$ Ethereum Notary). Inclouen escenaris complets com: votant que emet un vot, votant que intenta votar dues vegades (ha de ser rebutjat), consulta de resultats amb l'elecció oberta (ha de retornar error), i ancoratge amb llindar insuficient de nodes (no ha de publicar el \textit{hash}).
  
-    \item \textbf{Proves end-to-end}: simulen el flux complet d'un procés electoral des de la creació d'una proposta fins a l'ancoratge del resultat a Ethereum amb consens K-de-N. Es realitzen manualment per l'equip de QA (Marc) amb el suport de l'equip complet durant la fase d'integració (setmanes 9--11).
+    \item \textbf{Proves end-to-end}: simulen el flux complet d'un procés electoral des de la creació d'una proposta fins a l'ancoratge del resultat a Ethereum amb consens \textit{K-of-N}. Es realitzen manualment per l'equip de QA (Marc) amb el suport de l'equip complet durant la fase d'integració (setmanes 9--11).
 \end{enumerate}
  
 \subsection{Pla de contingència per al desplegament}
@@ -399,7 +399,7 @@ Abans de considerar el sistema desplegable (tant en entorn local com en Testnet)
 En coherència amb la gestió de riscos descrita a la secció 6.4 del document d'abast, el desplegament segueix un enfocament modular que permet retallar l'abast sense invalidar el nucli del sistema:
  
 \begin{enumerate}[label=\roman*.]
-    \item \textbf{Escenari nominal}: tot el sistema funciona correctament, incloent-hi l'anchoring amb consens K-de-N a Ethereum. Es demostra davant el tribunal amb la xarxa local i, opcionalment, amb la Testnet.
+    \item \textbf{Escenari nominal}: tot el sistema funciona correctament, incloent-hi l'anchoring amb consens \textit{K-of-N} a Ethereum. Es demostra davant el tribunal amb la xarxa local i, opcionalment, amb la Testnet.
  
     \item \textbf{Escenari degradat}: si l'ancoratge a Ethereum presenta problemes (per exemple, per indisponibilitat temporal de la Sepolia Testnet o problemes amb la faucet), el nucli de votació a Algorand es demostra de manera independent i l'anchoring es documenta com a funcionalitat implementada però no demostrable en directe.
  

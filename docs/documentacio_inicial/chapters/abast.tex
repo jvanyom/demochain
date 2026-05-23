@@ -148,7 +148,7 @@ La transparència i les proves automatitzades són la base tècnica que permet a
 
 \subsubsection{Compatibilitat i accessibilitat}
 
-La interfície web ha de ser completament operativa als navegadors moderns principals sense requerir cap instal·lació de programari addicional, més enllà d'una cartera digital compatible amb l'ecosistema Algorand. 
+La interfície web ha de ser completament operativa als navegadors moderns principals sense requerir cap instal·lació de \textit{software} addicional, més enllà d'una cartera digital compatible amb l'ecosistema Algorand.
 El disseny s'ha d'adaptar correctament tant a pantalles d'escriptori com a dispositius mòbils.
 
 Pera Wallet s'estableix com l'estàndard principal per a la interacció. Permet una connexió neta amb les aplicacions web (via protocols com WalletConnect) i evita que l'usuari hagi de gestionar directament certificats o claus criptogràfiques complexes.
@@ -171,7 +171,7 @@ Delegar completament la signatura a la cartera de l'usuari elimina aquest risc d
 \begin{enumerate}[label=\roman*.]
     \item Totes les peticions de xarxa cap a l'exterior s'han de fer a través de protocols segurs (HTTPS/WSS).
     \item El sistema no ha de demanar, transmetre ni emmagatzemar la clau privada de l'usuari en cap base de dades ni variable d'estat.
-    \item L'acció de signar el vot s'ha de delegar exclusivament i aïlladament al programari de la cartera digital (Pera Wallet).
+    \item L'acció de signar el vot s'ha de delegar exclusivament i aïlladament al \textit{software} de la cartera digital (Pera Wallet).
 \end{enumerate}
 
 \subsubsection{Mantenibilitat i documentació tècnica}
@@ -181,14 +181,14 @@ La naturalesa formativa d'aquest projecte fa que la mantenibilitat sigui tan imp
 
 \paragraph{Criteris d'acceptació:}
 \begin{enumerate}[label=\roman*.]
-    \item El codi ha de respectar una estructura de directoris modular (p. ex., \texttt{/contracts}, \texttt{/frontend}).
+    \item El codi ha de respectar una estructura de directoris modular (p. ex., \texttt{/contracts}, \texttt{/\textit{front-end}}).
     \item Les funcions i mètodes principals han de comptar amb comentaris descriptius (documentació \textit{inline}).
     \item El repositori ha de contenir un fitxer \texttt{README.md} actualitzat amb les passes exactes per instal·lar dependències i executar el projecte des de zero.
 \end{enumerate}
 
 \subsection{Requisits de projecte}
 
-Els requisits del projecte defineixen les condicions, restriccions i criteris d'èxit associats a la gestió, execució i organització de l'equip, independentment del producte de programari resultant. 
+Els requisits del projecte defineixen les condicions, restriccions i criteris d'èxit associats a la gestió, execució i organització de l'equip, independentment del producte de \textit{software} resultant.
 
 \subsubsection{Compliment del calendari i fites de lliurament}
 
@@ -306,7 +306,7 @@ Cadascuna d'elles respon a criteris justificats de viabilitat temporal, complexi
     \item \textbf{Integració amb bases de dades governamentals reals:} \\
     No es desenvolupa cap connexió ni API amb el padró municipal real, ni amb el cens electoral de l'Estat. El sistema empra un cens simulat (una ``llista blanca'' d'adreces de prova) per demostrar la funcionalitat de validació sense comprometre dades personals reals.
 
-    \item \textbf{Infraestructura física i suport presencial (barrera tecnològica):} \\ El projecte es limita exclusivament al desenvolupament de programari. No es dissenya ni es desenvolupa cap mena de maquinari específic, quiosc de votació física o sistema d'assistència presencial per donar suport a persones amb menys competències digitals, diversitat funcional o afectades per l'exclusió tecnològica. S'assumeix que l'elector té l'autonomia suficient per interactuar amb una aplicació web estàndard des del seu propi dispositiu.
+    \item \textbf{Infraestructura física i suport presencial (barrera tecnològica):} \\ El projecte es limita exclusivament al desenvolupament de \textit{software}. No es dissenya ni es desenvolupa cap mena de maquinari específic, quiosc de votació física o sistema d'assistència presencial per donar suport a persones amb menys competències digitals, diversitat funcional o afectades per l'exclusió tecnològica. S'assumeix que l'elector té l'autonomia suficient per interactuar amb una aplicació web estàndard des del seu propi dispositiu.
     
     \item \textbf{Desenvolupament d'una cartera digital (\hyperlink{def:wallet}{\textit{wallet}}) pròpia:} \\
     El projecte exclou la programació d'una aplicació mòbil nativa per a la gestió de \hyperlink{def:claus}{claus}. En comptes de reinventar la roda i per motius de seguretat, s'empren carteres digitals d'ús públic i codi obert ja existents a l'ecosistema d'Algorand (com Pera Wallet o Defly) per executar la signatura de les \hyperlink{def:transaccio}{transaccions} \cite{metamask}.
@@ -425,7 +425,7 @@ Inscripció de candidats & Mòdul autònom amb 6 alternatives anti-spam & Elimin
 \addlinespace
 Cicle de vida electoral & Mecanismes d'eleccions anticipades (multisig, oracles, etc.) & Flux simplificat: proposta $\rightarrow$ llindar $\rightarrow$ elecció $\rightarrow$ tancament \\
 \addlinespace
-Anchoring & Servei Python centralitzat únic & Cada node calcula el hash; contracte Ethereum amb llindar de consens \\
+Anchoring & Servei Python centralitzat únic & Cada node calcula el \textit{hash}; contracte Ethereum amb llindar de consens \\
 \bottomrule
 \end{tabularx}
 \caption{Comparació entre l'abast inicial i l'abast revisat del projecte}

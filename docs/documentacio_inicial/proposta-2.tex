@@ -48,8 +48,8 @@
     \vspace{2cm}
 
     \textbf{Objectiu del projecte:}\\
-    Desenvolupament d’un sistema de votació electrònica descentralitzat,
-    segur, transparent i auditable, amb finalitat formativa per a l’aprenentatge
+    Desenvolupament d'un sistema de votació electrònica descentralitzat,
+    segur, transparent i auditable, amb finalitat formativa per a l'aprenentatge
     de la tecnologia \textit{blockchain} i els contractes intel·ligents.
     
     \vfill
@@ -167,13 +167,13 @@ L'equip de treball està format per quatre membres. S'ha establert una distribuc
     \item \textbf{Dylan Luigi Canning} 
     \begin{itemize}
         \item \textit{Rols:} Desenvolupador Backend (70\%) i Especialista de Ciberseguretat (30\%).
-        \item \textit{Competències i justificació:} Experiència en creació d'API REST (Node.js)  i protocols d'autenticació (JWT). La dedicació en ciberseguretat és vital per gestionar de manera robusta el \textit{hashing} de credencials de vot.
+        \item \textit{Competències i justificació:} Experiència en creació d'API REST (Node.js)  i protocols d'autenticació (JWT). La dedicació en ciberseguretat és vital per gestionar de manera robusta el \textit{\textit{hash}ing} de credencials de vot.
         \item \textit{Implicació en aquesta entrega (A1):} Investigació tecnològica per a la gestió segura de bases de dades fora de la cadena (PostgreSQL/SQLite)  i definició del model de dades d'usuaris.
     \end{itemize}
 
     \item \textbf{Toni Contestí} 
     \begin{itemize}
-        \item \textit{Rols:} Desenvolupador Frontend (80\%) i Responsable de QA / Proves (20\%).
+        \item \textit{Rols:} Desenvolupador \textit{front-end} (80\%) i Responsable de QA / Proves (20\%).
         \item \textit{Competències i justificació:} Gran domini de React i Tailwind CSS. És idoni per traduir l'arquitectura del sistema en una interfície moderna i accessible. L'assignació de QA garanteix que el codi final compleixi els criteris d'acceptació abans del seu desplegament.
         \item \textit{Implicació en aquesta entrega (A1):} Estructuració del document, maquetació LaTeX, glossari de termes i anàlisi d'usabilitat per a l'emissió del vot web.
     \end{itemize}
@@ -204,14 +204,14 @@ La planificació s'estructura en 14 setmanes, integrant explícitament la data l
 
 \textbf{5 -- 8} & \textbf{Desenvolupament Core (Camí Crític)} & \textit{[Paral·lelització massiva]:}\newline \textbf{Rol BC:} Codificació d'Smart Contracts (gestió vot/cens).\newline \textbf{Rol Backend:} Desenvolupament API, emissió tokens i integració JWT. & Disseny finalitzat. \\ \hline
 
-\textbf{9 -- 11} & \textbf{Front-End i Connexió Web3} & \textbf{Rol Front:} Creació d'interfície interactiva (React). \textbf{Rols BC/Back:} Connexió mitjançant Ethers.js i proves de crides als contractes intel·ligents. & API i Contracts operatius. \\ \hline
+\textbf{9 -- 11} & \textbf{\textit{front-end} i Connexió Web3} & \textbf{Rol Front:} Creació d'interfície interactiva (React). \textbf{Rols BC/Back:} Connexió mitjançant Ethers.js i proves de crides als contractes intel·ligents. & API i Contracts operatius. \\ \hline
 
 \textbf{12 -- 13} (Fins mig maig) & \textbf{Integració i Proves (QA)} & Desplegament a Ganache (Testnet local). Validació de l'anonimat i execució de proves unitàries. Correcció de \textit{bugs} i colls d'ampolla. & Integració tancada. \\ \hline
 
 \textbf{14} (Fins al 25 de maig) & \textbf{Tancament i Entrega} & \textbf{Data límit: 25 de maig}. Elaboració de documentació tècnica, memòria, i gravació de l'evidència pràctica (Demo). & Proves superades. \\ \hline
 \end{longtable}
 
-\textit{Nota sobre el camí crític:} La lògica del Smart Contract requereix l'aprovació completa a la Setmana 8. Qualsevol retard en aquesta fase endarreriria el desenvolupament del Frontend Web3. Per mitigar-ho, s'utilitzaran \textit{mocks} de dades perquè el Frontend avanci mentre el contracte assoleix la fase de producció.
+\textit{Nota sobre el camí crític:} La lògica del Smart Contract requereix l'aprovació completa a la Setmana 8. Qualsevol retard en aquesta fase endarreriria el desenvolupament del \textit{front-end} Web3. Per mitigar-ho, s'utilitzaran \textit{mocks} de dades perquè el \textit{front-end} avanci mentre el contracte assoleix la fase de producció.
 
 % =========================================================================
 % 5. ESTIMACIÓ DEL COST DEL PROJECTE
@@ -237,7 +237,7 @@ Per obtenir valors homogenis i realistes, s'han definit els següents paràmetre
 1. Gestió, requeriments i disseny & 12 & 6 & 6 & 8 & \textbf{32} \\ \hline
 2. Smart Contracts (inc. buffer risc) & 0 & 42 & 0 & 0 & \textbf{42} \\ \hline
 3. Desenvolupament Backend (API) & 0 & 0 & 36 & 0 & \textbf{36} \\ \hline
-4. Desenvolupament Frontend (UI/Web3) & 0 & 0 & 4 & 34 & \textbf{38} \\ \hline
+4. Desenvolupament \textit{front-end} (UI/Web3) & 0 & 0 & 4 & 34 & \textbf{38} \\ \hline
 5. Integració de sistemes & 6 & 6 & 8 & 6 & \textbf{26} \\ \hline
 6. Control de qualitat (QA) i testing & 0 & 4 & 4 & 14 & \textbf{22} \\ \hline
 7. Documentació i demo (Entrega 25 maig)& 15 & 5 & 5 & 5 & \textbf{30} \\ \hline
