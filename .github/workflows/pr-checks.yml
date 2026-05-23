@@ -35,9 +35,9 @@ jobs:
       - uses: astral-sh/setup-uv@v5
         with:
           python-version: "3.12"
-      - run: uv run ruff check voting-contract/
+      - run: uv run ruff check .
         working-directory: voting-contract
-      - run: uv run ruff format --check voting-contract/
+      - run: uv run ruff format --check .
         working-directory: voting-contract
 
   lint-client:
