@@ -3,7 +3,7 @@ pragma solidity ^0.8.20;
 
 /**
  * @title  NotaryContract
- * @notice Ancoratge K-de-N dels resultats electorals de Demochain.
+ * @notice Ancoratge K-of-N dels resultats electorals de Demochain.
  *
  *         Cada node universitari envia de forma independent el hash SHA-256
  *         de les paperetes d'una proposta llegides des d'Algorand. Quan K

@@ -14,7 +14,7 @@ async function main() {
   console.log("  NOTARY_CONTRACT_ADDRESS=" + address);
 }
 
-main().catch((error) => {
+main().catch(error => {
   console.error(error);
   process.exitCode = 1;
 });

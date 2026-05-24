@@ -38,7 +38,7 @@ def check_algod() -> None:
     logger.info("connecting to algod at %s", url)
     client = AlgodClient(token, url)
     status = client.status()
-    logger.info("algod ok — last_round=%s", status.get("last-round"))
+    logger.info("algod ok - last_round=%s", status.get("last-round"))
 
 
 def check_app_id() -> int | None:
@@ -61,7 +61,7 @@ def check_ethereum() -> Web3:
     w3 = Web3(Web3.HTTPProvider(rpc))
     if not w3.is_connected():
         raise RuntimeError(f"cannot connect to {rpc}")
-    logger.info("ethereum ok — chain_id=%s, block=%s", w3.eth.chain_id, w3.eth.block_number)
+    logger.info("ethereum ok - chain_id=%s, block=%s", w3.eth.chain_id, w3.eth.block_number)
     return w3
 
 
@@ -96,12 +96,12 @@ def check_notary_contract(w3: Web3) -> None:
     contract = w3.eth.contract(address=address, abi=abi)
     count = contract.functions.universityCount().call()
     k = contract.functions.globalK().call()
-    logger.info("NotaryContract @ %s — K-of-N = %d-of-%d", address, k, count)
+    logger.info("NotaryContract @ %s - K-of-N = %d-of-%d", address, k, count)
 
     for uni_id in ("UIB", "UPC", "UAB"):
         key = _env(f"{uni_id}_ETH_PRIVATE_KEY", "").strip()
         if not key:
-            logger.warning("%s_ETH_PRIVATE_KEY not set — skipping whitelist check", uni_id)
+            logger.warning("%s_ETH_PRIVATE_KEY not set - skipping whitelist check", uni_id)
             continue
         addr = Account.from_key(key).address
         ok = contract.functions.whitelist(addr).call()
@@ -119,7 +119,7 @@ def main() -> int:
     except Exception as exc:
         logger.error("smoke test FAILED: %s", exc)
         return 1
-    logger.info("ALL CHECKS PASSED — anchoring service ready")
+    logger.info("ALL CHECKS PASSED - anchoring service ready")
     return 0
 
 

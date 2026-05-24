@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "demochain-anchoring"
 version = "0.1.0"
-description = "Servei d'ancoratge K-de-N dels resultats electorals de Demochain a Ethereum"
+description = "Servei d'ancoratge K-of-N dels resultats electorals de Demochain a Ethereum"
 authors = []
 package-mode = false
 

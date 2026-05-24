@@ -2,7 +2,7 @@
 
 Cada node universitari usa aquest mòdul per signar i enviar una transacció
 Ethereum que registra el hash de les paperetes de la proposta. El contracte
-NotaryContract aplica el consens K-de-N on-chain.
+NotaryContract aplica el consens K-of-N on-chain.
 """
 
 import logging

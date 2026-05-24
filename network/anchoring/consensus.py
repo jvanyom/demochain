@@ -1,4 +1,4 @@
-"""Verificació local del consens K-de-N entre els hashes calculats per cada node.
+"""Verificació local del consens K-of-N entre els hashes calculats per cada node.
 
 Permet detectar discrepàncies entre universitats abans de gastar gas a Ethereum.
 La validació autoritativa es fa sempre al NotaryContract on-chain.
@@ -22,7 +22,7 @@ class ConsensusResult:
 
 
 def check_consensus(node_hashes: dict[str, str], threshold_k: int) -> ConsensusResult:
-    """Verifica si hi ha consens K-de-N entre els hashes dels nodes.
+    """Verifica si hi ha consens K-of-N entre els hashes dels nodes.
 
     Args:
         node_hashes: {university_id: hash_hex} amb el hash calculat per cada node.

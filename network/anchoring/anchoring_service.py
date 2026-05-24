@@ -5,7 +5,7 @@ Orquestra el flux complet:
   2. Calcula el hash SHA-256 determinista (hasher)
   3. Envia el hash al NotaryContract d'Ethereum (EthereumSubmitter)
 
-El consens K-de-N és responsabilitat del NotaryContract; cada universitat
+El consens K-of-N és responsabilitat del NotaryContract; cada universitat
 opera de forma independent sense necessitat de coordinar-se amb les altres.
 """
 
