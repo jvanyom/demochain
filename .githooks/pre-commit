@@ -49,4 +49,61 @@ if [[ -n "$staged_ts" ]]; then
   fi
 fi
 
+# --- Tests Python (voting-contract/) ---
+if [[ -d "voting-contract" ]]; then
+  if ! command -v uv &>/dev/null; then
+    echo "⚠️  uv no trobat - saltant els tests de Python."
+  elif [[ -d "voting-contract/.venv" ]] && [[ "$(stat -c '%U' voting-contract/.venv 2>/dev/null)" == "root" ]]; then
+    echo "⚠️  voting-contract/.venv és propietat de root (creat per Docker)."
+    echo "   Executa: sudo rm -rf voting-contract/.venv"
+    failed=1
+  else
+    echo "🧪 Executant tests Python (algopy_testing)..."
+    if ! (cd voting-contract && uv run pytest tests -q --tb=short 2>&1); then
+      echo "❌ Tests Python han fallat."
+      failed=1
+    fi
+  fi
+fi
+
+# --- Tests client (Bun) ---
+if [[ -d "client" ]]; then
+  if ! command -v bun &>/dev/null; then
+    echo "⚠️  bun no trobat - saltant els tests del client."
+  else
+    if curl -sf http://localhost:4001/health &>/dev/null; then
+      echo "🧪 Executant tots els tests del client (LocalNet disponible)..."
+      if ! (cd client && bun test --reporter=dot 2>&1); then
+        echo "❌ Tests del client han fallat."
+        failed=1
+      fi
+    else
+      echo "⚠️  LocalNet no disponible - executant només tests unitaris del client."
+      if ! (cd client && bun test src/algorand/_contract.test.ts src/algorand/queries.test.ts --reporter=dot 2>&1); then
+        echo "❌ Tests unitaris del client han fallat."
+        failed=1
+      fi
+    fi
+  fi
+fi
+
+# --- Tests Ethereum (Hardhat) ---
+if [[ -d "network/ethereum" ]]; then
+  # Carrega NVM si node no és al PATH
+  if ! command -v npm &>/dev/null && [[ -s "$HOME/.nvm/nvm.sh" ]]; then
+    source "$HOME/.nvm/nvm.sh" --no-use 2>/dev/null
+  fi
+
+  if ! command -v npm &>/dev/null; then
+    echo "⚠️  npm no trobat - saltant els tests d'Ethereum."
+    echo "   Instal·la Node.js o afegeix-lo al PATH."
+  else
+    echo "🧪 Executant tests Ethereum (Hardhat)..."
+    if ! (cd network/ethereum && npm test --silent 2>&1); then
+      echo "❌ Tests Ethereum han fallat."
+      failed=1
+    fi
+  fi
+fi
+
 exit $failed
