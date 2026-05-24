@@ -416,7 +416,8 @@ local i és \textbf{reproduïble} per qualsevol persona amb el repositori i Dock
 infraestructura: \texttt{docker compose up}.
 Això arrenca seqüencialment el node Algorand (\emph{lead} i \emph{follower}), el desplegament automàtic del contracte
 (que persisteix l'\texttt{APP\_ID} a \texttt{client/.env.local}), la base de dades PostgreSQL, Conduit,
-l'\emph{indexer} i el client web servit per Vite (vegeu secció~\ref{sec:cicle-vida} del capítol~\ref{ch:planificacio} i
+l'\emph{indexer}, el node Ethereum local (Hardhat) amb el desplegament del \texttt{NotaryContract}, el servei
+d'ancoratge i el client web servit per Vite (vegeu secció~\ref{sec:cicle-vida} del capítol~\ref{ch:planificacio} i
 detalls a la secció corresponent de Disseny).
 
 \paragraph{Recorregut funcional.} La demostració recorre les pantalles
@@ -442,7 +443,8 @@ La demostració inclou la verificació externa del resultat: introduint una adre
 el client consulta directament la cadena i mostra el \emph{rànquing} emès per aquesta adreça, sense necessitat de cap
 permís.
 En paral·lel, el servei d'ancoratge publica el \emph{\textit{hash}} determinista de l'elecció tancada al contracte
-\texttt{NotaryContract} de Sepolia, fent visible el consens \textit{K-of-N} entre nodes universitaris.
+\texttt{NotaryContract} desplegat al node Ethereum del \emph{LocalNet}, fent visible el consens \textit{K-of-N} entre
+nodes universitaris (en producció, el mateix flux apunta a Sepolia).
 
 \paragraph{Temps total}.
 Sobre el \emph{LocalNet}, el cicle complet --des de \texttt{docker compose up} fins a la visualització dels resultats--
