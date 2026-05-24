@@ -400,9 +400,9 @@ Aquest cost en microAlgos que el mateix contracte ha de mantenir com a fons de r
 Com que cada organització, membre del cens, proposta i vot emès genera noves caixes de dades al contracte, cal gestionar
 l'MBR com a paràmetre crític per no deixar el compte del contracte sense saldos suficients.
 A més, hi ha una restricció que impedeix que una transacció faci referència a més de vuit caixes simultàniament, la qual
-cosa condiciona la manera en què el client ha d'enviar les paperetes a la xarxa.
-Finalment, el cost econòmic extremadament alt de fer crides a Ethereum L1 obliga a utilitzar la xarxa de proves Sepolia
-per a les universitats, i el protocol només envia un únic \textit{hash} de 32 bytes (\texttt{bytes32}) per cada elecció
+cosa condiciona la manera en què el client ha d'enviar les transaccions a la xarxa.
+Finalment, el cost econòmic de fer crides a Ethereum L1 ens fa elegir emprar la xarxa de proves Sepolia, 
+i el protocol només envia un únic \textit{hash} de 32 bytes (\texttt{bytes32}) per cada elecció
 un cop s'ha completat tot l'escrutini.
 
 Sense segones capes o agregació de transaccions (\textit{rollups}), Algorand té un límit físic d'unes 6.000 transaccions
