@@ -23,6 +23,14 @@
 #   algod conté DOS nodes interns (lead:8080 + follower:8081).
 #   conduit-localnet llegeix deltes d'estat del follower via 'localnet_algod'.
 #   indexer serveix l'API de cerca sobre postgres.
+#
+# Arquitectura Ethereum / ancoratge:
+#   hardhat exposa un node JSON-RPC local (port ${ETH_RPC_PORT}).
+#   ethereum-deploy compila i desplega NotaryContract, registra les 3
+#   universitats com a submitters i escriu NOTARY_CONTRACT_ADDRESS al
+#   volum compartit 'shared-state'.
+#   anchoring és un contenidor en repòs amb deps web3+algosdk; valida
+#   connectivitat a l'inici i resta disponible per a 'docker compose exec'.
 
 services:
   algod:
@@ -55,6 +63,7 @@ services:
     volumes:
       - ./voting-contract:/workspace
       - ./client:/client-out
+      - shared-state:/shared
       - uv-cache:/root/.cache/uv
     environment:
       ALGOD_SERVER: "http://${ALGOD_HOST}"
@@ -84,9 +93,116 @@ services:
         fi
         echo "[contract-deploy] APP_ID=$$APP_ID — writing /client-out/.env.local"
         echo "VITE_APP_ID=$$APP_ID" > /client-out/.env.local
+        echo "[contract-deploy] writing /shared/algorand.env"
+        echo "DEMOCHAIN_APP_ID=$$APP_ID" > /shared/algorand.env
     depends_on:
       algod:
         condition: service_healthy
+    restart: "no"
+
+  hardhat:
+    image: node:20-bookworm-slim
+    working_dir: /workspace
+    command:
+      - sh
+      - -c
+      - |
+        set -eu
+        if [ ! -d node_modules ] || [ ! -x node_modules/.bin/hardhat ]; then
+          echo "[hardhat] npm install"
+          npm install --no-audit --no-fund
+        fi
+        echo "[hardhat] starting node on 0.0.0.0:8545"
+        exec npx --no-install hardhat node --hostname 0.0.0.0 --port 8545
+    volumes:
+      - ./network/ethereum:/workspace
+      - hardhat-node-modules:/workspace/node_modules
+    ports:
+      - "${ETH_RPC_PORT}:8545"
+    healthcheck:
+      test: ["CMD", "node", "/workspace/healthcheck.js"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+      start_period: 20s
+
+  ethereum-deploy:
+    image: node:20-bookworm-slim
+    working_dir: /workspace
+    volumes:
+      - ./network/ethereum:/workspace
+      - shared-state:/shared
+      - hardhat-node-modules:/workspace/node_modules
+    environment:
+      ETHEREUM_LOCALHOST_URL: "http://hardhat:8545"
+      UIB_ETH_PRIVATE_KEY: "${UIB_ETH_PRIVATE_KEY}"
+      UPC_ETH_PRIVATE_KEY: "${UPC_ETH_PRIVATE_KEY}"
+      UAB_ETH_PRIVATE_KEY: "${UAB_ETH_PRIVATE_KEY}"
+      SHARED_DIR: /shared
+    depends_on:
+      hardhat:
+        condition: service_healthy
+    command:
+      - sh
+      - -c
+      - |
+        set -eu
+        echo "[ethereum-deploy] hardhat compile"
+        npx --no-install hardhat compile
+        echo "[ethereum-deploy] deploying NotaryContract + registering universities"
+        npx --no-install hardhat run scripts/deploy_localnet.js --network localhost
+    restart: "no"
+
+  anchoring:
+    image: python:3.12-slim
+    working_dir: /workspace
+    volumes:
+      - ./network:/workspace/network
+      - shared-state:/shared
+      - anchoring-pip-cache:/root/.cache/pip
+    environment:
+      ALGOD_SERVER: "http://${ALGOD_HOST}"
+      ALGOD_PORT: "${ALGOD_CONTAINER_PORT}"
+      ALGOD_TOKEN: "${ALGO_TOKEN}"
+      INDEXER_SERVER: "http://indexer"
+      INDEXER_PORT: "8980"
+      ETHEREUM_RPC_URL: "http://hardhat:8545"
+      ETH_GAS_LIMIT: "${ETH_GAS_LIMIT}"
+      ETH_TX_TIMEOUT: "${ETH_TX_TIMEOUT}"
+      UIB_ETH_PRIVATE_KEY: "${UIB_ETH_PRIVATE_KEY}"
+      UPC_ETH_PRIVATE_KEY: "${UPC_ETH_PRIVATE_KEY}"
+      UAB_ETH_PRIVATE_KEY: "${UAB_ETH_PRIVATE_KEY}"
+      PYTHONPATH: /workspace
+    depends_on:
+      algod:
+        condition: service_healthy
+      hardhat:
+        condition: service_healthy
+      contract-deploy:
+        condition: service_completed_successfully
+      ethereum-deploy:
+        condition: service_completed_successfully
+    command:
+      - bash
+      - -c
+      - |
+        set -eu
+        echo "[anchoring] installing deps"
+        pip install --quiet --no-input \
+          'py-algorand-sdk>=2.7,<3' \
+          'web3>=7.0,<8' \
+          'eth-account>=0.13' \
+          'python-dotenv>=1.0,<2'
+        if [ -f /shared/algorand.env ]; then
+          export $$(cat /shared/algorand.env | xargs)
+        fi
+        if [ -f /shared/ethereum.env ]; then
+          export $$(cat /shared/ethereum.env | xargs)
+        fi
+        echo "[anchoring] running smoke test"
+        python /workspace/network/anchoring/smoke.py
+        echo "[anchoring] ready — 'docker compose exec anchoring ...' to run anchoring ops"
+        exec tail -f /dev/null
     restart: "no"
 
   indexer-db:
@@ -164,3 +280,6 @@ volumes:
   conduit-data:
   client-node-modules:
   uv-cache:
+  hardhat-node-modules:
+  anchoring-pip-cache:
+  shared-state:
