@@ -16,7 +16,7 @@ import {
 	enc,
 	createProposalMethod
 } from './_contract'
-import { algodClient, APP_ID } from './config'
+import { algodClient } from './config'
 
 export interface CreateProposalResult {
 	proposalId: ProposalId
@@ -24,6 +24,7 @@ export interface CreateProposalResult {
 }
 
 export async function createProposal(
+	appId: number,
 	signer: TransactionSigner,
 	sender: Address,
 	orgId: OrganizationId,
@@ -36,20 +37,21 @@ export async function createProposal(
 	const lower = options.map(option => option.toLowerCase())
 	if (new Set(lower).size !== lower.length) throw new Error('proposal.duplicated-option')
 
-	const currentProposalId = asProposalId(await readGlobalUint64('proposal_id'))
+	const currentProposalId = asProposalId(await readGlobalUint64(appId, 'proposal_id'))
 	const nextId = asProposalId(currentProposalId + 1)
 
 	// create_proposal calls _assert_in_census, so census box is required too.
 	const result = await callMethod(
+		appId,
 		signer,
 		sender,
 		createProposalMethod,
 		[BigInt(orgId), title, description, options, BigInt(startingDate), BigInt(endingDate)],
 		[
-			{ appIndex: APP_ID, name: proposalBoxKey(nextId) },
-			{ appIndex: APP_ID, name: tallyBoxKey(nextId) },
-			{ appIndex: APP_ID, name: orgBoxKey(orgId) },
-			{ appIndex: APP_ID, name: censusBoxKey(orgId, sender) }
+			{ appIndex: appId, name: proposalBoxKey(nextId) },
+			{ appIndex: appId, name: tallyBoxKey(nextId) },
+			{ appIndex: appId, name: orgBoxKey(orgId) },
+			{ appIndex: appId, name: censusBoxKey(orgId, sender) }
 		]
 	)
 
@@ -60,27 +62,27 @@ export async function createProposal(
 	}
 }
 
-export async function getProposal(proposalId: ProposalId): Promise<OnChainProposal | null> {
+export async function getProposal(appId: number, proposalId: ProposalId): Promise<OnChainProposal | null> {
 	try {
-		const box = await algodClient.getApplicationBoxByName(APP_ID, proposalBoxKey(proposalId)).do()
+		const box = await algodClient.getApplicationBoxByName(appId, proposalBoxKey(proposalId)).do()
 		return decodeProposal(box.value)
 	} catch {
 		return null
 	}
 }
 
-export async function getApprovalTally(proposalId: ProposalId): Promise<OnChainApprovalTally | null> {
+export async function getApprovalTally(appId: number, proposalId: ProposalId): Promise<OnChainApprovalTally | null> {
 	try {
-		const box = await algodClient.getApplicationBoxByName(APP_ID, tallyBoxKey(proposalId)).do()
+		const box = await algodClient.getApplicationBoxByName(appId, tallyBoxKey(proposalId)).do()
 		return decodeTally(box.value)
 	} catch {
 		return null
 	}
 }
 
-export async function getAllProposalIds(): Promise<ProposalId[]> {
+export async function getAllProposalIds(appId: number): Promise<ProposalId[]> {
 	try {
-		const { boxes } = await algodClient.getApplicationBoxes(APP_ID).do()
+		const { boxes } = await algodClient.getApplicationBoxes(appId).do()
 		const proposalPrefix = enc.encode('pr_') // 3 bytes
 		const ids: ProposalId[] = []
 

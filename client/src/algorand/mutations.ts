@@ -1,13 +1,12 @@
 import type { CreateOrganizationResult } from './organizations'
+import type { CreateProposalResult } from './proposals'
 import type { Address, OrganizationId, ProposalId } from '@/domain'
 import type algosdk from 'algosdk'
 
 import { useMutation, type UseMutationResult, useQueryClient } from '@tanstack/react-query'
 
-import { createOrganization, addToCensus, removeFromCensus } from './organizations'
-import { createProposal, type CreateProposalResult } from './proposals'
+import { demochainClient } from './create-client'
 import { queryKeys } from './query-keys'
-import { castApprovalVote, castRankedVote } from './voting'
 
 // ── Shared argument shapes ───────────────────────────────────────────
 
@@ -55,7 +54,7 @@ export function useCreateOrganization(): UseMutationResult<CreateOrganizationRes
 
 	return useMutation({
 		mutationFn: ({ signer, sender, name, description }: CreateOrganizationArgs) =>
-			createOrganization(signer, sender, name, description),
+			demochainClient.createOrganization(signer, sender, name, description),
 		onSuccess: () => {
 			void queryClient.invalidateQueries({ queryKey: queryKeys.organizations.all() })
 		}
@@ -67,7 +66,7 @@ export function useAddToCensus(): UseMutationResult<void, Error, CensusArgs> {
 
 	return useMutation({
 		mutationFn: ({ signer, sender, orgId, members, onProgress }: CensusArgs) =>
-			addToCensus(signer, sender, orgId, members, onProgress),
+			demochainClient.addToCensus(signer, sender, orgId, members, onProgress),
 		onSuccess: (_data, { orgId }) => {
 			void queryClient.invalidateQueries({ queryKey: queryKeys.organizations.detail(orgId) })
 			void queryClient.invalidateQueries({ queryKey: queryKeys.censusPrefix })
@@ -80,7 +79,7 @@ export function useRemoveFromCensus(): UseMutationResult<void, Error, CensusArgs
 
 	return useMutation({
 		mutationFn: ({ signer, sender, orgId, members }: CensusArgs) =>
-			removeFromCensus(signer, sender, orgId, members),
+			demochainClient.removeFromCensus(signer, sender, orgId, members),
 		onSuccess: (_data, { orgId }) => {
 			void queryClient.invalidateQueries({ queryKey: queryKeys.organizations.detail(orgId) })
 			void queryClient.invalidateQueries({ queryKey: queryKeys.censusPrefix })
@@ -102,7 +101,16 @@ export function useCreateProposal(): UseMutationResult<CreateProposalResult, Err
 			startingDate,
 			endingDate
 		}: CreateProposalArgs) =>
-			createProposal(signer, sender, orgId, title, description, options, startingDate, endingDate),
+			demochainClient.createProposal(
+				signer,
+				sender,
+				orgId,
+				title,
+				description,
+				options,
+				startingDate,
+				endingDate
+			),
 		onSuccess: () => {
 			void queryClient.invalidateQueries({ queryKey: queryKeys.proposals.all() })
 		}
@@ -114,7 +122,7 @@ export function useCastApprovalVote(): UseMutationResult<string, Error, CastAppr
 
 	return useMutation({
 		mutationFn: ({ signer, sender, proposalId, orgId, approve }: CastApprovalVoteArgs) =>
-			castApprovalVote(signer, sender, proposalId, orgId, approve),
+			demochainClient.castApprovalVote(signer, sender, proposalId, orgId, approve),
 		onSuccess: (_txId, { proposalId, sender }) => {
 			void queryClient.invalidateQueries({ queryKey: queryKeys.proposals.detail(proposalId) })
 			void queryClient.invalidateQueries({ queryKey: queryKeys.proposals.all() })
@@ -128,7 +136,7 @@ export function useCastRankedVote(): UseMutationResult<string, Error, CastRanked
 
 	return useMutation({
 		mutationFn: ({ signer, sender, proposalId, orgId, preferenceOrder }: CastRankedVoteArgs) =>
-			castRankedVote(signer, sender, proposalId, orgId, preferenceOrder),
+			demochainClient.castRankedVote(signer, sender, proposalId, orgId, preferenceOrder),
 		onSuccess: (_txId, { proposalId, sender }) => {
 			void queryClient.invalidateQueries({ queryKey: queryKeys.voting.electionVoted(sender, proposalId) })
 			void queryClient.invalidateQueries({ queryKey: queryKeys.electionPrefix })

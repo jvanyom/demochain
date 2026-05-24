@@ -20,7 +20,7 @@ import {
 	removeFromCensusMethod,
 	createOrganizationMethod
 } from './_contract'
-import { algodClient, APP_ID } from './config'
+import { algodClient } from './config'
 
 export interface CreateOrganizationResult {
 	orgId: OrganizationId
@@ -28,16 +28,17 @@ export interface CreateOrganizationResult {
 }
 
 export async function createOrganization(
+	appId: number,
 	signer: TransactionSigner,
 	sender: Address,
 	name: string,
 	description: string
 ): Promise<CreateOrganizationResult> {
-	const currentOrgId = asOrganizationId(await readGlobalUint64('org_id'))
+	const currentOrgId = asOrganizationId(await readGlobalUint64(appId, 'org_id'))
 	const nextId = asOrganizationId(currentOrgId + 1)
 
 	const suggestedParams = await algodClient.getTransactionParams().do()
-	const appAddress = algosdk.getApplicationAddress(APP_ID)
+	const appAddress = algosdk.getApplicationAddress(appId)
 
 	// Paga el compte de l'aplicació per cobrir MBR per a les 3 boxes que crearà:
 	// box org (key=12, value=8+2+nom+2+desc+32), box d'índex de nom, box de cens organitzador
@@ -59,16 +60,16 @@ export async function createOrganization(
 
 	composer.addTransaction({ txn: payTxn, signer })
 	composer.addMethodCall({
-		appID: APP_ID,
+		appID: appId,
 		method: createOrganizationMethod,
 		methodArgs: [name, description],
 		sender,
 		signer,
 		suggestedParams,
 		boxes: [
-			{ appIndex: APP_ID, name: orgNameIndexKey(name) },
-			{ appIndex: APP_ID, name: orgBoxKey(nextId) },
-			{ appIndex: APP_ID, name: censusBoxKey(nextId, sender) }
+			{ appIndex: appId, name: orgNameIndexKey(name) },
+			{ appIndex: appId, name: orgBoxKey(nextId) },
+			{ appIndex: appId, name: censusBoxKey(nextId, sender) }
 		]
 	})
 
@@ -88,18 +89,18 @@ export async function createOrganization(
 	throw new Error('No contract result')
 }
 
-export async function getOrganization(orgId: OrganizationId): Promise<OnChainOrganization | null> {
+export async function getOrganization(appId: number, orgId: OrganizationId): Promise<OnChainOrganization | null> {
 	try {
-		const box = await algodClient.getApplicationBoxByName(APP_ID, orgBoxKey(orgId)).do()
+		const box = await algodClient.getApplicationBoxByName(appId, orgBoxKey(orgId)).do()
 		return decodeOrganization(box.value)
 	} catch {
 		return null
 	}
 }
 
-export async function getAllOrganizationIds(): Promise<OrganizationId[]> {
+export async function getAllOrganizationIds(appId: number): Promise<OrganizationId[]> {
 	try {
-		const { boxes } = await algodClient.getApplicationBoxes(APP_ID).do()
+		const { boxes } = await algodClient.getApplicationBoxes(appId).do()
 		const orgPrefix = enc.encode('org_') // 4 bytes
 		const ids: OrganizationId[] = []
 
@@ -117,6 +118,7 @@ export async function getAllOrganizationIds(): Promise<OrganizationId[]> {
 }
 
 export async function addToCensus(
+	appId: number,
 	signer: TransactionSigner,
 	sender: Address,
 	orgId: OrganizationId,
@@ -125,8 +127,7 @@ export async function addToCensus(
 ): Promise<void> {
 	if (members.length === 0) return
 
-	const appAddress = algosdk.getApplicationAddress(APP_ID)
-
+	const appAddress = algosdk.getApplicationAddress(appId)
 	const batches: Address[][] = []
 
 	for (let i = 0; i < members.length; i += CENSUS_BATCH) batches.push(members.slice(i, i + CENSUS_BATCH))
@@ -148,15 +149,15 @@ export async function addToCensus(
 				const composer = new algosdk.AtomicTransactionComposer()
 				composer.addTransaction({ txn: payTxn, signer })
 				composer.addMethodCall({
-					appID: APP_ID,
+					appID: appId,
 					method: addToCensusMethod,
 					methodArgs: [BigInt(orgId), batch],
 					sender,
 					signer,
 					suggestedParams,
 					boxes: [
-						{ appIndex: APP_ID, name: orgBoxKey(orgId) },
-						...batch.map(address => ({ appIndex: APP_ID, name: censusBoxKey(orgId, address) }))
+						{ appIndex: appId, name: orgBoxKey(orgId) },
+						...batch.map(address => ({ appIndex: appId, name: censusBoxKey(orgId, address) }))
 					]
 				})
 
@@ -171,6 +172,7 @@ export async function addToCensus(
 }
 
 export async function removeFromCensus(
+	appId: number,
 	signer: TransactionSigner,
 	sender: Address,
 	orgId: OrganizationId,
@@ -185,15 +187,15 @@ export async function removeFromCensus(
 		const batch = members.slice(i, i + CENSUS_BATCH)
 
 		composer.addMethodCall({
-			appID: APP_ID,
+			appID: appId,
 			method: removeFromCensusMethod,
 			methodArgs: [BigInt(orgId), batch],
 			sender,
 			signer,
 			suggestedParams,
 			boxes: [
-				{ appIndex: APP_ID, name: orgBoxKey(orgId) },
-				...batch.map(address => ({ appIndex: APP_ID, name: censusBoxKey(orgId, address) }))
+				{ appIndex: appId, name: orgBoxKey(orgId) },
+				...batch.map(address => ({ appIndex: appId, name: censusBoxKey(orgId, address) }))
 			]
 		})
 	}
@@ -205,9 +207,9 @@ export async function removeFromCensus(
 	}
 }
 
-export async function getCensusMembers(orgId: OrganizationId): Promise<Address[]> {
+export async function getCensusMembers(appId: number, orgId: OrganizationId): Promise<Address[]> {
 	try {
-		const { boxes } = await algodClient.getApplicationBoxes(APP_ID).do()
+		const { boxes } = await algodClient.getApplicationBoxes(appId).do()
 		const prefix = enc.encode('cs_') // 3 bytes
 		const orgIdBytes = algosdk.bigIntToBytes(orgId, 8)
 		const members: Address[] = []
@@ -223,9 +225,9 @@ export async function getCensusMembers(orgId: OrganizationId): Promise<Address[]
 	}
 }
 
-export async function getCensusMemberCount(orgId: OrganizationId): Promise<number> {
+export async function getCensusMemberCount(appId: number, orgId: OrganizationId): Promise<number> {
 	try {
-		const { boxes } = await algodClient.getApplicationBoxes(APP_ID).do()
+		const { boxes } = await algodClient.getApplicationBoxes(appId).do()
 		const prefix = enc.encode('cs_')
 		const orgIdBytes = algosdk.bigIntToBytes(orgId, 8)
 
@@ -240,8 +242,8 @@ export async function getCensusMemberCount(orgId: OrganizationId): Promise<numbe
 	}
 }
 
-export async function isInCensusChain(address: Address, orgId: OrganizationId): Promise<boolean> {
-	return singleBoxExists(censusBoxKey(orgId, address))
+export async function isInCensusChain(appId: number, address: Address, orgId: OrganizationId): Promise<boolean> {
+	return singleBoxExists(appId, censusBoxKey(orgId, address))
 }
 
 function decodeOrganization(data: Uint8Array): OnChainOrganization {

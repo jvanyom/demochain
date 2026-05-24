@@ -73,7 +73,9 @@ services:
       - ./client:/client-out
       - shared-state:/shared
       - uv-cache:/root/.cache/uv
+      - contract-venv:/venv
     environment:
+      UV_PROJECT_ENVIRONMENT: "/venv"
       ALGOD_SERVER: "http://${ALGOD_HOST}"
       ALGOD_PORT: "${ALGOD_CONTAINER_PORT}"
       ALGOD_TOKEN: "${ALGO_TOKEN}"
@@ -99,7 +101,7 @@ services:
           echo "[contract-deploy] could not extract APP_ID from deploy log" >&2
           exit 1
         fi
-        echo "[contract-deploy] APP_ID=$$APP_ID — writing /client-out/.env.local"
+        echo "[contract-deploy] APP_ID=$$APP_ID - writing /client-out/.env.local"
         echo "VITE_APP_ID=$$APP_ID" > /client-out/.env.local
         echo "[contract-deploy] writing /shared/algorand.env"
         echo "DEMOCHAIN_APP_ID=$$APP_ID" > /shared/algorand.env
@@ -320,3 +322,4 @@ volumes:
   anchoring-pip-cache:
   shared-state:
   heartbeat-pip-cache:
+  contract-venv:
