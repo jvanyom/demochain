@@ -14,8 +14,12 @@ function minStartDate(): Date {
 }
 
 export const proposalDraftBasicsSchema = z.object({
-	title: z.string().trim().min(1, { error: 'proposal.empty-title' }),
-	description: z.string().trim().min(1, { error: 'proposal.empty-description' })
+	title: z.string().trim().min(1, { error: 'proposal.empty-title' }).max(200, { error: 'proposal.title-too-long' }),
+	description: z
+		.string()
+		.trim()
+		.min(1, { error: 'proposal.empty-description' })
+		.max(1000, { error: 'proposal.description-too-long' })
 })
 
 function addDateIssues(
@@ -47,8 +51,15 @@ function hasDuplicateOptions(values: string[]): boolean {
 
 export const proposalDraftOptionsSchema = z.object({
 	options: z
-		.array(z.string().trim().min(1, { error: 'proposal.empty-options' }))
+		.array(
+			z
+				.string()
+				.trim()
+				.min(1, { error: 'proposal.empty-options' })
+				.max(100, { error: 'proposal.option-too-long' })
+		)
 		.min(2, { error: 'proposal.too-few-options' })
+		.max(20, { error: 'proposal.too-many-options' })
 		.refine(opts => !hasDuplicateOptions(opts), { error: 'proposal.duplicated-options' })
 })
 
@@ -61,13 +72,30 @@ export const proposalDraftSchema = proposalDraftBasicsSchema
 export const proposalFormSchema = z
 	.object({
 		orgId: z.string().min(1, { error: 'org.required' }),
-		title: z.string().trim().min(1, { error: 'proposal.empty-title' }),
-		description: z.string().trim().min(1, { error: 'proposal.empty-description' }),
+		title: z
+			.string()
+			.trim()
+			.min(1, { error: 'proposal.empty-title' })
+			.max(200, { error: 'proposal.title-too-long' }),
+		description: z
+			.string()
+			.trim()
+			.min(1, { error: 'proposal.empty-description' })
+			.max(1000, { error: 'proposal.description-too-long' }),
 		startDate: z.string().min(1, { error: 'proposal.starting-too-soon' }),
 		endDate: z.string().min(1, { error: 'proposal.small-voting-window' }),
 		options: z
-			.array(z.object({ value: z.string().trim().min(1, { error: 'proposal.empty-options' }) }))
+			.array(
+				z.object({
+					value: z
+						.string()
+						.trim()
+						.min(1, { error: 'proposal.empty-options' })
+						.max(100, { error: 'proposal.option-too-long' })
+				})
+			)
 			.min(2, { error: 'proposal.too-few-options' })
+			.max(20, { error: 'proposal.too-many-options' })
 			.refine(
 				opts => {
 					const vals = opts.flatMap(option => {
