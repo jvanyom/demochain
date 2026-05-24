@@ -168,7 +168,7 @@ export function NewProposalPage(): JSX.Element {
 	)
 
 	function fieldError(field: string): string | undefined {
-		if (field === 'options') return errors.options?.message
+		if (field === 'options') return errors.options?.root?.message ?? errors.options?.message
 		// oxlint-disable-next-line no-unsafe-type-assertion
 		const key = field as Exclude<keyof ProposalFormValues, 'options'>
 		return errors[key]?.message
