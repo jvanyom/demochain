@@ -211,7 +211,7 @@ services:
         fi
         echo "[anchoring] running smoke test"
         python /workspace/network/anchoring/smoke.py
-        echo "[anchoring] ready — 'docker compose exec anchoring ...' to run anchoring ops"
+        echo "[anchoring] ready - 'docker compose exec anchoring ...' to run anchoring ops"
         exec tail -f /dev/null
     restart: "no"
 

@@ -39,7 +39,7 @@ def _read_arc4_string(data: bytes, offset: int) -> tuple[str, int]:
     """Descodifica un arc4.String des de `data` a la posició `offset`.
 
     Returns:
-        (valor, offset_final) — offset just després de la cadena.
+        (valor, offset_final) - offset just després de la cadena.
     """
     length = struct.unpack_from(">H", data, offset)[0]
     text = data[offset + 2 : offset + 2 + length].decode("utf-8")
@@ -74,7 +74,7 @@ def _decode_proposal(raw: bytes) -> tuple[str, list[str]]:
         raise ValueError(f"Proposal massa curta: {len(raw)} bytes")
 
     offset_title = struct.unpack_from(">H", raw, 0)[0]
-    # offset_description a bytes [2:4] — no el necessitem
+    # offset_description a bytes [2:4] - no el necessitem
     offset_options = struct.unpack_from(">H", raw, 4)[0]
 
     title, _ = _read_arc4_string(raw, offset_title)

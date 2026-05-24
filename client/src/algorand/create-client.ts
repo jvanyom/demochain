@@ -179,7 +179,7 @@ export function createDemochainClient(appId: number): DemochainClient {
 	}
 }
 
-// Singleton per a l'app de producció — llegeix VITE_APP_ID una sola vegada en arrancar
+// Singleton per a l'app de producció - llegeix VITE_APP_ID una sola vegada en arrancar
 export const demochainClient = createDemochainClient(
 	import.meta.env['VITE_APP_ID'] ? Number(import.meta.env['VITE_APP_ID']) : 1002
 )

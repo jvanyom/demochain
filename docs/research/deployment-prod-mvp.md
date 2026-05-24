@@ -2,13 +2,13 @@
 
 Aquest document descriu com aixecar Demochain en una configuració distribuïda
 on cada universitat opera el seu propi servei d'ancoratge, contra Algorand
-TestNet i Sepolia. És el pas intermedi entre el LocalNet (tot en un host) i
+TestNet i Sepolia. És el pas intermedi entre el LocalNet (tot en un *host*) i
 una hipotètica producció amb identitat federada i privacitat criptogràfica.
 
 ## Arquitectura
 
 ```
-Algorand TestNet                       Ethereum Sepolia
+    Algorand TestNet                        Ethereum Sepolia
    ┌───────────────┐                      ┌──────────────────┐
    │  Demochain    │                      │  NotaryContract  │
    │   APP_ID=N    │                      │     0xABC...     │
@@ -25,7 +25,7 @@ Les universitats no es comuniquen entre elles directament: el consens
 *K-of-N* s'aconsegueix on-chain quan K nodes envien el mateix hash al
 NotaryContract.
 
-## Pas 1 — Desplegament dels contractes (administrador central)
+## Pas 1 - Desplegament dels contractes (administrador central)
 
 ### Algorand TestNet
 
@@ -65,7 +65,7 @@ El script:
 Cal distribuir aquesta adreça a cada universitat juntament amb el
 `DEMOCHAIN_APP_ID` d'Algorand.
 
-## Pas 2 — Generació de claus universitàries
+## Pas 2 - Generació de claus universitàries
 
 Cada universitat ha de generar la seva pròpia parella de claus Ethereum.
 Una manera segura amb `cast` (de Foundry):
@@ -83,7 +83,7 @@ L'administrador ha de finançar cada adreça amb una mica d'ETH de Sepolia
 (faucets de Cloudflare, Alchemy o Infura). Una transacció d'ancoratge costa
 aproximadament 100 000 gas; 0,01 ETH dura centenars d'eleccions.
 
-## Pas 3 — Aixecament del node per universitat
+## Pas 3 - Aixecament del node per universitat
 
 Al servidor de la universitat (qualsevol Linux/macOS amb Docker):
 
@@ -103,13 +103,13 @@ El dimoni:
 - Es connecta a Algorand TestNet i n'enumera les propostes registrades.
 - Per a cada proposta amb `ending_date < now`, comprova si aquesta universitat
   ja n'ha enviat el hash al NotaryContract (`getSubmission`).
-- Si no, calcula el hash determinista i el submiteix a Sepolia.
+- Si no, calcula el hash determinista i l'envia a Sepolia.
 - Dorm `POLL_INTERVAL_SEC` segons i torna a començar.
 
 La idempotència és nativa a la cadena: el dimoni es pot reiniciar en
 qualsevol moment sense risc de doble submissió.
 
-## Pas 4 — Verificació del consens
+## Pas 4 - Verificació del consens
 
 Quan K dels N nodes han enviat el mateix hash, el NotaryContract emet l'event
 `ResultAnchored(electionId, resultHash, confirmations)` i marca l'elecció com
@@ -139,13 +139,13 @@ await notary.isElectionAnchored("proposta-42")  // true / false
   queda fora d'aquest MVP (vegeu E5/E6 al *backlog*).
 - **TestNet inestable**: Algorand TestNet pot rebre reinicis ocasionals
   que invalidarien l'`APP_ID`. Caldria un redesplegament. Sepolia és
-  més estable però els fons de faucet poden ser costosos d'obtenir.
+  més estable, però els fons de faucet poden ser costosos d'obtenir.
 
 ## Resolució de problemes habituals
 
-| Símptoma | Causa probable |
-|----------|----------------|
-| `cannot reach algod` | Firewall corporatiu bloqueja `algonode.cloud` o endpoint mal escrit |
-| `admin account has 0 balance` (deploy Sepolia) | Falta finançar amb faucet abans del deploy |
-| `NotaryContract: not authorized` | L'adreça d'aquesta universitat no s'ha registrat amb `addUniversity` |
-| Cap proposta es detecta | El `DEMOCHAIN_APP_ID` apunta a un altre contracte o a una xarxa diferent |
+| Símptoma                                       | Causa probable                                                           |
+|------------------------------------------------|--------------------------------------------------------------------------|
+| `cannot reach algod`                           | Firewall corporatiu bloqueja `algonode.cloud` o endpoint mal escrit      |
+| `admin account has 0 balance` (deploy Sepolia) | Falta finançar amb faucet abans del deploy                               |
+| `NotaryContract: not authorized`               | L'adreça d'aquesta universitat no s'ha registrat amb `addUniversity`     |
+| Cap proposta es detecta                        | El `DEMOCHAIN_APP_ID` apunta a un altre contracte o a una xarxa diferent |

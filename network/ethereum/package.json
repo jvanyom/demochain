@@ -1,7 +1,7 @@
 {
   "name": "demochain-ethereum",
   "version": "1.0.0",
-  "description": "NotaryContract per a l'ancoratge K-de-N dels resultats electorals",
+  "description": "NotaryContract per a l'ancoratge K-of-N dels resultats electorals",
   "scripts": {
     "test": "hardhat test",
     "compile": "hardhat compile",
