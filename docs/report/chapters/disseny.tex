@@ -295,13 +295,6 @@ La capçalera global, present a totes les rutes, ofereix accés directe a les se
 \textit{Organitzacions}, \textit{Propostes}, \textit{Nova proposta}), al selector d'idioma, al canvi de tema i al botó
 de connexió de cartera (\autoref{fig:ui-landing}).
 
-\begin{figure}[ht]
-    \centering
-    \includegraphics[width=\textwidth]{chapters/images/disseny/screenshots/01-landing}
-    \caption{Pantalla d'inici de DemoChain. Capçalera de navegació, selector d'idioma i connexió de cartera.}
-    \label{fig:ui-landing}
-\end{figure}
-
 \subsection{Gestió d'organitzacions}
 \label{subsec:gestio-d'organitzacions2}
 
@@ -309,13 +302,6 @@ Les organitzacions són l'arrel de qualsevol activitat de votació: una proposta
 els membres del seu cens hi poden participar.
 La pantalla de llistat mostra les organitzacions a què pertany o que administra l'usuari connectat, amb una insígnia
 d'\textit{Organitzador} quan és el cas (\autoref{fig:ui-organizations}).
-
-\begin{figure}[ht]
-    \centering
-    \includegraphics[width=\textwidth]{chapters/images/disseny/screenshots/02-organizations}
-    \caption{Llistat d'organitzacions a què pertany el votant connectat.}
-    \label{fig:ui-organizations}
-\end{figure}
 
 El detall d'una organització presenta dues pestanyes complementàries: \textbf{Propostes} (les propostes obertes o
 tancades d'aquesta organització) i \textbf{Cens} (les adreces autoritzades a participar)
@@ -326,13 +312,6 @@ La interfície amaga al votant la complexitat de la transacció subjacent: el cl
 lots compatibles amb el límit del contracte (set adreces per transacció) i guia el votant pel procés de signar les
 transaccions consecutives.
 
-\begin{figure}[ht]
-    \centering
-    \includegraphics[width=\textwidth]{chapters/images/disseny/screenshots/03-organization-detail}
-    \caption{Detall d'una organització, amb pestanyes de propostes i cens. L'organització té una proposta activa, encara sense vots d'aprovació.}
-    \label{fig:ui-organization-detail}
-\end{figure}
-
 \subsection{Propostes i cicle de vida}
 \label{subsec:propostes-i-cicle-de-vida}
 
@@ -342,13 +321,6 @@ La pantalla de propostes presenta totes les propostes visibles per a l'usuari, a
 Aquests estats segueixen exactament la màquina d'estats descrita a la documentació funcional del sistema
 (\textit{PendingApproval}, \textit{PendingStart}, \textit{Open}, \textit{Closed}, \textit{Rejected}) i serveixen perquè
 el votant detecti d'un cop d'ull en quines propostes pot actuar i en quines no (\autoref{fig:ui-proposals-list}).
-
-\begin{figure}[ht]
-    \centering
-    \includegraphics[width=\textwidth]{chapters/images/disseny/screenshots/04-proposals-list}
-    \caption{Llistat de propostes amb filtres per estat. L'usuari que veu aquesta pantalla té dues propostes que estan \textit{pendents d'aprovació} de l'organització \textit{``Demos UIB''} (organització a la que pertany).}
-    \label{fig:ui-proposals-list}
-\end{figure}
 
 \subsection{Creació d'una proposta}
 \label{subsec:creacio-d'una-proposta}
@@ -364,55 +336,6 @@ bàsiques.
 Una vegada es crea la proposta es reencamina a la pantalla per aprovar-la o revocar-la (\autoref{fig:ui-proposal}.
 Quan la proposta s'aprova es veu tal com a la \autoref{fig:ui-proposal-aproved}).
 
-\begin{figure}[ht]
-    \centering
-    \includegraphics[width=\textwidth]{chapters/images/disseny/screenshots/05-new-proposal-1}
-    \caption{Assistent de creació d'una proposta, pas \textit{Organització}.}
-    \label{fig:ui-new-proposal-1}
-\end{figure}
-
-\begin{figure}[ht]
-    \centering
-    \includegraphics[width=\textwidth]{chapters/images/disseny/screenshots/05-new-proposal-2}
-    \caption{Assistent de creació d'una proposta, pas \textit{Bàsics}.}
-    \label{fig:ui-new-proposal-2}
-\end{figure}
-
-\begin{figure}[ht]
-    \centering
-    \includegraphics[width=\textwidth]{chapters/images/disseny/screenshots/05-new-proposal-3}
-    \caption{Assistent de creació d'una proposta, pas \textit{Dates}.}
-    \label{fig:ui-new-proposal-3}
-\end{figure}
-
-\begin{figure}[ht]
-    \centering
-    \includegraphics[width=\textwidth]{chapters/images/disseny/screenshots/05-new-proposal-4}
-    \caption{Assistent de creació d'una proposta, pas \textit{Opcions}.}
-    \label{fig:ui-new-proposal-4}
-\end{figure}
-
-\begin{figure}[ht]
-    \centering
-    \includegraphics[width=\textwidth]{chapters/images/disseny/screenshots/05-new-proposal-5}
-    \caption{Assistent de creació d'una proposta, pas \textit{Revisió}.}
-    \label{fig:ui-new-proposal-5}
-\end{figure}
-
-\begin{figure}[ht]
-    \centering
-    \includegraphics[width=\textwidth]{chapters/images/disseny/screenshots/04b-proposal}
-    \caption{Informació concreta d'una proposta: títol, resum, opcions, recompte de vots i formulari per aprobar o rebutjar la proposta.}
-    \label{fig:ui-proposal}
-\end{figure}
-
-\begin{figure}[ht]
-    \centering
-    \includegraphics[width=\textwidth]{chapters/images/disseny/screenshots/04c-proposal}
-    \caption{Informació concreta d'una proposta que s'ha aprovat i encara no ha començat el període de votació.}
-    \label{fig:ui-proposal-aproved}
-\end{figure}
-
 \subsection{Emissió de vot}
 \label{subsec:emissio-de-vot}
 
@@ -425,27 +348,6 @@ d'aprovació previ (binari, visible a la \autoref{fig:ui-proposal}) és immutabl
 Una vegada emès dona feedback com es veu en la \autoref{fig:ui-vote-confirm} i després passa a una pàgina on pot veure
 el seguiment de quanta gent ha votat (\autoref{fig:ui-vote-num}).
 
-\begin{figure}[ht]
-    \centering
-    \includegraphics[width=\textwidth]{chapters/images/disseny/screenshots/06-vote-ranking}
-    \caption{Pantalla d'emissió de vot: ranking de preferències arrossegables.}
-    \label{fig:ui-vote}
-\end{figure}
-
-\begin{figure}[ht]
-    \centering
-    \includegraphics[width=\textwidth]{chapters/images/disseny/screenshots/06b-vote-ranking}
-    \caption{Pantalla dde vot confirmat.}
-    \label{fig:ui-vote-confirm}
-\end{figure}
-
-\begin{figure}[ht]
-    \centering
-    \includegraphics[width=\textwidth]{chapters/images/disseny/screenshots/06c-vote-ranking}
-    \caption{Pantalla de seguiment d'enviament de vots}
-    \label{fig:ui-vote-num}
-\end{figure}
-
 \subsection{Resultats i verificació pública}
 \label{subsec:resultats-i-verificacio-publica}
 
@@ -455,32 +357,11 @@ vençut una altra (\autoref{fig:ui-results-2}).
 El càlcul es fa íntegrament al client a partir de les paperetes llegides de la cadena: el contracte d'Algorand no en
 guarda cap resultat precalculat.
 
-\begin{figure}[ht]
-    \centering
-    \includegraphics[width=\textwidth]{chapters/images/disseny/screenshots/07-results}
-    \caption{Pantalla de resultats finals i verificació pública.}
-    \label{fig:ui-results-1}
-\end{figure}
-
-\begin{figure}[ht]
-    \centering
-    \includegraphics[width=\textwidth]{chapters/images/disseny/screenshots/07b-results}
-    \caption{Pantalla de resultats amb els duels directes.}
-    \label{fig:ui-results-2}
-\end{figure}
-
 A la mateixa pantalla s'hi inclou un panell de verificació obert a qualsevol persona, fins i tot a qui no és membre del
 cens.
 Introduint una direcció de cartera, el client consulta la blockchain i mostra el ranking que aquella direcció va emetre
 o bé indica que no va votar (\autoref{fig:ui-results-3}).
 Aquesta funcionalitat, combinada amb l'ancoratge a Ethereum, permet auditar el resultat de manera independent.
-
-\begin{figure}[ht]
-    \centering
-    \includegraphics[width=\textwidth]{chapters/images/disseny/screenshots/07c-results}
-    \caption{Pantalla de verificació del vot que s'ha emès una vegada acabada l'elecció.}
-    \label{fig:ui-results-3}
-\end{figure}
 
 
 \section{Flux de comunicació amb l'usuari}
