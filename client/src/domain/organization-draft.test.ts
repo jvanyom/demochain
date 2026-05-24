@@ -98,4 +98,30 @@ describe('organizationDraftSchema', () => {
 
 		expect(result.success).toBeTrue()
 	})
+
+	it('falla amb nom de més de 100 caràcters → org.name-too-long', () => {
+		const result = organizationDraftSchema.safeParse({ name: 'a'.repeat(101), description: 'Desc' })
+
+		expect(result.success).toBeFalse()
+		expect(errorMessages(result)).toContain('org.name-too-long')
+	})
+
+	it('passa amb nom de exactament 100 caràcters', () => {
+		const result = organizationDraftSchema.safeParse({ name: 'a'.repeat(100), description: 'Desc' })
+
+		expect(result.success).toBeTrue()
+	})
+
+	it('falla amb descripció de més de 1000 caràcters → org.description-too-long', () => {
+		const result = organizationDraftSchema.safeParse({ name: 'Nom', description: 'a'.repeat(1001) })
+
+		expect(result.success).toBeFalse()
+		expect(errorMessages(result)).toContain('org.description-too-long')
+	})
+
+	it('passa amb descripció de exactament 1000 caràcters', () => {
+		const result = organizationDraftSchema.safeParse({ name: 'Nom', description: 'a'.repeat(1000) })
+
+		expect(result.success).toBeTrue()
+	})
 })
