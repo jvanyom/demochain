@@ -122,6 +122,23 @@ class EthereumSubmitter:
         self.gas_limit = gas_limit
         self.tx_timeout = tx_timeout
 
+    def has_submitted(self, election_id: str) -> bool:
+        """Indica si aquest submitter ja ha enviat un hash per a l'elecció.
+
+        Utilitzat pel dimoni d'ancoratge per garantir idempotència sense
+        necessitat de cap estat local: la font de veritat és la cadena.
+        """
+        try:
+            stored = self.contract.functions.getSubmission(
+                election_id, self.account.address
+            ).call()
+        except Exception as exc:
+            logger.warning(
+                "Error consultant getSubmission per a '%s': %s", election_id, exc
+            )
+            return False
+        return stored != b"\x00" * 32
+
     def submit_hash(self, election_id: str, result_hash: bytes) -> SubmissionResult:
         """Envia el hash d'una proposta al NotaryContract.
 
