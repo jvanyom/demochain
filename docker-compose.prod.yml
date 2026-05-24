@@ -1,0 +1,50 @@
+# Demochain - desplegament per a universitats (MVP distribuït)
+#
+# Aquest fitxer és el que cada universitat aixeca al seu propi servidor.
+# Només arrenca el dimoni d'ancoratge, que polleja Algorand TestNet i
+# envia els hashes finals al NotaryContract desplegat a Sepolia (o a
+# qualsevol altra xarxa EVM si es canvia ETHEREUM_RPC_URL).
+#
+# Ús:
+#   1. Demanar les credencials a l'administrador (.env.prod amb DEMOCHAIN_APP_ID,
+#      NOTARY_CONTRACT_ADDRESS i UNI_ETH_PRIVATE_KEY assignada).
+#   2. Còpia .env.prod.example → .env.prod i omplir.
+#   3. docker compose --env-file .env.prod -f docker-compose.prod.yml up -d
+#   4. docker compose -f docker-compose.prod.yml logs -f anchoring
+
+services:
+  anchoring:
+    image: python:3.12-slim
+    working_dir: /workspace
+    volumes:
+      - ./network:/workspace/network
+      - anchoring-prod-pip-cache:/root/.cache/pip
+    environment:
+      UNIVERSITY_ID: "${UNIVERSITY_ID}"
+      ALGOD_SERVER: "${ALGOD_SERVER}"
+      ALGOD_PORT: "${ALGOD_PORT}"
+      ALGOD_TOKEN: "${ALGOD_TOKEN}"
+      DEMOCHAIN_APP_ID: "${DEMOCHAIN_APP_ID}"
+      ETHEREUM_RPC_URL: "${ETHEREUM_RPC_URL}"
+      NOTARY_CONTRACT_ADDRESS: "${NOTARY_CONTRACT_ADDRESS}"
+      UNI_ETH_PRIVATE_KEY: "${UNI_ETH_PRIVATE_KEY}"
+      POLL_INTERVAL_SEC: "${POLL_INTERVAL_SEC:-30}"
+      ETH_GAS_LIMIT: "${ETH_GAS_LIMIT:-200000}"
+      ETH_TX_TIMEOUT: "${ETH_TX_TIMEOUT:-60}"
+      PYTHONPATH: /workspace
+    command:
+      - bash
+      - -c
+      - |
+        set -eu
+        echo "[anchoring-prod] installing deps"
+        pip install --quiet --no-input \
+          'py-algorand-sdk>=2.7,<3' \
+          'web3>=7.0,<8' \
+          'eth-account>=0.13'
+        echo "[anchoring-prod] starting daemon"
+        exec python -m network.anchoring.daemon
+    restart: unless-stopped
+
+volumes:
+  anchoring-prod-pip-cache:
