@@ -267,6 +267,37 @@ describe('NewProposalPage - pas 3: opcions', () => {
 
 		expect(screen.getByText<HTMLButtonElement>('common.next').disabled).toBeFalse()
 	})
+
+	it('mostra error quan les opcions són duplicades i es fa blur', async () => {
+		await avancarAlPas3()
+		const inputs = screen.getAllByPlaceholderText('proposal.new.fields.option-placeholder')
+
+		if (inputs[0] && inputs[1]) {
+			fireEvent.change(inputs[0], { target: { value: 'Opció A' } })
+			fireEvent.change(inputs[1], { target: { value: 'Opció A' } })
+			fireEvent.blur(inputs[1])
+		}
+
+		await waitFor(() => {
+			expect(screen.getByText('errors.proposal.duplicated-options')).not.toBeNull()
+		})
+	})
+
+	it('no avança al pas 4 quan hi ha opcions duplicades', async () => {
+		await avancarAlPas3()
+		const inputs = screen.getAllByPlaceholderText('proposal.new.fields.option-placeholder')
+
+		if (inputs[0] && inputs[1]) {
+			fireEvent.change(inputs[0], { target: { value: 'Igual' } })
+			fireEvent.change(inputs[1], { target: { value: 'Igual' } })
+		}
+
+		fireEvent.click(screen.getByText('common.next'))
+
+		await waitFor(() => {
+			expect(screen.getByText('errors.proposal.duplicated-options')).not.toBeNull()
+		})
+	})
 })
 
 describe('NewProposalPage - pas 4: revisió i enviament', () => {

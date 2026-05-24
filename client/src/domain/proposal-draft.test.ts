@@ -56,6 +56,32 @@ describe('proposalDraftBasicsSchema', () => {
 		expect(result.success).toBeFalse()
 		expect(errorCodes(result)).toContain('proposal.empty-description')
 	})
+
+	it('falla amb títol de més de 200 caràcters → proposal.title-too-long', () => {
+		const result = proposalDraftBasicsSchema.safeParse({ title: 'a'.repeat(201), description: 'Desc' })
+
+		expect(result.success).toBeFalse()
+		expect(errorCodes(result)).toContain('proposal.title-too-long')
+	})
+
+	it('passa amb títol de exactament 200 caràcters', () => {
+		const result = proposalDraftBasicsSchema.safeParse({ title: 'a'.repeat(200), description: 'Desc' })
+
+		expect(result.success).toBeTrue()
+	})
+
+	it('falla amb descripció de més de 1000 caràcters → proposal.description-too-long', () => {
+		const result = proposalDraftBasicsSchema.safeParse({ title: 'Títol', description: 'a'.repeat(1001) })
+
+		expect(result.success).toBeFalse()
+		expect(errorCodes(result)).toContain('proposal.description-too-long')
+	})
+
+	it('passa amb descripció de exactament 1000 caràcters', () => {
+		const result = proposalDraftBasicsSchema.safeParse({ title: 'Títol', description: 'a'.repeat(1000) })
+
+		expect(result.success).toBeTrue()
+	})
 })
 
 describe('proposalDraftDatesSchema', () => {
@@ -153,6 +179,34 @@ describe('proposalDraftOptionsSchema', () => {
 
 	it('passa amb 3 opcions úniques', () => {
 		const result = proposalDraftOptionsSchema.safeParse({ options: ['A', 'B', 'C'] })
+
+		expect(result.success).toBeTrue()
+	})
+
+	it('falla amb una opció de més de 100 caràcters → proposal.option-too-long', () => {
+		const result = proposalDraftOptionsSchema.safeParse({ options: ['Opció A', 'a'.repeat(101)] })
+
+		expect(result.success).toBeFalse()
+		expect(errorCodes(result)).toContain('proposal.option-too-long')
+	})
+
+	it('passa amb una opció de exactament 100 caràcters', () => {
+		const result = proposalDraftOptionsSchema.safeParse({ options: ['Opció A', 'a'.repeat(100)] })
+
+		expect(result.success).toBeTrue()
+	})
+
+	it('falla amb més de 20 opcions → proposal.too-many-options', () => {
+		const options = Array.from({ length: 21 }, (_item, idx) => `Opció ${idx + 1}`)
+		const result = proposalDraftOptionsSchema.safeParse({ options })
+
+		expect(result.success).toBeFalse()
+		expect(errorCodes(result)).toContain('proposal.too-many-options')
+	})
+
+	it('passa amb exactament 20 opcions', () => {
+		const options = Array.from({ length: 20 }, (_item, idx) => `Opció ${idx + 1}`)
+		const result = proposalDraftOptionsSchema.safeParse({ options })
 
 		expect(result.success).toBeTrue()
 	})
@@ -265,5 +319,37 @@ describe('proposalFormSchema', () => {
 
 		expect(result.success).toBeFalse()
 		expect(errorCodes(result)).toContain('proposal.starting-too-soon')
+	})
+
+	it('falla amb títol de més de 200 caràcters → proposal.title-too-long', () => {
+		const result = proposalFormSchema.safeParse({ ...validBase(), title: 'a'.repeat(201) })
+
+		expect(result.success).toBeFalse()
+		expect(errorCodes(result)).toContain('proposal.title-too-long')
+	})
+
+	it('falla amb descripció de més de 1000 caràcters → proposal.description-too-long', () => {
+		const result = proposalFormSchema.safeParse({ ...validBase(), description: 'a'.repeat(1001) })
+
+		expect(result.success).toBeFalse()
+		expect(errorCodes(result)).toContain('proposal.description-too-long')
+	})
+
+	it('falla amb una opció de més de 100 caràcters → proposal.option-too-long', () => {
+		const result = proposalFormSchema.safeParse({
+			...validBase(),
+			options: [{ value: 'Opció A' }, { value: 'a'.repeat(101) }]
+		})
+
+		expect(result.success).toBeFalse()
+		expect(errorCodes(result)).toContain('proposal.option-too-long')
+	})
+
+	it('falla amb més de 20 opcions → proposal.too-many-options', () => {
+		const options = Array.from({ length: 21 }, (_item, idx) => ({ value: `Opció ${idx + 1}` }))
+		const result = proposalFormSchema.safeParse({ ...validBase(), options })
+
+		expect(result.success).toBeFalse()
+		expect(errorCodes(result)).toContain('proposal.too-many-options')
 	})
 })
