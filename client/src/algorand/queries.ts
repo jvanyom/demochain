@@ -6,53 +6,39 @@ import { queryOptions } from '@tanstack/react-query'
 
 type Opts<TData, Key extends QueryKey> = UndefinedInitialDataOptions<TData, Error, TData, Key>
 
+import { demochainClient } from './create-client'
 import { mapToOrganization, mapToProposal } from './mappers'
-import {
-	getOrganization,
-	getAllOrganizationIds,
-	getCensusMembers,
-	getCensusMemberCount,
-	isInCensusChain
-} from './organizations'
-import { getAllProposalIds, getApprovalTally, getProposal } from './proposals'
 import { queryKeys } from './query-keys'
-import {
-	hasApprovalVoted,
-	hasElectionVoted,
-	getElectionVoterCount,
-	getElectionBallots,
-	getElectionBallotForVoter
-} from './voting'
 
 // ── Fetchers asíncrons ────────────────────────────────────────────────────
 
 async function fetchOrganization(id: OrganizationId): Promise<Organization | null> {
-	const onChain = await getOrganization(id)
+	const onChain = await demochainClient.getOrganization(id)
 	if (!onChain) return null
-	const memberCount = await getCensusMemberCount(id)
+	const memberCount = await demochainClient.getCensusMemberCount(id)
 	return mapToOrganization(id, onChain, memberCount)
 }
 
 async function fetchOrganizations(): Promise<Organization[]> {
-	const ids = await getAllOrganizationIds()
+	const ids = await demochainClient.getAllOrganizationIds()
 	const results = await Promise.all(ids.map(fetchOrganization))
 	return results.filter((org): org is Organization => org !== null)
 }
 
 async function fetchCensusMembers(orgId: OrganizationId): Promise<Address[]> {
-	return getCensusMembers(orgId)
+	return demochainClient.getCensusMembers(orgId)
 }
 
 async function fetchIsInCensus(address: Address, orgId: OrganizationId): Promise<boolean> {
-	return isInCensusChain(address, orgId)
+	return demochainClient.isInCensusChain(address, orgId)
 }
 
 async function fetchUserOrganizations(address: Address): Promise<Organization[]> {
-	const ids = await getAllOrganizationIds()
+	const ids = await demochainClient.getAllOrganizationIds()
 
 	const results = await Promise.all(
 		ids.map(async id => {
-			const isMember = await isInCensusChain(address, id)
+			const isMember = await demochainClient.isInCensusChain(address, id)
 			if (!isMember) return null
 			return fetchOrganization(id)
 		})
@@ -62,35 +48,35 @@ async function fetchUserOrganizations(address: Address): Promise<Organization[]>
 }
 
 async function fetchProposal(id: ProposalId): Promise<Proposal | null> {
-	const onChain = await getProposal(id)
+	const onChain = await demochainClient.getProposal(id)
 	if (!onChain) return null
-	const tally = await getApprovalTally(id)
+	const tally = await demochainClient.getApprovalTally(id)
 	if (!tally) return null
-	const memberCount = await getCensusMemberCount(onChain.orgId)
+	const memberCount = await demochainClient.getCensusMemberCount(onChain.orgId)
 	return mapToProposal(id, onChain, tally, memberCount)
 }
 
 async function fetchProposals(): Promise<Proposal[]> {
-	const ids = await getAllProposalIds()
+	const ids = await demochainClient.getAllProposalIds()
 	const results = await Promise.all(ids.map(fetchProposal))
 
 	return results.filter((proposal): proposal is Proposal => proposal !== null)
 }
 
 async function fetchHasApprovalVoted(address: Address, proposalId: ProposalId): Promise<boolean> {
-	return hasApprovalVoted(address, proposalId)
+	return demochainClient.hasApprovalVoted(address, proposalId)
 }
 
 async function fetchHasElectionVoted(address: Address, proposalId: ProposalId): Promise<boolean> {
-	return hasElectionVoted(address, proposalId)
+	return demochainClient.hasElectionVoted(address, proposalId)
 }
 
 async function fetchElectionVoterCount(proposalId: ProposalId): Promise<number> {
-	return getElectionVoterCount(proposalId)
+	return demochainClient.getElectionVoterCount(proposalId)
 }
 
 async function fetchElectionResults(proposalId: ProposalId, numOptions: number): Promise<ElectionResults> {
-	const ballots = await getElectionBallots(proposalId)
+	const ballots = await demochainClient.getElectionBallots(proposalId)
 	return computeElectionResults(asProposalId(proposalId), ballots, numOptions)
 }
 
@@ -178,7 +164,7 @@ export const votingQueries = {
 	): Opts<number[] | null, ReturnType<typeof queryKeys.voting.electionBallotForVoter>> =>
 		queryOptions({
 			queryKey: queryKeys.voting.electionBallotForVoter(address, proposalId),
-			queryFn: () => getElectionBallotForVoter(address, proposalId),
+			queryFn: () => demochainClient.getElectionBallotForVoter(address, proposalId),
 			enabled: Boolean(address),
 			retry: false,
 			staleTime: 30_000

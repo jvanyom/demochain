@@ -17,9 +17,10 @@ import {
 	castProposalVoteMethod,
 	castElectionVoteMethod
 } from './_contract'
-import { algodClient, APP_ID } from './config'
+import { algodClient } from './config'
 
 export async function castApprovalVote(
+	appId: number,
 	signer: TransactionSigner,
 	sender: Address,
 	proposalId: ProposalId,
@@ -27,16 +28,17 @@ export async function castApprovalVote(
 	approve: boolean
 ): Promise<string> {
 	const result = await callMethod(
+		appId,
 		signer,
 		sender,
 		castProposalVoteMethod,
 		[BigInt(proposalId), approve],
 		[
-			{ appIndex: APP_ID, name: proposalBoxKey(proposalId) },
-			{ appIndex: APP_ID, name: tallyBoxKey(proposalId) },
-			{ appIndex: APP_ID, name: approvalBallotKey(sender, proposalId) },
-			{ appIndex: APP_ID, name: orgBoxKey(orgId) },
-			{ appIndex: APP_ID, name: censusBoxKey(orgId, sender) }
+			{ appIndex: appId, name: proposalBoxKey(proposalId) },
+			{ appIndex: appId, name: tallyBoxKey(proposalId) },
+			{ appIndex: appId, name: approvalBallotKey(sender, proposalId) },
+			{ appIndex: appId, name: orgBoxKey(orgId) },
+			{ appIndex: appId, name: censusBoxKey(orgId, sender) }
 		]
 	)
 
@@ -44,6 +46,7 @@ export async function castApprovalVote(
 }
 
 export async function castRankedVote(
+	appId: number,
 	signer: TransactionSigner,
 	sender: Address,
 	proposalId: ProposalId,
@@ -51,25 +54,26 @@ export async function castRankedVote(
 	preferenceOrder: number[]
 ): Promise<string> {
 	const result = await callMethod(
+		appId,
 		signer,
 		sender,
 		castElectionVoteMethod,
 		[BigInt(proposalId), preferenceOrder.map(optionOrder => BigInt(optionOrder))],
 		[
-			{ appIndex: APP_ID, name: proposalBoxKey(proposalId) },
-			{ appIndex: APP_ID, name: tallyBoxKey(proposalId) },
-			{ appIndex: APP_ID, name: electionBallotKey(sender, proposalId) },
-			{ appIndex: APP_ID, name: orgBoxKey(orgId) },
-			{ appIndex: APP_ID, name: censusBoxKey(orgId, sender) }
+			{ appIndex: appId, name: proposalBoxKey(proposalId) },
+			{ appIndex: appId, name: tallyBoxKey(proposalId) },
+			{ appIndex: appId, name: electionBallotKey(sender, proposalId) },
+			{ appIndex: appId, name: orgBoxKey(orgId) },
+			{ appIndex: appId, name: censusBoxKey(orgId, sender) }
 		]
 	)
 
 	return result.txID
 }
 
-export async function getElectionVoterCount(proposalId: ProposalId): Promise<number> {
+export async function getElectionVoterCount(appId: number, proposalId: ProposalId): Promise<number> {
 	try {
-		const { boxes } = await algodClient.getApplicationBoxes(APP_ID).do()
+		const { boxes } = await algodClient.getApplicationBoxes(appId).do()
 		const prefix = enc.encode('eb_')
 		const pidBytes = algosdk.bigIntToBytes(proposalId, 8)
 
@@ -82,17 +86,17 @@ export async function getElectionVoterCount(proposalId: ProposalId): Promise<num
 	}
 }
 
-export async function hasApprovalVoted(sender: Address, proposalId: ProposalId): Promise<boolean> {
-	return boxExists(approvalBallotKey(sender, proposalId))
+export async function hasApprovalVoted(appId: number, sender: Address, proposalId: ProposalId): Promise<boolean> {
+	return boxExists(appId, approvalBallotKey(sender, proposalId))
 }
 
-export async function hasElectionVoted(sender: Address, proposalId: ProposalId): Promise<boolean> {
-	return boxExists(electionBallotKey(sender, proposalId))
+export async function hasElectionVoted(appId: number, sender: Address, proposalId: ProposalId): Promise<boolean> {
+	return boxExists(appId, electionBallotKey(sender, proposalId))
 }
 
-export async function getElectionBallots(proposalId: ProposalId): Promise<number[][]> {
+export async function getElectionBallots(appId: number, proposalId: ProposalId): Promise<number[][]> {
 	try {
-		const { boxes } = await algodClient.getApplicationBoxes(APP_ID).do()
+		const { boxes } = await algodClient.getApplicationBoxes(appId).do()
 		const prefix = enc.encode('eb_')
 		const pidBytes = algosdk.bigIntToBytes(proposalId, 8)
 
@@ -104,7 +108,7 @@ export async function getElectionBallots(proposalId: ProposalId): Promise<number
 
 		return await Promise.all(
 			ballotBoxNames.map(async name => {
-				const box = await algodClient.getApplicationBoxByName(APP_ID, name).do()
+				const box = await algodClient.getApplicationBoxByName(appId, name).do()
 				return decodePreferenceOrder(box.value)
 			})
 		)
@@ -113,10 +117,14 @@ export async function getElectionBallots(proposalId: ProposalId): Promise<number
 	}
 }
 
-export async function getElectionBallotForVoter(address: Address, proposalId: ProposalId): Promise<number[] | null> {
+export async function getElectionBallotForVoter(
+	appId: number,
+	address: Address,
+	proposalId: ProposalId
+): Promise<number[] | null> {
 	try {
 		const key = electionBallotKey(address, proposalId)
-		const box = await algodClient.getApplicationBoxByName(APP_ID, key).do()
+		const box = await algodClient.getApplicationBoxByName(appId, key).do()
 		return decodePreferenceOrder(box.value)
 	} catch {
 		return null

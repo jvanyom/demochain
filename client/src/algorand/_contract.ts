@@ -2,7 +2,7 @@ import type { Address, OrganizationId, ProposalId } from '@/domain'
 
 import algosdk from 'algosdk'
 
-import { algodClient, APP_ID } from './config'
+import { algodClient } from './config'
 import arc56 from './Demochain.arc56.json'
 
 // ── Descodificador d'errors ARC-56 ─────────────────────────────────────────────
@@ -155,6 +155,7 @@ export const castElectionVoteMethod = new algosdk.ABIMethod({
 // ── Executor ATC ─────────────────────────────────────────────────────
 
 export async function callMethod(
+	appId: number,
 	signer: TransactionSigner,
 	sender: string,
 	method: algosdk.ABIMethod,
@@ -165,7 +166,7 @@ export async function callMethod(
 	const composer = new algosdk.AtomicTransactionComposer()
 
 	composer.addMethodCall({
-		appID: APP_ID,
+		appID: appId,
 		method,
 		methodArgs,
 		sender,
@@ -188,9 +189,9 @@ export async function callMethod(
 // Llegeix un comptador uint64 des de l'estat global.
 // Torna a 0 si algod no està disponible (algunes configuracions de nodes no exposen
 // /v2/applications o potser l'aplicació encara no s'ha desplegat).
-export async function readGlobalUint64(keyStr: string): Promise<number> {
+export async function readGlobalUint64(appId: number, keyStr: string): Promise<number> {
 	try {
-		const app = await algodClient.getApplicationByID(APP_ID).do()
+		const app = await algodClient.getApplicationByID(appId).do()
 		const keyBytes = enc.encode(keyStr)
 		const entry = app.params.globalState?.find(key => bytesEqual(key.key, keyBytes))
 		return entry ? Number(entry.value.uint) : 0
@@ -202,9 +203,9 @@ export async function readGlobalUint64(keyStr: string): Promise<number> {
 // ── Comprovacions de l'existència de boxes ─────────────────────────────────────────────
 
 // Lectura directa del box - O(1). L'error 404 es detecta de manera silenciosa.
-export async function singleBoxExists(key: Uint8Array): Promise<boolean> {
+export async function singleBoxExists(appId: number, key: Uint8Array): Promise<boolean> {
 	try {
-		await algodClient.getApplicationBoxByName(APP_ID, key).do()
+		await algodClient.getApplicationBoxByName(appId, key).do()
 		return true
 	} catch {
 		return false
@@ -212,9 +213,9 @@ export async function singleBoxExists(key: Uint8Array): Promise<boolean> {
 }
 
 // Basat en escaneig - evita el 404 en alguns entorns.
-export async function boxExists(key: Uint8Array): Promise<boolean> {
+export async function boxExists(appId: number, key: Uint8Array): Promise<boolean> {
 	try {
-		const { boxes } = await algodClient.getApplicationBoxes(APP_ID).do()
+		const { boxes } = await algodClient.getApplicationBoxes(appId).do()
 		return boxes.some(b => bytesEqual(b.name, key))
 	} catch {
 		return false
