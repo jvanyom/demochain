@@ -77,8 +77,9 @@ El client no parla directament amb el contracte: tota interacció passa per un \
 gateway HTTP cap a la xarxa.
 Aquesta separació permet que diferents universitats puguin oferir el seu propi node sense haver de tocar el client.
 De manera anàloga, el servei d'ancoratge llegeix paperetes del node Algorand i escriu al \textit{NotaryContract} a
-través d'un node Ethereum, però aquest últim queda fora del \textit{software} del projecte (s'utilitza un proveïdor de
-la testnet d'Ethereum, Sepolia).
+través d'un node Ethereum. En producció aquest últim queda fora del \textit{software} del projecte (s'utilitza un
+proveïdor de la testnet d'Ethereum, Sepolia); per al desenvolupament local s'inclou un node Hardhat dins del mateix
+\texttt{docker-compose} que desplega automàticament el contracte.
 
 \subsection{Nivell 3 - Components}
 \label{subsec:nivell-3---components}
