@@ -1,9 +1,4 @@
-# Demochain 🗳️
-
-[![Algorand](https://img.shields.io/badge/Algorand-Blockchain-black?style=for-the-badge&logo=algorand)](https://www.algorand.com/)
-[![Ethereum](https://img.shields.io/badge/Ethereum-Anchoring-3C3C3D?style=for-the-badge&logo=ethereum)](https://ethereum.org/)
-[![React](https://img.shields.io/badge/React-UI-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://reactjs.org/)
-[![Docker](https://img.shields.io/badge/Docker-Ready-2496ED?style=for-the-badge&logo=docker)](https://www.docker.com/)
+# Demochain
 
 **Demochain** és un sistema de votació descentralitzat de propòsit general, construït sobre la xarxa blockchain d'Algorand (xarxa permissionada) i ancorat periòdicament a la xarxa pública d'Ethereum per actuar com a notari. Aquesta arquitectura permet assolir velocitat de transacció, costos baixos i verificabilitat pública total.
 
