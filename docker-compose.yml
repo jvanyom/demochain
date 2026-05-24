@@ -31,6 +31,14 @@
 #   volum compartit 'shared-state'.
 #   anchoring és un contenidor en repòs amb deps web3+algosdk; valida
 #   connectivitat a l'inici i resta disponible per a 'docker compose exec'.
+#
+# Heartbeat del LocalNet (només per a la branca dev):
+#   chain-heartbeat submiteix una PaymentTxn no-op cada
+#   HEARTBEAT_INTERVAL_SEC segons (per defecte 3) per forçar la generació
+#   de blocs i mantenir Global.latest_timestamp dins de N segons del
+#   wall-clock. Necessari perquè algod corre amb DevMode=true i, sense
+#   transaccions, el rellotge del consens es congela.
+#   A main, en canvi, s'usarà DevMode=false (consens real ~3.3s/bloc).
 
 services:
   algod:
@@ -246,6 +254,34 @@ services:
         condition: service_started
     restart: unless-stopped
 
+  chain-heartbeat:
+    image: python:3.12-slim
+    working_dir: /workspace
+    volumes:
+      - ./network/heartbeat:/workspace
+      - heartbeat-pip-cache:/root/.cache/pip
+    environment:
+      ALGOD_URL: "http://${ALGOD_HOST}:${ALGOD_CONTAINER_PORT}"
+      ALGO_TOKEN: "${ALGO_TOKEN}"
+      KMD_URL: "http://${ALGOD_HOST}:${KMD_CONTAINER_PORT}"
+      KMD_TOKEN: "${ALGO_TOKEN}"
+      KMD_WALLET_NAME: "${KMD_WALLET_NAME}"
+      KMD_WALLET_PASSWORD: "${KMD_WALLET_PASSWORD}"
+      HEARTBEAT_INTERVAL_SEC: "${HEARTBEAT_INTERVAL_SEC}"
+    command:
+      - bash
+      - -c
+      - |
+        set -eu
+        echo "[chain-heartbeat] installing deps"
+        pip install --quiet --no-input 'py-algorand-sdk>=2.7,<3'
+        echo "[chain-heartbeat] starting"
+        exec python /workspace/heartbeat.py
+    depends_on:
+      algod:
+        condition: service_healthy
+    restart: unless-stopped
+
   client:
     image: oven/bun:1.3
     working_dir: /app
@@ -283,3 +319,4 @@ volumes:
   hardhat-node-modules:
   anchoring-pip-cache:
   shared-state:
+  heartbeat-pip-cache:
