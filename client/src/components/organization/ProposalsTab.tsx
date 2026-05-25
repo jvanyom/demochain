@@ -85,7 +85,7 @@ export function ProposalsTab({ proposals, canCreate, newProposalHref }: Props): 
 							key={currentFilter}
 							onClick={() => setFilter(currentFilter)}
 							className={`h-9 rounded-full border px-3.5 text-xs font-medium transition ${
-								currentFilter === currentFilter
+								currentFilter === filter
 									? 'border-primary bg-primary/10 text-primary'
 									: 'border-border bg-surface text-muted hover:text-fg'
 							}`}
