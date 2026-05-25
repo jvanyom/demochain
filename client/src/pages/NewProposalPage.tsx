@@ -98,7 +98,10 @@ function getCanNext(
 		(): boolean => Boolean(orgId) && eligibleOrgsCount > 0,
 		(): boolean => Boolean(title.trim() && description.trim()),
 		(): boolean => Boolean(startDate && endDate),
-		(): boolean => options.filter(option => option?.value?.trim()).length >= 2
+		(): boolean => {
+			const vals = options.map(option => option?.value?.trim()).filter(Boolean)
+			return vals.length >= 2 && new Set(vals).size === vals.length
+		}
 	]
 
 	return canNext[step]?.() ?? false
