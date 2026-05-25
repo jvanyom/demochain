@@ -14,5 +14,5 @@ export function proposalMatchesFilter(proposal: Proposal, filter: ProposalFilter
 		closed: (): boolean => proposal.state.kind === 'Closed'
 	}
 
-	return filteringMethods[filter]?.()
+	return filteringMethods[filter]()
 }

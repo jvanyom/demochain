@@ -16,7 +16,7 @@ interface TabListProps {
 
 export function TabList({ children, className = '' }: TabListProps): JSX.Element {
 	return (
-		<div role="tablist" className={`flex gap-1 overflow-x-auto border-b border-border ${className}`}>
+		<div role="tablist" className={`flex gap-1 border-b border-border ${className}`}>
 			{children}
 		</div>
 	)

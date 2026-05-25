@@ -61,12 +61,12 @@ export function OrganizationHero({
 		<div className="relative overflow-hidden rounded-3xl border border-border/70 bg-gradient-to-br from-surface via-surface/95 to-elevated/60 p-6 shadow-xl backdrop-blur-sm sm:p-8">
 			<div
 				aria-hidden
-				className="pointer-events-none absolute -right-24 -top-24 size-64 rounded-full bg-gradient-to-br from-primary/25 via-accent/15 to-transparent blur-3xl"
+				className="pointer-events-none absolute -right-24 -top-24 size-64 rounded-full bg-gradient-to-br from-primary/10 via-accent/[0.07] to-transparent blur-3xl dark:from-primary/25 dark:via-accent/15"
 			/>
 
 			<div
 				aria-hidden
-				className="pointer-events-none absolute -left-32 bottom-0 size-56 rounded-full bg-gradient-to-tr from-accent/15 to-transparent blur-3xl"
+				className="pointer-events-none absolute -left-32 bottom-0 size-56 rounded-full bg-gradient-to-tr from-accent/[0.07] to-transparent blur-3xl dark:from-accent/15"
 			/>
 
 			<div className="relative flex flex-col gap-6 sm:flex-row sm:items-start">

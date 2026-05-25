@@ -12,15 +12,15 @@ interface PairwiseGridProps {
 type MatchResult = 'win' | 'tie' | 'lose'
 
 const labelClass: Record<MatchResult, string> = {
-	win: 'text-emerald-400',
-	tie: 'text-amber-400',
-	lose: 'text-rose-400/50'
+	win: 'text-emerald-600 dark:text-emerald-400',
+	tie: 'text-amber-600 dark:text-amber-400',
+	lose: 'text-rose-500 dark:text-rose-400/50'
 }
 
 const barClass: Record<MatchResult, string> = {
-	win: 'bg-emerald-500/35 text-emerald-100',
-	tie: 'bg-amber-500/25 text-amber-100',
-	lose: 'bg-rose-500/20 text-rose-300/60'
+	win: 'bg-emerald-200 text-emerald-800 dark:bg-emerald-500/35 dark:text-emerald-100',
+	tie: 'bg-amber-200 text-amber-800 dark:bg-amber-500/25 dark:text-amber-100',
+	lose: 'bg-rose-200 text-rose-700 dark:bg-rose-500/20 dark:text-rose-300/60'
 }
 
 const toResult = (isWin: boolean, isTied: boolean): MatchResult => {
@@ -93,11 +93,11 @@ export function PairwiseGrid({ options, pairwiseMatrix }: PairwiseGridProps): JS
 
 								<div className="px-4 pb-4 pt-3 text-center">
 									{isTied ? (
-										<span className="inline-flex items-center rounded-full border border-amber-500/30 bg-amber-500/15 px-3 py-1 text-xs font-medium text-amber-300">
+										<span className="inline-flex items-center rounded-full border border-amber-400 bg-amber-100 px-3 py-1 text-xs font-medium text-amber-700 dark:border-amber-500/30 dark:bg-amber-500/15 dark:text-amber-300">
 											{t('results.pairwise-legend-tie')}
 										</span>
 									) : (
-										<span className="inline-flex items-center rounded-full border border-emerald-500/25 bg-emerald-500/15 px-3 py-1 text-xs font-medium text-emerald-300">
+										<span className="inline-flex items-center rounded-full border border-emerald-400 bg-emerald-100 px-3 py-1 text-xs font-medium text-emerald-700 dark:border-emerald-500/25 dark:bg-emerald-500/15 dark:text-emerald-300">
 											{t('results.pairwise-matchup-win', {
 												name: resultA === 'win' ? optA.title : optB.title
 											})}

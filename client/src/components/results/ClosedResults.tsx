@@ -72,9 +72,9 @@ export function ClosedResults({
 					initial={{ opacity: 0, y: 20 }}
 					animate={{ opacity: 1, y: 0 }}
 					transition={{ duration: 0.5 }}
-					className="mt-10 flex flex-col items-center rounded-3xl border border-amber-500/25 bg-amber-500/5 p-8 text-center"
+					className="mt-10 flex flex-col items-center rounded-3xl border border-amber-400 bg-amber-50 p-8 text-center dark:border-amber-500/25 dark:bg-amber-500/5"
 				>
-					<Scale size={32} className="mb-4 text-amber-400" />
+					<Scale size={32} className="mb-4 text-amber-600 dark:text-amber-400" />
 
 					<h2 className="font-display text-2xl font-semibold text-fg">{t('results.tie-title')}</h2>
 
@@ -84,7 +84,7 @@ export function ClosedResults({
 
 					<Link
 						to="/proposals/new"
-						className="mt-5 inline-flex items-center gap-2 rounded-full border border-amber-500/25 bg-amber-500/15 px-4 py-2 text-sm font-semibold text-amber-300 transition hover:bg-amber-500/25"
+						className="mt-5 inline-flex items-center gap-2 rounded-full border border-amber-500 bg-amber-100 px-4 py-2 text-sm font-semibold text-amber-700 transition hover:bg-amber-200 dark:border-amber-500/25 dark:bg-amber-500/15 dark:text-amber-300 dark:hover:bg-amber-500/25"
 					>
 						<Plus size={14} /> {t('results.tie-new-proposal')}
 					</Link>
@@ -94,13 +94,13 @@ export function ClosedResults({
 					initial={{ opacity: 0, y: 20 }}
 					animate={{ opacity: 1, y: 0 }}
 					transition={{ duration: 0.5 }}
-					className="relative mt-10 overflow-hidden rounded-3xl border border-border bg-gradient-to-br from-primary/20 via-surface to-accent/20 p-8"
+					className="relative mt-10 overflow-hidden rounded-3xl border border-primary/25 bg-gradient-to-br from-primary/20 via-surface to-accent/20 p-8 dark:border-border dark:from-primary/20 dark:via-surface dark:to-accent/20"
 				>
-					<div className="absolute -right-20 -top-20 size-64 rounded-full bg-primary/20 blur-3xl" />
+					<div className="absolute -right-20 -top-20 size-64 rounded-full bg-primary/30 blur-3xl dark:bg-primary/20" />
 
 					<div className="relative flex flex-wrap items-center justify-between gap-6">
 						<div>
-							<div className="mb-2 inline-flex items-center gap-2 rounded-full border border-amber-400/40 bg-amber-400/10 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-amber-400">
+							<div className="mb-2 inline-flex items-center gap-2 rounded-full border border-amber-500 bg-amber-100 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-amber-700 dark:border-amber-400/40 dark:bg-amber-400/10 dark:text-amber-400">
 								<Trophy size={14} /> {t('results.winner')}
 							</div>
 
@@ -149,18 +149,18 @@ export function ClosedResults({
 									<span className="block truncate font-semibold text-fg">{opt?.title}</span>
 
 									<div className="mt-3 flex flex-wrap gap-2">
-										<span className="inline-flex items-center rounded-full border border-sky-500/20 bg-sky-500/10 px-3 py-1 text-xs font-semibold text-sky-400">
+										<span className="inline-flex items-center rounded-full border border-sky-400 bg-sky-100 px-3 py-1 text-xs font-semibold text-sky-700 dark:border-sky-500/20 dark:bg-sky-500/10 dark:text-sky-400">
 											{t('results.stat-duels', {
 												wins: result.pairwiseWins,
 												total: maxPairwiseWins
 											})}
 										</span>
 
-										<span className="inline-flex items-center rounded-full border border-amber-500/20 bg-amber-500/10 px-3 py-1 text-xs font-semibold text-amber-400">
+										<span className="inline-flex items-center rounded-full border border-amber-400 bg-amber-100 px-3 py-1 text-xs font-semibold text-amber-700 dark:border-amber-500/20 dark:bg-amber-500/10 dark:text-amber-400">
 											{t('results.stat-first-choice', { count: result.firstChoiceVotes })}
 										</span>
 
-										<span className="inline-flex items-center rounded-full border border-violet-500/20 bg-violet-500/10 px-3 py-1 text-xs font-semibold text-violet-400">
+										<span className="inline-flex items-center rounded-full border border-violet-400 bg-violet-100 px-3 py-1 text-xs font-semibold text-violet-700 dark:border-violet-500/20 dark:bg-violet-500/10 dark:text-violet-400">
 											{t('results.stat-total-prefs', { count: prefs })}
 										</span>
 									</div>
