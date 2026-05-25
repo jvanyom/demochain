@@ -94,14 +94,14 @@ No s'han abandonat: són part del projecte a llarg termini i corresponen a èpiq
 prioritzar a la fase de planificació, però que s'han hagut de moure fora de l'abast de l'\ac{MVP}.
 
 \paragraph{Criptografia avançada del vot}.
-Incorporar xifratge homomòrfic ElGamal exponencial~\cite{adida2008helios} i proves \emph{Groth16} de coneixement
-zero~\cite{cortier2019belenios} per a la verificació de l'elegibilitat sense revelar la identitat del votant.
+Incorporar xifratge homomòrfic ElGamal exponencial~\cite{elgamal1985public,adida2008helios} i proves \emph{Groth16} de coneixement
+zero~\cite{goldwasser1989knowledge,groth2016size} per a la verificació de l'elegibilitat sense revelar la identitat del votant.
 Aquesta línia està documentada amb detall a les èpiques E3, E4 i E5 del repositori~\cite{demochainrepo} i requereix una
 dedicació estimada de diversos mesos addicionals per ser duta a producció amb les garanties necessàries.
 
 \paragraph{Cerimònia distribuïda de desxifrat amb \emph{trustees}}.
-Una vegada introduït el xifratge, caldrà implementar el protocol de generació distribuïda de claus (DKG) i de desxifrat
-en fases amb proves Chaum-Pedersen per evitar que cap \emph{trustee} individual pugui revelar els vots.
+Una vegada introduït el xifratge, caldrà implementar el protocol de generació distribuïda de claus (DKG)~\cite{gennaro1999dkg} i de desxifrat
+en fases amb proves Chaum-Pedersen~\cite{chaum1992wallet} per evitar que cap \emph{trustee} individual pugui revelar els vots.
 Aquesta funcionalitat correspon a la \ac{US} E4-\ac{US}3 (\emph{Cerimònia de desxifrat dels trustees}), encara oberta.
 
 \paragraph{Integració amb un \acl{IdP} (\ac{IdP}) extern}.
@@ -111,7 +111,7 @@ l'objectiu de l'èpica E6, amb les històries d'usuari E6-\ac{US}1 i E6-\ac{US}2
 
 \paragraph{Mecanismes de resistència a la coacció(\emph{receipt-freeness})}.
 Impedir que el votant pugui demostrar a un tercer que ha votat, una propietat fonamental per prevenir compra de vots i
-coerció.
+coerció~\cite{benaloh1994receiptfree}.
 Aquest mecanisme està documentat a la \ac{US} E3-\ac{US}4 del repositori~\cite{demochainrepo} i està implementat al
 \emph{state-of-the-art} per sistemes com DAVINCI; és imprescindible per a desplegaments amb riscos socials reals.
 

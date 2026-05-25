@@ -102,8 +102,8 @@ Els projectes següents han estat referents directes o indirectes durant la fase
 
 Helios~\cite{adida2008helios}, presentat per Ben Adida al USENIX Security Symposium de 2008, és un sistema obert de
 votació web amb verificabilitat universal.
-La seva contribució fonamental és la combinació de \emph{mixnets} per garantir l'anonimat dels vots i xifratge ElGamal
-amb proves de coneixement zero per permetre que qualsevol persona pugui verificar que els vots s'han inclòs al recompte
+La seva contribució fonamental és la combinació de \emph{mixnets} per garantir l'anonimat dels vots i xifratge ElGamal~\cite{elgamal1985public}
+amb proves de coneixement zero~\cite{goldwasser1989knowledge} per permetre que qualsevol persona pugui verificar que els vots s'han inclòs al recompte
 sense conèixer-ne el contingut.
 
 Helios s'ha emprat per a eleccions internes d'institucions acadèmiques: la \emph{International Association for
@@ -117,7 +117,7 @@ Aquest punt feble va motivar el desenvolupament de Belenios.
 
 Belenios~\cite{cortier2019belenios}, desenvolupat per l'equip de Véronique Cortier a INRIA Nancy, és una evolució
 conceptual d'Helios.
-Aporta dues novetats principals: xifratge \emph{threshold} ElGamal i una cerimònia de desxifrat distribuïda entre
+Aporta dues novetats principals: xifratge \emph{threshold} ElGamal~\cite{elgamal1985public} i una cerimònia de desxifrat distribuïda entre
 múltiples \emph{trustees}.
 Amb aquest esquema, cap \emph{trustee} per separat pot desxifrar un vot individual; només una majoria qualificada
 (\emph{p.ex.}, 3 de 5) pot reconstruir la clau privada per descomprimir el recompte agregat.
@@ -134,7 +134,7 @@ ElectionGuard~\cite{microsoft2019electionguard} és un SDK obert publicat per Mi
 verificable \emph{end-to-end}.
 La seva proposta principal és aportar una capa criptogràfica reutilitzable que es pot integrar amb sistemes existents
 (urnes electròniques, sistemes de votació per correu) sense substituir-los.
-Empra, com Belenios, ElGamal \emph{threshold} amb proves de coneixement zero.
+Empra, com Belenios, ElGamal~\cite{elgamal1985public} \emph{threshold} amb proves de coneixement zero~\cite{goldwasser1989knowledge}.
 
 ElectionGuard s'ha desplegat a un nombre creixent d'eleccions reals als Estats Units en mode pilot, sempre com a capa de
 verificabilitat adjunta a un sistema de votació primari.
@@ -163,8 +163,8 @@ Vocdoni és un equip amb experiència contrastada des de 2018 en governança des
 polítics, governs locals, entitats cíviques i DAO\@.
 
 DAVINCI combina una capa \emph{Layer 2} sobre Ethereum amb una xarxa descentralitzada de \emph{sequencers}, una màquina
-d'estat verificada amb proves \acp{ZK-SNARK} i xifratge \emph{threshold} ElGamal per garantir privacitat del vot.
-Inclou també mecanismes de resistència a la coacció (\emph{receipt-freeness}) que impedeixen al votant demostrar a un
+d'estat verificada amb proves \acp{ZK-SNARK}~\cite{goldwasser1989knowledge,groth2016size} i xifratge \emph{threshold} ElGamal~\cite{elgamal1985public} per garantir privacitat del vot.
+Inclou també mecanismes de resistència a la coacció (\emph{receipt-freeness})~\cite{benaloh1994receiptfree} que impedeixen al votant demostrar a un
 tercer que ha votat, una propietat fonamental per prevenir la compra de vots i la coerció en entorns no controlats.
 
 El projecte es publica sota llicència AGPL-3.0 i és, dels sistemes revisats, el més proper conceptualment al que es

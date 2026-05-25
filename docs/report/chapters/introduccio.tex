@@ -86,7 +86,7 @@ Plataformes com Algorand~\cite{chen2017algorand} ofereixen ara propietats que fa
 votació seriós: finalitat de bloc en pocs segons, comissions menyspreables (de l'ordre de la mil·lèsima de cèntim per
 transacció), suport nadiu per a \emph{smart contracts} expressius mitjançant
 \emph{algopy}~\cite{algorandfoundation2024puya} i operacions criptogràfiques avançades a nivell de màquina virtual
-(incloent-hi opcodes BN254 per a la verificació de proves zk-SNARK).
+(incloent-hi opcodes BN254~\cite{barreto2005pairing} per a la verificació de proves zk-SNARK).
 El conjunt d'aquestes propietats no estava disponible fa cinc anys.
 
 Paral·lelament, Ethereum continua sent la xarxa pública més consolidada i auditada~\cite{buterin2014ethereum}.
@@ -246,12 +246,12 @@ L'\ac{MVP} actual \textbf{no inclou} privacitat criptogràfica del vot.
 Concretament, queden fora de l'abast d'aquesta versió:
 
 \begin{itemize}
-    \item Xifratge homomòrfic dels vots (esquema ElGamal exponencial), tal com el descriu Adida~\cite{adida2008helios}.
+    \item Xifratge homomòrfic dels vots (esquema ElGamal exponencial~\cite{elgamal1985public}), tal com el descriu Adida~\cite{adida2008helios}.
 
-    \item Proves de coneixement zero (\acsp{ZK-SNARK} \emph{Groth16}) per acreditar l'elegibilitat del votant sense
+    \item Proves de coneixement zero (\acsp{ZK-SNARK} \emph{Groth16})~\cite{goldwasser1989knowledge,groth2016size} per acreditar l'elegibilitat del votant sense
     revelar-ne la identitat.
 
-    \item Generació distribuïda de claus i cerimònia de desxifrat amb \emph{trustees} i proves Chaum-Pedersen, segons
+    \item Generació distribuïda de claus~\cite{gennaro1999dkg} i cerimònia de desxifrat amb \emph{trustees} i proves Chaum-Pedersen~\cite{chaum1992wallet}, segons
     l'esquema de Belenios~\cite{cortier2019belenios}.
 
     \item Integració amb un proveïdor d'identitat (\ac{IdP}) extern per a l'autenticació del votant.

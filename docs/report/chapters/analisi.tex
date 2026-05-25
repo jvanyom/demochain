@@ -133,7 +133,7 @@ arquitectura teòrica robusta:
     En un disseny plenament descentralitzat, l'\ac{IdP} signa una credencial criptogràfica per a cada usuari registrat que
     demostra el seu dret al sufragi, sense vincular-lo directament a una adreça de bloc pública (\textit{wallet}).
 
-    \item \textbf{Proves de Coneixement Zero (ZK-SNARK)}: Són proves criptogràfiques que permeten a un elector provar
+    \item \textbf{Proves de Coneixement Zero (ZK-SNARK)}~\cite{goldwasser1989knowledge,groth2016size}: Són proves criptogràfiques que permeten a un elector provar
     davant el contracte intel·ligent que té una credencial vàlida signada per l'\ac{IdP} (i, per tant, forma part del
     cens) sense revelar la seva identitat real ni revelar la signatura de l'\ac{IdP}\@.
     A nivell conceptual, el proveïdor executa un circuit amb entrades privades (les seves credencials) i paràmetres
@@ -157,7 +157,7 @@ arquitectura teòrica robusta:
     global.
     Per evitar un únic punt de fallada o que l'administrador del sistema pugui desxifrar els vots abans de temps,
     s'empra un esquema de llindar.
-    Mitjançant un protocol de generació de claus distribuïdes (DKG), la clau privada de desxifratge es divideix en
+    Mitjançant un protocol de generació de claus distribuïdes (DKG)~\cite{gennaro1999dkg}, la clau privada de desxifratge es divideix en
     fragments (\textit{shares}) repartits entre diversos custodis.
     Per desxifrar el recompte homomòrfic acumulat un cop tancat el procés, es requereix que un nombre mínim o llindar de
     custodis (com a manco la majoria absoluta) aporti la seva \textit{share} parcial.
@@ -413,7 +413,7 @@ estatals simultànies on participen milions de ciutadans.
 \subsection{Restriccions Legals i de Privacitat}
 \label{subsec:restriccions-legals}
 
-En l'àmbit legal, el disseny s'enfronta directament a la normativa europea de protecció de dades (RGPD).
+En l'àmbit legal, el disseny s'enfronta directament a la normativa europea de protecció de dades (RGPD)~\cite{eu2016gdpr}.
 Atès que la cadena de blocs és històricament immutable per disseny, és tècnicament impossible esborrar les dades un cop
 confirmades a la xarxa, fet que s'oposa al dret a l'oblit de la normativa legal.
 Per resoldre aquesta restricció, el sistema prohibeix de manera absoluta guardar \textit{on-chain} qualsevol tipus de
@@ -471,7 +471,7 @@ Durant el cicle de desenvolupament de Demochain, el model de xarxa ha patit una 
 identificació de noves limitacions.
 Inicialment, es va plantejar un model on els mateixos telèfons mòbils dels electors actuessin com a nodes validators de
 la xarxa.
-Es pensava que mitjançant el mecanisme de VRF (Funció Aleatòria Verificable) d'Algorand es podria obligar cada votant a
+Es pensava que mitjançant el mecanisme de VRF (Funció Aleatòria Verificable)~\cite{micali1999vrf} d'Algorand es podria obligar cada votant a
 mantenir l'aplicació activa almenys dos minuts per poder votar, obligant-los a participar del consens de forma efímera.
 L'estudi tècnic posterior va demostrar que això era completament inviable a la pràctica per mor de la inestabilitat de
 les xarxes mòbils, el desgast de bateria dels terminals i els exigents requisits de bloqueig de fons (\textit{staking})
@@ -511,7 +511,7 @@ el guanyador de la consulta.
 \subsection{El Teorema d'Impossibilitat d'Arrow}
 \label{subsec:teorema-arrow}
 
-Dins de la teoria de l'elecció social, el \textbf{Teorema de la Impossibilitat d'Arrow} demostra matemàticament que cap
+Dins de la teoria de l'elecció social, el \textbf{Teorema de la Impossibilitat d'Arrow}~\cite{arrow1963socialchoice} demostra matemàticament que cap
 sistema de votació ordinal pot complir simultàniament un conjunt de cinc criteris o condicions de justícia electoral
 quan hi ha tres o més candidats:
 
@@ -614,7 +614,7 @@ en emprar Schulze per a un sistema real:
 \label{sec:llenguatge-ubic}
 
 Per tal de garantir que tot l'equip de programació, els custodis i els auditors utilitzin el mateix significat de les
-dades, s'ha adoptat una aproximació de \textbf{Domain-Driven Design (DDD)} definint un llenguatge comú per a tot el
+dades, s'ha adoptat una aproximació de \textbf{Domain-Driven Design (DDD)}~\cite{evans2003ddd} definint un llenguatge comú per a tot el
 projecte.
 El domini de Demochain s'estructura a partir de la gènesi d'una \textbf{Organització}, la qual representa l'entitat
 jurídica o el col·lectiu registrat al sistema per un \textbf{Organitzador} que és l'administrador amb drets d'escriptura
