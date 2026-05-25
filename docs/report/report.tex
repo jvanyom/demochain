@@ -65,10 +65,10 @@
 % més convenient, per exemple listings.
 \usepackage{listings}
 \lstset{
-  basicstyle=\ttfamily\small,
-  breaklines=true,
-  keepspaces=true,
-  columns=flexible,
+    basicstyle=\ttfamily\small,
+    breaklines=true,
+    keepspaces=true,
+    columns=flexible,
 }
 
 % Amb tcolorbox podeu definir caixes per llistats,
@@ -120,7 +120,7 @@
 % figures, bibliografia, fórmules, índex, ...
 % tant sols assenyalant-los amb el ratolí. 
 %\usepackage[backref, colorlinks=true, all colors=black]{hyperref}
-\usepackage[colorlinks=true, hypertexnames=false]{hyperref}
+\usepackage[backref, colorlinks=true, hypertexnames=false]{hyperref}
 \usepackage{booktabs}
 \usepackage{textcomp}
 
@@ -149,10 +149,10 @@
 \title{DEMOCHAIN}
 
 \author{\parbox[t]{150mm}{
-  Jordi Vanyó Mestre \\
-  Dylan Luigi Canning Garcia \\
-  Antonio Contestí Coll \\
-  Marc Link Cladera}}
+    Jordi Vanyó Mestre \\
+    Dylan Luigi Canning Garcia \\
+    Antonio Contestí Coll \\
+    Marc Link Cladera}}
 
 % Indicau el curs acadèmic que correspongui.
 \date{Any acadèmic 2025-26}
@@ -225,14 +225,13 @@
     \include{chapters/desenvolupament}
     \include{chapters/conclusions}
     \include{chapters/us-ia}
-    \include{chapters/annexos}
 
 %%%%%%% Fi cos del treball %%%%%%%%%%%
 
 % Si el vostre document no conté apèndixs
 % comentau les dues línies següents
-%\appendix
-%\include{Annexos}
+    \appendix
+    \include{chapters/annexos}
 
 % En aquest cas sols hi ha un fitxer d'annexos,
 % però podeu afegir tants \include com calgui. 

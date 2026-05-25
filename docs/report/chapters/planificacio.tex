@@ -1,5 +1,6 @@
 %!TeX root=../Memory.tex
 
+
 \chapter{Planificació}
 \label{ch:planificacio}
 
@@ -11,6 +12,8 @@ L'objectiu és deixar constància d'una manera fidel de com s'ha fet la feina --
 justificar les decisions de procés que han condicionat el producte entregat.
 
 %-----------------------------------------------------------------------
+
+
 \section{Cicle de vida del projecte}
 \label{sec:cicle-vida}
 
@@ -67,6 +70,8 @@ següents:
 \end{itemize}
 
 %-----------------------------------------------------------------------
+
+
 \section{Organització del backlog}
 \label{sec:backlog}
 
@@ -159,6 +164,8 @@ Una tasca s'ha considerat com a \emph{done} quan complia totes les condicions se
 \end{itemize}
 
 %-----------------------------------------------------------------------
+
+
 \section{Inventari d'èpiques}
 \label{sec:epiques}
 
@@ -167,26 +174,26 @@ La taula~\ref{tab:epiques} en mostra una visió global, amb el seu estat actual 
 seva funcionalitat ha quedat coberta per l'\ac{MVP} entregat.
 
 \begin{table}[ht]
-\centering
-\small
-\begin{tabular}{@{}llp{5cm}cc@{}}
-\toprule
-\textbf{ID} & \textbf{Codi} & \textbf{Títol} & \textbf{Estat} & \textbf{Al MVP} \\
-\midrule
-\#3   & E1  & Recerca i fonaments                       & Tancada & Sí \\
-\#5   & E2  & Propostes i aprovació                      & Tancada & Sí \\
-\#6   & E3  & Votació preferencial de l'elecció          & Tancada & Parcial \\
-\#7   & E4  & Resultats i verificació del recompte       & Tancada & Parcial \\
-\#340 & E5  & Elegibilitat de votants (\acs{ZK})         & Oberta  & No \\
-\#10  & E6  & Autenticació del votant i gestió de claus  & Tancada & Parcial \\
-\#394 & E7  & Gestió d'organitzacions                    & Tancada & Sí \\
-\#413 & E7$^{\star}$ & Ancoratge de resultats a Ethereum & Tancada & Sí \\
-\#402 & E11 & Setup del projecte i del repositori        & Oberta  & Sí \\
-\bottomrule
-\end{tabular}
-\caption[Inventari d'èpiques]{Inventari d'èpiques del projecte($^{\star}$).
-Hi ha dues èpiques codificades com a E7 al repositori, conseqüència d'una recodificació posterior del \emph{backlog}.}
-\label{tab:epiques}
+    \centering
+    \small
+    \begin{tabular}{@{}llp{5cm}cc@{}}
+        \toprule
+        \textbf{ID} & \textbf{Codi} & \textbf{Títol}                            & \textbf{Estat} & \textbf{Al MVP} \\
+        \midrule
+        \#3         & E1            & Recerca i fonaments                       & Tancada        & Sí              \\
+        \#5         & E2            & Propostes i aprovació                     & Tancada        & Sí              \\
+        \#6         & E3            & Votació preferencial de l'elecció         & Tancada        & Parcial         \\
+        \#7         & E4            & Resultats i verificació del recompte      & Tancada        & Parcial         \\
+        \#340       & E5            & Elegibilitat de votants (\acs{ZK})        & Oberta         & No              \\
+        \#10        & E6            & Autenticació del votant i gestió de claus & Tancada        & Parcial         \\
+        \#394       & E7            & Gestió d'organitzacions                   & Tancada        & Sí              \\
+        \#413       & E8            & Ancoratge de resultats a Ethereum         & Tancada        & Sí              \\
+        \#402       & E11           & Setup del projecte i del repositori       & Tancada         & Sí              \\
+        \#520       & E12           & Entrega final del projecte                & Tancada        & Sí              \\
+        \bottomrule
+    \end{tabular}
+    \caption[Inventari d'èpiques]{Inventari d'èpiques del projecte.}
+    \label{tab:epiques}
 \end{table}
 
 Les marques \emph{Parcial} corresponen a èpiques que es van tancar amb la part bàsica implementada (votació en clar,
@@ -195,6 +202,8 @@ van moure a treball futur.
 La justificació es detalla a la secció~\ref{sec:reduccio-abast}.
 
 %-----------------------------------------------------------------------
+
+
 \section{Sprints executats}
 \label{sec:sprints}
 
@@ -236,6 +245,8 @@ Els \emph{sprints} 4 a 6 consten com a \emph{milestones} actius al repositori, a
 \emph{issues} associades a cada un.
 
 %-----------------------------------------------------------------------
+
+
 \section{Camins crítics}
 \label{sec:camins-critics}
 
@@ -298,6 +309,8 @@ La inversió en automatització d'aquest desplegament ha estat un dels factors q
 durant la fase de construcció.
 
 %-----------------------------------------------------------------------
+
+
 \section{Paquets de treball}
 \label{sec:paquets-treball}
 
@@ -307,25 +320,27 @@ Cada paquet té un responsable principal --el mateix membre de l'equip que ha li
 però totes les \acsp{PR} han passat per revisió creuada.
 
 \begin{table}[ht]
-\centering
-\small
-\begin{tabular}{@{}p{3cm}p{4.2cm}p{4.5cm}@{}}
-\toprule
-\textbf{Paquet} & \textbf{Ubicació al repo} & \textbf{Responsable principal} \\
-\midrule
-Smart contract Algorand    & \texttt{voting-contract/}     & Marc Link Cladera \\
-Client web                 & \texttt{client/}              & Jordi Vanyó Mestre \\
-Ancoratge a Ethereum       & \texttt{network/anchoring/}   & Dylan Luigi Canning \\
-Smart contract notari      & \texttt{network/ethereum/}    & Dylan Luigi Canning \\
-Infraestructura local      & \texttt{docker-compose.yml}, \texttt{conduit.yml}, \texttt{Makefile} & Jordi Vanyó / Dylan Luigi \\
-Documentació i \emph{backlog} & \texttt{docs/}, GitHub Projects & Antonio Contestí Coll \\
-\bottomrule
-\end{tabular}
-\caption{Distribució de paquets de treball.}
-\label{tab:paquets}
+    \centering
+    \small
+    \begin{tabular}{@{}p{3cm}p{4.2cm}p{4.5cm}@{}}
+        \toprule
+        \textbf{Paquet}               & \textbf{Ubicació al repo}                                            & \textbf{Responsable principal} \\
+        \midrule
+        Smart contract Algorand       & \texttt{voting-contract/}                                            & Marc Link Cladera              \\
+        Client web                    & \texttt{client/}                                                     & Jordi Vanyó Mestre             \\
+        Ancoratge a Ethereum          & \texttt{network/anchoring/}                                          & Dylan Luigi Canning            \\
+        Smart contract notari         & \texttt{network/ethereum/}                                           & Dylan Luigi Canning            \\
+        Infraestructura local         & \texttt{docker-compose.yml}, \texttt{conduit.yml}, \texttt{Makefile} & Jordi Vanyó / Dylan Luigi \\
+        Documentació i \emph{backlog} & \texttt{docs/}, GitHub Projects                                      & Antonio Contestí Coll          \\
+        \bottomrule
+    \end{tabular}
+    \caption{Distribució de paquets de treball.}
+    \label{tab:paquets}
 \end{table}
 
 %-----------------------------------------------------------------------
+
+
 \section{Política de versionat del codi}
 \label{sec:versionat}
 
@@ -360,7 +375,7 @@ Els missatges de \emph{commit} segueixen l'estàndard \emph{Conventional Commits
 format:
 
 \begin{quote}
-\texttt{<type>(<scope>): descripció}
+    \texttt{<type>(<scope>): descripció}
 \end{quote}
 
 Els tipus permesos són: \texttt{feat}, \texttt{fix}, \texttt{docs}, \texttt{style}, \texttt{refactor}, \texttt{test},
@@ -403,6 +418,8 @@ Una conseqüència d'aquesta política, observada durant el projecte, és que ni
 Aquesta restricció ha estat un mecanisme natural de revisió creuada i ha contribuït a la qualitat del codi entregat.
 
 %-----------------------------------------------------------------------
+
+
 \section{Reducció d'abast: de l'MVP criptogràfic a l'MVP en clar}
 \label{sec:reduccio-abast}
 
