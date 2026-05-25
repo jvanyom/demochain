@@ -69,7 +69,8 @@ const MOCK_ELECTION_RESULTS: ElectionResults = {
 	pairwiseMatrix: [
 		[0, 2],
 		[0, 0]
-	]
+	],
+	isTied: false
 }
 
 // ── Helpers ───────────────────────────────────────────────────────────────────

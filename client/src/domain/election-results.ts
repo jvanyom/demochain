@@ -4,7 +4,7 @@ interface OptionResult {
 	/** Option index, matching `ProposalOption.id`. */
 	optionId: number
 	firstChoiceVotes: number
-	/** 0 = winner, ties broken deterministically by option index. */
+	/** 0 = winner. */
 	finalRank: number
 	/** How many other options this option defeats in pairwise comparisons. */
 	pairwiseWins: number
@@ -16,6 +16,8 @@ export interface ElectionResults {
 	totalVoters: number
 	/** d[i][j] = number of voters who prefer option i over option j. */
 	pairwiseMatrix: number[][]
+	/** True when the top two options are tied in Schulze: p[0][1] === p[1][0]. */
+	isTied: boolean
 }
 
 /**
@@ -31,7 +33,7 @@ export function computeElectionResults(
 	optionCount: number
 ): ElectionResults {
 	if (ballots.length === 0 || optionCount === 0)
-		return { proposalId, ranking: [], totalVoters: 0, pairwiseMatrix: [] }
+		return { proposalId, ranking: [], totalVoters: 0, pairwiseMatrix: [], isTied: false }
 
 	const pref: number[][] = Array.from({ length: optionCount }, () => new Array(optionCount).fill(0))
 
@@ -78,7 +80,15 @@ export function computeElectionResults(
 		return { optionId: i, wins: count }
 	})
 
-	wins.sort((a, b) => b.wins - a.wins || a.optionId - b.optionId)
+	wins.sort((a, b) => {
+		const ab = pathStrength[a.optionId]![b.optionId]!
+		const ba = pathStrength[b.optionId]![a.optionId]!
+
+		if (ab > ba) return -1
+		if (ba > ab) return 1
+
+		return 0
+	})
 
 	const firstChoiceCounts = new Array<number>(optionCount).fill(0)
 
@@ -93,5 +103,12 @@ export function computeElectionResults(
 		pairwiseWins: winsCount
 	}))
 
-	return { proposalId, ranking, totalVoters: ballots.length, pairwiseMatrix: pref }
+	const first = ranking[0]
+	const second = ranking[1]
+	const isTied =
+		first !== undefined &&
+		second !== undefined &&
+		pathStrength[first.optionId]![second.optionId]! === pathStrength[second.optionId]![first.optionId]!
+
+	return { proposalId, ranking, totalVoters: ballots.length, pairwiseMatrix: pref, isTied }
 }

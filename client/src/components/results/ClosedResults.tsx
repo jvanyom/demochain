@@ -48,7 +48,7 @@ export function ClosedResults({
 	const winnerOpt = proposal.options.find(option => option.id === winner.optionId)
 	const optionCount = proposal.options.length
 	const maxPairwiseWins = optionCount - 1
-	const isTied = optionCount > 1 && winner.pairwiseWins === (results[1]?.pairwiseWins ?? -1)
+	const isTied = electionResults?.isTied ?? false
 	const maxFirstChoice = Math.max(...results.map(result => result.firstChoiceVotes), 1)
 	void maxFirstChoice
 

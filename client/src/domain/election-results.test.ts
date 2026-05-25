@@ -9,7 +9,7 @@ describe('computeElectionResults', () => {
 	it('retorna un rànquing buit quan no hi ha paperetes', () => {
 		const results = computeElectionResults(pid, [], 3)
 
-		expect(results).toEqual({ proposalId: pid, ranking: [], totalVoters: 0, pairwiseMatrix: [] })
+		expect(results).toEqual({ proposalId: pid, ranking: [], totalVoters: 0, pairwiseMatrix: [], isTied: false })
 	})
 
 	it('retorna un rànquing buit amb zero opcions', () => {
@@ -61,8 +61,8 @@ describe('computeElectionResults', () => {
 		expect(perId.get(2)).toBe(1)
 	})
 
-	it("resol empats determinísticament per l'índex d'opció inferior", () => {
-		// Empat perfecte entre 0 i 1 (una papereta cadascun, preferències idèntiques).
+	it('empat perfecte entre 2 opcions: retorna isTied=true', () => {
+		// p[0][1] = 0, p[1][0] = 0 → empat Schulze real, sense criteri de desempat.
 		const paperetes = [
 			[0, 1],
 			[1, 0]
@@ -70,9 +70,8 @@ describe('computeElectionResults', () => {
 
 		const results = computeElectionResults(pid, paperetes, 2)
 
-		// Empat → l'opció 0 primer per ordenació determinista.
-		expect(results.ranking[0]?.optionId).toBe(0)
-		expect(results.ranking[1]?.optionId).toBe(1)
+		expect(results.isTied).toBe(true)
+		expect(results.ranking.every(result => result.pairwiseWins === 0)).toBe(true)
 	})
 
 	it('retorna el proposalId al resultat', () => {
@@ -109,11 +108,8 @@ describe('computeElectionResults', () => {
 		expect(results.ranking[2]?.optionId).toBe(2) // Opció 2 és darrera
 	})
 
-	it('empat perfecte: tots 0 victòries, es resol per índex', () => {
-		// Cas de la imatge reportada: 2 vots [1,0,2] i 2 vots [2,0,1]
-		// Totes les comparatives queden 2:2 → ningú té victòries Schulze
-		// L'opció 0 guanya pel desempat d'índex (índex menor), malgrat tenir 0 vots de primera opció.
-		// El component ResultsPage detecta correctament aquest cas com a "empat" (isTied = true).
+	it('empat perfecte 3 opcions: tots 0 victòries, isTied=true', () => {
+		// 2 vots [1,0,2] i 2 vots [2,0,1] → totes les comparatives queden 2:2.
 		const paperetes = [
 			[1, 0, 2],
 			[1, 0, 2],
@@ -132,9 +128,8 @@ describe('computeElectionResults', () => {
 		// Cap opció té victòries Schulze
 		expect(results.ranking.every(result => result.pairwiseWins === 0)).toBe(true)
 
-		// La primera de la llista és l'opció 0 (menor índex), però la UI ha de mostrar "empat"
-		expect(results.ranking[0]?.optionId).toBe(0)
-		expect(results.ranking[0]?.firstChoiceVotes).toBe(0)
+		// La UI ha de mostrar "empat"
+		expect(results.isTied).toBe(true)
 	})
 
 	it('exposa la matriu pairwise correctament', () => {
@@ -182,7 +177,7 @@ describe('computeElectionResults', () => {
 		expect(results.ranking[0]?.firstChoiceVotes).toBe(2) // Opció 0: primera a paperetes 0 i 2
 	})
 
-	it('5 votants, 3 opcions: opció 0 i 1 empatades Schulze, opció 2 perd sempre', () => {
+	it('5 votants, 3 opcions: opció 0 guanya clarament, opció 2 perd sempre', () => {
 		// Dissenyat perquè 0 i 1 tinguin 1 victòria cadascuna (empat Schulze)
 		// i l'opció 2 no guanyi cap comparativa.
 		const paperetes = [
