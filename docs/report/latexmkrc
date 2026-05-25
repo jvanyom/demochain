@@ -9,27 +9,6 @@ $pdf_mode = 1;
 # Disable viewer for watch mode (headless container)
 $view = 'none';
 
-
 # Automatically create the output directory structure inside "out"
 use File::Path qw(make_path);
 make_path('out/chapters');
-
-
-# --- PythonTeX Configuration for Latexmk ---
-push @generated_exts, 'pytxcode';
-
-$extra_rule_spec{'pythontex'} = [ 
-    'internal', '', 'mypythontex', 
-    "%Y%R.pytxcode", 
-    "%Ypythontex-files-%R/%R.pytxmcr", 
-    "%R", 1 
-];
-
-sub mypythontex {
-    my $base = $$Pbase;
-    my $prefix = (defined $aux_dir1 && $aux_dir1 ne '') ? $aux_dir1 : ((defined $out_dir1 && $out_dir1 ne '') ? $out_dir1 : "");
-    my $result_dir = $prefix . "pythontex-files-$base";
-    my $ret = system("pythontex \"$prefix$base\"");
-    rdb_add_generated(glob "$result_dir/*");
-    return $ret;
-}

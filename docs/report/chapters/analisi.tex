@@ -659,29 +659,29 @@ Conté un identificador numèric de l'entitat, el nom textual de l'entitat, una 
 Aquestes estructures es classifiquen i es desen en un mapa de caixes de dades persistents associades a l'estat del
 contracte sota el prefix de clau d'organització:
 
-\begin{pyverbatim}
-    class Organization(arc4.Struct):
-    org\_id: arc4.UInt64
+\begin{lstlisting}[language=Python]
+class Organization(arc4.Struct):
+    org_id: arc4.UInt64
     name: arc4.String
     description: arc4.String
     organizer: arc4.Address
-    member\_count: arc4.UInt32
-\end{pyverbatim}
+    member_count: arc4.UInt32
+\end{lstlisting}
 
 Per altra banda, l'estructura \texttt{Proposal} recull el cicle de vida de cada elecció.
 Emmagatzema l'identificador de l'organització a la qual pertany, el títol, la descripció del sufragi, un \textit{array}
 dinàmic de cadenes de text amb la llista de candidats o opcions, i les dates d'inici i de tancament de la finestra de
 votació representades en format UNIX:
 
-\begin{pyverbatim}
-    class Proposal(arc4.Struct):
-    org\_id: arc4.UInt64
+\begin{lstlisting}[language=Python]
+class Proposal(arc4.Struct):
+    org_id: arc4.UInt64
     title: arc4.String
     description: arc4.String
     options: arc4.DynamicArray[arc4.String]
-    starting\_date: arc4.UInt64
-    ending\_date: arc4.UInt64
-\end{pyverbatim}
+    starting_date: arc4.UInt64
+    ending_date: arc4.UInt64
+\end{lstlisting}
 
 Per dur el registre dels sufragis d'aprovació i controlar la transició cap a la fase electoral s'empra l'estructura
 \texttt{ApprovalTally}, que conté el nombre total de vots emesos a favor de la proposta i el nombre acumulat d'electors
@@ -690,19 +690,19 @@ Finalment, es defineixen les estructures \texttt{BallotId} i \texttt{CensusId} p
 \textit{on-chain}, les quals s'encarreguen d'enllaçar de forma unívoca l'adreça del votant amb la proposta de votació
 preferencial o amb la llista del cens de l'organització:
 
-\begin{pyverbatim}
-    class ApprovalTally(arc4.Struct):
-    votes\_for: arc4.UInt32
-    total\_votes: arc4.UInt32
+\begin{lstlisting}[language=Python]
+class ApprovalTally(arc4.Struct):
+    votes_for: arc4.UInt32
+    total_votes: arc4.UInt32
 
-    class BallotId(arc4.Struct):
+class BallotId(arc4.Struct):
     sender: arc4.Address
-    proposal\_id: arc4.UInt64
+    proposal_id: arc4.UInt64
 
-    class CensusId(arc4.Struct):
-    org\_id: arc4.UInt64
+class CensusId(arc4.Struct):
+    org_id: arc4.UInt64
     member: arc4.Address
-\end{pyverbatim}
+\end{lstlisting}
 
 En l'\ac{MVP} desenvolupat, el cens s'emmagatzema com un \texttt{BoxMap} que fa \textit{mapping} de cadascun dels
 \texttt{CensusId} amb un valor booleà, i les paperetes preferencials en clar es desen directament com un \texttt{BoxMap}

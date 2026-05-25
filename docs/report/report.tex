@@ -61,9 +61,15 @@
 \usepackage{amsmath,mathtools,amstext}
 
 % Per incloure fragments de codi hi ha diferents
-% paquets disponibles. Triau el que vos sigui 
-% més convenient, per exemple listings. 
-%\usepackage{listings} 
+% paquets disponibles. Triau el que vos sigui
+% més convenient, per exemple listings.
+\usepackage{listings}
+\lstset{
+  basicstyle=\ttfamily\small,
+  breaklines=true,
+  keepspaces=true,
+  columns=flexible,
+}
 
 % Amb tcolorbox podeu definir caixes per llistats,
 % teoremes, exemples, ...
@@ -114,8 +120,7 @@
 % figures, bibliografia, fórmules, índex, ...
 % tant sols assenyalant-los amb el ratolí. 
 %\usepackage[backref, colorlinks=true, all colors=black]{hyperref}
-\usepackage[backref, colorlinks=true, hypertexnames=false]{hyperref}
-\usepackage{pythontex}
+\usepackage[colorlinks=true, hypertexnames=false]{hyperref}
 \usepackage{booktabs}
 \usepackage{textcomp}
 
