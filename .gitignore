@@ -21,7 +21,6 @@ node_modules
 # Entorns locals
 .env.local
 .env.*.local
-.env.prod
 
 # Python
 __pycache__/

@@ -127,34 +127,6 @@ class AlgorandElectionReader:
             logger.error("Error llistant boxes de l'app %d: %s", self.app_id, exc)
             return []
 
-    def list_proposal_ids(self) -> list[int]:
-        """Retorna els IDs numèrics de totes les propostes registrades a l'app."""
-        prefix = BOX_PREFIX_PROPOSAL
-        prefix_len = len(prefix)
-        ids: list[int] = []
-        for box_name in self._list_boxes():
-            if not box_name.startswith(prefix):
-                continue
-            payload = box_name[prefix_len:]
-            if len(payload) != 8:
-                continue
-            (pid,) = struct.unpack(">Q", payload)
-            ids.append(pid)
-        return sorted(ids)
-
-    def read_proposal_window(self, proposal_id: int) -> Optional[tuple[int, int]]:
-        """Retorna (starting_date, ending_date) d'una proposta sense llegir les paperetes.
-
-        Optimitzat per al dimoni d'ancoratge: només descodifica les dues dates
-        del head del struct (bytes 46-62) per decidir si la proposta s'ha tancat.
-        """
-        raw = self._box_value(_proposal_box_key(proposal_id))
-        if raw is None or len(raw) < _PROPOSAL_HEAD_SIZE:
-            return None
-        starting_date = struct.unpack_from(">Q", raw, 46)[0]
-        ending_date = struct.unpack_from(">Q", raw, 54)[0]
-        return starting_date, ending_date
-
     def read_election_state(self, proposal_id: int) -> Optional[ElectionState]:
         """Llegeix l'estat complet d'una proposta: títol, opcions i totes les paperetes.
 

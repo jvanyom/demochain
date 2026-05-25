@@ -234,35 +234,3 @@ class TestAlgorandElectionReader:
         reader = self._make_reader({_proposal_box_key(1): prop_raw}, status_round=42)
         state = reader.read_election_state(1)
         assert state.block_round == 42
-
-    def test_list_proposal_ids_returns_sorted_ids(self):
-        prop_raw = build_proposal_raw("T", "D", ["A"])
-        boxes = {
-            _proposal_box_key(7): prop_raw,
-            _proposal_box_key(1): prop_raw,
-            _proposal_box_key(42): prop_raw,
-        }
-        reader = self._make_reader(boxes)
-        assert reader.list_proposal_ids() == [1, 7, 42]
-
-    def test_list_proposal_ids_ignores_ballot_boxes(self):
-        prop_raw = build_proposal_raw("T", "D", ["A"])
-        ballot_raw = struct.pack(">H", 1) + bytes([0])
-        boxes = {
-            _proposal_box_key(1): prop_raw,
-            _ballot_box_key(proposal_id=1, voter_address_bytes=bytes(32)): ballot_raw,
-        }
-        reader = self._make_reader(boxes)
-        assert reader.list_proposal_ids() == [1]
-
-    def test_read_proposal_window_returns_dates(self):
-        prop_raw = build_proposal_raw(
-            "T", "D", ["A"], start=1_700_000_000, end=1_700_086_400
-        )
-        reader = self._make_reader({_proposal_box_key(1): prop_raw})
-        window = reader.read_proposal_window(1)
-        assert window == (1_700_000_000, 1_700_086_400)
-
-    def test_read_proposal_window_returns_none_for_missing(self):
-        reader = self._make_reader({})
-        assert reader.read_proposal_window(99) is None
