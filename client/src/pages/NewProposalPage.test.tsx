@@ -283,7 +283,7 @@ describe('NewProposalPage - pas 3: opcions', () => {
 		})
 	})
 
-	it('no avança al pas 4 quan hi ha opcions duplicades', async () => {
+	it('el botó "Següent" és desactivat quan hi ha opcions duplicades', async () => {
 		await avancarAlPas3()
 		const inputs = screen.getAllByPlaceholderText('proposal.new.fields.option-placeholder')
 
@@ -292,11 +292,7 @@ describe('NewProposalPage - pas 3: opcions', () => {
 			fireEvent.change(inputs[1], { target: { value: 'Igual' } })
 		}
 
-		fireEvent.click(screen.getByText('common.next'))
-
-		await waitFor(() => {
-			expect(screen.getByText('errors.proposal.duplicated-options')).not.toBeNull()
-		})
+		expect(screen.getByText<HTMLButtonElement>('common.next').disabled).toBeTrue()
 	})
 })
 
